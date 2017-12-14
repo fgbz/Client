@@ -1,0 +1,223 @@
+<div>
+
+    <div>
+        <div ng-class="{true: 'regluation_index_top_select', false: 'regluation_index_top_normal'}[clickValue=='check']">
+            <ul>
+                <div ng-click="clickValue='check'">技术文档查看</div>
+            </ul>
+        </div>
+        <div ng-class="{true: 'regluation_index_top_select', false: 'regluation_index_top_normal'}[clickValue=='add']">
+            <ul>
+                <div ng-click="clickValue='add'">技术文档管理</div>
+            </ul>
+        </div>
+        <div class="regluation_index_top_line"></div>
+    </div>
+
+    <div class="clear" resize-index-content ng-style="setIndexHeightStyle()">
+        <div ng-show="clickValue=='check'" class="h100">
+            <!--树-->
+            <div class="regluation_index_left">
+                <combo-tree tree-data="treeData" tree-model="clickTecValue" btn-show="false" img-color="2"></combo-tree>
+            </div>
+
+            <!--列表-->
+            <div class="regluation_index_right posi_re">
+                <!--查询条件-->
+                <div>
+                    <table class="search_table">
+                        <tr height="40">
+                            <td>
+                                <span class="ml10">编号</span>
+                            </td>
+                            <td>
+                                <input class="home-input" type="text" ng-model="Number" maxlength="25" />
+                            </td>
+                            <td>
+                                <span class="ml10">标题</span>
+                            </td>
+                            <td>
+                                <input class="home-input" type="text" ng-model="Title" maxlength="25" />
+                            </td>
+
+                            <td>
+                                <span class="ml10">发布日期</span>
+                            </td>
+                            <td colspan="2">
+                                <input type="text" id="FiledTimeStart" class="case_table_timepicker_input" ng-model="FiledTimeStart" je-date format="YYYY-MM-DD"
+                                    readonly />
+
+                                <input type="text" id="FiledTimeEnd" class="case_table_timepicker_input" ng-model="FiledTimeEnd" je-date format="YYYY-MM-DD"
+                                    readonly />
+                            </td>
+
+                        </tr>
+
+                        <tr height="40">
+                            <td>
+                                <span class="ml10">关键字</span>
+                            </td>
+                            <td>
+                                <input class="home-input" type="text" ng-model="KeyWords" maxlength="25" />
+                            </td>
+
+                        </tr>
+                        <tr height="40">
+                            <td colspan="7">
+                                <input type="button" class="normalbtn fr mr10" value="查 询" ng-click="searchinfo()" />
+                                <input type="button" class="canclelbtn fr mr10" value="重 置" ng-click="reset()" />
+                            </td>
+
+                        </tr>
+                    </table>
+
+
+                </div>
+                <!--按钮-->
+                <div>
+                    <div class="regluation_search">检索结果</div>
+                    <input type="button" class="normalbtn fr mb10 mr10" value="导 出" />
+                </div>
+                <!--表格-->
+                <div>
+                    <table class="index_table">
+                        <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>标题</th>
+                                <th>标准编号</th>
+                                <th>类别</th>
+                                <th>发布日期</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody ng-if="isLoaded">
+                            <tr ng-repeat="item in items" style="height: 40px;cursor: pointer" ng-click="clickTable($index);" ng-class="{true: 'tr_selected',false: ''}[tableRow.selected==$index] ">
+                                <td>{{$index+1}}</td>
+                                <td title="{{item.chinesename}} " class="w300 ">{{item.chinesename| tooltips:20}}</td>
+                                <td title="{{item.code}} ">{{item.code| tooltips:13 }}</td>
+                                <td title="{{item.typename}} ">{{item.typename| tooltips:13 }}</td>
+                                <td title="{{item.releasedate|recordtime}} ">{{item.releasedate|recordtime}}</td>
+                                <td>
+                                    <input type="button " class="checkbtn" ng-click="Check(item)" value="查 看 " />
+                                </td>
+                            </tr>
+                            <tr ng-if="items.length==0 ">
+                                <td colspan="6 " class="text-center ">无数据</td>
+                            </tr>
+                        </tbody>
+                        <tbody ng-if="!isLoaded ">
+                            <tr>
+                                <td colspan="6 " class="text-center ">
+                                    <img src="images/loading.gif " />
+                                </td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+                <div class="home_paging">
+                    <div class="pagination-info " style="display: inline-block;margin-top: 12px; margin-left: 10px;">
+                        <span class="ng-binding ">共{{pager.total}}条</span>
+                    </div>
+                    <div class="pull-right ">
+                        <uib uib-pagination rotate="true " boundary-link-numbers="true " boundary-links="false
+                                " total-items="pager.total " ng-model="pager.current " max-size="10 " ng-change="searchinfo(true) "
+                            items-per-page="pager.size " class="pagination-sm
+                                " previous-text="上页 " next-text="下页 " first-text="首页 " last-text="末页 "></uib>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!--技术文档管理-->
+        <div ng-show="clickValue=='add'" class="h100 posi_re">
+
+            <!--查询-->
+            <div class="regluation_manage_searcharea">
+
+                <select class="home-select" ng-model="ApproveStatus">
+                          <option value="">全部</option>
+                          <option value="1">草稿</option>
+                          <option value="2">已提交待审核</option>
+                          <option value="3">发布</option>
+                  </select>
+
+                <input class="home-input w300" type="text" style="margin-left: 0px;" ng-model="KeyWords" maxlength="25" placeholder="请输入关键字"
+                />
+
+                <input type="button" class="normalbtn mr10" value="查 询" ng-click="searchManage()" />
+
+            </div>
+
+            <!--操作-->
+            <div class="mt10_mb10" style="height: 30px;">
+                <input type="button" class="normalbtn fl ml10" value="新 增" ng-click="Add()" />
+                <input type="button" class="downbtn fl ml10" value="下载模板" />
+                <input type="button" class="normalbtn fl ml10" value="批量导入" />
+
+                <input type="button" class="deletebtn fr mr10" value="删 除" ng-click="deleteLaw()" />
+                <input type="button" class="normalcheckbtn fr mr10" value="编 辑" ng-click="Edit()" />
+
+            </div>
+
+            <table class="index_table">
+                <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>标题</th>
+                        <th>编号</th>
+                        <th>类别</th>
+                        <th>发布时间</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody ng-if="isLoaded">
+                    <tr ng-repeat="item in itemManages" style="height: 40px;cursor: pointer" ng-click="clickTable($index);" ng-class="{true: 'tr_selected',false: ''}[tableRow.selected==$index] ">
+                        <td>{{$index+1}}</td>
+                        <td title="{{item.chinesename}} " class="w300 ">{{item.chinesename| tooltips:20}}</td>
+                        <td title="{{item.code}} ">{{item.code| tooltips:13 }}</td>
+                        <td title="{{item.typename}} ">{{item.typename| tooltips:13 }}</td>
+                        <td title="{{item.releasedate|recordtime}} ">{{item.releasedate|recordtime}}</td>
+                        <td>
+                            <input type="button " class="checkbtn" ng-click="Check(item)" value="查 看 " />
+                        </td>
+                    </tr>
+                    <tr ng-if="items.length==0 ">
+                        <td colspan="6 " class="text-center ">无数据</td>
+                    </tr>
+                </tbody>
+                <tbody ng-if="!isLoaded ">
+                    <tr>
+                        <td colspan="6" class="text-center ">
+                            <img src="images/loading.gif " />
+                        </td>
+                    </tr>
+                </tbody>
+
+            </table>
+
+            <div class="home_paging">
+                <div class="pagination-info " style="display: inline-block;margin-top: 12px; margin-left: 10px;">
+                    <span class="ng-binding ">共{{pagerManage.total}}条</span>
+                </div>
+                <div class="pull-right ">
+                    <uib uib-pagination rotate="true " boundary-link-numbers="true " boundary-links="false
+                                " total-items="pagerManage.total " ng-model="pagerManage.current " max-size="10 " ng-change="searchManage(true) "
+                        items-per-page="pagerManage.size " class="pagination-sm
+                                " previous-text="上页 " next-text="下页 " first-text="首页 " last-text="末页 "></uib>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+</div>

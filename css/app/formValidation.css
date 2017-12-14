@@ -1,0 +1,72 @@
+﻿input.ng-invalid {
+            height: 34px;
+            border: 1px solid #d70000;
+            padding-left: 6px;
+            padding-right: 6px;
+            background-color: #fdf4ef;
+        }
+        select.ng-invalid {
+            height: 34px;
+            border: 1px solid #d70000;
+            padding-left: 3px;
+            padding-right: 3px;
+            background-color: #fdf4ef;
+            margin-left: 5px;
+        }
+        txtarea.ng-invalid {
+            height: 78px;
+            border: 1px solid #d70000;
+            background-color: #fdf4ef;
+            margin-left: 5px;
+            padding: 6px;
+        }
+        .tooltip.left .tooltip-arrow {
+            z-index: 1;
+            pointer-events: none;
+            border-left-color: #F00;
+            filter: alpha(opacity=100);
+            -moz-opacity: 1;
+            opacity: 1;
+        }
+
+        .tooltip.bottom .tooltip-arrow {
+            z-index: 1;
+            pointer-events: none;
+            border-bottom-color: #F00;
+            filter: alpha(opacity=100);
+            -moz-opacity: 1;
+            opacity: 1;
+        }
+
+        .tooltip.top .tooltip-arrow {
+            z-index: 1;
+            pointer-events: none;
+            border-top-color: #F00;
+            filter: alpha(opacity=100);
+            -moz-opacity: 1;
+            opacity: 1;
+        }
+
+        .tooltip.right .tooltip-arrow {
+            z-index: 1;
+            pointer-events: none;
+            border-right-color: #F00;
+            filter: alpha(opacity=100);
+            -moz-opacity: 1;
+            opacity: 1;
+        }
+
+        .tooltip.bottom {
+            z-index: 1;
+            margin: 0;
+            padding: 0px 0;
+        }
+        .tooltip-inner {
+            z-index: 1;
+            pointer-events: none;
+            background-color: #F00;
+            border-radius: 0px;
+            filter: alpha(opacity=100);
+            -moz-opacity: 1;
+            opacity: 1;
+        }

@@ -1,0 +1,29 @@
+.split {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    overflow-y: hidden;
+    overflow-x: hidden;
+}
+  
+.gutter {
+    background-color: #c6c6c6;
+    background-repeat: no-repeat;
+    background-position: 50%;
+}
+
+.gutter.gutter-horizontal {
+    cursor: col-resize;
+    background-image: url(../../images/frame_apart_icon.png);
+    background-position: center;
+}
+
+.gutter.gutter-vertical {
+    cursor: row-resize;
+    background-image: url(../../images/frame_apart_icon.png);
+}
+
+.split.split-horizontal, .gutter.gutter-horizontal {
+    height: 100%;
+    float: left;
+}

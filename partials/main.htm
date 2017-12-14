@@ -1,0 +1,91 @@
+<div class="index_header" ng-if="!HeadNew">
+    <!--图标-->
+    <div class="index_titlepic"></div>
+    <div class="index_menu_content">
+        <ul class="list-inline">
+
+            <li ng-click="logout()">
+                <span class="color_blue">退出</span>
+                <a class="btn_logout" title="退出"></a>
+            </li>
+
+            <li ng-click="help()">
+                <span class="color_blue">帮助</span>
+                <a class="btn_help" title="帮助"> </a>
+            </li>
+
+            <li ng-click="download()">
+                <span class="color_blue">插件下载</span>
+                <a class="btn_download" title="插件下载"> </a>
+            </li>
+
+            <li>
+                <div class="topright_vline"></div>
+            </li>
+
+            <li class="userInfo">
+                <a class="btn_people"></a>
+                <span>管理员</span>
+            </li>
+
+
+        </ul>
+
+        <!--菜单-->
+        <div ng-include src="'partials/main_menu.htm'" class="clear index_menu_pad"></div>
+    </div>
+</div>
+<!--分隔线-->
+<div class="index_splice_line" ng-if="!HeadNew"></div>
+
+<div ng-if="!HeadNew">
+    <toaster-container toaster-options="{'limit':1,'time-out': 3000,'close-button': true}" class="toast-center"></toaster-container>
+    <div class="index_content" ui-view ng-animate="{enter: 'animate-enter', leave: 'animate-leave'}" resize-index-content ng-style="setIndexContentStyle()"></div>
+</div>
+
+<div ng-if="HeadNew" style="overflow-y: auto;height: 100%;">
+    <div class="index_header_new" >
+
+        <div class="index_header">
+            <!--图标-->
+            <div class="index_titlepic_new"></div>
+            <div class="index_menu_content">
+                <ul class="list-inline">
+
+                    <li ng-click="logout()">
+                        <span class="colorfff">退出</span>
+                        <a class="btn_logout_new" title="退出"></a>
+                    </li>
+
+                    <li ng-click="help()">
+                        <span class="colorfff">帮助</span>
+                        <a class="btn_help_new" title="帮助"> </a>
+                    </li>
+
+                    <li ng-click="download()">
+                        <span class="colorfff">插件下载</span>
+                        <a class="btn_download_new" title="插件下载"> </a>
+                    </li>
+                    <li>
+                        <div class="topright_vline colorfff"></div>
+                    </li>
+
+                    <li class="userInfo">
+                        <a class="btn_people_new"></a>
+                        <span class="colorfff">管理员</span>
+                    </li>
+
+                </ul>
+
+                <!--菜单-->
+                <div ng-include src="'partials/main_menu.htm'" class="clear index_menu_pad"></div>
+            </div>
+        </div>
+
+        <div>
+            <toaster-container toaster-options="{'limit':1,'time-out': 3000,'close-button': true}" class="toast-center"></toaster-container>
+            <div class="index_content" ui-view ng-animate="{enter: 'animate-enter', leave: 'animate-leave'}" resize-index-content ng-style="setIndexContentStyle()"></div>
+        </div>
+
+    </div>
+</div>

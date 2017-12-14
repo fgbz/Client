@@ -1,0 +1,364 @@
+.accordion {
+    width:200px;
+    min-height: 570px;
+    background: #21242b;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+    .accordion li {
+        display: block;
+        cursor: pointer;
+    }
+
+    .accordion .menucontainer {
+        text-align: left;
+        height: 40px;
+    }
+
+    .accordion label {
+        cursor: pointer;
+        margin-bottom: 0;
+    }
+
+    .menu-icon-i{
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    vertical-align: top;
+ 
+    margin-top: -9px;
+  
+    }
+
+    .menu-icon-i-selected{
+     display: inline-block;
+    width: 40px;
+    height: 40px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    vertical-align: top;
+    margin-top: -9px;
+ 
+    }
+   
+    .accordion .mainmenu_normal {
+        color:#898989;
+        background: #21242b;
+    }
+
+        .accordion .mainmenu_normal:hover {
+            color:#fff;
+            background: #434343;
+        }
+
+        
+
+         .accordion .mainmenu_normal .menu-icon-i:hover{
+             background-color: #434343;
+         }
+
+        .accordion .mainmenu_normal a {
+            font-size: 16px;
+            font-weight: normal;
+            color: #898989;
+            text-decoration: none;
+            height: 40px;
+            display: block;
+            padding: 9px 12px 10px 0px;
+        }
+        .accordion .mainmenu_normal a:last-child {
+            font-size: 16px;
+            font-weight: normal;
+            text-decoration: none;
+            height: 40px;
+            display: block;
+            padding: 9px 15px 10px 0px;
+        }
+
+    .accordion .mainmenu_selected {
+        color: #fff;
+        background-color: #000;;
+    }
+
+        .accordion .mainmenu_selected:hover {
+            color: #fff;
+        }
+
+        .accordion .mainmenu_selected a {
+            font-size: 16px;
+            font-weight: 700;
+            color: #fff;
+            text-decoration: none;
+            height: 40px;
+            display: block;
+            padding: 9px 15px 10px 0px;
+            /*border-left: 4px solid #0e1d3b;*/
+        }
+
+    .submenu {
+    background: #21242b;
+    border: 0 none;
+}
+
+    .submenu li {
+        display: block;
+        border: none;
+    }
+
+    .submenu a {
+        background: #000;
+        font-size: 16px;
+        vertical-align: middle;
+        text-align: center;
+        display: block;
+        text-decoration: none;
+        font-weight: normal;
+        padding: 9px 16px 8px 8px;
+        color: #fff;
+    }
+  .submenu a:hover{
+      background-color: #434343;
+  }
+        /*.submenu a:hover {
+            background: #e5f3f9;
+            color:#0076d7;
+        }*/
+
+    .submenu .active a {
+        background: #79a5ff;
+        color:#fff;
+    }
+
+    .arrowimage{
+        /*background-color :#e6e6e6;*/
+        float:right;
+        margin-top:3px;
+        margin-right: 1px;
+    }
+    .registerbutton{
+        background-color:#0076d7;
+        width: 100px;
+        height: 38px;
+        margin: 0px 10px 0px 14px;
+        color: #fff;
+        font-size: 16px;
+        border-radius: 2px;
+        margin-top: 1px;
+    }
+
+    .handlebutton{
+        background-color:#0076d7;
+        width: 100px;
+        height: 38px;
+        margin-right: 14px;
+        color: #fff;
+        font-size: 16px;
+        border-radius: 2px;
+        margin-top: 1px;
+    }
+
+    .accordionregisteli{
+        height:60px;
+        padding-top: 10px;
+    }
+
+    .registerbuttondiv{
+        padding-top: 8px; 
+        padding-left: 26px;
+    }
+
+.mainmenu_normal:hover{
+    background-color: #0076d7;
+}
+
+.menu_transition {
+    -webkit-transition:all 0.5s ease-out;
+    -moz-transition:all 0.5s ease-out;
+    -ms-transition:all 0.5s ease-out;
+    -o-transition:all 0.5s ease-out;
+    transition: all 0.5s ease-out ;
+    overflow: hidden;
+  
+}
+.moreSelect{
+    z-index:9999;
+    border:1px solid #ccc;
+    background-color: #fff;
+    position: fixed;
+    right:108px;
+    width: 378px;
+    top: 101px;
+    border-top: 0 none;
+}
+.moreTable{
+    margin: 10px 0px;
+}
+
+.moreTable tr{
+    margin: 10px 0px 0px 10px;
+}
+.moreTable th{
+    text-align: right;
+    font-weight:bold;
+    font-weight:normal;
+    width:23%;
+    height:35px;
+    margin:5px; 
+    padding:0px 15px 0px 0px
+}
+.datastyle{
+    background-color: #d7d7d7;
+}
+.txtSearchStyle{
+    border:1px solid #ccc;
+}
+/*.txtSearchStyle:hover{
+ 
+  border:1px solid #0076d7;
+}
+.txtSearchStyle:focus{
+ 
+  border:1px solid #0076d7;
+}*/
+.btnDown
+{
+    padding-right:0px;
+    background-color:#fff; 
+    border:1px solid #fff;
+    border-left-width:0px;
+    float:right;
+    height:30px;
+    width: 40px
+}
+.maxtext{
+    position: fixed;
+    left: 200px;
+    margin: 10px 0px -5px 0px;
+}
+.txtbor{
+     border:1px solid red;
+}
+
+
+
+.itemPeople
+{
+    width: 80px;
+    height: 30px;
+    line-height:30px;
+    float: left;
+    text-align: center;
+	background-color: #e7e7e7;
+    border-bottom: 3px solid #BCBCBC;
+}
+.itemPeople:hover{
+    border-bottom: 3px solid #15a3f6;
+    color: #15a3f6;
+}
+
+.item2People
+{
+    width: 80px;
+    height: 30px;
+    line-height:30px;
+    float: left;
+    text-align: center;
+	background-color: #e7e7e7;
+    color: #15a3f6;
+    border-bottom: 3px solid #15a3f6;
+}
+.item2People:hover{
+    border-bottom: 3px solid #15a3f6;
+    color: #15a3f6;
+}
+
+.tableCss
+{
+    margin-top: 8px;
+    background-color: #e7e7e7;
+    width: 630px;
+    border-radius: 10px;
+}
+
+.tableCss .td
+{
+    float: right;
+    padding-top: 15px;
+}
+
+.examCss
+{
+    float: left;
+    width:32%;
+}
+
+.examCss_time
+{
+    float: left;
+    width:47%;
+}
+
+.examCss_time1
+{
+    float: left;
+    width:273px;
+    padding-left: 5px;
+    text-align:center;
+}
+
+.examCss_time_1
+{
+    float: left;
+    width:273px;
+    text-align:center;
+    margin-left: -3px;
+}
+
+.examCss1
+{
+    float: left;
+    width:17%;
+}
+
+.examCss_textVt
+{
+    float: left;
+    width:26%;
+}
+
+.examCss2
+{
+    float: left;
+    width:75%;
+}
+
+.commanPadding
+{
+    padding-left: 20px;
+}
+
+.examCss_text
+{
+    float: left;
+    width:90%;
+}
+
+.TextTitle
+{
+    width: 110px;
+    font-size: 17px;
+    vertical-align: top;
+    padding-top: 35px;
+    padding-left: 5px;
+    color: #808080;
+}
+
+.UnitText
+{
+    float: left;
+    padding-top: 13px;
+    padding-left: 5px;
+}

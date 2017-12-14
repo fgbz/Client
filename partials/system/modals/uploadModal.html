@@ -1,0 +1,28 @@
+<div class="modal-header">
+  <button type="button" ng-click="cancel()" class="close" aria-hidden="true">&times;</button>
+  <h4>附件上传</h4>
+</div>
+<div class="modal-body" style="padding: 4px 24px 16px 24px;">
+  <form ng-app="fileUpload" name="form">
+
+    <span style="color:red;line-height:32px;height:32px;">{{warningMessage}}</span><br />
+    <input type="text" class="attachment_upload_filename" ng-model="displayName" placeholder="请点击浏览按钮上传附件，附件名称不超过100个字符" />
+    <div class="clear" style="display: inline-block;position: relative;left: 10px;bottom: 1px;width: 90px;height: 40px;line-height: 40px;vertical-align: bottom;">
+      <input id="uploader_input" type="file" class="attachment_upload_input" style="float:right;" type="file" ngf-select ng-model="file"
+        name="file" ngf-pattern="'.PNG,.JPG,.JPEG,.BMP,.GIF,.doc,.docx,.xlsx,.pdf'" ngf-accept="'.PNG,.JPG,.JPEG,.BMP,.GIF,.doc,.docx,.xlsx,.pdf'"
+        ngf-max-size="200MB" ng-change="defaultName(file)" />
+      <div class="attachment_upload_div"><button class="attachment_upload_btn"><span>浏览</span></button></div>
+    </div><br><br>
+  </form>
+
+
+  <div class="progress progress-striped active" style="border-radius:0; height:20px;border:1px solid #ccc;box-shadow: none;">
+    <div class="progress-bar progress-bar-success" role="progressbar" ng-style="{'width':progressPercentage+'%'}"></div>
+  </div>
+
+  <div class="modal-footer" style="padding-right: 0;padding-bottom: 5px;">
+    <button class="btn-primary modal_btn search_btn" ng-click="submit()">上传</button>
+    <button class="btn-warning modal_btn modal_btn_cancel" ng-click="cancel()">取消</button>
+  </div>
+
+  <div uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)"><span ng-bind="alert.msg"></span></div>

@@ -1,0 +1,170 @@
+<div class="h100">
+    <!--右侧-->
+    <div class="usercenter_left">
+
+        <div class="titlename">
+            用户中心
+        </div>
+
+        <div ng-repeat="item in MenuItmes" ng-class="{true:'menu_select',false:'menu'}[clickMenuValue==item.Name]" ng-click="clickMenu(item)">
+            <span>{{item.Name}}</span>
+        </div>
+
+    </div>
+
+    <div class="usercenter_right">
+
+        <div ng-if="clickMenuValue=='修改密码'" class="concent_center">
+            <table>
+                <tr height="50px">
+                    <td class="tr">原密码</td>
+                    <td><input class="home-input w300" type="text" ng-model="OldPasswWord" maxlength="25" /></td>
+                </tr>
+                <tr height="50px">
+                    <td class="tr">新密码</td>
+                    <td><input class="home-input w300" type="text" ng-model="NewPasswWord" maxlength="25" /></td>
+                </tr>
+                <tr height="50px">
+                    <td class="tr">确认密码</td>
+                    <td><input class="home-input w300" type="text" ng-model="ComfirmPasswWord" maxlength="25" /></td>
+                </tr>
+                <tr height="50px">
+                    <td colspan="2">
+                        <input type="button" class="canclelbtn border1ccc fr ml10" value="取 消" />
+                        <input type="button" class="normalbtn fr ml10" value="确 定" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div ng-if="clickMenuValue=='收藏夹'" class="h100">
+            <!--树-->
+            <div class="regluation_index_left bgdfff"> 
+                <combo-tree tree-data="treeData" tree-model="clickTreeValue" btn-show="false" img-color="1"></combo-tree>
+            </div>
+
+            <!--表格-->
+            <div class="usercenter_collect_table h100 posi_re">
+                <table class="index_table">
+                    <thead>
+                        <tr>
+                            <th>标题</th>
+                            <th>收藏时间</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody ng-if="isLoaded">
+                        <tr ng-repeat="item in CollectItems" style="height: 40px;cursor: pointer" ng-click="clickTable($index);" ng-class="{true: 'tr_selected',false: ''}[tableRow.selected==$index] ">
+                            <td title="{{item.Title}} " class="w300 ">{{item.Title| tooltips:20}}</td>
+                            <td title="{{item.CollectionDate}} ">{{item.CollectionDate}}</td>
+                            <td>
+                                <input type="button " class="normalcheckbtn" value="查 看 " />
+                                <input type="button " class="collectbtn" value="取消收藏 " />
+                            </td>
+                        </tr>
+                        <tr ng-if="CollectItems.length==0 ">
+                            <td colspan="3" class="text-center ">无数据</td>
+                        </tr>
+                    </tbody>
+                    <tbody ng-if="!isLoaded ">
+                        <tr>
+                            <td colspan="3 " class="text-center ">
+                                <img src="images/loading.gif " />
+                            </td>
+                        </tr>
+                    </tbody>
+
+                </table>
+
+                <div class="home_paging">
+                    <div class="pagination-info " style="display: inline-block;margin-top: 12px; margin-left: 10px;">
+                        <span class="ng-binding ">共{{pager.total}}条</span>
+                    </div>
+                    <div class="pull-right ">
+                        <uib uib-pagination rotate="true " boundary-link-numbers="true " boundary-links="false
+                                " total-items="pager.total " ng-model="pager.current " max-size="10 " ng-change="Paging(false) "
+                            items-per-page="pager.size " class="pagination-sm
+                                " previous-text="上页 " next-text="下页 " first-text="首页 " last-text="末页 "></uib>
+                    </div>
+                </div>
+
+            </div>
+
+
+
+
+        </div>
+
+        <div ng-if="clickMenuValue=='收藏夹管理'" class="h100">
+
+            <!--树-->
+            <div class="regluation_index_left bgdfff" style="width:95%">
+                <combo-tree tree-data="treeData" tree-model="clickTreeValue" btn-show="true" img-color="1"></combo-tree>
+            </div>
+        </div>
+
+        <div ng-if="clickMenuValue=='待办箱'" class="h100">
+
+            <div class="usercenter_deal_search">
+                <input class="home-input w300" type="text" style="margin-left: 0px;" ng-model="KeyWordAdd" maxlength="25" placeholder="请输入关键字"
+                />
+
+                <input type="button" class="normalbtn mr10" value="查 询" />
+            </div>
+
+            <!--表格-->
+            <div class="usercenter_deal_table posi_re">
+                <table class="index_table">
+                    <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>标题</th>
+                            <th>标准编号</th>
+                            <th>录入人</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody ng-if="isLoaded">
+                        <tr ng-repeat="item in DealItems" style="height: 40px;cursor: pointer" ng-click="clickTable($index);" ng-class="{true: 'tr_selected',false: ''}[tableRow.selected==$index] ">
+                            <td>{{$index+1}}</td>
+                            <td title="{{item.Title}} " class="w300 ">{{item.Title| tooltips:20}}</td>
+                            <td title="{{item.Number}} ">{{item.Number}}</td>
+                            <td title="{{item.PeopleName}} ">{{item.PeopleName}}</td>
+                            <td>
+                                <input type="button " class="normalcheckbtn" value="查 看" />
+                                <input type="button " class="normalbtn" value="审 核" />
+                            </td>
+                        </tr>
+                        <tr ng-if="CollectItems.length==0 ">
+                            <td colspan="3" class="text-center ">无数据</td>
+                        </tr>
+                    </tbody>
+                    <tbody ng-if="!isLoaded ">
+                        <tr>
+                            <td colspan="3 " class="text-center ">
+                                <img src="images/loading.gif " />
+                            </td>
+                        </tr>
+                    </tbody>
+
+                </table>
+
+                <div class="home_paging">
+                    <div class="pagination-info " style="display: inline-block;margin-top: 12px; margin-left: 10px;">
+                        <span class="ng-binding ">共{{pagerDeal.total}}条</span>
+                    </div>
+                    <div class="pull-right ">
+                        <uib uib-pagination rotate="true " boundary-link-numbers="true " boundary-links="false
+                                " total-items="pagerDeal.total " ng-model="pagerDeal.current " max-size="10 " ng-change="Paging(false) "
+                            items-per-page="pagerDeal.size " class="pagination-sm
+                                " previous-text="上页 " next-text="下页 " first-text="首页 " last-text="末页 "></uib>
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+</div>

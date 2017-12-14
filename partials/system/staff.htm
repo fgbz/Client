@@ -1,0 +1,179 @@
+<div ng-style="DataTablestyle()" resize-data-table class="index_content_div">
+    <!--系统管理-人员管理-->
+    <script type="text/ng-template" id="nodes_renderer.html">
+    <div class="form-line" ui-tree-handle class="tree-node tree-node-content" data-nodrag ng-class="{'treenode_selectedchanged':initNode.id==this.$modelValue.id}">
+        <a class="org_a" ng-class="{true:'sys_tree_itemheader_unexpander',false:'sys_tree_itemheader_expander'}[!collapsed]" ng-if="node.sub_node_count > 0" data-nodrag ng-click="toggles(this)"></a>
+        <a class="org_a" style="background:url('') center center no-repeat scroll;width:13px;height:17px;float:left;" ng-if="node.sub_node_count == 0" data-nodrag></a>
+        <a class="org_a" ng-click="initTableById(node)" ng-class="{'treenode_selected':initNode.id==this.$modelValue.id}"><span ng-class="{1:'sys_tree_org',2:'sys_tree_department'}[node.type]">{{node.title}}</span></a>
+    </div>
+    <ol ui-tree-nodes="" ng-model="node.nodes" ng-class="{hidden: !collapsed}">
+        <li ng-repeat="node in node.nodes" ui-tree-node ng-include="'nodes_renderer.html'"></li>
+    </ol>
+</script>
+<script type="text/ng-template" id="dropdown_tree.html">
+    <div ui-tree-handle class="tree-node tree-node-content" data-nodrag ng-class="{'treenode_selectedchanged':initRoleNode.id==this.$modelValue.id}">
+        <a class="org_a" ng-class="{true:'sys_tree_itemheader_unexpander',false:'sys_tree_itemheader_expander'}[!collapsed]" ng-if="node.sub_node_count > 0" data-nodrag ng-click="toggles2(this)"></a>
+        <a class="org_a" style="background:url('') center center no-repeat scroll;width:13px;height:17px;float:left;" ng-if="node.sub_node_count == 0" data-nodrag></a>
+        <a class="org_a" ng-click="clickNode(node)" ng-class="{'treenode_selected':initRoleNode.id==this.$modelValue.id}"><span ng-class="{1:'sys_tree_org',2:'sys_tree_department'}[node.type]">{{node.title}}</span></a>
+    </div>
+    <ol ui-tree-nodes="" ng-model="node.nodes" ng-class="{hidden: !collapsed}">
+        <li ng-repeat="node in node.nodes" ui-tree-node ng-include="'dropdown_tree.html'"></li>
+    </ol>
+</script>
+<script type="text/ng-template" id="errormodal.html">
+    <div class="modal-header">
+        <h3 class="modal-title">服务器异常</h3>
+    </div>
+    <div class="modal-body text-danger">
+        请求出错，请检查网络是否正常！
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="report()">报告错误</button>
+        <button class="btn btn-warning" ng-click="cancel()">取消</button>
+    </div>
+</script>
+<div >
+    <div class="model_datagrid">
+        <div ng-show="!isEdit">
+            <div style="width:100%;border-bottom:1px solid #ccc;">
+                <h4 class="sys_tit">人员管理</h4>
+            </div>
+            <div ng-style="style_org()" resize-org-height style="border-right: #ccc solid 1px;">
+                <div ui-tree id="tree-root" style="margin:6px 6px;">
+                    <ol ui-tree-nodes ng-model="data">
+                        <li ng-repeat="node in data" ui-tree-node ng-include="'nodes_renderer.html'"></li>
+                    </ol>
+                </div>
+            </div>
+            <div style="float:right;overflow-y:auto;width: calc(100% - 310px);padding-top: 10px;">
+                <div>
+                    <div class="form-inline" style="margin-bottom:10px;">
+                        <button type="button"  class="search_btn" ng-click="ShowForm(null)" ng-show="initNodeAll.type==2">添&emsp;加</button>
+                        <button type="button"  ng-disabled="selectNum==0" class="search_btn operator_btn_delete" ng-click="deleteAllStuff()">批量删除</button>
+                        
+                        <!--<div style="float:right;">
+                            <input type="text" ng-keypress="enter($event)" ng-keyup="backspace($event)" ng-model="strSearch" ng-maxlength="20" placeholder="请输入用户名进行搜索..." class="search_input_manage" />
+                            <button class="operator_btn" ng-click="Paging(true)" type="button">查&nbsp;&nbsp;询</button>
+                        </div>-->
+                    </div>
+                    <table class="table table-hover sys_table " style="min-width:820px;margin-bottom:0;">
+                        <thead style="border-top:1px solid #ccc;">
+                            <tr>
+                                <th><input ng-if="items.length!=0" type="checkbox" ng-model="$parent.IsAllCheck" ng-click="checker(1,IsAllCheck)" /></th>
+                                <th>姓名</th>
+                                <th>账号</th>
+                                <th>角色</th>
+                                <th>部门</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody ng-if="isLoaded">
+                            <!--ng-class="$index % 2 == 0 ? 'tr_even' : 'tr_odd';"-->
+                            <tr ng-repeat="item in items" ng-init="$parent.selected=0" ng-click="$parent.selected=$index" ng-class="{true:'tr_selected',false:''}[selected==$index]" ng-class-even="'tr_even'" ng-class-odd="'tr_odd'">
+                                <td><input type="checkbox" id="item.Id" ng-model="item.IsCheck" ng-click="checker(2,IsCheck)" /></td>
+                                <td title="{{item.Name}}">{{item.Name | Name}}</td>
+                                <td title="{{item.Account}}">{{item.Account | accountName}}</td>
+                                <td title="{{item.Roles | roleNameDetail}}">{{item.Roles | roleName}}</td>
+                                <td>{{item.Department.value}}</td>
+                                <td>
+                                    <input type="button"  class="operator_btn" ng-click="ShowForm(item)" value="编&nbsp;&nbsp;辑" />
+                                    <input type="button"  class="operator_btn operator_btn_delete" ng-click="DeleteStaff(item.Id)" value="删&nbsp;&nbsp;除" />
+                                    <input type="button"  class="search_btn" ng-click="updatePassword(item.Id,item.Account)" value="重置密码" />
+                                </td>
+                            </tr>
+                            <tr ng-if="items.length==0">
+                                <td colspan="6" class="text-center">无数据</td>
+                            </tr>
+                        </tbody>
+                        <tbody ng-if="!isLoaded">
+                            <tr>
+                                <td colspan="6" class="text-center"><img src="images/loading.gif" /></td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="6">
+                                    <div class="pagination-info" style="display: inline-block;margin-top: 12px;">
+                                        <span class="ng-binding">共{{pager.total}}条</span>
+                                        <!--<span class="ng-binding">每页显示：{{pager.size}}条</span>-->
+                                    </div>
+                                    <!--<div class="pull-right">
+                                        <uib uib-pagination boundary-links="true" total-items="pager.total" ng-model="pager.current" max-size="10" ng-change="Paging()"
+                                                    items-per-page="pager.size" class="pagination-sm" previous-text="上页" next-text="下页" first-text="首页" last-text="末页"></uib>
+                                    </div>-->
+                                    <div class="pull-right">
+                                        <uib uib-pagination rotate="true" boundary-link-numbers="true" boundary-links="false" total-items="pager.total" ng-model="pager.current" max-size="10" ng-change="Paging(false)" items-per-page="pager.size" class="pagination-sm" previous-text="上页" next-text="下页" first-text="首页" last-text="末页"></uib>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div ng-if="isEdit">
+            <div class="home-title" >
+                <button class="search_btn" type="button" ng-click="Back()">返&emsp;回</button>
+            </div>
+            <form name="staffForm" class="form-valid">
+                <br />
+                <fieldset>
+                    <div class="sys_tit_tip">基本信息</div>
+                    <div style="margin-left:30px;">
+                        <table>
+                            <tr>
+                                <td class="register_div_table_td">姓&emsp;&emsp;名<font color="red">*</font></td>
+                                <td>
+                                    <!--<div class="form-inline">-->
+                                    <input id="stuffName" name="staff_name" type="text" autofocus="autofocus" class=" sys_input sys_input_width home-input" ng-model="UserModel.Name" maxlength="10" placeholder="长度不超过10个字符" validator="required,maxlength=10" />
+                                    <!--</div>-->
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="register_div_table_td">登录账号<font color="red">*</font></td>
+                                <td>
+                                    <input type="text" name="staff_account" class=" sys_input sys_input_width home-input" ng-model="UserModel.Account" maxlength="25" placeholder="长度不超过25个字符" validator="required,maxlength=25" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="register_div_table_td">部&emsp;&emsp;门<font color="red">*</font></td>
+                                <td>
+                                    <div class="form-inline">
+                                        <input type="text" id="UserModel.DepartmentId" ng-model="UserModel.DepartmentName" class="home-input sys_input sys_input_width sys_input_drop" ng-click="selectdep=true" readonly />
+                                        <dropdowntree ng-show="selectdep" class="tree_down" ng-mouseleave="selectdep=false">
+                                            <!--ng-click="selectdep=!selectdep"-->
+                                            <div ui-tree id="tree-root">
+                                                <ol ui-tree-nodes ng-model="dropDowntreeData">
+                                                    <li ng-repeat="node in dropDowntreeData" ui-tree-node ng-include="'dropdown_tree.html'"></li>
+                                                </ol>
+                                            </div>
+                                        </dropdowntree>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="register_div_table_td">角&emsp;&emsp;色<font style="color: transparent;">*</font></td>
+                                <td>
+                                    <div class="form-inline" style="margin-top:14px;">
+                                        <div ng-model="Roles" class="staff_roles" ng-style="style_staffedit()" resize-staff-edit-height>
+                                            <label ng-repeat="post in Roles" style="width:170px;">
+                                                <input type="checkbox" ng-model="post.IsChecked" />&nbsp;<label>{{post.Name}}</label>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </fieldset>
+                <br />
+                <div class="sys_case_operation">
+                    <button type="button" class="search_btn sys_btn" style="margin-top: 20px;" ng-click="Submit()" validation-submit="staffForm">保&emsp;存</button>
+                    <button class="search_btn sys_btn" style="margin-top: 20px;" type="button" ng-click="Back()">取&emsp;消</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!--<div alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</div>-->
+</div>

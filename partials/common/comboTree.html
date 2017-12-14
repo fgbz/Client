@@ -1,0 +1,43 @@
+<div name="combo_tree" class="combotree">
+    <div ui-tree>
+        <ol ui-tree-nodes ng-model="source">
+            <li ng-repeat="item in source" ui-tree-node ng-include="'childnodes.html'">
+            </li>
+
+        </ol>
+        <script type="text/ng-template" id="childnodes.html">
+            <div ui-tree-handle data-nodrag class="posi_re">
+                <div class="tree_or_line1" ng-show="item.Type==1"></div>
+
+                <!--图片-->
+                <div ng-style="{'background-color':imgColor==1?'#fff':'#f2f2f2'}" class="combotree_pic" ng-if="item.Nodes&&item.Nodes.length>0" ng-click="Extend(item)" ></div>
+
+                <!--没按钮-->
+                <div ng-bind="item.Name" class="combotree_name" ng-click="clickNode(item)" ng-if="!btnShow"
+                    ng-style="{'background-color':treeModel==item.Id?'#08589f':'none','color':treeModel==item.Id?'#fff':'#363636'}"> </div>   
+
+               <div ng-bind="item.Name" class="combotree_name" ng-click="clickNode(item)" ng-if="btnShow"
+                    ng-style="{'background-color':treeModel==item.Id?'#e7e7e7':'none'}"></div>   
+
+                <!--有按钮-->
+                 <div ng-show="treeModel==item.Id" class="combotree_btnarea" ng-if="btnShow">
+                    <input type="button" class="deletebtn fr ml10" ng-if="item.Nodes.length==0&&item.Type==1&&item.CanDelete=='candelete'" value="删 除"  ng-click="clickTreeBtn(item,'delete')"/>
+                    <input type="button" class="normalcheckbtn fr ml10" value="编 辑" ng-click="clickTreeBtn(item,'edit')"/>
+                    <input type="button" class="normalbtn fr ml10" value="新增下级" ng-click="clickTreeBtn(item,'down')"/>
+                    <input type="button" class="normalbtn fr ml10" value="新增同级" ng-if="item.Type==1" ng-click="clickTreeBtn(item,'equal')"/>
+                 </div>   
+            </div>
+
+            <!--下级-->
+            <ol ui-tree-nodes="" ng-model="item.Nodes" class="posi_re">  
+                   
+                 <div class="tree_vr_line_out1" ng-show="!$last"></div>
+                 <div ng-show="item.Extend">
+                     <li ng-repeat="item in item.Nodes" ui-tree-node ng-include="'childnodes.html'" ></li>
+                </div>
+                
+            </ol>
+           
+        </script>
+    </div>
+</div>

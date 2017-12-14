@@ -1,0 +1,119 @@
+<div ng-style="DataTablestyle()" resize-data-table class="index_content_div">
+    <!--系统管理-角色管理-->
+    <div class="model_datagrid">
+        <div id="list_form" ng-hide="editshow">
+            <div style="width:100%;border-bottom:1px solid #ccc;">
+                <h4 class="sys_tit">角色管理</h4>
+            </div>
+            <div style="top:60px;width:100%;">
+                <div class="form-inline" style="margin-top:10px;margin-left: 0px;margin-bottom:10px;">
+                    <input id="btnAdd" class="search_btn" type="button" value="添&emsp;加" ng-click="add()" />
+                    <!--<input id="btnDelete" class="search_btn operator_btn_delete" ng-disabled="selectNum==0" type="button" value="批量删除" ng-click="deleteRole()"/>-->
+                    <!--<div style="float:right;">
+                        <input type="text" ng-keypress="enter($event)" ng-keyup="backspace($event)" ng-model="txtSearch" ng-maxlength="20" placeholder="请输入角色名称进行搜索..." class="search_input_manage" />
+                        <button class="operator_btn" ng-click="Paging(true)" type="button">查&nbsp;&nbsp;询</button>
+                    </div>-->
+                </div>
+                <div style="width:100%;overflow-x:auto;" ng-style="DataGridHeightStrylePer()">
+                <table class="table table-hover sys_table ">
+                    <thead style="border-top:1px solid #ccc;">
+                        <tr>
+                            <!--<th width="4%">
+                                <input ng-if="!secectIsShow" type="checkbox" ng-model="$parent.IsAllCheck" ng-click="checker(1,IsAllCheck)" />
+                            </th>-->
+                            <th >角色名称</th>
+                            <th >功能</th>
+                            <th >操作</th>
+                        </tr>
+                    </thead>
+                    <tbody ng-if="isLoaded">
+                        <tr ng-repeat="roleitem in rolelists" ng-init="$parent.selected=0" ng-click="$parent.selected=$index" ng-class="{true:'tr_selected',false:''}[selected==$index]" ng-class-even="'tr_even'" ng-class-odd="'tr_odd'">
+                                <!--<td>
+                                    <input ng-if="roleitem.Removable" type="checkbox" id="roleitem.Id" ng-model="roleitem.IsCheck" ng-click="checker(2,IsCheck)">
+                                </td>-->
+                                <td>{{roleitem.Name}}</td>
+                                <!--<td title="{{roleitem.Functions}}">{{roleitem.Functions}}</td>-->
+                                <td title="{{roleitem.Functions | roleNameDetail}}">{{roleitem.Functions | roleName}}</td>
+                                <td>
+                                    <!--<button name={{roleitem.Id}} class="btn btn-success btn-sm" ng-click="edit(roleitem)">编&emsp;辑</button>
+                                    <button   name={{roleitem.Id}} class="btn btn-danger btn-sm" ng-click="deleteSingle(roleitem)" >删&emsp;除</button>-->
+                                    <!--ng-hide="!roleitem.Removable"-->
+                                    <a name={{roleitem.Id}} class="operator_btn" ng-click="edit(roleitem)">编&emsp;辑</a>
+                                    <button type="button" ng-disabled="!roleitem.Removable"  name={{roleitem.Id}} class=" operator_btn operator_btn_delete" ng-click="deleteSingle(roleitem)" >删&emsp;除</button>
+                                </td>
+                            </tr>
+                        <tr ng-if="rolelists.length==0">
+                            <td colspan="4" class="text-center">无数据</td>
+                        </tr>
+                    </tbody>
+                    <tbody ng-if="!isLoaded">
+                        <tr>
+                            <td colspan="8" class="text-center"><img src="images/loading.gif" /></td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                         <tr>
+                            <td colspan="8">
+                                <div class="pagination-info" style="display: inline-block;margin-top: 12px;">
+                                    <span class="ng-binding">共{{pager.total}}条</span>
+                                </div>
+                                <div class="pull-right">
+                                    <uib uib-pagination rotate="true" boundary-link-numbers="true" boundary-links="false" total-items="pager.total" ng-model="pager.current" max-size="10" ng-change="Paging(false)" items-per-page="pager.size" class="pagination-sm" previous-text="上页" next-text="下页" first-text="首页" last-text="末页"></uib>
+                                </div>
+                            </td>
+                            </tr>
+                    </tfoot>
+                </table>
+                </div>
+            </div>
+        </div>
+        <div ng-if="editshow" style="overflow: auto;height: 100%;">
+            <div class="home-title" >
+                <button class="search_btn" type="button" ng-click="cancel()">返&emsp;回</button>
+                
+            </div>
+            <form name="roleForm" class="form-valid">
+                <br />
+                <table>
+                    <tr>
+                        <td class="register_div_table_td">角色名称<font color="red">*</font></td>
+                        <td>
+                            <input id="postName" name="role_name" type="text" autofocus="autofocus" ng-model="roleItemInfo.Name"  class="home-input sys_input sys_input_width" placeholder="长度不超过10个字符" maxlength="10" validator="required,maxlength=10" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="register_div_table_td">功&emsp;&emsp;能<font color="red">*</font></td>
+                        <td>
+                            <div class="form-inline" style="margin-left:5px;">
+                                <div ng-model="functionList.Functions" class="role_functionss">
+                                    <label ng-repeat="Item in functionList.Functions" class="role_name">
+                                        <input type="checkbox" ng-model="Item.isChecked" />&nbsp;<label>{{Item.Name}}</label>
+                                    </label>
+                                    <!--<table>
+                                        <tr ng-repeat="Item in Functions_title" height="30">
+                                            <td class="register_div_table_td">{{Item.name}}</td>
+                                            <td >
+                                                <label class="role_name" ng-repeat="child_Item in Item.childItem">
+                                                    <input type="checkbox" ng-model="child_Item.isChecked" />&nbsp;<span>{{child_Item.name}}</span>
+                                                </label>
+                                                <label class="role_name" ng-show="Item.childItem.length==0">
+                                                    <input type="checkbox" ng-model="Item.isChecked" />&nbsp;<span>{{Item.name}}</span>
+                                                </label>
+                                            </td>
+                                        </tr>
+                                    </table>-->
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                        
+                </table>
+                <br />
+                <div class="post_button" style="clear: both;text-align: center;">
+                    <input class="search_btn" style="margin-top: 20px;" value="保&emsp;存" type="button" ng-click="submit(operateName=='edit'?1:2)" validation-submit="roleForm" />
+                    <input class="search_btn" style="margin-top: 20px;" value="取&emsp;消" type="button" ng-click="cancel()" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

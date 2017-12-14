@@ -1,0 +1,138 @@
+<div class="h100 mt10">
+    <div class="system_tree">
+        <combo-tree tree-data="treeData" tree-model="clickTreeValue" btn-show="false" img-color="2"></combo-tree>
+    </div>
+
+    <div class="system_left">
+
+        <div ng-if="clickTreeValue=='11'">
+            <div class="system_hc">
+                <span>是否需要审核</span>
+
+                <div ng-class="{true:'system_hk_yes',false:'system_hk_no'}[sfsh=='是']" ng-style="{'background-color':sfsh=='是'?'#07ac22':'#363636'}" >
+                    <div ng-class="{true:'system_hkb_right',false:'system_hkb_left'}[sfsh=='是']" ng-click="clicksfsh()"></div>
+                </div>
+                <div class="fr">{{sfsh}}</div>
+
+            </div>
+
+        </div>
+
+
+        <div ng-if="clickTreeValue=='12'" class="concent_center">
+            <table>
+                <tr height="50px">
+                    <td class="tr">邮件服务器地址</td>
+                    <td><input class="home-input w300" type="text" ng-model="OldPasswWord" maxlength="25" /></td>
+                </tr>
+                <tr height="50px">
+                    <td class="tr">发件箱地址</td>
+                    <td><input class="home-input w300" type="text" ng-model="NewPasswWord" maxlength="25" /></td>
+                </tr>
+                <tr height="50px">
+                    <td class="tr">发件箱密码</td>
+                    <td><input class="home-input w300" type="text" ng-model="ComfirmPasswWord" maxlength="25" /></td>
+                </tr>
+                <tr height="50px">
+                    <td class="tr">测试邮箱地址</td>
+                    <td><input class="home-input w300" type="text" ng-model="ComfirmPasswWord" maxlength="25" /></td>
+                </tr>
+                <tr height="50px">
+                    <td colspan="2">
+                        <input type="button" class="canclelbtn border1ccc fr ml10" value="取 消" />
+                        <input type="button" class="normalbtn fr ml10" value="应 用" />
+                        <input type="button" style="width:100px;" class="normalbtn fr ml10" value="发送测试邮件" />
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+
+
+        <div ng-if="clickTreeValue=='13'">
+
+            <combo-tree tree-data="treeDataOra" tree-model="clickOraValue" btn-show="true" img-color="1"></combo-tree>
+
+        </div>
+
+
+        <div ng-if="clickTreeValue=='154'" class="posi_re">
+
+            <div class="system_userconfig">
+                <div class="fl">
+                    <select class="home-select" ng-model="SelectType"> 
+                          <option value="">全部</option>
+                  </select>
+
+                    <input class="home-input w300" type="text" style="margin-left: 0px;" ng-model="KeyWordAdd" maxlength="25" placeholder="请输入关键字"
+                    />
+
+                    <input type="button" class="normalbtn mr10" value="搜 索" />
+                </div>
+                <div class="fr">
+
+                    <input type="button" class="deletebtn  mr10" value="删 除" />
+                    <input type="button" class="normalbtn  mr10" value="新 增" />
+                </div>
+
+
+
+            </div>
+
+            <table class="index_table">
+                <thead>
+                    <tr>
+                        <th>姓名</th>
+                        <th>性别</th>
+                        <th>部门</th>
+                        <th>角色</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in userItems" style="height: 40px;cursor: pointer" ng-click="clickTable($index);" ng-class="{true: 'tr_selected',false: ''}[tableRow.selected==$index] ">
+                        <td title="{{item.Name}} " class="w300 ">{{item.Name}}</td>
+                        <td title="{{item.Gender}} ">{{item.Gender}}</td>
+                        <td title="{{item.Organization}}">{{item.Organization}}</td>
+                        <td title="{{item.User}} ">{{item.User}}</td>
+                        <td>
+                            <input type="button " class="checkbtn" ng-click="Show(item) " value="查 看 " />
+                        </td>
+                    </tr>
+                    <tr ng-if="items.length==0 ">
+                        <td colspan="6 " class="text-center ">无数据</td>
+                    </tr>
+                </tbody>
+
+
+            </table>
+
+            <div class="home_paging">
+                <div class="pagination-info " style="display: inline-block;margin-top: 12px; margin-left: 10px;">
+                    <span class="ng-binding ">共{{pager.total}}条</span>
+                </div>
+                <div class="pull-right ">
+                    <uib uib-pagination rotate="true " boundary-link-numbers="true " boundary-links="false
+                                " total-items="pager.total " ng-model="pager.current " max-size="10 " ng-change="Paging(false) "
+                        items-per-page="pager.size " class="pagination-sm
+                                " previous-text="上页 " next-text="下页 " first-text="首页 " last-text="末页 "></uib>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div ng-if="clickTreeValue=='16'">
+
+            <combo-tree tree-data="treeDataReg" tree-model="clickTecValue" btn-show="true" img-color="1"></combo-tree>
+
+        </div>
+
+        <div ng-if="clickTreeValue=='17'">
+
+            <combo-tree tree-data="treeDataTec" tree-model="clickTecValue" btn-show="true" img-color="1"></combo-tree>
+
+        </div>
+
+    </div>
+</div>

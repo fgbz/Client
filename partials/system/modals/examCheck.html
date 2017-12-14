@@ -1,0 +1,15 @@
+<div class="modal-header">
+    <button type="button" ng-click="cancel()" class="close" aria-hidden="true">&times;</button>
+    <h4>审核信息</h4>
+</div>
+
+<div class="exam_area">
+    <div ng-repeat="item in items" class="eaxm_border">
+
+        <div class="exam_item"><span>审核人:</span>{{item.ExamName}}</div>
+        <div class="exam_item"><span>审核时间:</span>{{item.ExamTime}}</div>
+        <div class="exam_item"> <span>审核不通过说明:</span>{{item.ExamRemark}}</div>
+
+    </div>
+
+</div>

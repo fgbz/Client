@@ -1,0 +1,82 @@
+.statisticsRect
+{
+    margin-top: 12px;
+    margin-bottom:10px;
+    min-width: 91px;
+    width: 25%;
+    height:55px;
+    text-align:center;
+    border-width:0px 1px 0px 0px;
+    border-color:#ebebeb;
+    border-style: solid;
+}
+.statisticsRect:last-child{
+    border:none;
+}
+.statisticsRectTitle
+{
+font-size:16px;
+color:#9b9b9b;
+}
+.statisticsRectValue
+{
+    font-size:32px;color:#363636;
+}
+.statisticsProgress
+{
+border-radius: 4px;
+height:8px; background-color:#3385ff;margin-top:-9px;
+}
+
+.dicmenu {
+    background: #fff;
+    border: 0 none;
+}
+
+.dicmenu li {
+        display: block;
+        border: none;
+ }
+
+.dicmenu a {
+        background: #fff;
+        font-size: 14px;
+        vertical-align: middle;
+        text-align: left;
+        display: block;
+        text-decoration: none;
+        color: #363636;
+        font-weight: normal;
+        padding: 9px 16px 8px 16px;
+    }
+
+ .dicmenu a:hover {
+            background: #e5f3f9;
+        }
+
+.dicmenu .active a {
+        background: #cbe7f4;
+        color:#0076d7 ;
+    }
+.home-right-chat{
+    padding:10px 0px 0px 16px;
+    height:80px;
+    width: 260px;
+    display:inline-block;
+    margin:0px 20px 20px 20px;
+    background-color:#d9ecfc;
+    vertical-align: middle;
+    border-radius:4px;
+}
+.home-right-chat:nth-child(n){
+    margin:0px 20px 20px 20px;
+}    
+.home-right-chat tspan{
+    font-family: "Microsoft YaHei"
+}
+.home-right-main{
+    background-color:#ffffff;
+    vertical-align: middle;
+    border: 1px solid #ebebeb;
+    border-radius:8px;
+}

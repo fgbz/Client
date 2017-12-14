@@ -1,0 +1,144 @@
+<div class="h100">
+    <div class="concent_center mt30">
+        <input class="home_topsearch" type="text" ng-model="Number" maxlength="25" placeholder="请输入关键字进行检索" />
+        <span class="home_topsearch_icon">全文检索</span>
+    </div>
+
+    <div class="home_notice">
+        <input type="button" class="noticebtn" value="系统通知" ng-click="goNotice()"/>
+        <marquee id="affiche" align="left" behavior="scroll" direction="left" height="50" width="200" hspace="30" style="margin: 0;margin-left: 20px;width: calc(100% - 140px);float: right;"
+            vspace="20" loop="-1" scrollamount="10" scrolldelay="100">
+            知识产权海关保护条例发布 2017-11-21
+        </marquee>
+    </div>
+
+    <div style="height: 430px;">
+        <div class="home_new_reg">
+            <div class="toptitle">最新上传的法规标准</div>
+            <div class="morecheck" ng-click="goReg()">
+                <span class="underline">查看更多</span>
+                <span>></span>
+            </div>
+            <div class="splicline"></div>
+
+            <div ng-repeat="item in items" class="clear home_repeat">
+                <div class="fl home_new_fk"></div>
+                <div class="fl color363636">{{item.Title}}</div>
+
+                <div class="fr date">{{item.Date}}</div>
+                <div class="fr Organization">{{item.Organization}}</div>
+
+            </div>
+
+        </div>
+
+        <div class="home_new_regright">
+
+            <div ng-repeat="item in NewRegulationItem" class="clear">
+                <div class="parentname">{{item.Name}}</div>
+                <div ng-repeat="childitem in item.Childs">
+                    <div class="childname">{{childitem.Name}}</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="clear" style="height:540px;">
+
+        <div class="home_new_lbdh">
+
+            <div class="title">类别导航</div>
+            <div ng-repeat="item in LbdhMenus">
+                <div ng-class="{true:'menu_select',false:'menu_normal'}[SelectLbMenu==item.Name]" ng-click="clickLbMenu(item.Name)">{{item.Name}}</div>
+            </div>
+        </div>
+
+        <div class="lbdh_detail">
+            <!--ul-->
+            <div class="home_new_menu">
+                <table class="w100">
+                    <tr>
+                        <td ng-repeat="item in LbdhChildMenus" style=" text-align: -webkit-center;">
+                            <div ng-class="{true:'home_new_menu_select',false:'home_new_menu_normal'}[clickLbdhChildMenuValue==item.Name]" ng-click="clickLbdhChildMenu(item.Name)">{{item.Name}}</div>
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
+
+            <!--表格-->
+            <table class="index_table">
+                <thead>
+                    <tr>
+                        <th style="background-color: #2ea3dc;">标题</th>
+                        <th style="background-color: #2ea3dc;">标准编号</th>
+                        <th style="background-color: #2ea3dc;">实施日期</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in LbdhTableItems" style="height: 40px;cursor: pointer" ng-click="clickLbdhTable($index);" ng-class="{true: 'tr_selected',false: ''}[LbdhSelected==$index] ">
+                        <td title="{{item.Title}} " class="w300 ">{{item.Title| tooltips:20}}</td>
+                        <td title="{{item.Number}} ">{{item.Number| tooltips:13 }}</td>
+                        <td title="{{item.MaterialDate}} ">{{item.MaterialDate}}</td>
+                    </tr>
+                    <tr ng-if="items.length==0 ">
+                        <td colspan="6 " class="text-center ">无数据</td>
+                    </tr>
+                </tbody>
+
+            </table>
+
+            <div class="morecheck">
+                <span class="underline">查看更多</span>
+                <span>></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="home_new_bottom">
+
+        <div class="chart">
+
+            <div class="sjtjtitle">
+                数据统计
+            </div>
+
+            <div class="home_new_menu">
+                <table class="w100">
+                    <tr>
+                        <td ng-repeat="item in sjtjMenus" style=" text-align: -webkit-center;">
+                            <div ng-class="{true:'home_new_menu_select',false:'home_new_menu_normal'}[sjtjMenusuValue==item.Name]" ng-click="clickSjtjMenu(item.Name)">{{item.Name}}</div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <highchart config="SjtjChart"></highchart>
+        </div>
+
+        <div class="yhly">
+            <div class="yhlytitle">
+                用户留言
+            </div>
+            <div class="lylytext">
+                <div ng-repeat="item in yhlys" class="clear">
+                    <div class="point fl">.</div>
+                    <div class="fl text">{{item.Name}}</div>
+                </div>
+            </div>
+            <div style="height: 40px">
+                <span class="color666">万思琪</span>
+                <span class="ml40 color666">2017-11-25</span>
+                <input type="button" class="pubilshbtn fr" value="发 布" />
+            </div>
+            <div>
+                <textarea class="lytextarea" placeholder="我的留言..." ng-model="ly" maxlength="200"> </textarea>
+            </div>
+
+        </div>
+
+    </div>
+
+
+</div>

@@ -1,0 +1,177 @@
+<div class="h100">
+    <form name="addLawForm" novalidate="novalidate" class="h100">
+        <div class="mt10_mb10" style="height:30px;">
+            <a class="color_blue" ng-click="goState('first')">法规标准</a>
+            <span>></span>
+            <a class="color_blue" ng-click="goState('second')">法规标准管理</a>
+            <span>></span>
+            <span>添加</span>
+
+            <input type="button" class="canclelbtn fr ml10 border1ccc" value="取 消" />
+            <input type="button" class="normalbtn fr ml10" value="提 交" validation-submit="addLawForm" ng-click="save('commit')" ng-disabled="isSaving"/>
+            <input type="button" class="normalbtn fr" value="保 存" validation-submit="addLawForm" ng-click="save('save')" ng-disabled="isSaving"/>
+        </div>
+
+        <!--外围border-->
+        <div class="regluation_add_contentborder concent_center">
+            <div class="bgdf2 h100">
+
+                <table>
+
+                    <tr height="50px">
+                        <td class="regluation_add_td">录入人:</td>
+                        <td class="w300 pl10">詹丽华</td>
+
+                        <td class="regluation_add_td tl">录入部门:系统工程三司</td>
+
+                        <td class="w300 tr">录入时间:2017-11-11</td>
+                    </tr>
+
+
+                    <tr height="50px">
+                        <td class="regluation_add_td"><span class="div_required">*</span>标题</td>
+                        <td colspan="3">
+                            <div class="posi_re">
+                                <input class="home-input w847" type="text" name="chinesename" ng-model="data.chinesename" maxlength="200" validator="required"
+                                />
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr height="50px">
+                        <td class="regluation_add_td">英文标题</td>
+                        <td colspan="3">
+                            <input class="home-input w847" type="text" ng-model="data.englishname" maxlength="200" />
+                        </td>
+                    </tr>
+
+
+                    <tr height="50px">
+                        <td class="regluation_add_td">关键字</td>
+                        <td colspan="3">
+                            <input class="home-input w847" type="text" ng-model="data.keywords" maxlength="25" />
+                        </td>
+                    </tr>
+
+                    <tr height="50px">
+                        <td class="regluation_add_td"> <span class="div_required">*</span>编号</td>
+                        <td class="w300">
+                            <div class="posi_re">
+                                <input class="home-input w300" type="text" ng-model="data.code" name="code" maxlength="25" validator="required" />
+                            </div>
+                        </td>
+                        <td class="regluation_add_td">类别</td>
+                        <td class="w300">
+                            <combo-tree-select tree-data="treeData" tree-model="data.lawtype" btn-show="false" img-color="2"></combo-tree-select>
+                        </td>
+                    </tr>
+
+                    <tr height="50px">
+                        <td class="regluation_add_td">发布部门</td>
+                        <td class="w300">
+                            <select class="home-input w300" type="text" ng-model="data.organization" ng-options=" type.id as type.name for type in PublishList">
+                                  <option value="">--请选择--</option>
+                                </select>
+                        </td>
+
+                        <td class="regluation_add_td">状态</td>
+                        <td class="w300">
+                            <select class="home-select w300" ng-model="data.status" ng-options=" type.id as type.name for type in StateList">
+                                            <option value="">--请选择--</option>
+                        </select>
+                        </td>
+                    </tr>
+
+                    <tr height="50px">
+                        <td class="regluation_add_td">发布日期</td>
+                        <td class="w300">
+                            <input type="text" id="FiledTime" class="case_table_timepicker_input w300" ng-model="data.releasedate" je-date format="YYYY-MM-DD"
+                                readonly />
+                        </td>
+
+                        <td class="regluation_add_td">实施日期</td>
+                        <td class="w300">
+                            <input type="text" id="ManageTime" class="case_table_timepicker_input w300" ng-model="data.impdate" je-date format="YYYY-MM-DD"
+                                readonly />
+                        </td>
+
+                    </tr>
+
+                    <tr height="50px">
+                        <td class="regluation_add_td va_top">摘要</td>
+                        <td colspan="3">
+                            <textarea ng-disabled="isCheck" class="home-txtarea regluation_add_textarea" maxlength="200" ng-model="data.summaryinfo"> </textarea>
+                        </td>
+                    </tr>
+
+                    <tr height="50px">
+                        <td class="regluation_add_td va_top">备注</td>
+                        <td colspan="3">
+                            <textarea ng-disabled="isCheck" class="home-txtarea regluation_add_textarea" maxlength="200" ng-model="data.memo"> </textarea>
+                        </td>
+                    </tr>
+
+                    <tr height="50px">
+                        <td class="regluation_add_td va_top">
+                            <div>附件</div>
+                            <div> <input type="button" class="normalbtn regluation_add_btn" value="添加" ng-click="openUploadModal()"
+                                /></div>
+                        </td>
+                        <td colspan="3">
+                            <div class="home-txtarea regluation_add_textarea" style="margin-bottom:10px;overflow-y: auto;">
+                                <ul>
+                                    <li ng-repeat="accitem in Attachments" class="regluation_detail_Attachments">
+
+                                        <div title="{{accitem.FileName}}" class="fl mr10">
+                                            {{accitem.FileName|tooltips:15}}
+                                            <input type="button" class="checkbtn ml20" value="查 看" title="查看" ng-show="canPreview(accitem.FileName)" ng-click="preview(accitem.ID)"/>
+                                            <input class="downloadbtn ml10" value="下 载" title="下载" ng-click="downloadAccessory(accitem.ID)"/>
+                                             <input class="deletebtn ml10" value="删除" title="删除" ng-click="deletefile(accitem.ID)"/>
+                                        </div>
+
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr height="50px">
+                        <td class="regluation_add_td va_top">
+                            <div>引用文件</div>
+                            <div> <input type="button" class="normalbtn regluation_add_btn" value="搜索" ng-click="openReference()"
+                                /></div>
+                        </td>
+                        <td colspan="3">
+                            <div class="home-txtarea regluation_add_textarea" style="margin-bottom:10px;overflow-y: auto;">
+                                <div ng-repeat="item in data.refence" class="fl mr10">
+                                    <span>{{item.chinesename}}</span>
+                                    <input type="button" class="deletebtn ml10" value="删 除" ng-click="deleteRefence(item)" />
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr height="50px">
+                        <td class="regluation_add_td va_top">
+                            <div>替代关系</div>
+                            <div> <input type="button" class="normalbtn regluation_add_btn" value="搜索" ng-click="openReplace()"
+                                /></div>
+                        </td>
+                        <td colspan="3">
+
+                            <div class="home-txtarea regluation_add_textarea" style="margin-bottom:10px;overflow-y: auto;">
+                                <div ng-repeat="item in data.replace" class="fl mr10">
+                                    <span>{{item.chinesename}}</span>
+                                    <input type="button" class="deletebtn ml10" value="删 除" ng-click="deleteReplace(item)" />
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+
+                </table>
+
+            </div>
+        </div>
+    </form>
+</div>

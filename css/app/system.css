@@ -1,0 +1,354 @@
+.sys_btn {
+    width: 80px;
+    height: 33px;
+    border-radius: 0;
+    font-size: 14px;
+    margin-bottom: 0;
+    color: white;
+    font-size: 14px;
+    margin-left: 4px;
+    border-radius: 2px;
+    background-color: #1e4aa4;
+    border: none;
+}
+
+.sys_btn:hover{
+    background-color: #072b7b;
+}
+
+.sys_goback_btn {
+    /*margin-top: -10px;*/
+    /*padding-bottom: 7px;*/
+    margin-bottom: 10px;
+}
+
+.role_functionss {
+    width: calc(100% - 100px);
+    float: left;
+    text-align: left;
+    /*margin-left: 98px;
+    margin-top: -28px;*/
+    /*width: 780px;*/
+}
+.role_functionss .role_name{width: 220px;}
+
+.sys_input {
+    border-radius: 2;
+    margin: 10px 0;
+    padding-left: 4px;
+    margin-left: 5px;
+}
+
+.sys_input_width {
+    width: 300px;
+}
+
+.sys_input[type=radio] {
+    font-size: 14px;
+    margin-left: 10px;
+    font-weight: normal;
+    color: #333;
+    margin-top: -2px;
+    cursor: pointer;
+    vertical-align: middle;
+}
+
+.sys_input:hover,
+.sys_input:focus {
+    box-shadow: none;
+}
+
+.sys_tit {
+    /*margin: 12px 26px;*/
+    font-weight: bold;
+    margin-bottom: 10px;
+    margin-top: -2px;
+}
+
+.sys_tit_tip {
+    margin: 12px 26px;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.sys_input_drop {
+    background:url('../../images/tree_open.png') 95% center no-repeat scroll;
+    display:display;
+    cursor:pointer;
+}
+
+.sys_tree_itemheader_expander {
+    background: url('../../images/metro_arrow.png') center center no-repeat scroll;
+    width: 13px;
+    height: 17px;
+    float: left;
+}
+
+.sys_tree_itemheader_unexpander {
+    background: url('../../images/metro_arrow_add.png') center center no-repeat scroll;
+    width: 13px;
+    height: 17px;
+    float: left;
+}
+.sys_tree_department {
+    background: url('../../images/tree_department.png') 0 -9px no-repeat;
+    padding-left: 25px;
+    color: #363636;
+}
+
+.sys_tree_org {
+    background: url('../../images/tree_organization.png') 0 -9px no-repeat;
+    padding-left: 25px;
+    color: #363636;
+}
+
+.sys_org_regioncodes {
+    width: 320px;
+    height: 34px;
+    background: #fff;
+    border: 1px solid #c2c2c2;
+    margin-left: 95px;
+    margin-top: -29px;
+}
+
+.sys_org_regioncodes_selectarea {
+    width: auto;
+    height: 32px;
+    border: 1px solid #c2c2c2;
+    padding-left: 6px;
+}
+
+.sys_org_regioncodes_selectarea:hover {
+    border: 1px solid #2a8fd3;
+}
+
+.sys_org_regioncodes_selectarea_error {
+    border: 1px solid red;
+}
+
+.sys_org_regioncodes_inputarea {
+    border: 1px solid transparent;
+    height: 32px;
+    margin: 0;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.sys_org_regioncodes_inputarea:hover {
+    border: 1px solid #2a8fd3;
+}
+
+.sys_org_regioncodes_error {
+    border: 1px solid red;
+}
+
+.sys_case_operation {
+    text-align: center;
+    margin-top: 10px;
+}
+
+
+/*组织机构管理*/
+
+.org_a{
+    text-decoration: none;
+}
+
+.orgmenu li {
+    width: 100px;
+    border-bottom: 1px solid #eee;
+}
+
+.orgmenu li:last-child {
+    border-bottom: 1px solid transparent;
+}
+
+.orgmenu li:last-child .menu_item {
+    margin-bottom: 0;
+}
+
+.menu_item {
+    display: block;
+    height: 30px;
+    line-height: 30px;
+    vertical-align: middle;
+    color: #333;
+    text-decoration: none;
+    border: 1px solid transparent;
+    margin: 1px;
+}
+
+.menu_item:hover {
+    text-decoration: none;
+    background-color: #cde9fc;
+    border: 1px solid #9fbfdc;
+}
+
+.menu_item label {
+    font-weight: normal;
+}
+
+/* 角色 */
+.role_functionss {
+    width: calc(100% - 100px);
+    float: left;
+    text-align: left;
+    /*margin-left: 98px;
+    margin-top: -28px;*/
+    /*width: 780px;*/
+}
+.role_functionss .role_name{width: 220px;}
+
+.role_functionss .register_div_table_td{
+    padding:0 20px 0 10px;
+    text-align: left;
+    font-weight: bold;
+    
+}
+.role_functionss label{
+    margin-bottom: 0;
+    font-weight: normal;
+}
+.role_functionss input[type=checkbox]{
+    margin-top: 0;
+}
+
+/* 人员 */
+.staff_roles {
+    text-align: left;
+    margin-top: -2px;
+    float: left;
+    margin-left: 5px;
+    width: 680px;
+}
+
+.tree_down {
+    height: 200px;
+    overflow: auto;
+    position: absolute;
+    max-height: 200px;
+    background-color: #fff;
+    width: 300px;
+    z-index: 1;
+    margin-left: -300px;
+    margin-top: 40px;
+    border: 1px solid rgb(204, 204, 204);
+}
+
+.tree_downpost {
+    height: 200px;
+    overflow: auto;
+    position: absolute;
+    max-height: 200px;
+    background-color: #fff;
+    width: 300px;
+    z-index: 1;
+    margin-left: 95px;
+    margin-top: -9px;
+    border: 1px solid rgb(204, 204, 204);
+}
+
+/* 选择行政区划相关 start */
+.region_tab_header_group {
+    width: 100%;
+    margin-top: -16px;
+    border-bottom: 1px solid #e6e6e6;
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none;
+    display: table;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+
+.region_tab_header_group > li {
+    float: left;
+    margin-bottom: -1px;
+    position: relative;
+    display: block;
+}
+
+.region_tab_header_group > li:first-child {
+    margin-left: 0px;
+}
+
+.region_tab-header {
+    margin: 0 10px 0 0;
+    /*border-bottom: 1px solid #e6e6e6;*/
+    border-top: 1px solid #fff;
+    border-left: 1px solid #fff;
+    border-right: 1px solid #fff;
+    background: white;
+    border-radius: 0;
+    color: #363636;
+    text-decoration: none;
+    line-height: 1.42857143;
+    position: relative;
+    display: block;
+    padding: 10px 15px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.region_tab-header:hover {
+    text-decoration: none;
+    border-bottom: 1px solid #fff;
+    border-top: 1px solid #e6e6e6;
+    border-left: 1px solid #e6e6e6;
+    border-right: 1px solid #e6e6e6;
+    background-color: transparent;
+    border-radius: 0;
+    color: #1e4aa4;
+}
+
+.region_tab_header_selected {
+    /*border-bottom: 2px solid #1e4aa4;*/
+    border-bottom: 1px solid #fff;
+    border-top: 1px solid #e6e6e6;
+    border-left: 1px solid #e6e6e6;
+    border-right: 1px solid #e6e6e6;
+    background-color: transparent;
+    border-radius: 0;
+    color: #1e4aa4;
+}
+
+.region_div {
+    /*position: absolute;
+    z-index: 10000;*/
+    max-height: 830px;
+    width: 100%;
+    font-weight: normal;
+    border: 1px solid #e6e6e6;
+    padding: 4px;
+    max-width: 505px;
+}
+
+.province_div {
+    /*max-width: 230px;
+    height: 100%;
+    float: left;*/
+    margin-top: 10px;
+}
+
+.city_div {
+    /*max-width: 230px;
+    height: 100%;
+    float: left;*/
+    margin-top: 10px;
+}
+
+.distirct_div {
+    /*max-width: 230px;
+    height: 100%;
+    float: left;*/
+    margin-top: 10px;
+}
+
+.region_label {
+    width: 245px;
+    font-weight: normal;
+}
+/* 选择行政区划相关 end */
+

@@ -1,0 +1,122 @@
+<div class="h100">
+    <div class="mt10_mb10" style="height:30px;">
+        <a class="color_blue" ng-click="goState('first')">法规标准</a>
+        <span>></span>
+        <a class="color_blue" ng-click="goState('second')">法规标准管理</a>
+        <span>></span>
+        <a class="color_blue" ng-click="goState('first')">能源局标准</a>
+        <span>></span>
+        <span>{{DetaiData.ChineseTitle}}</span>
+    </div>
+
+    <div class="regluation_detail_border">
+        <div class="regluation_detail_top">
+            <span class="ml10">录入人：张利华</span>
+            <span class="ml40">录入时间：2017-05-06</span>
+            <span class="ml40">录入单位：国防工科局</span>
+            <span class="ml40">录入点击次数：{{DetaiData.clickcount}}</span>
+
+
+
+            <div ng-class="{true:'system_hk_yes',false:'system_hk_no'}[DetaiData.istop==1]">
+                <div ng-class="{true:'system_hkb_right',false:'system_hkb_left'}[DetaiData.istop==1]" ng-click="clicksfzd(DetaiData)"></div>
+            </div>
+            <div class="fr">{{DetaiData.istop==1?'已置顶':'置顶'}}</div>
+
+            <div class="regluation_detail_collect">收藏</div>
+
+        </div>
+
+        <div class="regluation_detail_chinesetitle">
+            {{DetaiData.chinesename}}
+        </div>
+
+        <div class="regluation_detail_englishtitle">
+            {{DetaiData.englishname}}
+        </div>
+
+        <div class="regluation_detail_table">
+            <table class="w100">
+                <tr height="40px;">
+                    <td class="tr">编号:</td>
+                    <td class="color_blue">{{DetaiData.code}}</td>
+                    <td class="tr">发布部门:</td>
+                    <td class="color_blue">{{DetaiData.pubdepname}}</td>
+                    <td class="tr">发布日期:</td>
+                    <td class="color_blue">{{DetaiData.releasedate|recordtime}}</td>
+                    <td class="tr">实施日期:</td>
+                    <td class="color_blue">{{DetaiData.impdate|recordtime}}</td>
+                </tr>
+                <tr height="40px;">
+                    <td class="tr">执行状态:</td>
+                    <td class="color_blue">{{DetaiData.statusname}}</td>
+                    <td class="tr">法规标准类别:</td>
+                    <td class="color_blue">{{DetaiData.typename}}</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="regluation_detail_table2">
+            <table>
+                <tr height="50px;">
+                    <td class="color_blue first_td">关键字 : </td>
+                    <td class="va_top">{{DetaiData.keywords}}</td>
+                </tr>
+                <tr height="50px;">
+                    <td class="color_blue first_td">摘 要 : </td>
+                    <td class="va_top">{{DetaiData.summaryinfo}}</td>
+                </tr>
+                <tr height="50px;">
+                    <td class="color_blue first_td">引用标准 : </td>
+                    <td class="va_top">
+                        <ul>
+                            <li ng-repeat="item in DetaiData.refence" class="regluation_detail_Reference color_blue" ng-click="checkRefence(item)">
+                                <span>{{item.code}}</span>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr height="50px;">
+                    <td class="color_blue first_td">备 注 : </td>
+                    <td class="va_top">{{DetaiData.memo}}</td>
+                </tr>
+                <tr height="50px;">
+                    <td class="color_blue first_td">附 件 : </td>
+                    <td class="va_top" style="overflow-y: auto;">
+                        <ul>
+                            <li ng-repeat="accitem in Attachments" class="regluation_detail_Attachments">
+
+                                <div title="{{accitem.FileName}}"> {{accitem.FileName|tooltips:15}}
+                                    <input type="button" class="checkbtn ml20" value="查 看" title="查看" ng-show="canPreview(accitem.FileName)" ng-click="preview(accitem.ID)"
+                                    />
+                                    <input class="downloadbtn ml10" value="下 载" title="下载" ng-click="downloadAccessory(accitem.ID)" />
+                                </div>
+
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="regluation_detail_splice"></div>
+
+        <div class="regluation_detail_replace">替代关系</div>
+
+        <div ng-repeat="item in DetaiData.replace" class="clear">
+            <div ng-class="{true:'regluation_detail_stateactive',false:'regluation_detail_statenoactive'}[item.statusname=='现行'||item.statusname=='暂行']">{{item.statusname}}</div>
+            <div class="regluation_detail_replacetext">
+                <div style="height: 25px;">{{item.chinesename}}</div>
+                <div>
+                    <span class="color999999">发布时间: {{item.releasedate|recordtime}}</span>
+                    <span class="ml40 color999999">法规标准类别: {{item.typename}}</span>
+                </div>
+            </div>
+            <div class="regluation_detail_replacebtn">
+                <input type="button" class="bluecheckbtn" value="查 看" title="查看" ng-click="checkRepalce(item)" />
+            </div>
+        </div>
+
+
+    </div>
+</div>

@@ -1,0 +1,7 @@
+<ul>
+    <li ng-repeat="item in mainMenu">
+        <div ng-click="menuClick(item);" ng-class="{'index_menu_select':menustate==item.state,'index_menu':menustate!=item.state&&menustate!='main.home','index_menu_new':menustate!=item.state&&menustate=='main.home'}">
+            <span>{{item.name}}</span>
+        </div>
+    </li>
+</ul>

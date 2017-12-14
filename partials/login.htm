@@ -1,0 +1,49 @@
+<!--<div class="login_title">
+    <img src="images/logo.png" class="login_title_logo" />
+    <span class="login_title_text"></span>
+    <div class="top_right" >
+        <ul class="list-inline">
+            <li style="color:#fff"><label class="topright_username" ng-bind="UserName" style="cursor: default;"></label></li>
+            <li ng-click="help()" style="cursor:pointer;"><a class="btn-help" title="系统帮助" ></a>系统帮助</li>
+            <li><div class="topright_vline"></div></li>
+            <li ng-click="feedBack()" style="padding:0;cursor:pointer;"><a class="btn-feedBack" title="问题反馈" ></a>问题反馈</li>
+            <li ng-click="feedBackQuery()" style="padding-right: 15px;cursor:pointer;"><a class="btn-feedBackQuery" title="反馈查询" ></a>反馈查询</li>
+        </ul>
+    </div>
+</div>-->
+
+<div class="login_main">
+
+    <div class="login_main_earth">
+        <!-------------------------------------------------------登录------------------------------------------------------------------>
+        <div class="login_head_logo"><img src="images/login_name.png"></div>
+        <div class="login_main_box">
+          
+            <div class="login_title">
+                <span class="bottom_Sty">欢迎登陆</span>
+            </div>
+
+            <div style="height: 200px;margin-top:32px;">
+                <input class="login_account" type="text" id="account" ng-model="staff.account" ng-keypress="nextStep($event,'password')"
+                    placeholder="请输入用户名" maxlength="25" />
+                <div class="login_seperator"></div>
+                <input class="login_password"  id="password" type="password" ng-keypress="nextStep($event,'submit')" ng-model="staff.password"
+                    placeholder="请输入密码" maxlength="25" />
+
+            </div>
+          
+            
+            <button class="login_button" id="login_button" type="button" ng-click="Login(staff.account,staff.password)" ng-disabled="!(staff.account&&staff.password)"
+                ng-show="!isShowIndentify">登&emsp;录</button>
+               
+            <br/>
+            <div class="login_error_message">
+                <span ng-bind="errorMessage"></span>
+            </div>
+        </div>
+    </div>
+    <div class="login_copyright">
+        2017 © 国土资源部信息中心&emsp;版本信息：{{version}}，{{build|recordtime}}
+    </div>
+</div>
+<toaster-container toaster-options="{'limit':1}" class="toast-center"></toaster-container>

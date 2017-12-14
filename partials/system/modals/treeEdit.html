@@ -1,0 +1,15 @@
+<div class="modal-header">
+    <button type="button" ng-click="cancel()" class="close" aria-hidden="true">&times;</button>
+    <h4>{{title}}</h4>
+</div>
+
+<div style="width:100%;">
+
+    <input class="home-input mt10" style="width: 425px;" type="text" ng-model="Name" maxlength="25" />
+
+</div>
+
+<div class="modal-footer" style=" margin-top: 10px;">
+    <button type="button" style="margin:0;" class="btn btn-primary modal_btn search_btn" ng-click="ok()">提交</button>
+    <button type="button" style="margin:0;" class="cancle_btn" ng-click="cancel()">取消</button>
+</div>

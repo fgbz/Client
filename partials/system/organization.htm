@@ -1,0 +1,118 @@
+<div ng-style="DataTablestyle()" resize-data-table class="index_content_div">
+    <!--系统管理-组织机构-->
+    <script type="text/ng-template" id="nodes_renderer.html">
+    <div org-menu-visual class="form-line" ng-mouseover="mouseover(this,node.title)" ng-mouseout="mouseout(this)" ui-tree-handle class="tree-node tree-node-content" data-nodrag ng-class="{'treenode_selectedchanged':initNode.id==this.$modelValue.id}">
+        <a class="org_a" ng-class="{true:'sys_tree_itemheader_unexpander',false:'sys_tree_itemheader_expander'}[!collapsed]" ng-if="node.sub_node_count > 0" data-nodrag ng-click="toggles(this)"></a>
+        <a class="org_a" style="background:url('') center center no-repeat scroll;width:13px;height:17px;float:left;" ng-if="node.sub_node_count == 0" data-nodrag></a>
+        <a class="org_a" title={{node.title}} ng-click="inEditor(node)" ng-class="{'treenode_selected':initNode.id==this.$modelValue.id}">
+            <span ng-class="{1:'sys_tree_org',2:'sys_tree_department'}[node.type]">{{node.title}}</span>
+        </a>
+        <ul style="display:none;z-index:1000;border:1px solid #ccc;background-color:#fff;" class="orgmenu">
+            <li ng-if="node.type==1">
+                <a class="menu_item" data-nodrag ng-click="newSubItem(node,2,$event)" title="添加部门">
+                    <span class="glyphicon glyphicon-plus" style="color:#449d44;margin:0 6px;"></span>
+                    <label>添加部门</label>
+                </a>
+            </li>
+            <li ng-if="node.type==1">
+                <a class="menu_item" data-nodrag ng-click="newSubItem(node,1,$event)" title="添加组织">
+                    <span class="glyphicon glyphicon-plus" style="color:#449d44;margin:0 6px;"></span>
+                    <label>添加组织</label>
+                </a>
+            </li>
+            <li>
+                <a class="menu_item" ng-if="node.sub_node_count == 0" data-nodrag ng-click="removeItem(this)">
+                    <span class="glyphicon glyphicon-remove" style="color:#c9302c;margin:0 6px;"></span>
+                    <label>删&emsp;&emsp;除</label>
+                </a>
+            </li>
+        </ul>
+
+    </div>
+    <ol ui-tree-nodes="" ng-model="node.nodes" ng-class="{hidden: !collapsed}">
+        <li ng-repeat="node in node.nodes" ui-tree-node ng-include="'nodes_renderer.html'"></li>
+    </ol>
+</script>
+
+    <!--ng-style="DataTablestyle()" resize-data-table-->
+    <div class="model_datagrid">
+        <div style="width:99%;border-bottom:1px solid #ccc;">
+            <h4 class="sys_tit">组织机构</h4>
+        </div>
+        <div ng-style="style_org()" resize-org-height id="org_tree" style="border-right: #ccc solid 1px;">
+            <div ui-tree id="tree-root" style="margin:6px 6px;">
+                <ol ui-tree-nodes ng-model="data">
+                    <li ng-repeat="node in data" ui-tree-node ng-include="'nodes_renderer.html'"></li>
+                </ol>
+            </div>
+        </div>
+        <div style="float: right; overflow: auto;width: calc(100% - 320px);height: calc(100% - 30px);" >
+            <form name="organizationForm" class="form-valid" style="width:100%;">
+                <br /><br />
+                <table>
+                    <tr>
+                        <td class="register_div_table_td">类&emsp;&emsp;型<font color="red">*</font></td>
+                        <td>
+                            <input type="radio" ng-model="editNode.type" class="sys_input" value="1" disabled />组织
+                            <input type="radio" ng-model="editNode.type" class="sys_input" value="2" disabled />部门
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="register_div_table_td">名&emsp;&emsp;称<font color="red">*</font></td>
+                        <td>
+                            <input name="organization_name" autofocus="autofocus" id="organName" type="text" class="home-input sys_input" style="display: inline-block;width:435px;" ng-model="editNode.title" 
+                            ng-disabled="editNode.title=='国土资源部'" placeholder="请输入名称" maxlength="10" validator="required,maxlength=10" />
+                        </td>
+                    </tr>
+                    <tr ng-if="editNode.type==1&&editNode.title!='国土资源部'">
+                        <td class="register_div_table_td">行政区划<font color="red">*</font></td>
+                        <td>
+                            <input id="organRegion" name="organization_region" type="text" class="home-input sys_input" style="display: inline-block;width:350px;" ng-model="editNode.regionCodeName" placeholder="请输入名称" validator="required,maxlength=12" />
+                            <button id="regionSelect" class="search_btn" ng-click="showRegion()">选&emsp;择</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div class="form-inline region_div" ng-show="isShowRegion&&editNode.type==1" style="overflow: hidden;">
+                                <div>
+                                    <button id="provinceSubmit" class="search_btn" ng-click="regionSubmit()" style="display:block; float: left;">确&emsp;定</button>
+                                    <button id="provinceSubmit" class="search_btn" ng-click="regionCancel()" style="display:block;margin-left: 93px;">取&emsp;消</button>
+                                </div>
+                                <br/>
+                                <ul id="myTab" class="region_tab_header_group ">
+                                    <li>
+                                        <a data-toggle="tab" class="region_tab-header" ng-class="{'region_tab_header_selected':showTab==1}" ng-init="showTab=1" ng-click="showTab=1">省</a>
+                                    </li>
+                                    <li>
+                                        <a data-toggle="tab" class="region_tab-header" ng-class="{'region_tab_header_selected':showTab==2}" ng-click="showTab=2">市</a>
+                                    </li>
+                                    <li>
+                                        <a data-toggle="tab" class="region_tab-header" ng-class="{'region_tab_header_selected':showTab==3}" ng-click="showTab=3">县/区</a>
+                                    </li>
+                                </ul>
+                                <div id="province" ng-show="showTab==1" class="province_div" >
+                                    <label ng-repeat="item in AllProvince" ng-click="showRegionCity(item)" class="region_label"><input  type="radio" ng-model="editNode.regionCodeName" class="sys_input" value="{{item.Code}}" name="regionRadio" />{{item.Name}}-{{item.Code}}</label>
+                                </div>
+                                <div id="city"  ng-show="showTab==2" class="city_div">
+                                    <!--ng-show="isShowRegionCity" -->
+                                <label ng-repeat="item in RegionCity" ng-click="showRegionDistrict(item)" class="region_label"><input type="radio" ng-model="editNode.regionCodeName" class="sys_input" value="{{item.Code}}" name="regionRadio" />{{item.Name}}-{{item.Code}}</label>
+                                </div>
+                                <div id="district"  ng-show="showTab==3" class="distirct_div">
+                                    <!--ng-show="isShowRegionDistrict" -->
+                                    <label ng-repeat="item in RegionDistrict" ng-click="getRegion(item.Code)" class="region_label"><input type="radio" ng-model="editNode.regionCodeName" class="sys_input" value="{{item.Code}}" name="regionRadio" />{{item.Name}}-{{item.Code}}</label>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+
+                <br />
+                <div class="text-center" style="clear:none;display:block;">
+                    <button type="submit" class="search_btn " ng-show="editNode.title!='国土资源部'" ng-click="Submit(operateName=='编辑'?1:2)" validation-submit="organizationForm">保&emsp;存</button>
+                    <input id="btnSubmit" class="search_btn" value="取&emsp;消" type="button" ng-click="Cancel()" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>

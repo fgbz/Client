@@ -1,0 +1,17 @@
+#statistic input {
+	border-top: 0px;
+    text-align: center;
+    border-left: 0px;
+    border-right: 0px;
+    border-bottom: 1px solid #e6e6e6
+}
+#statistic input:hover{
+	border-color: #6193fa;
+}
+#statistic input:focus{
+	border-color: #6193fa;
+}
+#statistic td{
+	padding-left: 7px;
+	padding-right: 7px
+}
