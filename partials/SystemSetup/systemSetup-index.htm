@@ -48,20 +48,99 @@
 
         </div>
 
-
+        <!--组织机构管理--->
         <div ng-if="clickTreeValue=='141'" class="posi_re">
 
             <combo-tree tree-data="treeDataOrg" tree-model="clickOrgValue" btn-show="true" img-color="1"></combo-tree>
 
         </div>
 
-        <div ng-if="clickTreeValue=='143'">
+        <!--用户管理-->
+        <div ng-if="clickTreeValue=='142'" class="h100">
+
+            <div class="h100 fl" style="width: 240px;">
+                <combo-tree tree-data="treeDataOrg" tree-model="clickUserValue" btn-show="false" img-color="1"></combo-tree>
+            </div>
+
+            <div class="h100 fl posi_re" style="width: calc(100% - 250px);">
+
+                <div class="system_userconfig">
+                    <div class="fl">
+
+                        <input class="home-input w300" type="text" style="margin-left: 0px;" ng-model="userdata.Name" maxlength="25" placeholder="请输入用户姓名"
+                        />
+                        <input type="button" class="normalbtn mr10" value="搜 索" ng-click="getUsers()"/>
+                    </div>
+                    <div class="fr">
+                        <input type="button" class="normalbtn  mr10" value="新 增" ng-click="ShowUser(null,false,'新增')"/>
+                    </div>
+
+
+
+                </div>
+
+                <table class="index_table" style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>用户名</th>
+                            <th>姓名</th>
+                            <th>部门</th>
+                            <th>邮箱</th>
+                            <th>电话</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody ng-if="isLoaded ">
+                        <tr ng-repeat="item in userItems" style="height: 40px;cursor: pointer" ng-click="clickTable($index);" ng-class="{true: 'tr_selected',false: ''}[tableRow.selected==$index] ">
+                           <td title="{{item.username}}">{{item.username}}</td>
+                            <td title="{{item.userrealname}} ">{{item.userrealname}}</td>
+                            <td title="{{item.orgname}} ">{{item.orgname}}</td>
+                            <td title="{{item.email}}">{{item.email}}</td>
+                            <td title="{{item.mobile}} ">{{item.mobile}}</td>
+                            <td>
+                                <input type="button " class="checkbtn" ng-click="ShowUser(item,true,'查看') " value="查 看" />
+                                <input type="button " class="normalcheckbtn" ng-click="ShowUser(item,false,'编辑') " value="编 辑" />
+                                <input type="button " class="deletebtn" ng-click="DeleteUser(item)" value="删 除" />
+                            </td>
+                        </tr>
+                        <tr ng-if="userItems.length==0 ">
+                            <td colspan="5 " class="text-center ">无数据</td>
+                        </tr>
+                    </tbody>
+                    <tbody ng-if="!isLoaded ">
+                        <tr>
+                            <td colspan="6" class="text-center ">
+                                <img src="images/loading.gif " />
+                            </td>
+                        </tr>
+                    </tbody>
+
+
+                </table>
+
+                <div class="home_paging">
+                    <div class="pagination-info " style="display: inline-block;margin-top: 12px; margin-left: 10px;">
+                        <span class="ng-binding ">共{{pagerUser.total}}条</span>
+                    </div>
+                    <div class="pull-right ">
+                        <uib uib-pagination rotate="true " boundary-link-numbers="true " boundary-links="false
+                                " total-items="pagerUser.total " ng-model="pagerUser.current " max-size="10 " ng-change="getUsers(true) "
+                            items-per-page="pagerUser.size " class="pagination-sm
+                                " previous-text="上页 " next-text="下页 " first-text="首页 " last-text="末页 "></uib>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!--权限管理-->
+        <div ng-if="clickTreeValue=='143'" class="posi_re">
 
             <div class="system_userconfig">
-               
+
                 <input type="button" class="normalbtn fr" value="查 询" ng-click="getRoles()" />
 
-                 <input type="button" class="normalbtn fr mr10" value="新 增" ng-click="AddRole('add')" />
+                <input type="button" class="normalbtn fr mr10" value="新 增" ng-click="ShowRole(null,false,'新增')" />
             </div>
 
             <table class="index_table">
@@ -75,9 +154,9 @@
                     <tr ng-repeat="item in roleItems" style="height: 40px;cursor: pointer" ng-click="clickTable($index);" ng-class="{true: 'tr_selected',false: ''}[tableRow.selected==$index] ">
                         <td title="{{item.rolename}} " class="w300 ">{{item.rolename}}</td>
                         <td>
-                            <input type="button " class="checkbtn" ng-click="ShowRole(item,true) " value="查 看" />
-                            <input type="button " class="normalcheckbtn" ng-click="ShowRole(item,false) " value="编 辑" />
-                            <input type="button " class="deletebtn" ng-click="DeleteRole(item.id) " ng-show="item.candelete" value="删 除" />
+                            <input type="button " class="checkbtn " ng-click="ShowRole(item,true,'查看') " value="查 看" />
+                            <input type="button " class="normalcheckbtn " ng-click="ShowRole(item,false,'编辑') " value="编 辑" />
+                            <input type="button " class="deletebtn " ng-click="DeleteRole(item.id) " ng-show="item.candelete" value="删 除" />
                         </td>
                     </tr>
                     <tr ng-if="roleItems.length==0 ">
@@ -109,78 +188,14 @@
         </div>
 
 
-        <div ng-if="clickTreeValue=='154'" class="posi_re">
-
-            <div class="system_userconfig">
-                <div class="fl">
-                    <select class="home-select" ng-model="SelectType"> 
-                          <option value="">全部</option>
-                  </select>
-
-                    <input class="home-input w300" type="text" style="margin-left: 0px;" ng-model="KeyWordAdd" maxlength="25" placeholder="请输入关键字"
-                    />
-
-                    <input type="button" class="normalbtn mr10" value="搜 索" />
-                </div>
-                <div class="fr">
-
-                    <input type="button" class="deletebtn  mr10" value="删 除" />
-                    <input type="button" class="normalbtn  mr10" value="新 增" />
-                </div>
-
-
-
-            </div>
-
-            <table class="index_table">
-                <thead>
-                    <tr>
-                        <th>姓名</th>
-                        <th>性别</th>
-                        <th>部门</th>
-                        <th>角色</th>
-                        <th>操作</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="item in userItems" style="height: 40px;cursor: pointer" ng-click="clickTable($index);" ng-class="{true: 'tr_selected',false: ''}[tableRow.selected==$index] ">
-                        <td title="{{item.Name}} " class="w300 ">{{item.Name}}</td>
-                        <td title="{{item.Gender}} ">{{item.Gender}}</td>
-                        <td title="{{item.Organization}}">{{item.Organization}}</td>
-                        <td title="{{item.User}} ">{{item.User}}</td>
-                        <td>
-                            <input type="button " class="checkbtn" ng-click="Show(item) " value="查 看 " />
-                        </td>
-                    </tr>
-                    <tr ng-if="items.length==0 ">
-                        <td colspan="6 " class="text-center ">无数据</td>
-                    </tr>
-                </tbody>
-
-
-            </table>
-
-            <div class="home_paging">
-                <div class="pagination-info " style="display: inline-block;margin-top: 12px; margin-left: 10px;">
-                    <span class="ng-binding ">共{{pager.total}}条</span>
-                </div>
-                <div class="pull-right ">
-                    <uib uib-pagination rotate="true " boundary-link-numbers="true " boundary-links="false
-                                " total-items="pager.total " ng-model="pager.current " max-size="10 " ng-change="Paging(false) "
-                        items-per-page="pager.size " class="pagination-sm
-                                " previous-text="上页 " next-text="下页 " first-text="首页 " last-text="末页 "></uib>
-                </div>
-            </div>
-
-        </div>
-
-
+        <!--法规管理-->
         <div ng-if="clickTreeValue=='15'">
 
             <combo-tree tree-data="treeDataReg" tree-model="clickRegValue" btn-show="true" img-color="1"></combo-tree>
 
         </div>
 
+        <!--技术文档-->
         <div ng-if="clickTreeValue=='16'">
 
             <combo-tree tree-data="treeDataTec" tree-model="clickTecValue" btn-show="true" img-color="1"></combo-tree>

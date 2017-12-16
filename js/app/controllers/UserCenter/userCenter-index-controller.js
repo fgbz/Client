@@ -6,7 +6,11 @@ define(['bootstrap/app', 'utils', 'services/accessory-service', 'services/region
     app.controller('userCenter-index-controller', ['$rootScope', '$scope', '$state', 'toaster', '$uibModal',
         function ($rootScope, $scope, $state, toaster, $uibModal, datamanagerService) {
 
+            var user = localStorage.getItem("loginUser");
 
+            if (user) {
+                user = JSON.parse(user);
+            }
 
             //变量
             var define_variable = function () {
@@ -33,12 +37,30 @@ define(['bootstrap/app', 'utils', 'services/accessory-service', 'services/region
                 $scope.isLoaded = true;
 
                 $scope.MenuItmes = [
-                    { Name: "修改密码" }, { Name: "收藏夹" }, { Name: "收藏夹管理" }, { Name: "待办箱" }
+                    { Name: "修改密码" }, { Name: "收藏夹" }, { Name: "收藏夹管理" },
                 ]
+
+
+                var user = localStorage.getItem("loginUser");
+
+                if (user) {
+                    user = JSON.parse(user);
+
+                    //权限重置
+                    var check = utils.getListItem('法规审核', 'menuname', user.menus);
+                    var manage = utils.getListItem('通知管理', 'menuname', user.menus);
+
+                    if (check) {
+                        $scope.MenuItmes.push({ Name: "待办箱" });
+                    }
+                    if (manage) {
+                        $scope.MenuItmes.push({ Name: "通知管理" });
+                    }
+                }
 
                 $scope.clickMenuValue = "修改密码";
 
-               //右侧树
+                //右侧树
                 $scope.treeData = [
 
                     { Id: '01', Name: '法律标准', ParentID: null },

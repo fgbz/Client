@@ -19,16 +19,16 @@ require.config({
         'ui-bootstrap': '../../angular-ui/ui-bootstrap-tpls-1.3.3.min',
 
         //  'moment':'moment',
-        'setting':'../app/setting',
+        'setting': '../app/setting',
 
         'jquery': 'jquery-1.11.1.min',
-        'jeDate':'jquery.jedate',
-        'jeDatemin':'jquery.jedate.min',
+        'jeDate': 'jquery.jedate',
+        'jeDatemin': 'jquery.jedate.min',
 
         'highstock': 'highstock',
 
         'hash': 'hash',
-        'svg':'svg.min',
+        'svg': 'svg.min',
 
         'standalone-framework': 'standalone-framework',
         'map': 'map',
@@ -47,18 +47,19 @@ require.config({
         'filters': '../app/filters',
 
         'utilities': '../app/utilities',
-        'utils':'../app/utilities/utils',
+        'utils': '../app/utilities/utils',
         'ipaddr': 'ipaddr.min',
         'nicEdit': 'nicEdit',
 
         'toaster': 'toaster.min',
         'ngDialog': 'ngDialog.min',
-        
+
         'split': 'split.min',
         'ClusterLayer': 'ClusterLayer',
         'angular-validation': 'angular-validation',
         'angular-validation-rule': 'angular-validation-rule',
-        'isteven-multi-select': 'isteven-multi-select'
+        'isteven-multi-select': 'isteven-multi-select',
+
     },
     shim: {
         'angular': {
@@ -141,21 +142,21 @@ require.config({
         },
         'angular-validation': {
             deps: ['angular']
-           // , exports: 'angular-validation'
+            // , exports: 'angular-validation'
         },
         'angular-validation-rule': {
             deps: ['angular']
-           // , exports: 'angular-validation-rule'
+            // , exports: 'angular-validation-rule'
         },
-        'jedate':{
-            deps:['jquery']
+        'jedate': {
+            deps: ['jquery']
         },
-         'jedatemin':{
-            deps:['jedate']
+        'jedatemin': {
+            deps: ['jedate']
         },
-        'isteven-multi-select':{
+        'isteven-multi-select': {
             deps: ['angular']
-        },
+        }
 
     },
     deps: ['js/app/bootstrap/bootstrap.js'],

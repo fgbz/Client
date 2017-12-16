@@ -590,7 +590,7 @@ body {
 
 .checkbtn{
     width: 70px;
-    height: 30px;
+    height: 32px;
     border-radius: 2px;
     color: #fff;
     padding-left: 15px;
@@ -1339,6 +1339,77 @@ body {
     text-align: center;
 }
 
+.fg_login_title{
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 18px;
+    color: #08589f;
+}
+
+.fg_login_account{
+    width: 250px !important;
+    height: 40px!important;
+    border-radius: 20px!important;
+ 
+    padding-left: 35px!important;
+    background: url('../../images/login_account.png') no-repeat;
+     background-position: 10px;
+}
+.fg_login_account:focus{
+    color: #08589f;
+    background: url('../../images/login_account_focus.png') no-repeat;
+    background-position: 10px;
+}
+.fg_login_account:hover{
+    color: #08589f;
+    background: url('../../images/login_account_focus.png') no-repeat;
+    background-position: 10px;
+}
+
+.fg_login_password{
+    width: 250px !important;
+    height: 40px!important;
+    border-radius: 20px!important;
+ 
+    padding-left: 35px!important;
+    background: url('../../images/login_password.png') no-repeat;
+     background-position: 10px;
+}
+.fg_login_password:focus{
+    color: #08589f;
+    background: url('../../images/login_password_focus.png') no-repeat;
+    background-position: 10px;
+}
+.fg_login_password:hover{
+    color: #08589f;
+    background: url('../../images/login_password_focus.png') no-repeat;
+    background-position: 10px;
+}
+
+.fg_btn_div{
+    height: 100px;
+    text-align: center;
+}
+.fg_login_btn{
+    margin-top: 30px;
+    width: 250px;
+    height: 40px;
+    border-radius: 20px;
+    margin-left: 10px;
+}
+.fg_login_error{
+    margin-top: 10px;
+    font-size: 18px;
+    color: red;
+}
+.fg_login_out{
+    text-decoration: underline;
+     color: #08589f;
+     cursor: pointer;
+}
+
+
 /*********************引用关系*********************/
 
 .reference_top{
@@ -1507,6 +1578,11 @@ body {
 .child_center{
     position: relative;
     left: -50%;
+}
+.normallabel{
+    font-weight: normal;
+    vertical-align: sub;
+    margin-left: 5px;
 }
 
 

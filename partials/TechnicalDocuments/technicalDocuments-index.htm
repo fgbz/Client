@@ -1,12 +1,12 @@
 <div>
 
     <div>
-        <div ng-class="{true: 'regluation_index_top_select', false: 'regluation_index_top_normal'}[clickValue=='check']">
+        <div ng-class="{true: 'regluation_index_top_select', false: 'regluation_index_top_normal'}[clickValue=='check']" ng-show="ischeckshow">
             <ul>
                 <div ng-click="clickValue='check'">技术文档查看</div>
             </ul>
         </div>
-        <div ng-class="{true: 'regluation_index_top_select', false: 'regluation_index_top_normal'}[clickValue=='add']">
+        <div ng-class="{true: 'regluation_index_top_select', false: 'regluation_index_top_normal'}[clickValue=='add']" ng-show="ismanageshow">
             <ul>
                 <div ng-click="clickValue='add'">技术文档管理</div>
             </ul>

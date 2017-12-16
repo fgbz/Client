@@ -28,6 +28,12 @@ define(['bootstrap/app', 'app/config-manager', 'services/http-service', 'utiliti
 			location.href = baseUrl + '/Foundation/Attachment/Download?file=' + fileId+'&AUTH_ID='+'1';
 		};
 
+		//预览
+		this.getPreView = function (fileId,callback) {
+			var url = '/Foundation/Attachment/getPreView?file='+fileId;
+			return http.get(url,null,callback);
+		}
+
 
     
 

@@ -8,6 +8,27 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
 
             var postData = $stateParams.data;
 
+            var user = localStorage.getItem("loginUser");
+
+            if (user) {
+                user = JSON.parse(user);
+
+                //权限重置
+                var check = utils.getListItem('法规标准查看', 'menuname', user.menus);
+                var manage = utils.getListItem('法规标准管理', 'menuname', user.menus);
+
+                if (check) {
+                    $scope.ischeckshow = true;
+                    $scope.clickValue = 'check';
+                    if (manage) {
+                        $scope.ismanageshow = true;
+                    }
+                } else {
+                    $scope.ismanageshow = true;
+                    $scope.clickValue = 'add';
+                }
+            }
+
             //变量
             var define_variable = function () {
 
@@ -34,7 +55,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                     postData = JSON.parse(postData);
                 }
 
-                $scope.clickValue = postData && postData.clickValue == "add" ? "add" : "check";
+                $scope.clickValue = postData ? postData.clickValue :  $scope.clickValue;
 
                 $scope.isLoaded = true;
 
@@ -57,7 +78,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                         $scope.treeData.push(data);
 
                     }
-                },function (er) {
+                }, function (er) {
                     var t = er;
                 })
 

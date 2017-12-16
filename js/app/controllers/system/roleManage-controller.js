@@ -18,7 +18,7 @@ define(['bootstrap/app', 'utils'], function (app, utils) {
             var initialize = function () {
 
                 $scope.title = values.Title;
-                $scope.data = values.dataRole;
+                $scope.data = angular.copy(values.dataRole);
                 $scope.isCheck = values.isCheck;
 
                 var dics = JSON.parse(localStorage.getItem('DicItems'));
@@ -26,10 +26,10 @@ define(['bootstrap/app', 'utils'], function (app, utils) {
                 $scope.menuItems = dics.Menu;
 
                 //绑定选中项
-                if ( $scope.data.menus != null &&  $scope.data.length > 0) {
+                if ( $scope.data.menus != null &&  $scope.data.menus.length > 0) {
                     for (var i = 0; i < $scope.menuItems.length; i++) {
                         var flag = false;
-                        for (var j = 0; j <  $scope.data.length; j++) {
+                        for (var j = 0; j <  $scope.data.menus.length; j++) {
                             if ($scope.menuItems[i].id ==  $scope.data.menus[j].id) {
                                 flag = true;
                                 break;
@@ -44,9 +44,17 @@ define(['bootstrap/app', 'utils'], function (app, utils) {
             //方法
             var define_function = function () {
 
+                $scope.clickSingle =function (item) {
+                    if (item.ischeck) {
+                        item.ischeck = false;
+                    } else {
+                        item.ischeck = true;
+                    }
+                }
+
                 $scope.ok = function () {
                     if (!$scope.data.rolename) {
-                        toaster.pop({ type: 'danger', body: '请填写权限名称！' });
+                        toaster.pop({ type: 'danger', body: '请填写角色名称！' });
                         return;
 
                     }

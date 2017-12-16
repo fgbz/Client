@@ -12,10 +12,15 @@ define(['bootstrap/app', 'utilities/cryto', 'ctrls/system/modals/logout-controll
         function ($rootScope, $scope, $cookies, $state, $uibModal,
             auth_service, $timeout, organizationService, $cacheFactory, cacheService, toaster, ngDialog, dictionaryService) {
 
-            var COOKIE_SESSION = 'PUMPKIN_SESSION';
-
-            var COOKIE_ROLES = 'ROLES_SESSION';
             $scope.baseUrl = baseUrl;
+
+            var user = localStorage.getItem("loginUser");
+
+            if (user) {
+                user = JSON.parse(user);
+            }
+
+            $scope.loginUser = user;
 
 
             var init = function () {
@@ -26,22 +31,27 @@ define(['bootstrap/app', 'utilities/cryto', 'ctrls/system/modals/logout-controll
                     {
                         name: '首页',
                         state: 'main.home',
+                        show: true
                     },
                     {
                         name: '法规标准',
                         state: 'main.regulationsStandardsIndex',
+                        show: false
                     },
                     {
                         name: '技术文档',
                         state: 'main.technicalDocuments',
+                        show: false
                     },
                     {
                         name: '用户中心',
                         state: 'main.userCenter',
+                        show: false
                     },
                     {
                         name: '系统设置',
                         state: 'main.systemSetup',
+                        show: false
                     }
                 ];
 
@@ -55,6 +65,24 @@ define(['bootstrap/app', 'utilities/cryto', 'ctrls/system/modals/logout-controll
 
 
                 });
+
+
+                //设置权限
+                if (user && user.menus) {
+
+                    for (var i = 0; i < $scope.mainMenu.length; i++) {
+
+                        for (var j = 0; j < user.menus.length; j++) {
+                            if (user.menus[j].menuname.indexOf($scope.mainMenu[i].name) != -1) {
+                                $scope.mainMenu[i].show = true;
+                                break;
+                            }
+                        }
+                    }
+
+                }
+
+
 
                 $scope.HeadNew = true;
 
@@ -112,8 +140,19 @@ define(['bootstrap/app', 'utilities/cryto', 'ctrls/system/modals/logout-controll
                     controller: function ($scope) {
                         $scope.ok = function () {
 
-                            setMenuName('main.home');
-                            $state.go('main.home');
+                            localStorage.removeItem('loginUser');
+                            $cookies.remove("AUTH_ID");
+
+
+                            if ($scope.menustate == "main.home") {
+                                 location.reload();
+                            } else {
+                                $cookies.put('reload', true);
+                                var sRouter = "main.home";
+                                $state.go(sRouter);
+                            }
+
+
                             $scope.closeThisDialog(); //关闭弹窗
                         };
                         $scope.cancel = function () {
@@ -124,6 +163,27 @@ define(['bootstrap/app', 'utilities/cryto', 'ctrls/system/modals/logout-controll
 
 
             };
+
+            $scope.login = function () {
+                var url = 'partials/system/modals/login.html';
+                var modalInstance = $uibModal.open({
+
+                    templateUrl: url,
+                    controller: 'login-controller',
+                    size:'sm',  
+                    resolve: {
+                        values: function () {
+
+
+                            var data = {
+
+
+                            }
+                            return data;
+                        }
+                    }
+                });
+            }
 
         }]);
 
@@ -220,7 +280,7 @@ define(['bootstrap/app', 'utilities/cryto', 'ctrls/system/modals/logout-controll
         // upload on file select or drop
         $scope.upload = function (file) {
             Upload.upload({
-                url: baseUrl + '/Foundation/Attachment/uploadWithNoThum?AUTH_ID='+'1',
+                url: baseUrl + '/Foundation/Attachment/uploadWithNoThum?AUTH_ID=' + '1',
                 data: { file: file, 'username': $scope.username },
                 removeAfterUpload: true,
             }).then(function (resp) {

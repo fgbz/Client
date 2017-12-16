@@ -6,7 +6,7 @@ define(['angular', 'angular-cookies', 'angular-animate', 'angular-messages','ang
     var baseUrl = config.baseUrl();
     // 如果需要添加其他的 AngularJS 库，则在这个文件里面添加依赖关系。
     // directives/filters 需要在 app bootstrap 之前注入到 app 中，所以需要在此处加载。
-    var app = ng.module('pumpkin', ['ngCookies', 'ngMessages', 'ngAnimate', 'ngResource', 'ngLocale', 'ngSanitize', 'ui.router', 'ui.tree', 'ui.bootstrap', 'main-directives', 'main-filters', 'highcharts-ng', 'angularFileUpload', 'ngFileUpload', 'rzModule', 'validation', 'validation.rule', 'toaster', 'ngDialog','isteven-multi-select']);
+    var app = ng.module('rule', ['ngCookies', 'ngMessages', 'ngAnimate', 'ngResource', 'ngLocale', 'ngSanitize', 'ui.router', 'ui.tree', 'ui.bootstrap', 'main-directives', 'main-filters', 'highcharts-ng', 'angularFileUpload', 'ngFileUpload', 'rzModule', 'validation', 'validation.rule', 'toaster', 'ngDialog','isteven-multi-select']);
     app.constant('defaultPassword','8888888')
        .constant('baseUrl', baseUrl)
 

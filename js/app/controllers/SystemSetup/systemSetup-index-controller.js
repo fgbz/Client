@@ -20,6 +20,13 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                     current: 1
                 }
 
+                $scope.pagerUser = {
+                    size: 10,
+                    current: 1
+                }
+                $scope.userdata={};
+
+
             };
 
             //加载
@@ -103,6 +110,10 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                             $scope.treeDataOrg.push(data);
 
                         }
+                        if (params != null && params.length > 0) {
+                            $scope.clickUserValue = params[0].id;
+                            $scope.getUsers();
+                        }
                     })
                 }
                 $scope.initOrg();
@@ -137,24 +148,39 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                     })
                 }
                 $scope.getRoles();
+
+                //获取用户列表
+                $scope.getUsers = function (isPaging) {
+                    $scope.isLoaded = false;
+
+                    //通过当前高度计算每页个数
+                    var pagesize = parseInt((window.innerHeight - 200) / 40);
+
+                    if (!isPaging) {
+                        $scope.pagerUser.current = 1;
+                    }
+
+                    $scope.pagerUser.size = pagesize;
+
+                    var options = {
+                        pageNo: $scope.pagerUser.current,
+                        pageSize: $scope.pagerUser.size,
+                        conditions: []
+                    };
+                    if ($scope.userdata.Name) {
+                        options.conditions.push({ key: 'Name', value: $scope.userdata.Name });
+                    }
+                    if ($scope.clickUserValue) {
+                        options.conditions.push({ key: 'TreeValue', value: $scope.clickUserValue });
+                    }
+
+                    systemService.getUserList(options, function (response) {
+                        $scope.isLoaded = true;
+                        $scope.userItems = response.CurrentList;
+                        $scope.pagerUser.total = response.RecordCount;
+                    })
+                }
             };
-
-
-
-
-
-            $scope.userItems = [
-                { Name: "幸德瑞", Gender: "男", Organization: "某某部门一", User: "普通用户" },
-                { Name: "白雪", Gender: "女", Organization: "某某部门一", User: "普通用户" },
-                { Name: "张小刀", Gender: "男", Organization: "某某部门一", User: "普通用户" },
-                { Name: "李季华", Gender: "男", Organization: "某某部门一", User: "普通用户" },
-                { Name: "王文文", Gender: "男", Organization: "某某部门一", User: "普通用户" },
-                { Name: "谭霞", Gender: "女", Organization: "某某部门一", User: "普通用户" },
-                { Name: "绮梦为", Gender: "女", Organization: "某某部门一", User: "普通用户" },
-                { Name: "王建军", Gender: "男", Organization: "某某部门一", User: "普通用户" },
-                { Name: "黎明", Gender: "男", Organization: "某某部门一", User: "普通用户" }
-
-            ]
 
 
 
@@ -164,6 +190,11 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                 //是否审核
                 $scope.clicksfsh = function () {
                     $scope.sfsh = $scope.sfsh == '是' ? '否' : '是';
+                }
+
+                $scope.clickUsertree = function (params) {
+                    $scope.clickUserValue = params;
+                    $scope.getUsers ();
                 }
 
                 $scope.clickTreeBtn = function (item, type) {
@@ -375,12 +406,12 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                 /*****************************角色**************************** */
                 $scope.DeleteRole = function (id) {
                     systemService.deleteRoleByID(id, function (res) {
-                        $scope.getRoles();
+                           $scope.getRoles();
                     })
                 }
 
-                //新增角色
-                $scope.AddRole = function (params) {
+                //新增，查看，编辑角色
+                $scope.ShowRole = function (item, flag, txt) {
                     var url = 'partials/system/modals/rolemanage.html';
                     var modalInstance = $uibModal.open({
 
@@ -391,21 +422,86 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                             values: function () {
 
                                 var dataRole = {
-                                    id:'',
-                                    rolename:'',
-                                    menus:[]
+                                    id: '',
+                                    rolename: '',
+                                    menus: []
+                                }
+                                if (item != null) {
+                                    dataRole = item
                                 }
                                 var data = {
-                                    dataRole:dataRole,
-                                    Title: '新增',
-                                    isCheck:false
+                                    dataRole: dataRole,
+                                    Title: txt,
+                                    isCheck: flag
 
                                 }
                                 return data;
                             }
                         }
                     });
+                    modalInstance.result.then(function (res) {
+                        if (res) {
+                            systemService.SaveOrEditRole(res, function (params) {
+                                if (params == 1) {
+                                    toaster.pop({ type: 'success', body: txt + '成功!' });
+                                    $scope.getRoles();
+                                } else {
+                                    toaster.pop({ type: 'danger', body: txt + '失败!' });
+                                }
+                            })
+
+                        }
+                    });
+
                 }
+
+
+                /*****************************用户**************************** */
+                $scope.DeleteUser = function (item) {
+                    systemService.deleteUserByID(item, function (res) {
+                     
+                        $scope.getUsers();
+                    })
+                }
+
+                //新增，查看，编辑角色
+                $scope.ShowUser = function (item, flag, txt) {
+                    var url = 'partials/system/modals/usermanage.html';
+                    var modalInstance = $uibModal.open({
+
+                        templateUrl: url,
+                        controller: 'userManage-controller',
+                        size: 600,
+                        resolve: {
+                            values: function () {
+
+                                var dataUser = {
+                                    id: '',
+                                    orgid: $scope.clickUserValue,            
+                                    roles: []
+                                }
+                                if (item != null) {
+                                    dataUser = item
+                                }
+                                var data = {
+                                    dataUser: dataUser,
+                                    Title: txt,
+                                    isCheck: flag
+
+                                }
+                                return data;
+                            }
+                        }
+                    });
+                    modalInstance.result.then(function (res) {
+                        if (res) {
+                           $scope.getUsers();
+
+                        }
+                    });
+
+                }
+
 
 
             };

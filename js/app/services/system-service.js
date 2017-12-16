@@ -3,6 +3,12 @@ define(['bootstrap/app', 'app/config-manager', 'services/http-service'], functio
 
     app.service('system-service', ['http-service', function (http) {
 
+        //登陆
+        this.login = function (account,password,callback) {
+
+            http.post('/System/Login',  { "account": account, "password": password }, callback);
+        }
+
         //查询组织机构
         this.getOrganizationList = function (callback) {
             http.post('/System/getOrganizationList', null, callback);
@@ -31,7 +37,24 @@ define(['bootstrap/app', 'app/config-manager', 'services/http-service'], functio
             http.post('/System/SaveOrEditRole', data, callback);
         };
 
+        //查询用户列表
+        this.getUserList = function (data, callback) {
+             http.post('/System/getUserList', data, callback);
+        }
+        //保存或编辑用户
+        this.SaveOrUpdateUser =function (data, callback) {
+            http.post('/System/SaveOrUpdateUser', data, callback);
+        }
 
+         //删除用户
+        this.deleteUserByID = function (data, callback) {
+             http.post('/System/deleteUserByID', data, callback);
+        }
+
+        //获取所有角色
+        this.getAllRoles = function (callback) {
+             http.post('/System/getAllRoles', null, callback);
+        }
 
 
     }]);

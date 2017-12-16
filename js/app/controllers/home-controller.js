@@ -2,10 +2,16 @@ define(['bootstrap/app', 'services/region-service', 'services/authorization-serv
     'use strict';
     var moment = require('moment');
 
-    app.controller('home-controller', ['authorization-service', 'region-service', '$rootScope', '$scope', '$state', '$timeout', '$cacheFactory', 'toaster',
-        function (auth_service, regionService, $rootScope, $scope, $state, $timeout, $cacheFactory, toaster) {
+    app.controller('home-controller', ['authorization-service', 'region-service', '$rootScope', '$scope', '$state', '$timeout', '$cacheFactory', 'toaster', '$cookies', '$uibModal', '$stateParams',
+        function (auth_service, regionService, $rootScope, $scope, $state, $timeout, $cacheFactory, toaster, $cookies, $uibModal, $stateParams) {
 
+            var authID = $cookies.get('AUTH_ID');
 
+            var reload = $cookies.get('reload');
+            if (reload) {
+                $cookies.remove("reload");
+                location.reload();
+            }
             //变量
             var define_variable = function () {
 
@@ -177,17 +183,54 @@ define(['bootstrap/app', 'services/region-service', 'services/authorization-serv
                 //跳转到系统通知
                 $scope.goNotice = function () {
 
-                    var sRouter = "main.notice";
-                    $rootScope.$emit("menustateChange", { value: sRouter, HeadNew: false });
-                    $state.go(sRouter);
+                    if (!authID) {
+                        isLogined();
+                    } else {
+                        var sRouter = "main.notice";
+                        $rootScope.$emit("menustateChange", { value: sRouter, HeadNew: false });
+                        $state.go(sRouter);
+                    }
+
+
+
                 }
 
 
                 $scope.goReg = function () {
 
-                    var sRouter = "main.regulationsStandardsIndex";
-                    $rootScope.$emit("menustateChange", { value: sRouter, HeadNew: false });
-                    $state.go(sRouter);
+                    if (!authID) {
+                        isLogined();
+                    } else {
+                        var sRouter = "main.regulationsStandardsIndex";
+                        $rootScope.$emit("menustateChange", { value: sRouter, HeadNew: false });
+                        $state.go(sRouter);
+                    }
+
+
+                }
+
+                //是否登陆
+                function isLogined() {
+                    var url = 'partials/system/modals/login.html';
+                    var modalInstance = $uibModal.open({
+
+                        templateUrl: url,
+                        controller: 'login-controller',
+                       
+                         size:'sm',  
+                        resolve: {
+                            values: function () {
+
+
+                                var data = {
+
+
+                                }
+                                return data;
+                            }
+                        }
+                    });
+
                 }
 
             };

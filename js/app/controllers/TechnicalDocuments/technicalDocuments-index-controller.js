@@ -6,6 +6,28 @@ define(['bootstrap/app', 'utils', 'services/technical-service'], function (app, 
     app.controller('technicalDocuments-index-controller', ['$rootScope', '$scope', '$state', 'toaster', '$uibModal', 'technical-service',
         function ($rootScope, $scope, $state, toaster, $uibModal, technicalService) {
 
+
+            var user = localStorage.getItem("loginUser");
+
+            if (user) {
+                user = JSON.parse(user);
+
+                //权限重置
+                var check = utils.getListItem('技术文档查看', 'menuname', user.menus);
+                var manage = utils.getListItem('技术文档管理', 'menuname', user.menus);
+
+                if (check) {
+                    $scope.ischeckshow = true;
+                    $scope.clickValue = 'check';
+                    if (manage) {
+                        $scope.ismanageshow = true;
+                    }
+                } else {
+                    $scope.ismanageshow = true;
+                    $scope.clickValue = 'add';
+                }
+            }
+
             //变量
             var define_variable = function () {
 
@@ -27,7 +49,6 @@ define(['bootstrap/app', 'utils', 'services/technical-service'], function (app, 
             //加载
             var initialize = function () {
 
-                $scope.clickValue = "check";
 
                 $scope.isLoaded = true;
 
@@ -55,7 +76,7 @@ define(['bootstrap/app', 'utils', 'services/technical-service'], function (app, 
 
                 $scope.clickTable = function (params) {
                     $scope.tableRow.selected = params;
-                    $scope.selectItem =  $scope.itemManages[params];
+                    $scope.selectItem = $scope.itemManages[params];
                 }
 
                 $scope.clickTree = function (params) {

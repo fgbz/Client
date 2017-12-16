@@ -941,7 +941,7 @@ define(['angular', 'nicEdit', 'jquery', 'utils'], function (ng, nicEditObj, jque
                                     'ParentID': item.ParentID,
                                     'Type': flag,
                                     'Extend': true,
-                                    'CanDelete':item.CanDelete,
+                                    'CanDelete': item.CanDelete,
                                     'Nodes': LoadTreeData(treeNodesData, item.Id, 1)
                                 };
                                 dataList.push(t);
@@ -963,6 +963,9 @@ define(['angular', 'nicEdit', 'jquery', 'utils'], function (ng, nicEditObj, jque
                     scope.treeModel = newValue.Id;
                     if (scope.$parent.clicktree) {
                         scope.$parent.clicktree(scope.treeModel);
+                    }
+                    if (scope.$parent.$parent.clickUsertree) {
+                        scope.$parent.$parent.clickUsertree(scope.treeModel);
                     }
 
                 }

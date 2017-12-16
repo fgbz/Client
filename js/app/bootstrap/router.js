@@ -7,6 +7,8 @@ define(['bootstrap/app',
     'ctrls/notice-controller',
     'ctrls/system/treeEdit-controller',
     'ctrls/system/roleManage-controller',
+    'ctrls/system/userManage-controller',
+    'ctrls/system/login-controller',
     'ctrls/RegulationsStandards/regulationsStandards-index-controller',
     'ctrls/RegulationsStandards/regulationsStandards-addOrEdit-controller',
     'ctrls/RegulationsStandards/regulationsStandards-detail-controller',
@@ -49,7 +51,7 @@ define(['bootstrap/app',
 
             // 首页
             $stateProvider.state('main.home', {
-                url: 'home',
+                url: 'home/{data}',
                 templateUrl: 'partials/home.htm',
                 controller: 'home-controller'
             });

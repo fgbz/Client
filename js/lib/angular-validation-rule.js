@@ -37,6 +37,10 @@
                     return value == null || value == "" || (/^(0\d{2,3}-?)?\d{7,8}$/.test(value) || /^(((13[0-9]{1})|(14[0-9]{1})|(15[0-9]{1})|(17[0-9]{1})|(18[0-9]{1}))+\d{8})$/.test(value));
 
                 },
+                nullemail: function (value, scope, element, attrs, param) {
+                    return value == null || value == "" || /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/.test(value);
+
+                },
                 //信访特殊要求的电话
                 xfphonenumber: function (value, scope, element, attrs, param) {
                     return value == "无" || /^\*+$/.test(value) || /^(0\d{2,3}-?)?\d{7,8}$/.test(value) || /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/.test(value);
@@ -111,6 +115,10 @@
                 nullnumber: {
                     error: '输入必须是数字',
                     success: ' is nullnumber!'
+                },
+                nullemail: {
+                    error: '输入必须是Email格式',
+                    success: ' is nullemail!'
                 },
                 phonenumber: {
                     error: '输入必须是电话号码格式',

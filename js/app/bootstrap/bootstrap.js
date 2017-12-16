@@ -2,6 +2,6 @@ require(['angular','angular-locale_zh-cn', 'bootstrap/app', 'bootstrap/router'],
     'use strict';
 
     require(['domReady!'], function(document) {
-        ng.bootstrap(document, ['pumpkin']);
+        ng.bootstrap(document, ['rule']);
     });
 });
