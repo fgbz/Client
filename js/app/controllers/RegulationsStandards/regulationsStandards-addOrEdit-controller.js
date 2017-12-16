@@ -125,7 +125,7 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                 $scope.canPreview = function (fileName) {
                     var pos = fileName.lastIndexOf('.');
                     var format = fileName.substring(pos + 1);
-                    var picType = ['pdf'];
+                    var picType = ['pdf', 'doc', 'txt', 'xls', 'xlsx', 'doc', 'docx', 'ppt', 'pptx'];
                     var res = false;
                     angular.forEach(picType, function (value, key) {
                         if (value == format.toLowerCase()) {
@@ -248,6 +248,7 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                         $scope.data.approvestatus = 1;
                     }
 
+
                     if (!$scope.data.lawtype) {
                         toaster.pop({ type: 'danger', body: '请选择类别!' });
                         return;
@@ -298,7 +299,15 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
 
                 //预览
                 $scope.preview = function (fileId) {
-                    window.open('usermanual/web/viewer.html?url=' + baseUrl + '/Foundation/Attachment/Download?file=' + fileId + '&AUTH_ID=' + '1');
+
+                    var url = "";
+                    accessoryService.getPreView(fileId, function (params) {
+                        url = params.path;
+
+                        window.open('partials/FileUpload/documentView.jsp?url=' + url);
+                    })
+
+
                 }
 
             };

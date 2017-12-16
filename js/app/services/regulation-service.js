@@ -4,7 +4,7 @@ define(['bootstrap/app', 'app/config-manager', 'services/http-service'], functio
     app.service('regulation-service', ['http-service', function (http) {
 
         //查询法规类别目录
-        this.SelectLawstandardType = function ( callback) {
+        this.SelectLawstandardType = function ( callback,errorcallback) {
             http.post('/Lawstandard/SelectLawstandardType', null, callback);
         };
          //新增修改法规类别目录

@@ -941,7 +941,7 @@ define(['angular', 'nicEdit', 'jquery', 'utils'], function (ng, nicEditObj, jque
                                     'ParentID': item.ParentID,
                                     'Type': flag,
                                     'Extend': true,
-                                    'CanDelete':item.CanDelete?item.CanDelete:'',
+                                    'CanDelete':item.CanDelete,
                                     'Nodes': LoadTreeData(treeNodesData, item.Id, 1)
                                 };
                                 dataList.push(t);

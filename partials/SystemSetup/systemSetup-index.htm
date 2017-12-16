@@ -9,7 +9,7 @@
             <div class="system_hc">
                 <span>是否需要审核</span>
 
-                <div ng-class="{true:'system_hk_yes',false:'system_hk_no'}[sfsh=='是']" ng-style="{'background-color':sfsh=='是'?'#07ac22':'#363636'}" >
+                <div ng-class="{true:'system_hk_yes',false:'system_hk_no'}[sfsh=='是']" ng-style="{'background-color':sfsh=='是'?'#07ac22':'#363636'}">
                     <div ng-class="{true:'system_hkb_right',false:'system_hkb_left'}[sfsh=='是']" ng-click="clicksfsh()"></div>
                 </div>
                 <div class="fr">{{sfsh}}</div>
@@ -49,9 +49,62 @@
         </div>
 
 
-        <div ng-if="clickTreeValue=='13'">
+        <div ng-if="clickTreeValue=='141'" class="posi_re">
 
-            <combo-tree tree-data="treeDataOra" tree-model="clickOraValue" btn-show="true" img-color="1"></combo-tree>
+            <combo-tree tree-data="treeDataOrg" tree-model="clickOrgValue" btn-show="true" img-color="1"></combo-tree>
+
+        </div>
+
+        <div ng-if="clickTreeValue=='143'">
+
+            <div class="system_userconfig">
+               
+                <input type="button" class="normalbtn fr" value="查 询" ng-click="getRoles()" />
+
+                 <input type="button" class="normalbtn fr mr10" value="新 增" ng-click="AddRole('add')" />
+            </div>
+
+            <table class="index_table">
+                <thead>
+                    <tr>
+                        <th>角色名称</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody ng-if="isLoaded">
+                    <tr ng-repeat="item in roleItems" style="height: 40px;cursor: pointer" ng-click="clickTable($index);" ng-class="{true: 'tr_selected',false: ''}[tableRow.selected==$index] ">
+                        <td title="{{item.rolename}} " class="w300 ">{{item.rolename}}</td>
+                        <td>
+                            <input type="button " class="checkbtn" ng-click="ShowRole(item,true) " value="查 看" />
+                            <input type="button " class="normalcheckbtn" ng-click="ShowRole(item,false) " value="编 辑" />
+                            <input type="button " class="deletebtn" ng-click="DeleteRole(item.id) " ng-show="item.candelete" value="删 除" />
+                        </td>
+                    </tr>
+                    <tr ng-if="roleItems.length==0 ">
+                        <td colspan="6 " class="text-center ">无数据</td>
+                    </tr>
+                </tbody>
+                <tbody ng-if="!isLoaded ">
+                    <tr>
+                        <td colspan="2 " class="text-center ">
+                            <img src="images/loading.gif " />
+                        </td>
+                    </tr>
+                </tbody>
+
+            </table>
+
+            <div class="home_paging">
+                <div class="pagination-info " style="display: inline-block;margin-top: 12px; margin-left: 10px;">
+                    <span class="ng-binding ">共{{pagerRole.total}}条</span>
+                </div>
+                <div class="pull-right ">
+                    <uib uib-pagination rotate="true " boundary-link-numbers="true " boundary-links="false
+                                " total-items="pagerRole.total " ng-model="pagerRole.current " max-size="10 " ng-change="getRoles(true) "
+                        items-per-page="pagerRole.size " class="pagination-sm
+                                " previous-text="上页 " next-text="下页 " first-text="首页 " last-text="末页 "></uib>
+                </div>
+            </div>
 
         </div>
 
@@ -122,13 +175,13 @@
         </div>
 
 
-        <div ng-if="clickTreeValue=='16'">
+        <div ng-if="clickTreeValue=='15'">
 
-            <combo-tree tree-data="treeDataReg" tree-model="clickTecValue" btn-show="true" img-color="1"></combo-tree>
+            <combo-tree tree-data="treeDataReg" tree-model="clickRegValue" btn-show="true" img-color="1"></combo-tree>
 
         </div>
 
-        <div ng-if="clickTreeValue=='17'">
+        <div ng-if="clickTreeValue=='16'">
 
             <combo-tree tree-data="treeDataTec" tree-model="clickTecValue" btn-show="true" img-color="1"></combo-tree>
 

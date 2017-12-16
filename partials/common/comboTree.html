@@ -21,7 +21,7 @@
 
                 <!--有按钮-->
                  <div ng-show="treeModel==item.Id" class="combotree_btnarea" ng-if="btnShow">
-                    <input type="button" class="deletebtn fr ml10" ng-if="item.Nodes.length==0&&item.Type==1&&item.CanDelete=='candelete'" value="删 除"  ng-click="clickTreeBtn(item,'delete')"/>
+                    <input type="button" class="deletebtn fr ml10" ng-if="item.Nodes.length==0&&item.Type==1&&item.CanDelete" value="删 除"  ng-click="clickTreeBtn(item,'delete')"/>
                     <input type="button" class="normalcheckbtn fr ml10" value="编 辑" ng-click="clickTreeBtn(item,'edit')"/>
                     <input type="button" class="normalbtn fr ml10" value="新增下级" ng-click="clickTreeBtn(item,'down')"/>
                     <input type="button" class="normalbtn fr ml10" value="新增同级" ng-if="item.Type==1" ng-click="clickTreeBtn(item,'equal')"/>

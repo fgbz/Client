@@ -57,6 +57,8 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                         $scope.treeData.push(data);
 
                     }
+                },function (er) {
+                    var t = er;
                 })
 
             };

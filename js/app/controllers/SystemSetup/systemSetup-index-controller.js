@@ -1,10 +1,10 @@
-define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-service', 'services/technical-service'], function (app, utils) {
+define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-service', 'services/technical-service', 'services/system-service'], function (app, utils) {
     'use strict';
 
     var config = require('app/config-manager');
     var baseUrl = config.baseUrl();
-    app.controller('systemSetup-index-controller', ['$rootScope', '$scope', '$state', 'toaster', '$uibModal', 'regulation-service', 'technical-service',
-        function ($rootScope, $scope, $state, toaster, $uibModal, regulationService, technicalService) {
+    app.controller('systemSetup-index-controller', ['$rootScope', '$scope', '$state', 'toaster', '$uibModal', 'regulation-service', 'technical-service', 'system-service',
+        function ($rootScope, $scope, $state, toaster, $uibModal, regulationService, technicalService, systemService) {
 
 
 
@@ -14,6 +14,12 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                     size: 10,
                     current: 1
                 }
+
+                $scope.pagerRole = {
+                    size: 10,
+                    current: 1
+                }
+
             };
 
             //加载
@@ -26,54 +32,22 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
 
                     { Id: '11', Name: '系统审核设置', ParentID: '01' },
                     { Id: '12', Name: '系统邮件服务器设置', ParentID: '01' },
-                    { Id: '13', Name: '组织机构管理', ParentID: '01' },
+
+                    { Id: '13', Name: '数据字典管理', ParentID: '01' },
+                    { Id: '131', Name: '发布部门管理', ParentID: '13' },
+                    { Id: '132', Name: '法规标准执行状态管理', ParentID: '13' },
 
 
+                    { Id: '14', Name: '权限管理', ParentID: '01' },
+                    { Id: '141', Name: '组织机构管理', ParentID: '14' },
+                    { Id: '142', Name: '用户管理', ParentID: '14' },
+                    { Id: '143', Name: '角色管理', ParentID: '14' },
 
 
-                    { Id: '14', Name: '数据字典管理', ParentID: '01' },
-                    { Id: '141', Name: '发布部门管理', ParentID: '14' },
-                    { Id: '142', Name: '法规标准执行状态管理', ParentID: '14' },
+                    { Id: '15', Name: '法规标准类别维护', ParentID: '01' },
+                    { Id: '16', Name: '技术文档类别维护', ParentID: '01' },
 
 
-                    { Id: '15', Name: '权限管理', ParentID: '01' },
-
-                    { Id: '151', Name: '职责设置', ParentID: '15' },
-                    { Id: '152', Name: '角色设置', ParentID: '15' },
-                    { Id: '153', Name: '角色授权', ParentID: '15' },
-                    { Id: '154', Name: '用户设置', ParentID: '15' },
-                    { Id: '155', Name: '用户授权', ParentID: '15' },
-
-                    { Id: '16', Name: '法规标准类别维护', ParentID: '01' },
-                    { Id: '17', Name: '技术文档类别维护', ParentID: '01' },
-
-
-
-
-                ];
-
-                $scope.treeDataOra = [
-
-                    { Id: '01', Name: '总部', ParentID: null },
-
-                    { Id: '11', Name: '某某部门', ParentID: '01' },
-                    { Id: '111', Name: '办公室一', ParentID: '11' },
-                    { Id: '112', Name: '办公室二', ParentID: '11' },
-                    { Id: '113', Name: '办公室三', ParentID: '11' },
-                    { Id: '114', Name: '办公室四', ParentID: '11' },
-
-                    { Id: '12', Name: '某某部门', ParentID: '01' },
-
-                    { Id: '121', Name: '办公室一', ParentID: '12' },
-                    { Id: '122', Name: '办公室二', ParentID: '12' },
-                    { Id: '123', Name: '办公室三', ParentID: '12' },
-                    { Id: '124', Name: '办公室四', ParentID: '12' },
-
-                    { Id: '13', Name: '某某部门', ParentID: '01' },
-                    { Id: '131', Name: '办公室一', ParentID: '13' },
-                    { Id: '132', Name: '办公室二', ParentID: '13' },
-                    { Id: '133', Name: '办公室三', ParentID: '13' },
-                    { Id: '134', Name: '办公室四', ParentID: '13' }
                 ];
 
                 //初始化法规
@@ -86,7 +60,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                                 Id: params[i].id,
                                 Name: params[i].typename,
                                 ParentID: params[i].parentid,
-                                CanDelete: params[i].iscandelete
+                                CanDelete: params[i].candelete
                             }
                             $scope.treeDataReg.push(data);
 
@@ -105,7 +79,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                                 Id: params[i].id,
                                 Name: params[i].typename,
                                 ParentID: params[i].parentid,
-                                CanDelete: params[i].iscandelete
+                                CanDelete: params[i].candelete
                             }
                             $scope.treeDataTec.push(data);
 
@@ -114,10 +88,55 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                 }
                 $scope.initTec();
 
+                //初始化组织机构
+                $scope.initOrg = function () {
+                    systemService.getOrganizationList(function (params) {
+                        $scope.treeDataOrg = [];
+
+                        for (var i = 0; i < params.length; i++) {
+                            var data = {
+                                Id: params[i].id,
+                                Name: params[i].orgname,
+                                ParentID: params[i].parentid,
+                                CanDelete: params[i].candelete
+                            }
+                            $scope.treeDataOrg.push(data);
+
+                        }
+                    })
+                }
+                $scope.initOrg();
+
                 $scope.sfsh = "是";
 
                 $scope.pager.total = 10;
                 $scope.clickTreeValue = "11";
+
+                //获取权限列表
+                $scope.getRoles = function (isPaging) {
+                    $scope.isLoaded = false;
+
+                    //通过当前高度计算每页个数
+                    var pagesize = parseInt((window.innerHeight - 200) / 40);
+
+                    if (!isPaging) {
+                        $scope.pagerRole.current = 1;
+                    }
+
+                    $scope.pagerRole.size = pagesize;
+
+                    var options = {
+                        pageNo: $scope.pagerRole.current,
+                        pageSize: $scope.pagerRole.size
+
+                    };
+                    systemService.getRoles(options, function (response) {
+                        $scope.isLoaded = true;
+                        $scope.roleItems = response.CurrentList;
+                        $scope.pagerRole.total = response.RecordCount;
+                    })
+                }
+                $scope.getRoles();
             };
 
 
@@ -158,26 +177,41 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                                 parentid: item.ParentID
                             };
 
-                            if ($scope.clickTreeValue == '16') {
-                                regulationService.DeleteLawstandardType(data, function (params) {
-                                    if (params == 1) {
-                                        toaster.pop({ type: 'success', body: '删除成功!' });
-                                        $scope.initReg();
-                                    } else {
-                                        toaster.pop({ type: 'danger', body: '删除失败!' });
-                                    }
-                                })
-                            } else {
-                                technicalService.DeleteTechnicalType(data, function (params) {
-                                    if (params == 1) {
-                                        toaster.pop({ type: 'success', body: '删除成功!' });
-                                        $scope.initTec();
-                                    } else {
-                                        toaster.pop({ type: 'danger', body: '删除失败!' });
-                                    }
-                                })
-                            }
+                            switch ($scope.clickTreeValue) {
+                                case '15':
+                                    regulationService.DeleteLawstandardType(data, function (params) {
+                                        if (params == 1) {
+                                            toaster.pop({ type: 'success', body: '删除成功!' });
+                                            $scope.initReg();
+                                        } else {
+                                            toaster.pop({ type: 'danger', body: '删除失败!' });
+                                        }
+                                    })
+                                    break;
+                                case '16':
+                                    technicalService.DeleteTechnicalType(data, function (params) {
+                                        if (params == 1) {
+                                            toaster.pop({ type: 'success', body: '删除成功!' });
+                                            $scope.initTec();
+                                        } else {
+                                            toaster.pop({ type: 'danger', body: '删除失败!' });
+                                        }
+                                    })
+                                    break;
+                                case '141':
+                                    systemService.DeleteOrganization(data, function (params) {
+                                        if (params == 1) {
+                                            toaster.pop({ type: 'success', body: '删除成功!' });
+                                            $scope.initOrg();
+                                        } else {
+                                            toaster.pop({ type: 'danger', body: '删除失败!' });
+                                        }
+                                    })
 
+                                    break;
+                                default:
+                                    break;
+                            }
 
 
                             break;
@@ -226,25 +260,19 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                                         typename: $scope.EditName,
                                         parentid: item.ParentID
                                     }
+                                    var tet = '编辑';
 
-                                    if ($scope.clickTreeValue == '16') {
-                                        regulationService.AddOrUpdateLawstandardType(data, function (params) {
-                                            if (params == 1) {
-                                                toaster.pop({ type: 'success', body: '编辑成功!' });
-                                                $scope.initReg();
-                                            } else {
-                                                toaster.pop({ type: 'danger', body: '编辑失败!' });
-                                            }
-                                        })
+                                    if ($scope.clickTreeValue == '15') {
+                                        addReg(data, tet);
+                                    } else if ($scope.clickTreeValue == '16') {
+                                        addTec(data, tet);
                                     } else {
-                                        technicalService.AddOrUpdateTechnicalType(data, function (params) {
-                                            if (params == 1) {
-                                                toaster.pop({ type: 'success', body: '编辑成功!' });
-                                                $scope.initTec();
-                                            } else {
-                                                toaster.pop({ type: 'danger', body: '编辑失败!' });
-                                            }
-                                        })
+                                        var orgdata = {
+                                            id: item.Id,
+                                            orgname: $scope.EditName,
+                                            parentid: item.ParentID
+                                        }
+                                        addOrg(orgdata, tet);
                                     }
 
                                     break;
@@ -258,24 +286,19 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                                         parentid: item.Id
                                     }
 
-                                    if ($scope.clickTreeValue == '16') {
-                                        regulationService.AddOrUpdateLawstandardType(data, function (params) {
-                                            if (params == 1) {
-                                                toaster.pop({ type: 'success', body: '新增下级成功!' });
-                                                $scope.initReg();
-                                            } else {
-                                                toaster.pop({ type: 'danger', body: '新增下级失败!' });
-                                            }
-                                        })
+                                    var tet = '新增下级';
+
+                                    if ($scope.clickTreeValue == '15') {
+                                        addReg(data, tet);
+                                    } else if ($scope.clickTreeValue == '16') {
+                                        addTec(data, tet);
                                     } else {
-                                        technicalService.AddOrUpdateTechnicalType(data, function (params) {
-                                            if (params == 1) {
-                                                toaster.pop({ type: 'success', body: '新增下级成功!' });
-                                                $scope.initTec();
-                                            } else {
-                                                toaster.pop({ type: 'danger', body: '新增下级失败!' });
-                                            }
-                                        })
+                                        var orgdata = {
+                                            id: '',
+                                            orgname: $scope.EditName,
+                                            parentid: item.Id
+                                        }
+                                        addOrg(orgdata, tet);
                                     }
 
                                     break;
@@ -286,24 +309,20 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                                         typename: $scope.EditName,
                                         parentid: item.ParentID
                                     }
-                                    if ($scope.clickTreeValue == '16') {
-                                        regulationService.AddOrUpdateLawstandardType(data, function (params) {
-                                            if (params == 1) {
-                                                toaster.pop({ type: 'success', body: '新增同级成功!' });
-                                                $scope.initReg();
-                                            } else {
-                                                toaster.pop({ type: 'danger', body: '新增同级失败!' });
-                                            }
-                                        })
+
+                                    var tet = '新增同级';
+
+                                    if ($scope.clickTreeValue == '15') {
+                                        addReg(data, tet);
+                                    } else if ($scope.clickTreeValue == '16') {
+                                        addTec(data, tet);
                                     } else {
-                                        technicalService.AddOrUpdateTechnicalType(data, function (params) {
-                                            if (params == 1) {
-                                                toaster.pop({ type: 'success', body: '新增同级成功!' });
-                                                $scope.initTec();
-                                            } else {
-                                                toaster.pop({ type: 'danger', body: '新增同级失败!' });
-                                            }
-                                        })
+                                        var orgdata = {
+                                            id: '',
+                                            orgname: $scope.EditName,
+                                            parentid: item.ParentID
+                                        }
+                                        addOrg(orgdata, tet);
                                     }
 
 
@@ -315,6 +334,79 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                         }
                     });
                 }
+
+                //新增或编辑法律标准
+                function addReg(data, txt) {
+                    regulationService.AddOrUpdateLawstandardType(data, function (params) {
+                        if (params == 1) {
+                            toaster.pop({ type: 'success', body: txt + '成功!' });
+                            $scope.initReg();
+                        } else {
+                            toaster.pop({ type: 'danger', body: txt + '失败!' });
+                        }
+                    })
+                }
+
+                //新增技术文档
+                function addTec(data, txt) {
+                    technicalService.AddOrUpdateTechnicalType(data, function (params) {
+                        if (params == 1) {
+                            toaster.pop({ type: 'success', body: txt + '成功!' });
+                            $scope.initTec();
+                        } else {
+                            toaster.pop({ type: 'danger', body: txt + '失败!' });
+                        }
+                    })
+                }
+
+                //新增组织机构
+                function addOrg(data, txt) {
+                    systemService.AddOrUpdateOrganizationType(data, function (params) {
+                        if (params == 1) {
+                            toaster.pop({ type: 'success', body: txt + '成功!' });
+                            $scope.initOrg();
+                        } else {
+                            toaster.pop({ type: 'danger', body: txt + '失败!' });
+                        }
+                    })
+                }
+
+
+                /*****************************角色**************************** */
+                $scope.DeleteRole = function (id) {
+                    systemService.deleteRoleByID(id, function (res) {
+                        $scope.getRoles();
+                    })
+                }
+
+                //新增角色
+                $scope.AddRole = function (params) {
+                    var url = 'partials/system/modals/rolemanage.html';
+                    var modalInstance = $uibModal.open({
+
+                        templateUrl: url,
+                        controller: 'roleManage-controller',
+                        size: 600,
+                        resolve: {
+                            values: function () {
+
+                                var dataRole = {
+                                    id:'',
+                                    rolename:'',
+                                    menus:[]
+                                }
+                                var data = {
+                                    dataRole:dataRole,
+                                    Title: '新增',
+                                    isCheck:false
+
+                                }
+                                return data;
+                            }
+                        }
+                    });
+                }
+
 
             };
 

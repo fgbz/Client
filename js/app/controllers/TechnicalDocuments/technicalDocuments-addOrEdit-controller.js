@@ -1,4 +1,4 @@
-define(['bootstrap/app', 'utils',  'services/technical-service', 'services/accessory-service'], function (app, utils) {
+define(['bootstrap/app', 'utils', 'services/technical-service', 'services/accessory-service'], function (app, utils) {
     'use strict';
 
     var config = require('app/config-manager');
@@ -12,7 +12,7 @@ define(['bootstrap/app', 'utils',  'services/technical-service', 'services/acces
             var define_variable = function () {
 
                 $scope.data = {};
-              
+
                 $scope.Attachments = [];
 
             };
@@ -52,7 +52,7 @@ define(['bootstrap/app', 'utils',  'services/technical-service', 'services/acces
                             $scope.data = params;
 
                             $scope.data.releasedate = utils.parseTime(new Date($scope.data.releasedate), "YYYY-MM-DD");
-                         
+
                         })
                     }
                 })
@@ -134,7 +134,12 @@ define(['bootstrap/app', 'utils',  'services/technical-service', 'services/acces
 
                     $scope.isSaving = true;
 
-
+                    if (params == 'commit') {
+                        $scope.data.approvestatus = 2;
+                    } else {
+                        $scope.data.approvestatus = 1;
+                    }
+                    
                     if (!$scope.data.tectype) {
                         toaster.pop({ type: 'danger', body: '请选择类别!' });
                         return;
