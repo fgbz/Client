@@ -56,6 +56,21 @@ define(['bootstrap/app', 'app/config-manager', 'services/http-service'], functio
              http.post('/System/getAllRoles', null, callback);
         }
 
+        //保存或编辑
+        this.SaveOrUpdatePublishdep = function (data, callback) {
+             http.post('/FgbzDic/SaveOrUpdatePublishdep', data, callback);
+        }
+
+         //获取发布部门列表
+        this.getPublishdepList = function (data, callback) {
+             http.post('/FgbzDic/getPublishdepList', data, callback);
+        }
+
+        //删除发布部门
+        this.DeletePublishdepByID = function (id, callback) {
+             http.get('/FgbzDic/DeletePublishdepByID?id='+id, null, callback);
+        }
+
 
     }]);
 });

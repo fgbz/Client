@@ -924,6 +924,10 @@ body {
 .home_repeat{
     height: 32px;
     line-height: 32px;
+    clear: both;
+}
+.home_repeat:hover{
+  background-color: #f2f2f2; 
 }
 
 .home_repeat .point{
@@ -1011,6 +1015,11 @@ body {
     padding-left: 10px;
     padding-right: 10px;
     background: rgba(255,255,255,0.3);
+}
+.home_advice{
+    float: left;
+    margin-right: 100px;
+    cursor: pointer;
 }
 
 
@@ -1335,7 +1344,7 @@ body {
     width: 150px;
 }
 .system_td{
-    width: 60px;
+    width: 70px;
     text-align: center;
 }
 
@@ -1444,6 +1453,46 @@ body {
     border-bottom: 1px solid #ccc;
 }
 
+/*********************************************/
+
+.advice_content{
+    width: 500px;
+    height: 200px;
+    border: 1px solid #ccc;
+    margin-top: 10px;
+
+}
+.advice_content .count{
+     height: 30px;
+    background: #f2f2f2;
+    text-align: right;
+    padding-right: 10px;
+    line-height: 30px;
+}
+.advice_userinfo{
+    height: 40px;
+    line-height: 40px;
+    padding-left: 65px;
+}
+.advice_td{
+    width: 60px;
+    text-align: right;
+    vertical-align: top;
+    padding-top: 10px;
+    padding-right: 10px;
+}
+.advice_textarea{
+    border: 0px;
+    height: 168px;
+    width: 100%;
+    border-radius: 0;
+    padding-left: 10px;
+    padding-top: 10px;
+}
+.advice_textarea:disabled{
+   background: #d7d7d7;
+}
+
 /**j***************基本样式********************/
 
 .fr{
@@ -1508,6 +1557,9 @@ body {
 
 .w300{
     width: 300px!important;;
+}
+.w200{
+    width: 200px!important;;
 }
 .w847{
     width: 847px!important;
@@ -1584,6 +1636,42 @@ body {
     vertical-align: sub;
     margin-left: 5px;
 }
+
+.p10{
+    padding: 10px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

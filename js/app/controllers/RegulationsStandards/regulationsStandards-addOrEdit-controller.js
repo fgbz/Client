@@ -8,10 +8,18 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
 
             var postData = $stateParams.data;
 
+            var user = localStorage.getItem("loginUser");
+
+            if (user) {
+                user = JSON.parse(user);
+            }
+
             //变量
             var define_variable = function () {
 
                 $scope.data = {};
+
+
                 $scope.data.refence = [];
                 $scope.data.replace = [];
                 $scope.Attachments = [];
@@ -56,10 +64,23 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
 
                         regulationService.getLawstandardById(postData.item, function (params) {
                             $scope.data = params;
+                            $scope.data.modifyuserid = user.id;
+                            $scope.data.inputdate = utils.parseTime(new Date($scope.data.inputdate), "YYYY-MM-DD");
+                            
+                            if ($scope.data.releasedate) {
+                                $scope.data.releasedate = utils.parseTime(new Date($scope.data.releasedate), "YYYY-MM-DD");
+                            }
+                            if ($scope.data.impdate) {
+                                $scope.data.impdate = utils.parseTime(new Date($scope.data.impdate), "YYYY-MM-DD");
+                            }
 
-                            $scope.data.releasedate = utils.parseTime(new Date($scope.data.releasedate), "YYYY-MM-DD");
-                            $scope.data.impdate = utils.parseTime(new Date($scope.data.impdate), "YYYY-MM-DD");
+
                         })
+                    } else {
+                        $scope.data.inputuserid = user.id;
+                        $scope.data.inputusername = user.userrealname;
+                        $scope.data.inputorgname = user.orgname;
+                        $scope.data.inputdate = utils.format(new Date(), "yyyy-MM-dd");
                     }
                 })
 
@@ -68,18 +89,11 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
             //方法
             var define_function = function () {
 
-                $scope.goState = function (params) {
+                $scope.goState = function () {
 
                     var sRouter = "main.regulationsStandardsIndex";
-
                     var itemDeal = {};
-
-                    if (params == 'first') {
-                        itemDeal.clickValue = "check";
-                    } else {
-                        itemDeal.clickValue = postData.clickValue;
-                    }
-
+                    itemDeal.clickValue = postData.clickValue;
                     var data = JSON.stringify(itemDeal);
 
                     $state.go(sRouter, { "data": data });

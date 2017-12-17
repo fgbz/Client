@@ -1,6 +1,6 @@
 <div class="h100 mt10">
     <div class="system_tree">
-        <combo-tree tree-data="treeData" tree-model="clickTreeValue" btn-show="false" img-color="2"></combo-tree>
+        <combo-tree tree-data="treeData" tree-model="clickTreeValue" btn-show="false" img-color="2" is-system-root="true"></combo-tree>
     </div>
 
     <div class="system_left">
@@ -48,6 +48,61 @@
 
         </div>
 
+        <!--发布部门管理-->
+        <div ng-if="clickTreeValue=='131'" class="posi_re">
+            <div class="system_userconfig">
+                <div class="fl">
+
+                    <input class="home-input w300" type="text" style="margin-left: 0px;" ng-model="systemdata.publishName" maxlength="25" placeholder="请输入部门名称"
+                    />
+                    <input type="button" class="normalbtn mr10" value="搜 索" ng-click="getpublishdep()" />
+                </div>
+
+                <input type="button" class="normalbtn fr mr10" value="新 增" ng-click="ShowPublishdep(null,false,'新增')" />
+            </div>
+
+            <table class="index_table">
+                <thead>
+                    <tr>
+                        <th>部门名称</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody ng-if="isLoaded">
+                    <tr ng-repeat="item in publishdepItems" style="height: 40px;cursor: pointer" ng-click="clickTable($index);" ng-class="{true: 'tr_selected',false: ''}[tableRow.selected==$index] ">
+                        <td title="{{item.pubdepname}} " class="w300 ">{{item.pubdepname}}</td>
+                        <td>
+                            <input type="button " class="normalcheckbtn " ng-click="ShowPublishdep(item,false,'编辑') " value="编 辑" />
+                            <input type="button " class="deletebtn " ng-click="DeletePublishdep(item.id) " ng-show="item.candelete" value="删 除" />
+                        </td>
+                    </tr>
+                    <tr ng-if="roleItems.length==0 ">
+                        <td colspan="2 " class="text-center ">无数据</td>
+                    </tr>
+                </tbody>
+                <tbody ng-if="!isLoaded ">
+                    <tr>
+                        <td colspan="2 " class="text-center ">
+                            <img src="images/loading.gif " />
+                        </td>
+                    </tr>
+                </tbody>
+
+            </table>
+
+            <div class="home_paging">
+                <div class="pagination-info " style="display: inline-block;margin-top: 12px; margin-left: 10px;">
+                    <span class="ng-binding ">共{{pagerPublishdep.total}}条</span>
+                </div>
+                <div class="pull-right ">
+                    <uib uib-pagination rotate="true " boundary-link-numbers="true " boundary-links="false
+                                " total-items="pagerPublishdep.total " ng-model="pagerPublishdep.current " max-size="10 " ng-change="getpublishdep(true) "
+                        items-per-page="pagerPublishdep.size " class="pagination-sm
+                                " previous-text="上页 " next-text="下页 " first-text="首页 " last-text="末页 "></uib>
+                </div>
+            </div>
+        </div>
+
         <!--组织机构管理--->
         <div ng-if="clickTreeValue=='141'" class="posi_re">
 
@@ -69,10 +124,10 @@
 
                         <input class="home-input w300" type="text" style="margin-left: 0px;" ng-model="userdata.Name" maxlength="25" placeholder="请输入用户姓名"
                         />
-                        <input type="button" class="normalbtn mr10" value="搜 索" ng-click="getUsers()"/>
+                        <input type="button" class="normalbtn mr10" value="搜 索" ng-click="getUsers()" />
                     </div>
                     <div class="fr">
-                        <input type="button" class="normalbtn  mr10" value="新 增" ng-click="ShowUser(null,false,'新增')"/>
+                        <input type="button" class="normalbtn  mr10" value="新 增" ng-click="ShowUser(null,false,'新增')" />
                     </div>
 
 
@@ -92,7 +147,7 @@
                     </thead>
                     <tbody ng-if="isLoaded ">
                         <tr ng-repeat="item in userItems" style="height: 40px;cursor: pointer" ng-click="clickTable($index);" ng-class="{true: 'tr_selected',false: ''}[tableRow.selected==$index] ">
-                           <td title="{{item.username}}">{{item.username}}</td>
+                            <td title="{{item.username}}">{{item.username}}</td>
                             <td title="{{item.userrealname}} ">{{item.userrealname}}</td>
                             <td title="{{item.orgname}} ">{{item.orgname}}</td>
                             <td title="{{item.email}}">{{item.email}}</td>
@@ -137,8 +192,12 @@
         <div ng-if="clickTreeValue=='143'" class="posi_re">
 
             <div class="system_userconfig">
+                <div class="fl">
 
-                <input type="button" class="normalbtn fr" value="查 询" ng-click="getRoles()" />
+                    <input class="home-input w300" type="text" style="margin-left: 0px;" ng-model="userdata.roleName" maxlength="25" placeholder="请输入权限名称"
+                    />
+                    <input type="button" class="normalbtn mr10" value="搜 索" ng-click="getRoles()" />
+                </div>
 
                 <input type="button" class="normalbtn fr mr10" value="新 增" ng-click="ShowRole(null,false,'新增')" />
             </div>
@@ -160,7 +219,7 @@
                         </td>
                     </tr>
                     <tr ng-if="roleItems.length==0 ">
-                        <td colspan="6 " class="text-center ">无数据</td>
+                        <td colspan="2 " class="text-center ">无数据</td>
                     </tr>
                 </tbody>
                 <tbody ng-if="!isLoaded ">

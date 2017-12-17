@@ -1,4 +1,4 @@
-<form name="userForm" novalidate="novalidate"> 
+<form name="userForm" novalidate="novalidate">
     <div class=" modal-header ">
         <button type="button " ng-click="cancel() " class="close " aria-hidden="true ">&times;</button>
         <h4>{{title}}</h4>
@@ -9,42 +9,54 @@
         <table>
             <tr height="40px">
                 <td class="system_td ">
-                    用户名</td>
+                   <span class="div_required">*</span> 用户名</td>
                 <td>
                     <div class="posi_re">
-                    <input class="home-input mt10 " style="width: 425px; " type="text " ng-model="data.username" maxlength="25 " name="username "
-                        ng-disabled="isCheck " validator="required "/>
-                        </div>
-                        </td>
+                        <input class="home-input mt10 " style="width: 425px; " type="text " ng-model="data.username" maxlength="50" name="username "
+                            ng-disabled="isCheck " validator="required " />
+                    </div>
+                </td>
             </tr>
             <tr height="40px">
                 <td class="system_td ">
-                    姓名</td>
+                    <span class="div_required">*</span>姓名</td>
                 <td>
-                      <div class="posi_re"><input class="home-input mt10 " style="width: 425px; " type="text" ng-model="data.userrealname" maxlength="25 " name="userrealname"
-                        ng-disabled="isCheck " validator="required"/></div>
-                        </td>
+                    <div class="posi_re"><input class="home-input mt10 " style="width: 425px; " type="text" ng-model="data.userrealname" maxlength="50"
+                            name="userrealname" ng-disabled="isCheck " validator="required" /></div>
+                </td>
             </tr>
             <tr height="40px">
                 <td class="system_td ">
-                    密码</td>
+                    <span class="div_required">*</span>密码</td>
                 <td>
-                     <div class="posi_re"><input class="home-input mt10 " style="width: 425px; " type="password" ng-model="data.password" maxlength="100" name="password"
-                        ng-disabled="isCheck " validator="required"/></td></div>
+                    <div class="posi_re"><input class="home-input mt10 " style="width: 425px; " type="password" ng-model="data.password" maxlength="50"
+                            name="password" ng-disabled="isCheck " validator="required" /></td>
+                </div>
+            </tr>
+
+            <tr height="40px">
+                <td class="system_td ">
+                   <span class="div_required">*</span> 确认密码</td>
+                <td>
+                    <div class="posi_re"><input class="home-input mt10 " style="width: 425px; " type="password" ng-model="passwordSure" maxlength="50"
+                            name="password" ng-disabled="isCheck " validator="required" /></td>
+                </div>
             </tr>
             <tr height="40px">
                 <td class="system_td ">
                     邮箱</td>
                 <td>
-                    <div class="posi_re"><input class="home-input mt10 " style="width: 425px; " validator="nullemail"  type="text " ng-model="data.email" maxlength="25 " ng-disabled="isCheck " name="email "
-                    /></div></td>
+                    <div class="posi_re"><input class="home-input mt10 " style="width: 425px; " validator="nullemail" type="text " ng-model="data.email"
+                            maxlength="25 " ng-disabled="isCheck " name="email " /></div>
+                </td>
             </tr>
             <tr height="40px">
                 <td class="system_td ">
                     电话</td>
                 <td>
-                    <div class="posi_re"><input class="home-input mt10 " style="width: 425px; "  validator="nullphonenumber" type="text " ng-model="data.mobile " maxlength="25 " ng-disabled="isCheck " name="mobile "
-                    /></td></div>
+                    <div class="posi_re"><input class="home-input mt10 " style="width: 425px; " validator="nullphonenumber" type="text " ng-model="data.mobile "
+                            maxlength="25 " ng-disabled="isCheck " name="mobile " /></td>
+                </div>
             </tr>
             <tr>
                 <td class="system_td ">
@@ -66,7 +78,7 @@
     </div>
 
     <div class="modal-footer " style=" margin-top: 10px; ">
-        <button type="button " style="margin:0; " validation-submit="userForm "  class="btn btn-primary modal_btn search_btn
+        <button type="button " style="margin:0; " validation-submit="userForm " class="btn btn-primary modal_btn search_btn
     " ng-click="ok() " ng-show="!isCheck ">提交</button>
         <button type="button " style="margin:0; " class="cancle_btn " ng-click="cancel() ">取消</button>
     </div>

@@ -27,6 +27,7 @@ define(['bootstrap/app', 'utils', 'services/regulation-service','services/access
 
                 regulationService.getLawstandardById(postData.item, function (params) {
                     $scope.DetaiData = params;
+                    $scope.DetaiData.inputdate = utils.parseTime(new Date($scope.DetaiData.inputdate), "YYYY-MM-DD");
                 })
 
             };
@@ -34,17 +35,11 @@ define(['bootstrap/app', 'utils', 'services/regulation-service','services/access
             //方法
             var define_function = function () {
 
-                $scope.goState = function (params) {
+                $scope.goState = function () {
 
                     var sRouter = "main.regulationsStandardsIndex";
-
                     var itemDeal = {};
-
-                    if (params == 'first') {
-                        itemDeal.clickValue = "check";
-                    } else {
-                        itemDeal.clickValue = postData.clickValue;
-                    }
+                    itemDeal.clickValue = postData.clickValue;      
 
                     var data = JSON.stringify(itemDeal);
 

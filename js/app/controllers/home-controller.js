@@ -1,9 +1,9 @@
-define(['bootstrap/app', 'services/region-service', 'services/authorization-service'], function (app) {
+define(['bootstrap/app',  'utils','services/usercenter-service'], function (app,utils) {
     'use strict';
     var moment = require('moment');
 
-    app.controller('home-controller', ['authorization-service', 'region-service', '$rootScope', '$scope', '$state', '$timeout', '$cacheFactory', 'toaster', '$cookies', '$uibModal', '$stateParams',
-        function (auth_service, regionService, $rootScope, $scope, $state, $timeout, $cacheFactory, toaster, $cookies, $uibModal, $stateParams) {
+    app.controller('home-controller', ['usercenter-service', '$rootScope', '$scope', '$state', '$timeout', '$cacheFactory', 'toaster', '$cookies', '$uibModal',
+        function (usercenterService, $rootScope, $scope, $state, $timeout, $cacheFactory, toaster, $cookies, $uibModal) {
 
             var authID = $cookies.get('AUTH_ID');
 
@@ -12,6 +12,12 @@ define(['bootstrap/app', 'services/region-service', 'services/authorization-serv
                 $cookies.remove("reload");
                 location.reload();
             }
+
+            var user = localStorage.getItem("loginUser");
+
+            if (user) {
+                user = JSON.parse(user);
+            }
             //变量
             var define_variable = function () {
 
@@ -19,10 +25,30 @@ define(['bootstrap/app', 'services/region-service', 'services/authorization-serv
                     size: 10,
                     current: 1
                 }
+
+                $scope.userSuggestion = {};
+                $scope.userSuggestion.inputuserid = user.id;
+                $scope.userSuggestion.inputusername = user.userrealname;
+                $scope.userSuggestion.inputdate = utils.format(new Date(), "yyyy-MM-dd");
             };
 
             //加载
             var initialize = function () {
+
+                //获取通知列表
+                $scope.selectAdvice = function () {
+
+                    var options = {
+                        pageNo: 1,
+                        pageSize: 10,
+                        conditions: []
+                    };
+                    usercenterService.getUpToDateAdviceinfos(options, function (response) {
+                        $scope.activeItems = response.CurrentList;
+                    })
+                }
+
+                $scope.selectAdvice();
 
                 $scope.items = [
                     { Title: "中华人民共和国核电厂严重事故管理程序发布", Organization: "国防工科局", Date: "2017-12-01" },
@@ -181,14 +207,25 @@ define(['bootstrap/app', 'services/region-service', 'services/authorization-serv
 
 
                 //跳转到系统通知
-                $scope.goNotice = function () {
+                $scope.goNotice = function (item) {
 
                     if (!authID) {
                         isLogined();
                     } else {
                         var sRouter = "main.notice";
                         $rootScope.$emit("menustateChange", { value: sRouter, HeadNew: false });
-                        $state.go(sRouter);
+
+                        var itemDeal = {};
+                        if (item) {
+                            itemDeal.clickValue = item.id;
+                        } else {
+                            itemDeal.clickValue = '';
+                        }
+
+
+                        var data = JSON.stringify(itemDeal);
+
+                        $state.go(sRouter, { "data": data });
                     }
 
 
@@ -216,8 +253,8 @@ define(['bootstrap/app', 'services/region-service', 'services/authorization-serv
 
                         templateUrl: url,
                         controller: 'login-controller',
-                       
-                         size:'sm',  
+
+                        size: 'sm',
                         resolve: {
                             values: function () {
 

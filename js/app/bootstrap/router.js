@@ -9,6 +9,7 @@ define(['bootstrap/app',
     'ctrls/system/roleManage-controller',
     'ctrls/system/userManage-controller',
     'ctrls/system/login-controller',
+    'ctrls/system/advice-controller',
     'ctrls/RegulationsStandards/regulationsStandards-index-controller',
     'ctrls/RegulationsStandards/regulationsStandards-addOrEdit-controller',
     'ctrls/RegulationsStandards/regulationsStandards-detail-controller',
@@ -51,14 +52,14 @@ define(['bootstrap/app',
 
             // 首页
             $stateProvider.state('main.home', {
-                url: 'home/{data}',
+                url: 'home',
                 templateUrl: 'partials/home.htm',
                 controller: 'home-controller'
             });
 
             //系统提示
             $stateProvider.state('main.notice', {
-                url: 'notice',
+                url: 'notice/{data}',
                 templateUrl: 'partials/notice.html',
                 controller: 'notice-controller'
             });
@@ -92,7 +93,7 @@ define(['bootstrap/app',
 
             // 技术文档
             $stateProvider.state('main.technicalDocuments', {
-                url: 'technicalDocuments',
+                url: 'technicalDocuments/{data}',
                 templateUrl: 'partials/TechnicalDocuments/technicalDocuments-index.htm',
                 controller: 'technicalDocuments-index-controller'
             });

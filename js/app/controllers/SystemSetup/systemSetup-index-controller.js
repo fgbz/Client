@@ -3,17 +3,17 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
 
     var config = require('app/config-manager');
     var baseUrl = config.baseUrl();
-    app.controller('systemSetup-index-controller', ['$rootScope', '$scope', '$state', 'toaster', '$uibModal', 'regulation-service', 'technical-service', 'system-service',
-        function ($rootScope, $scope, $state, toaster, $uibModal, regulationService, technicalService, systemService) {
+    app.controller('systemSetup-index-controller', ['$rootScope', '$scope', '$state', 'toaster', '$uibModal', 'regulation-service', 'technical-service', 'system-service', 'ngDialog',
+        function ($rootScope, $scope, $state, toaster, $uibModal, regulationService, technicalService, systemService, ngDialog) {
 
+            var user = localStorage.getItem("loginUser");
 
+            if (user) {
+                user = JSON.parse(user);
+            }
 
             //变量
             var define_variable = function () {
-                $scope.pager = {
-                    size: 10,
-                    current: 1
-                }
 
                 $scope.pagerRole = {
                     size: 10,
@@ -24,8 +24,13 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                     size: 10,
                     current: 1
                 }
-                $scope.userdata={};
 
+                $scope.pagerPublishdep = {
+                    size: 10,
+                    current: 1
+                }
+                $scope.userdata = {};
+                $scope.systemdata = {};
 
             };
 
@@ -57,43 +62,79 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
 
                 ];
 
-                //初始化法规
-                $scope.initReg = function () {
-                    regulationService.SelectLawstandardType(function (params) {
-                        $scope.treeDataReg = [];
 
-                        for (var i = 0; i < params.length; i++) {
-                            var data = {
-                                Id: params[i].id,
-                                Name: params[i].typename,
-                                ParentID: params[i].parentid,
-                                CanDelete: params[i].candelete
+                $scope.sfsh = "是";
+                $scope.clickTreeValue = "11";
+
+
+
+
+            };
+
+
+
+            //方法
+            var define_function = function () {
+
+                //点击左侧系统树
+                $scope.clickSystemRootTree = function (params) {
+                    switch (params) {
+
+                        case '131':
+                            $scope.getpublishdep();
+                            break;
+                        case '141':
+                            $scope.initOrg();
+                            break;
+                        case '142':
+                            if ($scope.treeDataOrg) {
+                                $scope.getUsers();
+                            } else {
+                                $scope.initOrg();
                             }
-                            $scope.treeDataReg.push(data);
+                            break;
+                        case '143':
+                            $scope.getRoles();
+                            break;
+                        case '15':
+                            $scope.initReg();
+                            break;
+                        case '16':
+                            $scope.initTec();
+                            break;
+                        default:
+                            break;
+                    }
+                };
 
-                        }
+                //初始化发布部门
+                $scope.getpublishdep = function (isPaging) {
+                    $scope.isLoaded = false;
+
+                    //通过当前高度计算每页个数
+                    var pagesize = parseInt((window.innerHeight - 320) / 40);
+
+                    if (!isPaging) {
+                        $scope.pagerPublishdep.current = 1;
+                    }
+
+                    $scope.pagerPublishdep.size = pagesize;
+
+                    var options = {
+                        pageNo: $scope.pagerPublishdep.current,
+                        pageSize: $scope.pagerPublishdep.size,
+                        conditions: []
+                    };
+                    if ($scope.systemdata.publishName) {
+                        options.conditions.push({ key: 'Name', value: $scope.systemdata.publishName });
+                    }
+
+                    systemService.getPublishdepList(options, function (response) {
+                        $scope.isLoaded = true;
+                        $scope.publishdepItems = response.CurrentList;
+                        $scope.pagerPublishdep.total = response.RecordCount;
                     })
                 }
-                $scope.initReg();
-
-                //初始化技术文件
-                $scope.initTec = function () {
-                    technicalService.SelectTechnicalType(function (params) {
-                        $scope.treeDataTec = [];
-
-                        for (var i = 0; i < params.length; i++) {
-                            var data = {
-                                Id: params[i].id,
-                                Name: params[i].typename,
-                                ParentID: params[i].parentid,
-                                CanDelete: params[i].candelete
-                            }
-                            $scope.treeDataTec.push(data);
-
-                        }
-                    })
-                }
-                $scope.initTec();
 
                 //初始化组织机构
                 $scope.initOrg = function () {
@@ -115,20 +156,50 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                             $scope.getUsers();
                         }
                     })
+                };
+
+                //初始化法规
+                $scope.initReg = function () {
+                    regulationService.SelectLawstandardType(function (params) {
+                        $scope.treeDataReg = [];
+
+                        for (var i = 0; i < params.length; i++) {
+                            var data = {
+                                Id: params[i].id,
+                                Name: params[i].typename,
+                                ParentID: params[i].parentid,
+                                CanDelete: params[i].candelete
+                            }
+                            $scope.treeDataReg.push(data);
+
+                        }
+                    })
+                };
+
+                //初始化技术文件
+                $scope.initTec = function () {
+                    technicalService.SelectTechnicalType(function (params) {
+                        $scope.treeDataTec = [];
+
+                        for (var i = 0; i < params.length; i++) {
+                            var data = {
+                                Id: params[i].id,
+                                Name: params[i].typename,
+                                ParentID: params[i].parentid,
+                                CanDelete: params[i].candelete
+                            }
+                            $scope.treeDataTec.push(data);
+
+                        }
+                    })
                 }
-                $scope.initOrg();
-
-                $scope.sfsh = "是";
-
-                $scope.pager.total = 10;
-                $scope.clickTreeValue = "11";
 
                 //获取权限列表
                 $scope.getRoles = function (isPaging) {
                     $scope.isLoaded = false;
 
                     //通过当前高度计算每页个数
-                    var pagesize = parseInt((window.innerHeight - 200) / 40);
+                    var pagesize = parseInt((window.innerHeight - 320) / 40);
 
                     if (!isPaging) {
                         $scope.pagerRole.current = 1;
@@ -138,16 +209,20 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
 
                     var options = {
                         pageNo: $scope.pagerRole.current,
-                        pageSize: $scope.pagerRole.size
-
+                        pageSize: $scope.pagerRole.size,
+                        conditions: []
                     };
+                    if ($scope.userdata.roleName) {
+                        options.conditions.push({ key: 'Name', value: $scope.userdata.roleName });
+                    }
+
                     systemService.getRoles(options, function (response) {
                         $scope.isLoaded = true;
                         $scope.roleItems = response.CurrentList;
                         $scope.pagerRole.total = response.RecordCount;
                     })
                 }
-                $scope.getRoles();
+
 
                 //获取用户列表
                 $scope.getUsers = function (isPaging) {
@@ -180,12 +255,6 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                         $scope.pagerUser.total = response.RecordCount;
                     })
                 }
-            };
-
-
-
-            //方法
-            var define_function = function () {
 
                 //是否审核
                 $scope.clicksfsh = function () {
@@ -194,7 +263,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
 
                 $scope.clickUsertree = function (params) {
                     $scope.clickUserValue = params;
-                    $scope.getUsers ();
+                    $scope.getUsers();
                 }
 
                 $scope.clickTreeBtn = function (item, type) {
@@ -205,44 +274,67 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                             var data = {
                                 id: item.Id,
                                 typename: item.EditName,
-                                parentid: item.ParentID
+                                parentid: item.ParentID,
+                                inputuserid: user.id,
+                                modifyuserid: user.id
                             };
 
-                            switch ($scope.clickTreeValue) {
-                                case '15':
-                                    regulationService.DeleteLawstandardType(data, function (params) {
-                                        if (params == 1) {
-                                            toaster.pop({ type: 'success', body: '删除成功!' });
-                                            $scope.initReg();
-                                        } else {
-                                            toaster.pop({ type: 'danger', body: '删除失败!' });
-                                        }
-                                    })
-                                    break;
-                                case '16':
-                                    technicalService.DeleteTechnicalType(data, function (params) {
-                                        if (params == 1) {
-                                            toaster.pop({ type: 'success', body: '删除成功!' });
-                                            $scope.initTec();
-                                        } else {
-                                            toaster.pop({ type: 'danger', body: '删除失败!' });
-                                        }
-                                    })
-                                    break;
-                                case '141':
-                                    systemService.DeleteOrganization(data, function (params) {
-                                        if (params == 1) {
-                                            toaster.pop({ type: 'success', body: '删除成功!' });
-                                            $scope.initOrg();
-                                        } else {
-                                            toaster.pop({ type: 'danger', body: '删除失败!' });
-                                        }
-                                    })
+                            $scope.text = "确定删除吗？";
+                            var modalInstance = ngDialog.openConfirm({
+                                templateUrl: 'partials/_confirmModal.html',
+                                appendTo: 'body',
+                                className: 'ngdialog-theme-default',
+                                showClose: false,
+                                scope: $scope,
+                                size: 400,
+                                controller: function ($scope) {
+                                    $scope.ok = function () {
 
-                                    break;
-                                default:
-                                    break;
-                            }
+                                        switch ($scope.clickTreeValue) {
+                                            case '15':
+                                                regulationService.DeleteLawstandardType(data, function (params) {
+                                                    if (params == 1) {
+                                                        toaster.pop({ type: 'success', body: '删除成功!' });
+                                                        $scope.initReg();
+                                                    } else {
+                                                        toaster.pop({ type: 'danger', body: '删除失败!' });
+                                                    }
+                                                })
+                                                break;
+                                            case '16':
+                                                technicalService.DeleteTechnicalType(data, function (params) {
+                                                    if (params == 1) {
+                                                        toaster.pop({ type: 'success', body: '删除成功!' });
+                                                        $scope.initTec();
+                                                    } else {
+                                                        toaster.pop({ type: 'danger', body: '删除失败!' });
+                                                    }
+                                                })
+                                                break;
+                                            case '141':
+                                                systemService.DeleteOrganization(data, function (params) {
+                                                    if (params == 1) {
+                                                        toaster.pop({ type: 'success', body: '删除成功!' });
+                                                        $scope.initOrg();
+                                                    } else {
+                                                        toaster.pop({ type: 'danger', body: '删除失败!' });
+                                                    }
+                                                })
+
+                                                break;
+                                            default:
+                                                break;
+                                        }
+
+                                        $scope.closeThisDialog(); //关闭弹窗
+                                    };
+                                    $scope.cancel = function () {
+                                        $scope.closeThisDialog(); //关闭弹窗
+                                    }
+                                }
+                            });
+
+
 
 
                             break;
@@ -289,7 +381,9 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                                     var data = {
                                         id: item.Id,
                                         typename: $scope.EditName,
-                                        parentid: item.ParentID
+                                        parentid: item.ParentID,
+                                        inputuserid: user.id,
+                                        modifyuserid: user.id
                                     }
                                     var tet = '编辑';
 
@@ -301,7 +395,9 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                                         var orgdata = {
                                             id: item.Id,
                                             orgname: $scope.EditName,
-                                            parentid: item.ParentID
+                                            parentid: item.ParentID,
+                                            inputuserid: user.id,
+                                            modifyuserid: user.id
                                         }
                                         addOrg(orgdata, tet);
                                     }
@@ -314,7 +410,9 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                                     var data = {
                                         id: '',
                                         typename: $scope.EditName,
-                                        parentid: item.Id
+                                        parentid: item.Id,
+                                        inputuserid: user.id,
+                                        modifyuserid: user.id
                                     }
 
                                     var tet = '新增下级';
@@ -327,7 +425,9 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                                         var orgdata = {
                                             id: '',
                                             orgname: $scope.EditName,
-                                            parentid: item.Id
+                                            parentid: item.Id,
+                                            inputuserid: user.id,
+                                            modifyuserid: user.id
                                         }
                                         addOrg(orgdata, tet);
                                     }
@@ -338,7 +438,9 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                                     var data = {
                                         id: '',
                                         typename: $scope.EditName,
-                                        parentid: item.ParentID
+                                        parentid: item.ParentID,
+                                        inputuserid: user.id,
+                                        modifyuserid: user.id
                                     }
 
                                     var tet = '新增同级';
@@ -351,7 +453,9 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                                         var orgdata = {
                                             id: '',
                                             orgname: $scope.EditName,
-                                            parentid: item.ParentID
+                                            parentid: item.ParentID,
+                                            inputuserid: user.id,
+                                            modifyuserid: user.id
                                         }
                                         addOrg(orgdata, tet);
                                     }
@@ -405,9 +509,31 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
 
                 /*****************************角色**************************** */
                 $scope.DeleteRole = function (id) {
-                    systemService.deleteRoleByID(id, function (res) {
-                           $scope.getRoles();
-                    })
+
+                    $scope.text = "确定删除吗？";
+                    var modalInstance = ngDialog.openConfirm({
+                        templateUrl: 'partials/_confirmModal.html',
+                        appendTo: 'body',
+                        className: 'ngdialog-theme-default',
+                        showClose: false,
+                        scope: $scope,
+                        size: 400,
+                        controller: function ($scope) {
+                            $scope.ok = function () {
+
+                                systemService.deleteRoleByID(id, function (res) {
+                                    $scope.getRoles();
+                                })
+
+                                $scope.closeThisDialog(); //关闭弹窗
+                            };
+                            $scope.cancel = function () {
+                                $scope.closeThisDialog(); //关闭弹窗
+                            }
+                        }
+                    });
+
+
                 }
 
                 //新增，查看，编辑角色
@@ -424,10 +550,13 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                                 var dataRole = {
                                     id: '',
                                     rolename: '',
+                                    inputuserid: user.id,
+                                    modifyuserid: user.id,
                                     menus: []
                                 }
                                 if (item != null) {
-                                    dataRole = item
+                                    dataRole = item;
+                                    dataRole.modifyuserid = user.id;
                                 }
                                 var data = {
                                     dataRole: dataRole,
@@ -458,13 +587,34 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
 
                 /*****************************用户**************************** */
                 $scope.DeleteUser = function (item) {
-                    systemService.deleteUserByID(item, function (res) {
-                     
-                        $scope.getUsers();
-                    })
+
+                    $scope.text = "确定删除吗？";
+                    var modalInstance = ngDialog.openConfirm({
+                        templateUrl: 'partials/_confirmModal.html',
+                        appendTo: 'body',
+                        className: 'ngdialog-theme-default',
+                        showClose: false,
+                        scope: $scope,
+                        size: 400,
+                        controller: function ($scope) {
+                            $scope.ok = function () {
+
+                                systemService.deleteUserByID(item, function (res) {
+
+                                    $scope.getUsers();
+                                })
+
+                                $scope.closeThisDialog(); //关闭弹窗
+                            };
+                            $scope.cancel = function () {
+                                $scope.closeThisDialog(); //关闭弹窗
+                            }
+                        }
+                    });
+
                 }
 
-                //新增，查看，编辑角色
+                //新增，查看，用户
                 $scope.ShowUser = function (item, flag, txt) {
                     var url = 'partials/system/modals/usermanage.html';
                     var modalInstance = $uibModal.open({
@@ -477,11 +627,14 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
 
                                 var dataUser = {
                                     id: '',
-                                    orgid: $scope.clickUserValue,            
+                                    inputuserid: user.id,
+                                    lastmodifyuserid: user.id,
+                                    orgid: $scope.clickUserValue,
                                     roles: []
                                 }
                                 if (item != null) {
-                                    dataUser = item
+                                    dataUser = item;
+                                    dataUser.lastmodifyuserid = user.id
                                 }
                                 var data = {
                                     dataUser: dataUser,
@@ -495,7 +648,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                     });
                     modalInstance.result.then(function (res) {
                         if (res) {
-                           $scope.getUsers();
+                            $scope.getUsers();
 
                         }
                     });
@@ -503,6 +656,79 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                 }
 
 
+                /*****************************发布部门**************************** */
+                $scope.DeletePublishdep = function (item) {
+
+                    $scope.text = "确定删除吗？";
+                    var modalInstance = ngDialog.openConfirm({
+                        templateUrl: 'partials/_confirmModal.html',
+                        appendTo: 'body',
+                        className: 'ngdialog-theme-default',
+                        showClose: false,
+                        scope: $scope,
+                        size: 400,
+                        controller: function ($scope) {
+                            $scope.ok = function () {
+
+                                systemService.DeletePublishdepByID(item, function (res) {
+
+                                    $scope.getpublishdep();
+                                })
+
+                                $scope.closeThisDialog(); //关闭弹窗
+                            };
+                            $scope.cancel = function () {
+                                $scope.closeThisDialog(); //关闭弹窗
+                            }
+                        }
+                    });
+
+                }
+
+                //新增，编辑，用户
+                $scope.ShowPublishdep = function (item, flag, txt) {
+                    var url = 'partials/system/modals/treeEdit.html';
+                    var modalInstance = $uibModal.open({
+
+                        templateUrl: url,
+                        controller: 'treeEdit-controller',
+                        size: 600,
+                        resolve: {
+                            values: function () {
+                                var data = {
+                                    Name: item != null ? item.pubdepname : '',
+                                    Title: txt
+                                }
+                                return data;
+                            }
+                        }
+                    });
+                    modalInstance.result.then(function (res) {
+                        if (res) {
+                            var dataPublishdep = {
+                                id: '',
+                                pubdepname: res,
+                                inputuserid: user.id,
+                                modifyuserid: user.id
+                            }
+                            if (item != null) {
+                                dataPublishdep.id = item.id;
+                            }
+                            systemService.SaveOrUpdatePublishdep(dataPublishdep, function (params) {
+                                if (params == 200) {
+                                    toaster.pop({ type: 'success', body: txt + '成功!' });
+                                    $scope.getpublishdep();
+                                } else if (params == 461) {
+                                    toaster.pop({ type: 'danger', body: '用户名重复!', timeout: 0 });
+                                } else {
+                                    toaster.pop({ type: 'danger', body: txt + '失败!' });
+                                }
+                            })
+
+                        }
+                    });
+
+                }
 
             };
 

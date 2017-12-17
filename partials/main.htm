@@ -28,7 +28,7 @@
                 <div class="topright_vline"></div>
             </li>
 
-            <li class="userInfo">
+            <li class="userInfo" ng-show="loginUser">
                 <a class="btn_people"></a>
                 <span>{{loginUser.username}}</span>
             </li>
@@ -80,7 +80,7 @@
                         <div class="topright_vline colorfff"></div>
                     </li>
 
-                    <li class="userInfo">
+                    <li class="userInfo" ng-show="loginUser">
                         <a class="btn_people_new"></a>
                         <span class="colorfff">{{loginUser.username}}</span>
                     </li>

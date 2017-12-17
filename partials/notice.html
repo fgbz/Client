@@ -1,9 +1,7 @@
 <div class="h100">
     <!--顶部-->
-    <div class="mt10_mb10">
-        <a class="color_blue" ng-click="goState()">首页</a>
-        <span>></span>
-        <span>系统通知</span>
+    <div class="mt10_mb10" style="height:30px;">
+      <input type="button" class="canclelbtn fr ml10 border1ccc" value="返 回" ng-click="goState()"/>
     </div>
 
     <!--内容-->
@@ -11,19 +9,15 @@
 
         <div class="home_search_content">
             <div class="title">系统通知</div>
-            <!--<div>
-                <div class="home_search"></div>
-                <input class="home-input fr w400" type="text" ng-model="Number" maxlength="25" placeholder="请输入关键字" />
-            </div>-->
         </div>
 
         <div>
-            <div ng-repeat="item in items" class="clear home_repeat">
+            <div ng-repeat="item in items" class="home_repeat" ng-click="showAdvice(item)" ng-style="{'background':clickvalue==item.id?'#79a5ff':''}">
                 <div class="fl point">.</div>
-                <div class="fl color363636">{{item.Title}}</div>
+                <div class="fl color363636" title="{{item.title}}">{{item.title|tooltips:30}}</div>
 
-                <div class="fr date">{{item.Date}}</div>
-                <div class="fr Organization">{{item.Organization}}</div>
+                <div class="fr date">{{item.inputdate|recordtime}}</div>
+                <div class="fr Organization">{{item.orgname}}</div>
 
             </div>
         </div>
@@ -36,7 +30,7 @@
             </div>
             <div class="pull-right ">
                 <uib uib-pagination rotate="true " boundary-link-numbers="true " boundary-links="false
-                                " total-items="pager.total " ng-model="pager.current " max-size="10 " ng-change="Paging(false) "
+                                " total-items="pager.total " ng-model="pager.current " max-size="10 " ng-change="selectAdvice(true) "
                     items-per-page="pager.size " class="pagination-sm
                                 " previous-text="上页 " next-text="下页 " first-text="首页 " last-text="末页 "></uib>
             </div>

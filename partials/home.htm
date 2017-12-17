@@ -8,7 +8,9 @@
         <input type="button" class="noticebtn" value="系统通知" ng-click="goNotice()"/>
         <marquee id="affiche" align="left" behavior="scroll" direction="left" height="50" width="200" hspace="30" style="margin: 0;margin-left: 20px;width: calc(100% - 140px);float: right;"
             vspace="20" loop="-1" scrollamount="10" scrolldelay="100">
-            知识产权海关保护条例发布 2017-11-21
+            <div ng-repeat="item in activeItems" class="home_advice" ng-click="goNotice(item)">
+                <span>{{item.title}}</span>
+            </div>
         </marquee>
     </div>
 
@@ -128,8 +130,8 @@
                 </div>
             </div>
             <div style="height: 40px">
-                <span class="color666">万思琪</span>
-                <span class="ml40 color666">2017-11-25</span>
+                <span class="color666">{{userSuggestion.inputusername }}</span>
+                <span class="ml40 color666">{{userSuggestion.inputdate}}</span>
                 <input type="button" class="pubilshbtn fr" value="发 布" />
             </div>
             <div>

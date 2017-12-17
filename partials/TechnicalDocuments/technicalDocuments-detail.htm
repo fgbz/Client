@@ -1,19 +1,13 @@
 <div class="h100">
     <div class="mt10_mb10" style="height:30px;">
-        <a class="color_blue" ng-click="goState('first')">技术文档</a>
-        <span>></span>
-        <a class="color_blue" ng-click="goState('second')">技术文档管理</a>
-        <span>></span>
-        <a class="color_blue" ng-click="goState('first')">论文</a>
-        <span>></span>
-        <span>{{DetaiData.ChineseTitle}}</span>
+        <input type="button" class="canclelbtn fr ml10 border1ccc" value="返 回" ng-click="goState()"/>
     </div>
 
     <div class="regluation_detail_border">
         <div class="regluation_detail_top">
-            <span class="ml10">录入人：张利华</span>
-            <span class="ml40">录入时间：2017-05-06</span>
-            <span class="ml40">录入单位：国防工科局</span>
+            <span class="ml10">录入人：{{DetaiData.inputusername}}</span>
+            <span class="ml40">录入时间：{{DetaiData.inputdate}}</span>
+            <span class="ml40">录入单位：{{DetaiData.inputorgname}}</span>
 
           
         </div>

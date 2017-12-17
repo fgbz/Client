@@ -1,10 +1,10 @@
-define(['bootstrap/app', 'utils', 'services/accessory-service', 'services/region-service', 'services/organization-manager-service', 'app/config-manager', 'services/enum-service'], function (app, utils) {
+define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-service'], function (app, utils) {
     'use strict';
 
     var config = require('app/config-manager');
     var baseUrl = config.baseUrl();
-    app.controller('userCenter-index-controller', ['$rootScope', '$scope', '$state', 'toaster', '$uibModal',
-        function ($rootScope, $scope, $state, toaster, $uibModal, datamanagerService) {
+    app.controller('userCenter-index-controller', ['$rootScope', '$scope', '$state', 'toaster', '$uibModal', 'usercenter-service', 'ngDialog',
+        function ($rootScope, $scope, $state, toaster, $uibModal, usercenterService, ngDialog) {
 
             var user = localStorage.getItem("loginUser");
 
@@ -28,6 +28,13 @@ define(['bootstrap/app', 'utils', 'services/accessory-service', 'services/region
                     size: 10,
                     current: 1
                 }
+
+                $scope.pagerAdvice = {
+                    size: 10,
+                    current: 1
+                }
+
+                $scope.adviceData = {};
 
             };
 
@@ -119,8 +126,45 @@ define(['bootstrap/app', 'utils', 'services/accessory-service', 'services/region
             //方法
             var define_function = function () {
 
+                //获取通知列表
+                $scope.selectAdvice = function (isPaging) {
+                    $scope.isLoaded = false;
+
+                    //通过当前高度计算每页个数
+                    var pagesize = parseInt((window.innerHeight - 200) / 40);
+
+                    if (!isPaging) {
+                        $scope.pagerAdvice.current = 1;
+                    }
+
+                    $scope.pagerAdvice.size = pagesize;
+
+                    var options = {
+                        pageNo: $scope.pagerAdvice.current,
+                        pageSize: $scope.pagerAdvice.size,
+                        conditions: []
+                    };
+                    if ($scope.adviceData.Title) {
+                        options.conditions.push({ key: 'Title', value: $scope.adviceData.Title });
+                    }
+
+                    usercenterService.getAdviceList(options, function (response) {
+                        $scope.isLoaded = true;
+                        $scope.adviceItems = response.CurrentList;
+                        $scope.pagerAdvice.total = response.RecordCount;
+                    })
+                }
+
                 $scope.clickMenu = function (params) {
                     $scope.clickMenuValue = params.Name;
+                    switch (params.Name) {
+                        case '通知管理':
+                            $scope.selectAdvice();
+                            break;
+
+                        default:
+                            break;
+                    }
                 }
 
                 $scope.clickTable = function (params) {
@@ -131,6 +175,70 @@ define(['bootstrap/app', 'utils', 'services/accessory-service', 'services/region
                     $scope.clickTreeValue = params;
                 }
 
+
+                //新增，查看通知
+                $scope.ShowAdvice = function (item, flag, txt) {
+                    var url = 'partials/system/modals/advice.html';
+                    var modalInstance = $uibModal.open({
+
+                        templateUrl: url,
+                        controller: 'advice-controller',
+                        size: 600,
+                        resolve: {
+                            values: function () {
+                                var data = {
+                                    id: '',
+                                    Title: txt,
+                                    isCheck: flag
+                                }
+                                if (item != null) {
+                                    data.id = item.id;
+                                }
+                                return data;
+                            }
+                        }
+                    });
+                    modalInstance.result.then(function (res) {
+                        if (res) {
+                            if (item == null) {
+                                $scope.selectAdvice();
+                            }
+                        }
+                    });
+
+                }
+                //删除通知
+                $scope.DeleteAdvice = function (item) {
+
+                    $scope.text = "确定删除吗？";
+                    var modalInstance = ngDialog.openConfirm({
+                        templateUrl: 'partials/_confirmModal.html',
+                        appendTo: 'body',
+                        className: 'ngdialog-theme-default',
+                        showClose: false,
+                        scope: $scope,
+                        size: 400,
+                        controller: function ($scope) {
+                            $scope.ok = function () {
+
+                                usercenterService.DeleteAdviceByID(item.id, function (params) {
+                                    if (params == 200) {
+                                        toaster.pop({ type: 'success', body: '删除成功！' });
+                                        $scope.selectAdvice();
+                                    } else {
+                                        toaster.pop({ type: 'danger', body: '删除失败！' });
+                                    }
+                                })
+
+                                $scope.closeThisDialog(); //关闭弹窗
+                            };
+                            $scope.cancel = function () {
+                                $scope.closeThisDialog(); //关闭弹窗
+                            }
+                        }
+                    });
+
+                }
             };
 
             // 实际运行……

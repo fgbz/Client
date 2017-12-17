@@ -1,13 +1,9 @@
 <div class="h100">
     <form name="addLawForm" novalidate="novalidate" class="h100">
         <div class="mt10_mb10" style="height:30px;">
-            <a class="color_blue" ng-click="goState('first')">技术文档查看</a>
-            <span>></span>
-            <a class="color_blue" ng-click="goState('second')">技术文档管理</a>
-            <span>></span>
-            <span>添加</span>
+           
 
-            <input type="button" class="canclelbtn fr ml10 border1ccc" value="取 消" />
+            <input type="button" class="canclelbtn fr ml10 border1ccc" value="返 回" ng-click="goState()"/>
             <input type="button" class="normalbtn fr ml10" value="提 交" validation-submit="addLawForm" ng-click="save('commit')" ng-disabled="isSaving"
             />
             <input type="button" class="normalbtn fr" value="保 存" validation-submit="addLawForm" ng-click="save('save')" ng-disabled="isSaving"
@@ -22,11 +18,11 @@
 
                     <tr height="50px">
                         <td class="regluation_add_td">录入人:</td>
-                        <td class="w300 pl10">詹丽华</td>
+                        <td class="w300 pl10">{{data.inputusername}}</td>
 
-                        <td class="regluation_add_td tl">录入部门:系统工程三司</td>
+                        <td class="regluation_add_td tl">录入部门:{{data.inputorgname}}</td>
 
-                        <td class="w300 tr">录入时间:2017-11-11</td>
+                        <td class="w300 tr">录入时间:{{data.inputdate}}</td>
                     </tr>
 
 

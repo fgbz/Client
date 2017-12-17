@@ -27,6 +27,7 @@ define(['bootstrap/app', 'utils',  'services/technical-service','services/access
 
                 technicalService.getTechnicalById(postData.item, function (params) {
                     $scope.DetaiData = params;
+                     $scope.DetaiData.inputdate = utils.parseTime(new Date($scope.DetaiData.inputdate), "YYYY-MM-DD");
                 })
 
             };
@@ -39,12 +40,8 @@ define(['bootstrap/app', 'utils',  'services/technical-service','services/access
                     var sRouter = "main.technicalDocuments";
 
                     var itemDeal = {};
-
-                    if (params == 'first') {
-                        itemDeal.clickValue = "check";
-                    } else {
-                        itemDeal.clickValue = postData.clickValue;
-                    }
+                     itemDeal.clickValue = postData.clickValue;
+                    
 
                     var data = JSON.stringify(itemDeal);
 

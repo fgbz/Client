@@ -3,10 +3,10 @@ define(['bootstrap/app', 'utils', 'services/technical-service'], function (app, 
 
     var config = require('app/config-manager');
     var baseUrl = config.baseUrl();
-    app.controller('technicalDocuments-index-controller', ['$rootScope', '$scope', '$state', 'toaster', '$uibModal', 'technical-service',
-        function ($rootScope, $scope, $state, toaster, $uibModal, technicalService) {
+    app.controller('technicalDocuments-index-controller', ['$rootScope', '$scope', '$state', 'toaster', '$uibModal', 'technical-service', 'ngDialog','$stateParams',
+        function ($rootScope, $scope, $state, toaster, $uibModal, technicalService, ngDialog,$stateParams) {
 
-
+            var postData = $stateParams.data;
             var user = localStorage.getItem("loginUser");
 
             if (user) {
@@ -51,6 +51,12 @@ define(['bootstrap/app', 'utils', 'services/technical-service'], function (app, 
 
 
                 $scope.isLoaded = true;
+
+                if (postData) {
+                    postData = JSON.parse(postData);
+                }
+
+                $scope.clickValue = postData ? postData.clickValue : $scope.clickValue;
 
 
                 //右侧树
@@ -120,10 +126,31 @@ define(['bootstrap/app', 'utils', 'services/technical-service'], function (app, 
                         toaster.pop({ type: 'danger', body: '请选择删除对象!' });
                         return;
                     }
-                    technicalService.DeleteTechnicalById($scope.selectItem, function () {
-                        toaster.pop({ type: 'success', body: '删除成功!' });
-                        $scope.searchManage();
-                    })
+
+                    $scope.text = "确定删除吗？";
+                    var modalInstance = ngDialog.openConfirm({
+                        templateUrl: 'partials/_confirmModal.html',
+                        appendTo: 'body',
+                        className: 'ngdialog-theme-default',
+                        showClose: false,
+                        scope: $scope,
+                        size: 400,
+                        controller: function ($scope) {
+                            $scope.ok = function () {
+
+                                technicalService.DeleteTechnicalById($scope.selectItem, function () {
+                                    toaster.pop({ type: 'success', body: '删除成功!' });
+                                    $scope.searchManage();
+                                })
+
+                                $scope.closeThisDialog(); //关闭弹窗
+                            };
+                            $scope.cancel = function () {
+                                $scope.closeThisDialog(); //关闭弹窗
+                            }
+                        }
+                    });
+
 
                 }
 

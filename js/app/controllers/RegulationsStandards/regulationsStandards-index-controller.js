@@ -3,8 +3,8 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
 
     var config = require('app/config-manager');
     var baseUrl = config.baseUrl();
-    app.controller('regulationsStandards-index-controller', ['$stateParams', '$rootScope', '$scope', '$state', 'toaster', '$uibModal', 'regulation-service',
-        function ($stateParams, $rootScope, $scope, $state, toaster, $uibModal, regulationService) {
+    app.controller('regulationsStandards-index-controller', ['$stateParams', '$rootScope', '$scope', '$state', 'toaster', '$uibModal', 'regulation-service','ngDialog',
+        function ($stateParams, $rootScope, $scope, $state, toaster, $uibModal, regulationService,ngDialog) {
 
             var postData = $stateParams.data;
 
@@ -55,7 +55,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                     postData = JSON.parse(postData);
                 }
 
-                $scope.clickValue = postData ? postData.clickValue :  $scope.clickValue;
+                $scope.clickValue = postData ? postData.clickValue : $scope.clickValue;
 
                 $scope.isLoaded = true;
 
@@ -129,14 +129,36 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                 }
 
                 $scope.deleteLaw = function () {
+
                     if (!$scope.selectItem) {
                         toaster.pop({ type: 'danger', body: '请选择删除对象!' });
                         return;
                     }
-                    regulationService.DeleteLawstandardById($scope.selectItem, function () {
-                        toaster.pop({ type: 'succcess', body: '删除成功!' });
-                        $scope.searchManage();
-                    })
+                    $scope.text = "确定删除吗？";
+                    var modalInstance = ngDialog.openConfirm({
+                        templateUrl: 'partials/_confirmModal.html',
+                        appendTo: 'body',
+                        className: 'ngdialog-theme-default',
+                        showClose: false,
+                        scope: $scope,
+                        size: 400,
+                        controller: function ($scope) {
+                            $scope.ok = function () {
+
+                                regulationService.DeleteLawstandardById($scope.selectItem, function () {
+                                    toaster.pop({ type: 'succcess', body: '删除成功!' });
+                                    $scope.searchManage();
+                                })
+
+                                $scope.closeThisDialog(); //关闭弹窗
+                            };
+                            $scope.cancel = function () {
+                                $scope.closeThisDialog(); //关闭弹窗
+                            }
+                        }
+                    });
+
+
 
                 }
 

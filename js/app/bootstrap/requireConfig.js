@@ -59,7 +59,6 @@ require.config({
         'angular-validation': 'angular-validation',
         'angular-validation-rule': 'angular-validation-rule',
         'isteven-multi-select': 'isteven-multi-select',
-
     },
     shim: {
         'angular': {
@@ -156,7 +155,7 @@ require.config({
         },
         'isteven-multi-select': {
             deps: ['angular']
-        }
+        },
 
     },
     deps: ['js/app/bootstrap/bootstrap.js'],

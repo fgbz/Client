@@ -245,6 +245,9 @@ define(['bootstrap/app', 'utils', 'services/system-service'], function (app, uti
                 $scope.data = angular.copy(values.dataUser);
 
                 $scope.checkPassword = angular.copy(values.dataUser);
+
+                $scope.passwordSure = $scope.checkPassword.password;
+
                 $scope.isCheck = values.isCheck;
 
                 systemService.getAllRoles(function (res) {
@@ -282,6 +285,13 @@ define(['bootstrap/app', 'utils', 'services/system-service'], function (app, uti
                 $scope.ok = function () {
 
                     var postdata = angular.copy($scope.data);
+
+                    //确认密码
+                    if (postdata.password != $scope.passwordSure) {
+                        toaster.pop({ type: 'danger', body: '2次输入密码不一致!' , timeout: 0});
+                        $scope.passwordSure="";
+                        return;
+                    }
                     postdata.roles = [];
 
                     for (var i = 0; i < $scope.roleItems.length; i++) {
@@ -289,6 +299,7 @@ define(['bootstrap/app', 'utils', 'services/system-service'], function (app, uti
                             postdata.roles.push($scope.roleItems[i]);
                         }
                     }
+
 
                     if ($scope.checkPassword.password != postdata.password) {
                         postdata.password = hex_md5(postdata.password);
@@ -300,7 +311,7 @@ define(['bootstrap/app', 'utils', 'services/system-service'], function (app, uti
                             toaster.pop({ type: 'success', body: $scope.title + '成功!' });
                             $modalInstance.close(params);
                         } else if (params == 461) {
-                            toaster.pop({ type: 'danger', body: '用户名重复!' });
+                            toaster.pop({ type: 'danger', body: '用户名重复!',timeout: 0 });
                         } else {
                             toaster.pop({ type: 'danger', body: $scope.title + '失败!' });
                         }
