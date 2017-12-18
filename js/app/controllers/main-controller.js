@@ -280,7 +280,7 @@ define(['bootstrap/app', 'utilities/cryto', 'ctrls/system/modals/logout-controll
         // upload on file select or drop
         $scope.upload = function (file) {
             Upload.upload({
-                url: baseUrl + '/Foundation/Attachment/uploadWithNoThum?AUTH_ID=' + '1',
+                url: baseUrl + '/Foundation/Attachment/uploadWithNoThum?AUTH_ID=' + '1'+"&userid="+values.userid,
                 data: { file: file, 'username': $scope.username },
                 removeAfterUpload: true,
             }).then(function (resp) {

@@ -66,7 +66,7 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                             $scope.data = params;
                             $scope.data.modifyuserid = user.id;
                             $scope.data.inputdate = utils.parseTime(new Date($scope.data.inputdate), "YYYY-MM-DD");
-                            
+
                             if ($scope.data.releasedate) {
                                 $scope.data.releasedate = utils.parseTime(new Date($scope.data.releasedate), "YYYY-MM-DD");
                             }
@@ -112,7 +112,7 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                         resolve: {
                             values: function () {
                                 var data = {
-
+                                    userid:user.id
                                 }
                                 return data;
                             }
@@ -317,6 +317,7 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                     var url = "";
                     accessoryService.getPreView(fileId, function (params) {
                         url = params.path;
+                        var url =baseUrl+"/Phalaenopsis/UploadFiles/3/8/38d207fb-f2a1-486f-b510-1fb7d78053e8.swf";
 
                         window.open('partials/FileUpload/documentView.jsp?url=' + url);
                     })

@@ -1,4 +1,4 @@
-define(['bootstrap/app',  'utils','services/usercenter-service'], function (app,utils) {
+define(['bootstrap/app', 'utils', 'services/usercenter-service'], function (app, utils) {
     'use strict';
     var moment = require('moment');
 
@@ -26,10 +26,13 @@ define(['bootstrap/app',  'utils','services/usercenter-service'], function (app,
                     current: 1
                 }
 
+
                 $scope.userSuggestion = {};
-                $scope.userSuggestion.inputuserid = user.id;
-                $scope.userSuggestion.inputusername = user.userrealname;
-                $scope.userSuggestion.inputdate = utils.format(new Date(), "yyyy-MM-dd");
+                if (user) {
+                    $scope.userSuggestion.inputuserid = user.id;
+                    $scope.userSuggestion.inputusername = user.userrealname;
+                    $scope.userSuggestion.inputdate = utils.format(new Date(), "yyyy-MM-dd");
+                }
             };
 
             //加载
