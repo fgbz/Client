@@ -1,14 +1,53 @@
 <div class="modal-header">
     <button type="button" ng-click="cancel()" class="close" aria-hidden="true">&times;</button>
-    <h4>审核信息</h4>
+    <h4 class="color_blue">审核信息</h4>
 </div>
 
 <div class="exam_area">
-    <div ng-repeat="item in items" class="eaxm_border">
 
-        <div class="exam_item"><span>审核人:</span>{{item.ExamName}}</div>
-        <div class="exam_item"><span>审核时间:</span>{{item.ExamTime}}</div>
-        <div class="exam_item"> <span>审核不通过说明:</span>{{item.ExamRemark}}</div>
+    <div ng-show="!isCheck">
+        <table>
+            <tr height="40px">
+                <td>审核人:{{data.username}}</td>
+                <td>
+                    <span style=" margin-left: 90px;">审核人部门:{{data.inputorgname}}</span>
+                    <span style=" margin-left: 90px;">审核时间:{{data.approveDate}}</span>
+                </td>
+            </tr>
+            <tr height="40px">
+                <td>审核结果:</td>
+                <td>
+                    <input type="radio" id="shjg1" name="shjg" style=" margin-left: 10px;" value="0" ng-click="data.status=1" ng-checked="data.status==1"/>
+                    <label for="shjg" class="normallabel">通过</label>
+                    <input type="radio" id="shjg2" name="shjg" style=" margin-left: 30px;" value="1" ng-click="data.status=0" ng-checked="data.status==0"/>
+                    <label for="shjg2" class="normallabel">不通过</label>
+                </td>
+            </tr>
+            <tr height="40px">
+                <td>说明:</td>
+                <td>
+                    <textarea  class="home-txtarea" maxlength="255" ng-model="data.content">
+
+                    </textarea>
+                </td>
+            </tr>
+        </table>
+        <div class="modal-footer" style=" margin-top: 10px;">
+            <button type="button" style="margin:0;" class="btn btn-primary modal_btn search_btn" ng-click="ok()">发&emsp;布</button>
+            <button type="button" style="margin:0;" class="cancle_btn" ng-click="cancel()">取&emsp;消</button>
+        </div>
+    </div>
+
+
+    <div ng-show="histroyItems!=null&&histroyItems.length>0" class="color_blue" style=" margin-top: 10px;">历史审核信息</div>
+
+
+
+    <div ng-repeat="item in histroyItems" class="eaxm_border">
+
+        <div class="exam_item"><span>审核人:</span>{{item.username}}</div>
+        <div class="exam_item"><span>审核时间:</span>{{item.approveDate|recordtime}}</div>
+        <div class="exam_item"> <span>审核不通过说明:</span>{{item.content}}</div>
 
     </div>
 

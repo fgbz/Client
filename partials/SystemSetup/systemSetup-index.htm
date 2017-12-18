@@ -9,10 +9,10 @@
             <div class="system_hc">
                 <span>是否需要审核</span>
 
-                <div ng-class="{true:'system_hk_yes',false:'system_hk_no'}[sfsh=='是']" ng-style="{'background-color':sfsh=='是'?'#07ac22':'#363636'}">
-                    <div ng-class="{true:'system_hkb_right',false:'system_hkb_left'}[sfsh=='是']" ng-click="clicksfsh()"></div>
+                <div ng-class="{true:'system_hk_yes',false:'system_hk_no'}[systemdata.sfsh==1]" ng-style="{'background-color':systemdata.sfsh==1?'#07ac22':'#363636'}">
+                    <div ng-class="{true:'system_hkb_right',false:'system_hkb_left'}[systemdata.sfsh==1]" ng-click="clicksfsh()"></div>
                 </div>
-                <div class="fr">{{sfsh}}</div>
+                <div class="fr">{{systemdata.sfsh==1?'审核':'不审核'}}</div>
 
             </div>
 
@@ -102,6 +102,62 @@
                 </div>
             </div>
         </div>
+
+        <!--法规标准执行状态管理-->
+        <div ng-if="clickTreeValue=='132'" class="posi_re">
+            <div class="system_userconfig">
+                <div class="fl">
+
+                    <input class="home-input w300" type="text" style="margin-left: 0px;" ng-model="systemdata.statusName" maxlength="25" placeholder="请输入状态名称"
+                    />
+                    <input type="button" class="normalbtn mr10" value="搜 索" ng-click="getStatus()" />
+                </div>
+
+                <input type="button" class="normalbtn fr mr10" value="新 增" ng-click="ShowStatus(null,false,'新增')" />
+            </div>
+
+            <table class="index_table">
+                <thead>
+                    <tr>
+                        <th>状态名称</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody ng-if="isLoaded">
+                    <tr ng-repeat="item in statusItems" style="height: 40px;cursor: pointer" ng-click="clickTable($index);" ng-class="{true: 'tr_selected',false: ''}[tableRow.selected==$index] ">
+                        <td title="{{item.statusname}} " class="w300 ">{{item.statusname}}</td>
+                        <td>
+                            <input type="button " class="normalcheckbtn " ng-click="ShowStatus(item,false,'编辑') " value="编 辑" />
+                            <input type="button " class="deletebtn " ng-click="DeleteStatus(item.id) " ng-show="item.candelete" value="删 除" />
+                        </td>
+                    </tr>
+                    <tr ng-if="roleItems.length==0 ">
+                        <td colspan="2 " class="text-center ">无数据</td>
+                    </tr>
+                </tbody>
+                <tbody ng-if="!isLoaded ">
+                    <tr>
+                        <td colspan="2 " class="text-center ">
+                            <img src="images/loading.gif " />
+                        </td>
+                    </tr>
+                </tbody>
+
+            </table>
+
+            <div class="home_paging">
+                <div class="pagination-info " style="display: inline-block;margin-top: 12px; margin-left: 10px;">
+                    <span class="ng-binding ">共{{pagerStatus.total}}条</span>
+                </div>
+                <div class="pull-right ">
+                    <uib uib-pagination rotate="true " boundary-link-numbers="true " boundary-links="false
+                                " total-items="pagerStatus.total " ng-model="pagerStatus.current " max-size="10 " ng-change="getStatus(true) "
+                        items-per-page="pagerStatus.size " class="pagination-sm
+                                " previous-text="上页 " next-text="下页 " first-text="首页 " last-text="末页 "></uib>
+                </div>
+            </div>
+        </div>
+
 
         <!--组织机构管理--->
         <div ng-if="clickTreeValue=='141'" class="posi_re">

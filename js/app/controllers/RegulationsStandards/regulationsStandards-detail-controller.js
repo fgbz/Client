@@ -1,10 +1,10 @@
-define(['bootstrap/app', 'utils', 'services/regulation-service','services/accessory-service'], function (app, utils) {
+define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/accessory-service'], function (app, utils) {
     'use strict';
 
     var config = require('app/config-manager');
     var baseUrl = config.baseUrl();
-    app.controller('regulationsStandards-detail-controller', ['$stateParams', '$rootScope', '$scope', '$state', 'toaster', '$uibModal', 'regulation-service','accessory-service',
-        function ($stateParams, $rootScope, $scope, $state, toaster, $uibModal, regulationService,accessoryService) {
+    app.controller('regulationsStandards-detail-controller', ['$stateParams', '$rootScope', '$scope', '$state', 'toaster', '$uibModal', 'regulation-service', 'accessory-service',
+        function ($stateParams, $rootScope, $scope, $state, toaster, $uibModal, regulationService, accessoryService) {
 
             var postData = $stateParams.data;
 
@@ -37,9 +37,16 @@ define(['bootstrap/app', 'utils', 'services/regulation-service','services/access
 
                 $scope.goState = function () {
 
-                    var sRouter = "main.regulationsStandardsIndex";
+                    var sRouter = "";
+                    if (postData.clickValue == 'approve') {
+                        sRouter = "main.userCenter";
+                    } else {
+                        sRouter = "main.regulationsStandardsIndex";
+                    }
+
+
                     var itemDeal = {};
-                    itemDeal.clickValue = postData.clickValue;      
+                    itemDeal.clickValue = postData.clickValue;
 
                     var data = JSON.stringify(itemDeal);
 

@@ -2,8 +2,8 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service'], function (app,
     'use strict';
     var moment = require('moment');
 
-    app.controller('home-controller', ['usercenter-service', '$rootScope', '$scope', '$state', '$timeout', '$cacheFactory', 'toaster', '$cookies', '$uibModal',
-        function (usercenterService, $rootScope, $scope, $state, $timeout, $cacheFactory, toaster, $cookies, $uibModal) {
+    app.controller('home-controller', ['usercenter-service', '$rootScope', '$scope', '$state', '$timeout', '$cacheFactory', 'toaster', '$cookies', '$uibModal', '$http',
+        function (usercenterService, $rootScope, $scope, $state, $timeout, $cacheFactory, toaster, $cookies, $uibModal, $http) {
 
             var authID = $cookies.get('AUTH_ID');
 
@@ -25,14 +25,6 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service'], function (app,
                     size: 10,
                     current: 1
                 }
-
-
-                $scope.userSuggestion = {};
-                if (user) {
-                    $scope.userSuggestion.inputuserid = user.id;
-                    $scope.userSuggestion.inputusername = user.userrealname;
-                    $scope.userSuggestion.inputdate = utils.format(new Date(), "yyyy-MM-dd");
-                }
             };
 
             //加载
@@ -52,6 +44,21 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service'], function (app,
                 }
 
                 $scope.selectAdvice();
+
+                //获取留言
+                $scope.selectSuggestion = function () {
+                    var options = {
+                        pageNo: 1,
+                        pageSize: 10,
+                        conditions: []
+                    };
+                    options.conditions.push({ key: 'Type', value: 'uptodata10' })
+                    usercenterService.getSuggestionList(options, function (response) {
+                        $scope.SuggestionItems = response.CurrentList;
+                    })
+                }
+
+                $scope.selectSuggestion();
 
                 $scope.items = [
                     { Title: "中华人民共和国核电厂严重事故管理程序发布", Organization: "国防工科局", Date: "2017-12-01" },
@@ -127,10 +134,6 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service'], function (app,
                     { Title: "中华人民共和国安全生产法", Number: "第52号", MaterialDate: "2014-11-19" },
                     { Title: "中华人民共和国劳动合同法", Number: "第三十七号", MaterialDate: "2014-12-09" },
                     { Title: "中华人民共和国安全生产法", Number: "第52号", MaterialDate: "2014-11-19" }
-                ]
-
-                $scope.yhlys = [
-                    { Name: "沙发" }, { Name: "是否可以在能源标准中加一个分类" }, { Name: "系统使用流畅，不错" }, { Name: "关于法规的分类依据有哪些" }, { Name: "技术文档是否可以扩展些" }, { Name: "详细信息" }
                 ]
 
 
@@ -246,6 +249,21 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service'], function (app,
                         $state.go(sRouter);
                     }
 
+
+                }
+
+                //跳转到用户留言
+                $scope.goSuggestion= function (item) {
+
+                    if (!authID) {
+                        isLogined();
+                    } else {
+                        var sRouter = "main.suggestion";
+                        $rootScope.$emit("menustateChange", { value: sRouter, HeadNew: false });
+
+
+                        $state.go(sRouter);
+                    }
 
                 }
 

@@ -4,9 +4,9 @@ define(['bootstrap/app', 'app/config-manager', 'services/http-service'], functio
     app.service('system-service', ['http-service', function (http) {
 
         //登陆
-        this.login = function (account,password,callback) {
+        this.login = function (account, password, callback) {
 
-            http.post('/System/Login',  { "account": account, "password": password }, callback);
+            http.post('/System/Login', { "account": account, "password": password }, callback);
         }
 
         //查询组织机构
@@ -29,7 +29,7 @@ define(['bootstrap/app', 'app/config-manager', 'services/http-service'], functio
 
         //删除角色
         this.deleteRoleByID = function (id, callback) {
-            http.get('/System/deleteRoleByID?id='+id, null, callback);
+            http.get('/System/deleteRoleByID?id=' + id, null, callback);
         };
 
         //新增或编辑角色
@@ -39,38 +39,62 @@ define(['bootstrap/app', 'app/config-manager', 'services/http-service'], functio
 
         //查询用户列表
         this.getUserList = function (data, callback) {
-             http.post('/System/getUserList', data, callback);
+            http.post('/System/getUserList', data, callback);
         }
         //保存或编辑用户
-        this.SaveOrUpdateUser =function (data, callback) {
+        this.SaveOrUpdateUser = function (data, callback) {
             http.post('/System/SaveOrUpdateUser', data, callback);
         }
 
-         //删除用户
+        //删除用户
         this.deleteUserByID = function (data, callback) {
-             http.post('/System/deleteUserByID', data, callback);
+            http.post('/System/deleteUserByID', data, callback);
         }
 
         //获取所有角色
         this.getAllRoles = function (callback) {
-             http.post('/System/getAllRoles', null, callback);
+            http.post('/System/getAllRoles', null, callback);
         }
 
         //保存或编辑
         this.SaveOrUpdatePublishdep = function (data, callback) {
-             http.post('/FgbzDic/SaveOrUpdatePublishdep', data, callback);
+            http.post('/FgbzDic/SaveOrUpdatePublishdep', data, callback);
         }
 
-         //获取发布部门列表
+        //获取发布部门列表
         this.getPublishdepList = function (data, callback) {
-             http.post('/FgbzDic/getPublishdepList', data, callback);
+            http.post('/FgbzDic/getPublishdepList', data, callback);
         }
 
         //删除发布部门
         this.DeletePublishdepByID = function (id, callback) {
-             http.get('/FgbzDic/DeletePublishdepByID?id='+id, null, callback);
+            http.get('/FgbzDic/DeletePublishdepByID?id=' + id, null, callback);
         }
 
+        //删除状态
+        this.DeleteLawstandardStatusByID = function (id, callback) {
+            http.get('/FgbzDic/DeleteLawstandardStatusByID?id=' + id, null, callback);
+        }
+
+        //保存或修改状态
+        this.SaveOrUpdateLawstandardStatus = function (data, callback) {
+            http.post('/FgbzDic/SaveOrUpdateLawstandardStatus', data, callback);
+        }
+
+        //获取状态列表
+        this.getLawstandardStatusList = function (data, callback) {
+            http.post('/FgbzDic/getLawstandardStatusList', data, callback);
+        }
+
+        //获取审核设置
+        this.getApproveSetting = function (callback) {
+            http.get('/System/getApproveSetting?', null, callback);
+        }
+
+        //保存审核配置
+        this.SaveOrUpdateApproveSetting = function (data, callback) {
+            http.get('/System/SaveOrUpdateApproveSetting?status='+ data,null, callback);
+        }
 
     }]);
 });

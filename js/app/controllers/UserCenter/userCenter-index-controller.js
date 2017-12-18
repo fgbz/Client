@@ -1,16 +1,17 @@
-define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-service'], function (app, utils) {
+define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-service', 'services/regulation-service'], function (app, utils) {
     'use strict';
 
     var config = require('app/config-manager');
     var baseUrl = config.baseUrl();
-    app.controller('userCenter-index-controller', ['$rootScope', '$scope', '$state', 'toaster', '$uibModal', 'usercenter-service', 'ngDialog',
-        function ($rootScope, $scope, $state, toaster, $uibModal, usercenterService, ngDialog) {
+    app.controller('userCenter-index-controller', ['$rootScope', '$scope', '$state', 'toaster', '$uibModal', 'usercenter-service', 'ngDialog', 'regulation-service', '$stateParams',
+        function ($rootScope, $scope, $state, toaster, $uibModal, usercenterService, ngDialog, regulationService, $stateParams) {
 
             var user = localStorage.getItem("loginUser");
 
             if (user) {
                 user = JSON.parse(user);
             }
+            var postData = $stateParams.data;
 
             //变量
             var define_variable = function () {
@@ -34,7 +35,13 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
                     current: 1
                 }
 
+                $scope.pagerLawstandard = {
+                    size: 10,
+                    current: 1
+                }
+
                 $scope.adviceData = {};
+                $scope.approvedata = {};
 
             };
 
@@ -106,21 +113,26 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
                     { Title: "中华人民共和国环境保护法", CollectionDate: "2014-06-12" }
                 ]
 
-                $scope.DealItems = [
-                    { Title: "中华人民共和国劳动合同法", Number: "第三十七号", PeopleName: "幸德瑞" },
-                    { Title: "中华人民共和国特种设备安全法", Number: "第四条", PeopleName: "白雪" },
-                    { Title: "中华人民共和国环境保护法", Number: "12-8", PeopleName: "张小刀" },
-                    { Title: "中华人民共和国安全生产法", Number: "第52号", PeopleName: "张磊" },
-                    { Title: "中华人民共和国职业病防治法", Number: "第五十条", PeopleName: "展会" },
-                    { Title: "中华人民共和国劳动法", Number: "第69条", PeopleName: "王伟" },
-                    { Title: "中华人民共和国预算法", Number: "第28号", PeopleName: "李丽" },
-                    { Title: "中华人民共和国劳动合同法", Number: "12", PeopleName: "张磊" },
-                    { Title: "中华人民共和国环境保护法", Number: "第三十七号", PeopleName: "谭霞" },
-                    { Title: "中华人民共和国劳动合同法", Number: "第五十条", PeopleName: "白雪" }
-                ]
 
                 $scope.pager.total = 10;
                 $scope.pagerDeal.total = 10;
+
+                $scope.clickMenu = function (params) {
+                    $scope.clickMenuValue = params.Name;
+                    switch (params.Name) {
+                        case '通知管理':
+                            $scope.selectAdvice();
+                            break;
+                        case '待办箱':
+                            $scope.searchLawstandards();
+                            break;
+
+                        default:
+                            break;
+                    }
+                }
+
+
             };
 
             //方法
@@ -155,17 +167,93 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
                     })
                 }
 
-                $scope.clickMenu = function (params) {
-                    $scope.clickMenuValue = params.Name;
-                    switch (params.Name) {
-                        case '通知管理':
-                            $scope.selectAdvice();
-                            break;
 
-                        default:
-                            break;
+
+
+                //待办箱审核列表
+                $scope.searchLawstandards = function (isPaging) {
+                    $scope.isLoaded = false;
+
+                    //通过当前高度计算每页个数
+                    var pagesize = parseInt((window.innerHeight - 240) / 40);
+
+                    if (!isPaging) {
+                        $scope.pagerLawstandard.current = 1;
                     }
+
+                    $scope.pagerLawstandard.size = pagesize;
+
+                    var options = {
+                        pageNo: $scope.pagerLawstandard.current,
+                        pageSize: $scope.pagerLawstandard.size,
+                        conditions: []
+                    };
+                    if ($scope.approvedata.KeyWordLaw) {
+                        options.conditions.push({ key: 'KeyWords', value: $scope.approvedata.KeyWordLaw });
+                    }
+                    options.conditions.push({ key: 'ApproveStatus', value: 2 });
+                    regulationService.getLawstandardList(options, function (response) {
+                        $scope.isLoaded = true;
+                        $scope.LawstandardItems = response.CurrentList;
+                        $scope.pagerLawstandard.total = response.RecordCount;
+
+                    })
+
                 }
+                if (postData) {
+                    postData = JSON.parse(postData);
+                    var data = { Name: '待办箱' };
+                    $scope.clickMenu(data);
+                }
+
+                $scope.Exam = function (item) {
+
+                    var url = 'partials/system/modals/examCheck.html';
+                    var modalInstance = $uibModal.open({
+
+                        templateUrl: url,
+                        controller: 'examCheck-controller',
+                        size: 600,
+                        resolve: {
+                            values: function () {
+                                var data = {
+                                    item: item,
+                                    isCheck: false
+                                }
+                                return data;
+                            }
+                        }
+                    });
+                    modalInstance.result.then(function (res) {
+
+                        if (res) {
+                            $scope.searchLawstandards();
+                        }
+                    }, function (reason) { }
+
+                    );
+                }
+
+
+                //查看
+                $scope.Check = function (item) {
+
+                    regulationService.AddLawstandardCount(item, function () {
+                        var sRouter = "main.regulationsStandardsDetail";
+
+                        var itemDeal = {};
+                        itemDeal.type = "check";
+                        itemDeal.clickValue = 'approve';
+                        itemDeal.item = item;
+
+                        var data = JSON.stringify(itemDeal);
+
+                        $state.go(sRouter, { "data": data });
+                    })
+
+                }
+
+
 
                 $scope.clickTable = function (params) {
                     $scope.tableRow.selected = params;

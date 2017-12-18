@@ -29,6 +29,11 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                     size: 10,
                     current: 1
                 }
+
+                $scope.pagerStatus = {
+                    size: 10,
+                    current: 1
+                }
                 $scope.userdata = {};
                 $scope.systemdata = {};
 
@@ -62,13 +67,17 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
 
                 ];
 
+                $scope.getApproveSetting = function () {
+                    systemService.getApproveSetting(function (res) {
 
-                $scope.sfsh = "是";
+                        $scope.systemdata.sfsh = res;
+
+                    })
+                }
+
+
                 $scope.clickTreeValue = "11";
-
-
-
-
+                $scope.getApproveSetting()
             };
 
 
@@ -80,8 +89,14 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                 $scope.clickSystemRootTree = function (params) {
                     switch (params) {
 
+                        case '11':
+                            $scope.getApproveSetting()
+                            break;
                         case '131':
                             $scope.getpublishdep();
+                            break;
+                        case '132':
+                            $scope.getStatus();
                             break;
                         case '141':
                             $scope.initOrg();
@@ -133,6 +148,35 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                         $scope.isLoaded = true;
                         $scope.publishdepItems = response.CurrentList;
                         $scope.pagerPublishdep.total = response.RecordCount;
+                    })
+                }
+
+                //初始化状态管理
+                $scope.getStatus = function (isPaging) {
+                    $scope.isLoaded = false;
+
+                    //通过当前高度计算每页个数
+                    var pagesize = parseInt((window.innerHeight - 320) / 40);
+
+                    if (!isPaging) {
+                        $scope.pagerStatus.current = 1;
+                    }
+
+                    $scope.pagerStatus.size = pagesize;
+
+                    var options = {
+                        pageNo: $scope.pagerStatus.current,
+                        pageSize: $scope.pagerStatus.size,
+                        conditions: []
+                    };
+                    if ($scope.systemdata.statusName) {
+                        options.conditions.push({ key: 'Name', value: $scope.systemdata.statusName });
+                    }
+
+                    systemService.getLawstandardStatusList(options, function (response) {
+                        $scope.isLoaded = true;
+                        $scope.statusItems = response.CurrentList;
+                        $scope.pagerStatus.total = response.RecordCount;
                     })
                 }
 
@@ -256,9 +300,43 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                     })
                 }
 
+
+
                 //是否审核
                 $scope.clicksfsh = function () {
-                    $scope.sfsh = $scope.sfsh == '是' ? '否' : '是';
+
+                    if ($scope.systemdata.sfsh == 1) {
+                        $scope.text = "确定不需要审核吗？";
+                        var modalInstance = ngDialog.openConfirm({
+                            templateUrl: 'partials/_confirmModal.html',
+                            appendTo: 'body',
+                            className: 'ngdialog-theme-default',
+                            showClose: false,
+                            scope: $scope,
+                            size: 400,
+                            controller: function ($scope) {
+                                $scope.ok = function () {
+
+                                    systemService.SaveOrUpdateApproveSetting(0, function (res) {
+
+                                        $scope.systemdata.sfsh = 0;
+                                         $scope.closeThisDialog(); //关闭弹窗
+                                    })
+
+                                   
+                                };
+                                $scope.cancel = function () {
+                                    $scope.closeThisDialog(); //关闭弹窗
+                                }
+                            }
+                        });
+
+                    } else {
+                        systemService.SaveOrUpdateApproveSetting(1, function (res) {
+
+                            $scope.systemdata.sfsh = 1;
+                        })
+                    }
                 }
 
                 $scope.clickUsertree = function (params) {
@@ -718,6 +796,80 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                                 if (params == 200) {
                                     toaster.pop({ type: 'success', body: txt + '成功!' });
                                     $scope.getpublishdep();
+                                } else if (params == 461) {
+                                    toaster.pop({ type: 'danger', body: '用户名重复!', timeout: 0 });
+                                } else {
+                                    toaster.pop({ type: 'danger', body: txt + '失败!' });
+                                }
+                            })
+
+                        }
+                    });
+
+                }
+
+                /*****************************发布状态**************************** */
+                $scope.DeleteStatus = function (item) {
+
+                    $scope.text = "确定删除吗？";
+                    var modalInstance = ngDialog.openConfirm({
+                        templateUrl: 'partials/_confirmModal.html',
+                        appendTo: 'body',
+                        className: 'ngdialog-theme-default',
+                        showClose: false,
+                        scope: $scope,
+                        size: 400,
+                        controller: function ($scope) {
+                            $scope.ok = function () {
+
+                                systemService.DeleteLawstandardStatusByID(item, function (res) {
+
+                                    $scope.getStatus();
+                                })
+
+                                $scope.closeThisDialog(); //关闭弹窗
+                            };
+                            $scope.cancel = function () {
+                                $scope.closeThisDialog(); //关闭弹窗
+                            }
+                        }
+                    });
+
+                }
+
+                //新增，编辑，用户
+                $scope.ShowStatus = function (item, flag, txt) {
+                    var url = 'partials/system/modals/treeEdit.html';
+                    var modalInstance = $uibModal.open({
+
+                        templateUrl: url,
+                        controller: 'treeEdit-controller',
+                        size: 600,
+                        resolve: {
+                            values: function () {
+                                var data = {
+                                    Name: item != null ? item.statusname : '',
+                                    Title: txt
+                                }
+                                return data;
+                            }
+                        }
+                    });
+                    modalInstance.result.then(function (res) {
+                        if (res) {
+                            var dataStatus = {
+                                id: '',
+                                statusname: res,
+                                inputuserid: user.id,
+                                modifyuserid: user.id
+                            }
+                            if (item != null) {
+                                dataStatus.id = item.id;
+                            }
+                            systemService.SaveOrUpdateLawstandardStatus(dataStatus, function (params) {
+                                if (params == 200) {
+                                    toaster.pop({ type: 'success', body: txt + '成功!' });
+                                    $scope.getStatus();
                                 } else if (params == 461) {
                                     toaster.pop({ type: 'danger', body: '用户名重复!', timeout: 0 });
                                 } else {

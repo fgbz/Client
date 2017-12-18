@@ -3,8 +3,8 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
 
     var config = require('app/config-manager');
     var baseUrl = config.baseUrl();
-    app.controller('regulationsStandards-index-controller', ['$stateParams', '$rootScope', '$scope', '$state', 'toaster', '$uibModal', 'regulation-service','ngDialog',
-        function ($stateParams, $rootScope, $scope, $state, toaster, $uibModal, regulationService,ngDialog) {
+    app.controller('regulationsStandards-index-controller', ['$stateParams', '$rootScope', '$scope', '$state', 'toaster', '$uibModal', 'regulation-service', 'ngDialog',
+        function ($stateParams, $rootScope, $scope, $state, toaster, $uibModal, regulationService, ngDialog) {
 
             var postData = $stateParams.data;
 
@@ -245,6 +245,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                         options.conditions.push({ key: 'TreeValue', value: $scope.clickTreeValue });
                     }
 
+                    options.conditions.push({ key: 'ApproveStatus', value: 3 });
 
                     regulationService.getLawstandardList(options, function (response) {
                         $scope.isLoaded = true;
@@ -298,6 +299,12 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
 
                 $scope.Exam = function () {
 
+                    if (!$scope.selectItem) {
+                        toaster.pop({ type: 'danger', body: '请选择查看对象!' });
+                        return;
+                    }
+
+
                     var url = 'partials/system/modals/examCheck.html';
                     var modalInstance = $uibModal.open({
 
@@ -307,7 +314,8 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                         resolve: {
                             values: function () {
                                 var data = {
-
+                                    item: $scope.selectItem,
+                                    isCheck: true
                                 }
                                 return data;
                             }

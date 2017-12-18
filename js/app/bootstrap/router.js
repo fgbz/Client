@@ -10,6 +10,8 @@ define(['bootstrap/app',
     'ctrls/system/userManage-controller',
     'ctrls/system/login-controller',
     'ctrls/system/advice-controller',
+    'ctrls/system/addsuggestion-controller',
+    'ctrls/suggestion-controller',
     'ctrls/RegulationsStandards/regulationsStandards-index-controller',
     'ctrls/RegulationsStandards/regulationsStandards-addOrEdit-controller',
     'ctrls/RegulationsStandards/regulationsStandards-detail-controller',
@@ -64,6 +66,13 @@ define(['bootstrap/app',
                 controller: 'notice-controller'
             });
 
+            //用户留言
+            $stateProvider.state('main.suggestion', {
+                url: 'suggestion',
+                templateUrl: 'partials/suggestion.html',
+                controller: 'suggestion-controller'
+            });
+
             $stateProvider.state('main.map', {
                 url: 'map',
                 templateUrl: 'partials/map.htm',
@@ -114,7 +123,7 @@ define(['bootstrap/app',
 
             // 用户中心
             $stateProvider.state('main.userCenter', {
-                url: 'userCenter',
+                url: 'userCenter/{data}',
                 templateUrl: 'partials/UserCenter/userCenter-index.htm',
                 controller: 'userCenter-index-controller'
             });

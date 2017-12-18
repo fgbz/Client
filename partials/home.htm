@@ -5,7 +5,7 @@
     </div>
 
     <div class="home_notice">
-        <input type="button" class="noticebtn" value="系统通知" ng-click="goNotice()"/>
+        <input type="button" class="noticebtn" value="系统通知" ng-click="goNotice()" />
         <marquee id="affiche" align="left" behavior="scroll" direction="left" height="50" width="200" hspace="30" style="margin: 0;margin-left: 20px;width: calc(100% - 140px);float: right;"
             vspace="20" loop="-1" scrollamount="10" scrolldelay="100">
             <div ng-repeat="item in activeItems" class="home_advice" ng-click="goNotice(item)">
@@ -124,18 +124,14 @@
                 用户留言
             </div>
             <div class="lylytext">
-                <div ng-repeat="item in yhlys" class="clear">
+                <div ng-repeat="item in SuggestionItems" class="clear">
                     <div class="point fl">.</div>
-                    <div class="fl text">{{item.Name}}</div>
+                    <div class="fl text">{{item.title}}</div>
                 </div>
             </div>
-            <div style="height: 40px">
-                <span class="color666">{{userSuggestion.inputusername }}</span>
-                <span class="ml40 color666">{{userSuggestion.inputdate}}</span>
-                <input type="button" class="pubilshbtn fr" value="发 布" />
-            </div>
-            <div>
-                <textarea class="lytextarea" placeholder="我的留言..." ng-model="ly" maxlength="200"> </textarea>
+            <div class="home_lylymore" ng-click="goSuggestion()">
+                <span class="underline">查看更多</span>
+                <span>></span>
             </div>
 
         </div>

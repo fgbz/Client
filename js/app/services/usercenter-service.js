@@ -25,11 +25,36 @@ define(['bootstrap/app', 'app/config-manager', 'services/http-service'], functio
         };
 
         //获取最新10条通知
-        this.getUpToDateAdviceinfos = function (data,callback) {
+        this.getUpToDateAdviceinfos = function (data, callback) {
             http.post('/UserCenter/getUpToDateAdviceinfos', data, callback);
         };
 
+        //获取留言信息
+        this.getSuggestionList = function (data, callback) {
+            http.post('/UserCenter/getSuggestionList', data, callback);
+        }
 
+        //删除留言
+        this.DeleteSuggestionByID = function (id, callback) {
+            var url = "/UserCenter/DeleteSuggestionByID?id=" + id;
+            http.get(url, null, callback);
+        }
+
+        //保存留言
+        this.SaveOrUpdateSuggestion = function (data, callback) {
+            http.post('/UserCenter/SaveOrUpdateSuggestion', data, callback);
+        }
+
+        //保存审核
+        this.SaveApprove = function (data, callback) {
+            http.post('/UserCenter/SaveApprove', data, callback);
+        }
+
+        //获取审核信息
+        this.getApproveHistroy = function (id, callback) {
+            var url = "/UserCenter/getApproveHistroy?id=" + id;
+            http.get(url, null, callback);
+        }
 
     }]);
 });

@@ -961,6 +961,14 @@ define(['angular', 'nicEdit', 'jquery', 'utils'], function (ng, nicEditObj, jque
                 //选中项
                 scope.clickNode = function (newValue) {
 
+                    if (scope.isSystemRoot) {
+                        if (newValue.Nodes == null || newValue.Nodes.length == 0) {
+                            scope.treeModel = newValue.Id;
+                            scope.$parent.clickSystemRootTree(scope.treeModel);
+                        }
+                        return;
+                    }
+
                     scope.treeModel = newValue.Id;
                     if (scope.$parent.clicktree) {
                         scope.$parent.clicktree(scope.treeModel);
@@ -968,9 +976,7 @@ define(['angular', 'nicEdit', 'jquery', 'utils'], function (ng, nicEditObj, jque
                     if (scope.$parent.$parent.clickUsertree) {
                         scope.$parent.$parent.clickUsertree(scope.treeModel);
                     }
-                    if (scope.isSystemRoot) {
-                        scope.$parent.clickSystemRootTree(scope.treeModel);
-                    }
+
 
                 }
                 scope.Extend = function (item) {

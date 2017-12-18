@@ -1,10 +1,10 @@
-define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/accessory-service'], function (app, utils) {
+define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/accessory-service', 'services/system-service'], function (app, utils) {
     'use strict';
 
     var config = require('app/config-manager');
     var baseUrl = config.baseUrl();
-    app.controller('regulationsStandards-addOrEdit-controller', ['$stateParams', '$rootScope', '$scope', '$state', 'toaster', '$uibModal', 'regulation-service', 'accessory-service',
-        function ($stateParams, $rootScope, $scope, $state, toaster, $uibModal, regulationService, accessoryService) {
+    app.controller('regulationsStandards-addOrEdit-controller', ['$stateParams', '$rootScope', '$scope', '$state', 'toaster', '$uibModal', 'regulation-service', 'accessory-service', 'system-service',
+        function ($stateParams, $rootScope, $scope, $state, toaster, $uibModal, regulationService, accessoryService, systemService) {
 
             var postData = $stateParams.data;
 
@@ -112,7 +112,7 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                         resolve: {
                             values: function () {
                                 var data = {
-                                    userid:user.id
+                                    userid: user.id
                                 }
                                 return data;
                             }
@@ -254,35 +254,46 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
 
                 $scope.save = function (params) {
 
-                    $scope.isSaving = true;
 
-                    if (params == 'commit') {
-                        $scope.data.approvestatus = 2;
-                    } else {
-                        $scope.data.approvestatus = 1;
-                    }
+                    systemService.getApproveSetting(function (res) {
 
 
-                    if (!$scope.data.lawtype) {
-                        toaster.pop({ type: 'danger', body: '请选择类别!' });
-                        return;
-                    }
-                    var fileids = [];
+                        $scope.isSaving = true;
 
-                    for (var i = 0; i < $scope.Attachments.length; i++) {
-                        fileids.push($scope.Attachments[i].ID);
-                    }
+                        if (params == 'commit') {
+                            if (res == 0) {
+                                $scope.data.approvestatus = 3;
+                            } else {
+                                $scope.data.approvestatus = 2;
+                            }
 
-                    $scope.data.fileids = fileids;
+                        } else {
+                            $scope.data.approvestatus = 1;
+                        }
 
-                    regulationService.SaveOrUpdateLawstandard($scope.data, function (response) {
 
-                        toaster.pop({ type: 'success', body: '保存成功!' });
-                        $scope.isSaving = false;
+                        if (!$scope.data.lawtype) {
+                            toaster.pop({ type: 'danger', body: '请选择类别!' });
+                            return;
+                        }
+                        var fileids = [];
 
-                        $scope.goState("second");
+                        for (var i = 0; i < $scope.Attachments.length; i++) {
+                            fileids.push($scope.Attachments[i].ID);
+                        }
 
+                        $scope.data.fileids = fileids;
+
+                        regulationService.SaveOrUpdateLawstandard($scope.data, function (response) {
+
+                            toaster.pop({ type: 'success', body: '保存成功!' });
+                            $scope.isSaving = false;
+
+                            $scope.goState("second");
+
+                        })
                     })
+
 
                 }
 
@@ -317,7 +328,7 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                     var url = "";
                     accessoryService.getPreView(fileId, function (params) {
                         url = params.path;
-                        var url =baseUrl+"/Phalaenopsis/UploadFiles/3/8/38d207fb-f2a1-486f-b510-1fb7d78053e8.swf";
+                        var url = baseUrl + "/Phalaenopsis/UploadFiles/3/8/38d207fb-f2a1-486f-b510-1fb7d78053e8.swf";
 
                         window.open('partials/FileUpload/documentView.jsp?url=' + url);
                     })

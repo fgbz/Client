@@ -1225,11 +1225,17 @@ body {
 }
 
 .home_new_bottom .lylytext{
-     height: calc(100% - 260px);
+     height: calc(100% - 110px);
     border-top: 1px solid #ccc;
     border-bottom: 1px solid #ccc;
     margin-bottom: 10px;
     overflow-y: auto;
+}
+
+.home_lylymore{
+    color: #0758a2;
+    float: right;
+    cursor: pointer;
 }
 
 .home_new_bottom .point{
@@ -1437,6 +1443,7 @@ body {
     width: 100%;
     height: 300px;
     padding-left: 20px;
+    overflow-y: auto;
 }
 
 .exam_item{

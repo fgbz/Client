@@ -106,10 +106,10 @@
         <div ng-if="clickMenuValue=='待办箱'" class="h100">
 
             <div class="usercenter_deal_search">
-                <input class="home-input w300" type="text" style="margin-left: 0px;" ng-model="KeyWordAdd" maxlength="25" placeholder="请输入关键字"
+                <input class="home-input w300" type="text" style="margin-left: 0px;" ng-model="approvedata.KeyWordLaw" maxlength="25" placeholder="请输入关键字"
                 />
 
-                <input type="button" class="normalbtn mr10" value="查 询" />
+                <input type="button" class="normalbtn mr10" value="查 询" ng-click="searchLawstandards()"/>
             </div>
 
             <!--表格-->
@@ -125,23 +125,23 @@
                         </tr>
                     </thead>
                     <tbody ng-if="isLoaded">
-                        <tr ng-repeat="item in DealItems" style="height: 40px;cursor: pointer" ng-click="clickTable($index);" ng-class="{true: 'tr_selected',false: ''}[tableRow.selected==$index] ">
+                        <tr ng-repeat="item in LawstandardItems" style="height: 40px;cursor: pointer" ng-click="clickTable($index);" ng-class="{true: 'tr_selected',false: ''}[tableRow.selected==$index] ">
                             <td>{{$index+1}}</td>
-                            <td title="{{item.Title}} " class="w300 ">{{item.Title| tooltips:20}}</td>
-                            <td title="{{item.Number}} ">{{item.Number}}</td>
-                            <td title="{{item.PeopleName}} ">{{item.PeopleName}}</td>
+                            <td title="{{item.chinesename}} " class="w300 ">{{item.chinesename| tooltips:20}}</td>
+                            <td title="{{item.code}} ">{{item.code}}</td>
+                            <td title="{{item.inputusername}} ">{{item.inputusername}}</td>
                             <td>
-                                <input type="button " class="normalcheckbtn" value="查 看" />
-                                <input type="button " class="normalbtn" value="审 核" />
+                                <input type="button " class="normalcheckbtn" value="查 看" ng-click="Check(item)"/>
+                                <input type="button " class="normalbtn" value="审 核" ng-click="Exam(item)" />
                             </td>
                         </tr>
-                        <tr ng-if="CollectItems.length==0 ">
-                            <td colspan="3" class="text-center ">无数据</td>
+                        <tr ng-if="LawstandardItems.length==0 ">
+                            <td colspan="5" class="text-center ">无数据</td>
                         </tr>
                     </tbody>
                     <tbody ng-if="!isLoaded ">
                         <tr>
-                            <td colspan="3 " class="text-center ">
+                            <td colspan="5 " class="text-center ">
                                 <img src="images/loading.gif " />
                             </td>
                         </tr>
@@ -151,12 +151,12 @@
 
                 <div class="home_paging">
                     <div class="pagination-info " style="display: inline-block;margin-top: 12px; margin-left: 10px;">
-                        <span class="ng-binding ">共{{pagerDeal.total}}条</span>
+                        <span class="ng-binding ">共{{pagerLawstandard.total}}条</span>
                     </div>
                     <div class="pull-right ">
                         <uib uib-pagination rotate="true " boundary-link-numbers="true " boundary-links="false
-                                " total-items="pagerDeal.total " ng-model="pagerDeal.current " max-size="10 " ng-change="Paging(false) "
-                            items-per-page="pagerDeal.size " class="pagination-sm
+                                " total-items="pagerLawstandard.total " ng-model="pagerLawstandard.current " max-size="10 " ng-change="searchLawstandards(true) "
+                            items-per-page="pagerLawstandard.size " class="pagination-sm
                                 " previous-text="上页 " next-text="下页 " first-text="首页 " last-text="末页 "></uib>
                     </div>
                 </div>
