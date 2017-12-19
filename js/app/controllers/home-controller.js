@@ -1,9 +1,9 @@
-define(['bootstrap/app', 'utils', 'services/usercenter-service'], function (app, utils) {
+define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/regulation-service'], function (app, utils) {
     'use strict';
     var moment = require('moment');
 
-    app.controller('home-controller', ['usercenter-service', '$rootScope', '$scope', '$state', '$timeout', '$cacheFactory', 'toaster', '$cookies', '$uibModal', '$http',
-        function (usercenterService, $rootScope, $scope, $state, $timeout, $cacheFactory, toaster, $cookies, $uibModal, $http) {
+    app.controller('home-controller', ['usercenter-service', '$rootScope', '$scope', '$state', '$timeout', '$cacheFactory', 'toaster', '$cookies', '$uibModal', '$http', 'regulation-service',
+        function (usercenterService, $rootScope, $scope, $state, $timeout, $cacheFactory, toaster, $cookies, $uibModal, $http, regulationService) {
 
             var authID = $cookies.get('AUTH_ID');
 
@@ -60,20 +60,19 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service'], function (app,
 
                 $scope.selectSuggestion();
 
-                $scope.items = [
-                    { Title: "中华人民共和国核电厂严重事故管理程序发布", Organization: "国防工科局", Date: "2017-12-01" },
-                    { Title: "中华人民共和国知识产权海关保护条例信息发布", Organization: "国防工科局", Date: "2017-12-01" },
-                    { Title: "中华人民共和国货物进口管理条例信息发布", Organization: "国防工科局", Date: "2017-12-01" },
-                    { Title: "中华人民共和国进户关税条例信息发布", Organization: "国防工科局", Date: "2017-12-01" },
-                    { Title: "中华人民共和国海关行政处罚实施条例信息发布", Organization: "国防工科局", Date: "2017-12-01" },
-                    { Title: "中华人民共和国技术进出口管理条例信息发布", Organization: "国防工科局", Date: "2017-12-01" },
-                    { Title: "中华人民共和国知识产权海关保护条例信息发布", Organization: "国防工科局", Date: "2017-12-01" },
-                    { Title: "中华人民共和国货物进出口管理信息条例", Organization: "国防工科局", Date: "2017-12-01" },
-                    { Title: "中华人民共和国进出口关税条例信息发布", Organization: "国防工科局", Date: "2017-12-01" },
-                    { Title: "中华人民共和国海关行政处罚实施条例信息发布", Organization: "国防工科局", Date: "2017-12-01" }
-                ]
-
-                $scope.pager.total = 10;
+                //获取最新的法规
+                $scope.selectLawstands = function () {
+                    var options = {
+                        pageNo: 1,
+                        pageSize: 10,
+                        conditions: []
+                    };
+                    options.conditions.push({ key: 'Type', value: 'uptodata10' })
+                    regulationService.getUptodateLawstandardList(options, function (response) {
+                        $scope.LawItems = response.CurrentList;
+                    })
+                }
+                $scope.selectLawstands();
 
                 $scope.NewRegulationItem = [
                     {
@@ -137,58 +136,71 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service'], function (app,
                 ]
 
 
-                $scope.SjtjChart = {
-                    options: {
-                        chart: {
-                            type: 'column'
+                regulationService.getHomeChart(function (params) {
+                    var allChart = params;
+
+                    $scope.uploadpeopleChart = initChart(allChart.People);
+                    $scope.uploadOrgnameChart = initChart(allChart.Orgname);
+                    $scope.uploadTypeChart = initChart(allChart.Type);
+                })
+
+                var initChart = function (data) {
+
+                    var datax = [];
+                    var datay = [];
+                    for (var i=0; i < data.length; i++) {
+                        datax.push(data[i].name);
+                        datay.push(parseFloat(data[i].count));
+                    }
+
+                    var Chart = {
+                        options: {
+                            chart: {
+                                type: 'column'
+                            },
                         },
-                    },
 
-                    title: {
-                        text: ''
-                    },
-                    subtitle: {
-                        text: ''
-                    },
-                    xAxis: {
-                        categories: [
-                            '部门一',
-                            '部门二',
-                            '部门三',
-                            '部门四',
-                            '部门五',
-                            '部门六',
-                            '部门七',
-
-                        ],
-                        crosshair: true
-                    },
-                    yAxis: {
-                        min: 0,
                         title: {
                             text: ''
-                        }
-                    },
-                    tooltip: {
-                        shared: true,
-                        useHTML: true
-                    },
-                    plotOptions: {
-                        column: {
-                            pointPadding: 0.2,
-                            borderWidth: 0
-                        }
-                    },
-                    exporting: {
-                        enabled: false
-                    },
-                    series: [{
-                        name: "个数",
-                        data: [59, 82, 76, 36, 62, 94, 46]
-                    }]
+                        },
+                        subtitle: {
+                            text: ''
+                        },
+                        xAxis: {
+                            categories: datax,
+                            crosshair: true
+                        },
+                        yAxis: {
+                            min: 0,
+                            title: {
+                                text: ''
+                            }
+                        },
+                        tooltip: {
+                            shared: true,
+                            useHTML: true
+                        },
+                        plotOptions: {
+                            column: {
+                                pointPadding: 0.2,
+                                borderWidth: 0
+                            }
+                        },
+                        exporting: {
+                            enabled: false
+                        },
+                        series: [{
+                            name: "个数",
+                            data: datay
+                        }]
+
+                    }
+
+                    return Chart;
+                }
 
 
-                };
+
 
             };
 
@@ -253,7 +265,7 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service'], function (app,
                 }
 
                 //跳转到用户留言
-                $scope.goSuggestion= function (item) {
+                $scope.goSuggestion = function (item) {
 
                     if (!authID) {
                         isLogined();

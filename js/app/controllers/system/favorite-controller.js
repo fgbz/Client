@@ -34,7 +34,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/usercenter-ser
                                     'ParentID': item.ParentID,
                                     'Type': flag,
                                     'Extend': true,
-                                    'IsCheck': false,
+                                    'IsCheck': item.IsCheck,
                                     'Nodes': LoadTreeData(treeNodesData, item.id, 1)
                                 };
 
@@ -49,30 +49,33 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/usercenter-ser
 
                     $scope.treeFavoriteData = [];
 
-                    for (var i = 0; i < params.length; i++) {
-                        var data = {
-                            id: params[i].id,
-                            Name: params[i].name,
-                            ParentID: params[i].parentid
-                        }
-                        $scope.treeFavoriteData.push(data);
-
-                    }
-                    $scope.source = LoadTreeData($scope.treeFavoriteData, null, 0);
-
                     usercenterService.getFavoriteListByLawID(values.id, function (response) {
                         for (var j = 0; j < response.length; j++) {
                             var flag = false;
-                            for (var k = 0; k < $scope.source.length; k++) {
-                                if($scope.source[k].id==response[j].id){
-                                    flag =true;
+                            for (var k = 0; k < params.length; k++) {
+                                if (params[k].id == response[j].id) {
+                                    flag = true;
+                                    $scope.checkdata.push(params[k]);
                                     break;
                                 }
                             }
-                            if(flag){
-                                $scope.source[k].IsCheck =true;
+                            if (flag) {
+                                params[k].IsCheck = true;
                             }
                         }
+
+
+                        for (var i = 0; i < params.length; i++) {
+                            var data = {
+                                id: params[i].id,
+                                Name: params[i].name,
+                                ParentID: params[i].parentid,
+                                IsCheck: params[i].IsCheck
+                            }
+                            $scope.treeFavoriteData.push(data);
+
+                        }
+                        $scope.source = LoadTreeData($scope.treeFavoriteData, null, 0);
                     })
 
                 })
@@ -110,9 +113,9 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/usercenter-ser
 
                 }
 
-                $scope.clicktreeNode=function (params) {
-                    $scope.treeModel  = params.id;
-                } 
+                $scope.clicktreeNode = function (params) {
+                    $scope.treeModel = params.id;
+                }
 
                 //点击checkbox
                 $scope.clickfav = function (item) {

@@ -1,10 +1,10 @@
-define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-service', 'services/regulation-service'], function (app, utils) {
+define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-service', 'services/regulation-service', 'services/md5-service'], function (app, utils) {
     'use strict';
 
     var config = require('app/config-manager');
     var baseUrl = config.baseUrl();
-    app.controller('userCenter-index-controller', ['$rootScope', '$scope', '$state', 'toaster', '$uibModal', 'usercenter-service', 'ngDialog', 'regulation-service', '$stateParams',
-        function ($rootScope, $scope, $state, toaster, $uibModal, usercenterService, ngDialog, regulationService, $stateParams) {
+    app.controller('userCenter-index-controller', ['$rootScope', '$scope', '$state', 'toaster', '$uibModal', 'usercenter-service', 'ngDialog', 'regulation-service', '$stateParams', 'md5-service',
+        function ($rootScope, $scope, $state, toaster, $uibModal, usercenterService, ngDialog, regulationService, $stateParams, md5Service) {
 
             var user = localStorage.getItem("loginUser");
 
@@ -37,6 +37,7 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
 
                 $scope.adviceData = {};
                 $scope.approvedata = {};
+                $scope.passworddata = {};
 
             };
 
@@ -263,6 +264,22 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
 
                 }
 
+                //收藏夹查看
+                $scope.CheckByFav = function (item) {
+                    regulationService.AddLawstandardCount(item, function () {
+                        var sRouter = "main.regulationsStandardsDetail";
+
+                        var itemDeal = {};
+                        itemDeal.type = "check";
+                        itemDeal.clickValue = 'fav';
+                        itemDeal.item = item;
+
+                        var data = JSON.stringify(itemDeal);
+
+                        $state.go(sRouter, { "data": data });
+                    })
+                }
+
                 $scope.clickTreeBtn = function (item, type) {
 
                     switch (type) {
@@ -404,8 +421,15 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
                 //初始化tab页
                 if (postData) {
                     postData = JSON.parse(postData);
-                    var data = { Name: '待办箱' };
-                    $scope.clickMenu(data);
+
+                    if (postData.clickValue == 'fav') {
+                        var data = { Name: '收藏夹' };
+                        $scope.clickMenu(data);
+                    } else {
+                        var data = { Name: '待办箱' };
+                        $scope.clickMenu(data);
+                    }
+
                 }
 
                 //取消收藏
@@ -422,7 +446,7 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
                         controller: function ($scope) {
                             $scope.ok = function () {
 
-                                usercenterService.DismissFavorite($scope.clickFavValue, item.id, function (params) {
+                                usercenterService.DismissFavorite(item.favid, item.id, function (params) {
                                     if (params == 200) {
                                         toaster.pop({ type: 'success', body: '取消收藏成功!' });
                                         $scope.initFavor();
@@ -511,6 +535,37 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
                             }
                         }
                     });
+
+                }
+
+                //修改密码取消
+                $scope.resetPasswordinput = function () {
+                    $scope.passworddata.OldPasswWord = "";
+                    $scope.passworddata.NewPasswWord = "";
+                    $scope.passworddata.ComfirmPasswWord = "";
+                }
+
+                $scope.updatePassword = function () {
+                    if ($scope.passworddata.NewPasswWord != $scope.passworddata.ComfirmPasswWord) {
+                        toaster.pop({ type: 'danger', body: '2次密码输入不一致!', timeout: 0 });
+                        return;
+                    }
+                    if ($scope.passworddata.OldPasswWord == $scope.passworddata.NewPasswWord) {
+                        toaster.pop({ type: 'danger', body: '新密码不能与原密码一样!', timeout: 0 });
+                        return;
+                    }
+
+                    var oldpasswordjm = md5Service.mdsPassword($scope.passworddata.OldPasswWord);
+                    var NewPasswWordjm = md5Service.mdsPassword($scope.passworddata.NewPasswWord);
+                    usercenterService.updateUserPassword(user.id, oldpasswordjm, NewPasswWordjm, function (params) {
+                        if (params == 200) {
+                            toaster.pop({ type: 'success', body: '修改成功' });
+                        } else if (params == 403) {
+                            toaster.pop({ type: 'danger', body: '原密码输入错误!', timeout: 0 });
+                        } else {
+                            toaster.pop({ type: 'danger', body: '修改失败' });
+                        }
+                    })
 
                 }
             };

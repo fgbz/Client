@@ -9,21 +9,20 @@
             </li>
         </ol>
         <script type="text/ng-template" id="childnodes.html">
-            <div ui-tree-handle data-nodrag style="height:30px;">
+            <div ui-tree-handle data-nodrag  ng-style="{'background-color':treeModel==item.id?'#d2eaff':'none','height':'30px','cursor': 'pointer'}">
             
                 <!--图片-->
                 <div  ng-class="{true:'combotree_fav',false:'combotree_favclose'}[item.Extend]" ng-if="item.Nodes&&item.Nodes.length>0" ng-click="Extend(item)" ></div>
 
                 <!--叶子节点-->
                 <div ng-bind="item.Name" class="combotree_name ml10 fl" ng-click="clicktreeNode(item)" ng-if="!item.Nodes||item.Nodes.length==0"
-                    ng-style="{'background-color':treeModel==item.id?'#d2eaff':'none','color':treeModel==item.id?'#363636':'#363636'}">  
+                   >  
                     </div>   
 
-                <div ng-bind="item.Name" class="combotree_name fl" ng-click="clicktreeNode(item)"  ng-if="item.Nodes&&item.Nodes.length>0"
-                    ng-style="{'background-color':treeModel==item.id?'#d2eaff':'none','color':treeModel==item.id?'#363636':'#363636'}">  
+                <div ng-bind="item.Name" class="combotree_name fl" ng-click="clicktreeNode(item)"  ng-if="item.Nodes&&item.Nodes.length>0">  
                     </div>   
 
-                <input type="checkbox" class="fr"  ng-click="clickfav(item)" ng-click="item.IsCheck"/>
+                <input type="checkbox" class="fr"  ng-click="clickfav(item)" ng-checked="item.IsCheck" ng-show="!item.Nodes||item.Nodes.length==0"/>
             </div>
 
             <!--下级-->

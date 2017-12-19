@@ -21,6 +21,11 @@ define(['bootstrap/app', 'app/config-manager', 'services/http-service'], functio
              http.post('/Lawstandard/getLawstandardList', data, callback);
         };
 
+        //获取最新10条法规标准
+        this.getUptodateLawstandardList = function (data,callback) {
+              http.post('/Lawstandard/getUptodateLawstandardList', data, callback);
+        }
+
         //新增或编辑法规标准
         this.SaveOrUpdateLawstandard = function (data,callback) {
             http.post('/Lawstandard/SaveOrUpdateLawstandard', data, callback);
@@ -46,6 +51,10 @@ define(['bootstrap/app', 'app/config-manager', 'services/http-service'], functio
              http.post('/Lawstandard/DeleteLawstandardById', data, callback); 
         }
 
+        //首页
+        this.getHomeChart = function (callback) {
+             http.get('/Lawstandard/getHomeChart', null, callback); 
+        }
 
 
     }]);

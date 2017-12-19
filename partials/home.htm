@@ -23,12 +23,12 @@
             </div>
             <div class="splicline"></div>
 
-            <div ng-repeat="item in items" class="clear home_repeat">
+            <div ng-repeat="item in LawItems" class="clear home_repeat">
                 <div class="fl home_new_fk"></div>
-                <div class="fl color363636">{{item.Title}}</div>
+                <div class="fl color363636" title="{{item.chinesename}}">{{item.chinesename|tooltips:20}}</div>
 
-                <div class="fr date">{{item.Date}}</div>
-                <div class="fr Organization">{{item.Organization}}</div>
+                <div class="fr date">{{item.releasedate|recordtime}}</div>
+                <div class="fr Organization" title="{{item.pubdepname}}">{{item.pubdepname|tooltips:10}}</div>
 
             </div>
 
@@ -116,7 +116,9 @@
                 </table>
             </div>
 
-            <highchart config="SjtjChart"></highchart>
+            <highchart config="uploadpeopleChart" ng-if="sjtjMenusuValue=='上传前十统计'"></highchart>
+            <highchart config="uploadOrgnameChart" ng-if="sjtjMenusuValue=='上传部门统计'"></highchart>
+            <highchart config="uploadTypeChart" ng-if="sjtjMenusuValue=='上传分类统计'"></highchart>
         </div>
 
         <div class="yhly">

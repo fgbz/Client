@@ -94,5 +94,11 @@ define(['bootstrap/app', 'app/config-manager', 'services/http-service'], functio
             http.get(url, null, callback);
         }
 
+        //更新密码
+        this.updateUserPassword = function (id,oldpassword,newpassword,callback) {
+            var url = "/UserCenter/updateUserPassword?id=" + id+"&oldpassword="+oldpassword+"&newpassword="+newpassword;
+            http.get(url, null, callback);
+        }
+
     }]);
 });

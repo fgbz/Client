@@ -8,7 +8,7 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
 
             var postData = $stateParams.data;
 
-             var user = localStorage.getItem("loginUser");
+            var user = localStorage.getItem("loginUser");
 
             if (user) {
                 user = JSON.parse(user);
@@ -47,9 +47,9 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                 $scope.goState = function () {
 
                     var sRouter = "";
-                    if (postData.clickValue == 'approve') {
+                    if (postData.clickValue == 'approve' || postData.clickValue == 'fav') {
                         sRouter = "main.userCenter";
-                    } else {
+                    }else {
                         sRouter = "main.regulationsStandardsIndex";
                     }
 
@@ -63,8 +63,8 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                 }
 
                 //收藏
-                $scope.favorieLaw  =function () {
-                     var url = 'partials/system/modals/favorite.html';
+                $scope.favorieLaw = function () {
+                    var url = 'partials/system/modals/favorite.html';
                     var modalInstance = $uibModal.open({
 
                         templateUrl: url,
@@ -74,7 +74,7 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                         resolve: {
                             values: function () {
                                 var data = {
-                                    id:postData.item.id
+                                    id: postData.item.id
                                 }
                                 return data;
                             }
