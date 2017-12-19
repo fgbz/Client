@@ -56,5 +56,43 @@ define(['bootstrap/app', 'app/config-manager', 'services/http-service'], functio
             http.get(url, null, callback);
         }
 
+        //获取用户收藏夹
+        this.getFavoriteList = function (id, callback) {
+            var url = "/UserCenter/getFavoriteList?id=" + id;
+            http.get(url, null, callback);
+        }
+
+        //删除收藏夹子项
+        this.DeleteFavoriteByID = function (id, callback) {
+            var url = "/UserCenter/DeleteFavoriteByID?id=" + id;
+            http.get(url, null, callback);
+        }
+
+        //保存收藏夹
+        this.SaveOrUpdateFavorite = function (data, callback) {
+            http.post('/UserCenter/SaveOrUpdateFavorite', data, callback);
+        }
+
+        //获取收藏夹对应的法规
+        this.getLawsByLinkID = function (data, callback) {
+            http.post('/UserCenter/getLawsByLinkID', data, callback);
+        }
+
+        //保存收藏夹与法规的关联
+        this.SaveFavoriteLawsLink = function (data, callback) {
+            http.post('/UserCenter/SaveFavoriteLawsLink', data, callback);
+        }
+
+        //获取法规对应的收藏夹Favorite
+        this.getFavoriteListByLawID = function (id, callback) {
+            var url = "/UserCenter/getFavoriteListByLawID?id=" + id;
+            http.get(url, null, callback);
+        }
+        //取消收藏
+        this.DismissFavorite = function (favid,lawid,callback) {
+             var url = "/UserCenter/DismissFavorite?favid=" + favid+"&lawid="+lawid;
+            http.get(url, null, callback);
+        }
+
     }]);
 });

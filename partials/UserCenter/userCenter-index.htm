@@ -39,8 +39,8 @@
 
         <div ng-if="clickMenuValue=='收藏夹'" class="h100">
             <!--树-->
-            <div class="regluation_index_left bgdfff"> 
-                <combo-tree tree-data="treeData" tree-model="clickTreeValue" btn-show="false" img-color="1"></combo-tree>
+            <div class="regluation_index_left bgdfff" class="posi_re">
+                <combo-tree tree-data="treeFavoriteData" tree-model="clickFavValue" btn-show="false" img-color="1"></combo-tree>
             </div>
 
             <!--表格-->
@@ -55,11 +55,11 @@
                     </thead>
                     <tbody ng-if="isLoaded">
                         <tr ng-repeat="item in CollectItems" style="height: 40px;cursor: pointer" ng-click="clickTable($index);" ng-class="{true: 'tr_selected',false: ''}[tableRow.selected==$index] ">
-                            <td title="{{item.Title}} " class="w300 ">{{item.Title| tooltips:20}}</td>
-                            <td title="{{item.CollectionDate}} ">{{item.CollectionDate}}</td>
+                            <td title="{{item.chinesename}} " class="w300 ">{{item.chinesename| tooltips:20}}</td>
+                            <td title="{{item.inputdate|recordtime}} ">{{item.inputdate|recordtime}}</td>
                             <td>
                                 <input type="button " class="normalcheckbtn" value="查 看 " />
-                                <input type="button " class="collectbtn" value="取消收藏 " />
+                                <input type="button " class="collectbtn" value="取消收藏 "  ng-click="dismissFav(item)"/>
                             </td>
                         </tr>
                         <tr ng-if="CollectItems.length==0 ">
@@ -78,12 +78,12 @@
 
                 <div class="home_paging">
                     <div class="pagination-info " style="display: inline-block;margin-top: 12px; margin-left: 10px;">
-                        <span class="ng-binding ">共{{pager.total}}条</span>
+                        <span class="ng-binding ">共{{pagerDeal.total}}条</span>
                     </div>
                     <div class="pull-right ">
                         <uib uib-pagination rotate="true " boundary-link-numbers="true " boundary-links="false
-                                " total-items="pager.total " ng-model="pager.current " max-size="10 " ng-change="Paging(false) "
-                            items-per-page="pager.size " class="pagination-sm
+                                " total-items="pagerDeal.total " ng-model="pagerDeal.current " max-size="10 " ng-change="getLawsByLinkID(true) "
+                            items-per-page="pagerDeal.size " class="pagination-sm
                                 " previous-text="上页 " next-text="下页 " first-text="首页 " last-text="末页 "></uib>
                     </div>
                 </div>
@@ -99,7 +99,7 @@
 
             <!--树-->
             <div class="regluation_index_left bgdfff" style="width:95%">
-                <combo-tree tree-data="treeData" tree-model="clickTreeValue" btn-show="true" img-color="1"></combo-tree>
+                <combo-tree tree-data="treeFavoriteData" tree-model="clickTreeValue" btn-show="true" img-color="1"></combo-tree>
             </div>
         </div>
 
@@ -109,7 +109,7 @@
                 <input class="home-input w300" type="text" style="margin-left: 0px;" ng-model="approvedata.KeyWordLaw" maxlength="25" placeholder="请输入关键字"
                 />
 
-                <input type="button" class="normalbtn mr10" value="查 询" ng-click="searchLawstandards()"/>
+                <input type="button" class="normalbtn mr10" value="查 询" ng-click="searchLawstandards()" />
             </div>
 
             <!--表格-->
@@ -131,7 +131,7 @@
                             <td title="{{item.code}} ">{{item.code}}</td>
                             <td title="{{item.inputusername}} ">{{item.inputusername}}</td>
                             <td>
-                                <input type="button " class="normalcheckbtn" value="查 看" ng-click="Check(item)"/>
+                                <input type="button " class="normalcheckbtn" value="查 看" ng-click="Check(item)" />
                                 <input type="button " class="normalbtn" value="审 核" ng-click="Exam(item)" />
                             </td>
                         </tr>
@@ -155,8 +155,8 @@
                     </div>
                     <div class="pull-right ">
                         <uib uib-pagination rotate="true " boundary-link-numbers="true " boundary-links="false
-                                " total-items="pagerLawstandard.total " ng-model="pagerLawstandard.current " max-size="10 " ng-change="searchLawstandards(true) "
-                            items-per-page="pagerLawstandard.size " class="pagination-sm
+                                " total-items="pagerLawstandard.total " ng-model="pagerLawstandard.current " max-size="10 "
+                            ng-change="searchLawstandards(true) " items-per-page="pagerLawstandard.size " class="pagination-sm
                                 " previous-text="上页 " next-text="下页 " first-text="首页 " last-text="末页 "></uib>
                     </div>
                 </div>
@@ -166,7 +166,7 @@
 
         </div>
 
-        <div ng-if="clickMenuValue=='通知管理'" class="h100 p10" >
+        <div ng-if="clickMenuValue=='通知管理'" class="h100 p10">
 
             <div class="h100  posi_re" style="width:100%;">
 

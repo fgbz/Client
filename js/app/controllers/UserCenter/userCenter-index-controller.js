@@ -16,11 +16,6 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
             //变量
             var define_variable = function () {
 
-                $scope.pager = {
-                    size: 10,
-                    current: 1
-                }
-
                 $scope.tableRow = {
                     selected: 0
                 }
@@ -74,52 +69,78 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
 
                 $scope.clickMenuValue = "修改密码";
 
-                //右侧树
-                $scope.treeData = [
+                //初始化收藏夹
+                $scope.initFavor = function () {
+                    usercenterService.getFavoriteList(user.favoriteid, function (params) {
 
-                    { Id: '01', Name: '法律标准', ParentID: null },
+                        $scope.treeFavoriteData = [];
 
-                    { Id: '11', Name: '国家行政文件', ParentID: '01' },
-                    { Id: '111', Name: '国家法律', ParentID: '11' },
-                    { Id: '112', Name: '国务院法律', ParentID: '11' },
-                    { Id: '113', Name: 'HAF', ParentID: '11' },
-                    { Id: '114', Name: 'HAD', ParentID: '11' },
+                        for (var i = 0; i < params.length; i++) {
+                            var data = {
+                                Id: params[i].id,
+                                Name: params[i].name,
+                                ParentID: params[i].parentid,
+                                CanDelete: true
+                            }
+                            $scope.treeFavoriteData.push(data);
 
-                    { Id: '12', Name: '国家标准', ParentID: '01' },
-
-                    { Id: '121', Name: '国家标准', ParentID: '12' },
-                    { Id: '122', Name: '能源局标准', ParentID: '12' },
-                    { Id: '123', Name: '核行业标准', ParentID: '12' },
-                    { Id: '124', Name: '电力行业标准', ParentID: '12' },
-
-                    { Id: '13', Name: '国际公约及标准', ParentID: '01' },
-                    { Id: '131', Name: '国际公约', ParentID: '13' },
-                    { Id: '132', Name: 'ASTM', ParentID: '13' },
-                    { Id: '133', Name: 'ASTM', ParentID: '13' },
-                    { Id: '134', Name: '国际标准', ParentID: '13' }
-
-                ];
-
-                $scope.CollectItems = [
-                    { Title: "中华人民共和国劳动合同法", CollectionDate: "2014-12-09" },
-                    { Title: "中华人民共和国特种设备安全法", CollectionDate: "2014-12-09" },
-                    { Title: "中华人民共和国环境保护法", CollectionDate: "2016-08-21" },
-                    { Title: "中华人民共和国安全生产法", CollectionDate: "2014-11-19" },
-                    { Title: "中华人民共和国职业病防治法", CollectionDate: "2013-05-05" },
-                    { Title: "中华人民共和国劳动法", CollectionDate: "2015-11-19" },
-                    { Title: "中华人民共和国劳动合同法", CollectionDate: "2014-06-12" },
-                    { Title: "中华人民共和国安全生产法", CollectionDate: "2014-06-12" },
-                    { Title: "中华人民共和国预算法", CollectionDate: "2014-06-12" },
-                    { Title: "中华人民共和国环境保护法", CollectionDate: "2014-06-12" }
-                ]
+                        }
+                        if (params != null && params.length > 0) {
+                            $scope.clickFavValue = params[0].id;
+                            $scope.getLawsByLinkID();
+                        }
+                    })
+                }
 
 
-                $scope.pager.total = 10;
-                $scope.pagerDeal.total = 10;
+                //获取收藏夹对应法规列表
+                $scope.getLawsByLinkID = function (isPaging) {
+                    $scope.isLoaded = false;
+
+                    //通过当前高度计算每页个数
+                    var pagesize = parseInt((window.innerHeight - 240) / 40);
+
+                    if (!isPaging) {
+                        $scope.pagerDeal.current = 1;
+                    }
+
+                    $scope.pagerDeal.size = pagesize;
+
+                    var options = {
+                        pageNo: $scope.pagerDeal.current,
+                        pageSize: $scope.pagerDeal.size,
+                        conditions: []
+                    };
+                    if ($scope.clickFavValue) {
+                        options.conditions.push({ key: 'TreeValue', value: $scope.clickFavValue });
+                    }
+
+                    usercenterService.getLawsByLinkID(options, function (response) {
+                        $scope.isLoaded = true;
+                        $scope.CollectItems = response.CurrentList;
+                        $scope.pagerDeal.total = response.RecordCount;
+                    })
+                }
+
+                //点击树查询
+                $scope.clicktree = function (item) {
+                    $scope.clickFavValue = item;
+                    $scope.getLawsByLinkID();
+                }
 
                 $scope.clickMenu = function (params) {
                     $scope.clickMenuValue = params.Name;
                     switch (params.Name) {
+
+                        case '收藏夹':
+                            if ($scope.treeFavoriteData) {
+                                $scope.getLawsByLinkID
+                            } else {
+                                $scope.initFavor();
+                            }
+                            break;
+                        case '收藏夹管理':
+                            $scope.initFavor();
                         case '通知管理':
                             $scope.selectAdvice();
                             break;
@@ -166,10 +187,6 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
                         $scope.pagerAdvice.total = response.RecordCount;
                     })
                 }
-
-
-
-
                 //待办箱审核列表
                 $scope.searchLawstandards = function (isPaging) {
                     $scope.isLoaded = false;
@@ -200,11 +217,6 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
                     })
 
                 }
-                if (postData) {
-                    postData = JSON.parse(postData);
-                    var data = { Name: '待办箱' };
-                    $scope.clickMenu(data);
-                }
 
                 $scope.Exam = function (item) {
 
@@ -233,8 +245,6 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
 
                     );
                 }
-
-
                 //查看
                 $scope.Check = function (item) {
 
@@ -253,7 +263,183 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
 
                 }
 
+                $scope.clickTreeBtn = function (item, type) {
 
+                    switch (type) {
+                        case 'delete':
+
+                            var data = {
+                                id: item.Id,
+                                name: item.Name,
+                                parentid: item.ParentID,
+                                inputuserid: user.id,
+                                modifyuserid: user.id
+                            };
+
+                            $scope.text = "确定删除吗？";
+                            var modalInstance = ngDialog.openConfirm({
+                                templateUrl: 'partials/_confirmModal.html',
+                                appendTo: 'body',
+                                className: 'ngdialog-theme-default',
+                                showClose: false,
+                                scope: $scope,
+                                size: 400,
+                                controller: function ($scope) {
+                                    $scope.ok = function () {
+
+                                        usercenterService.DeleteFavoriteByID(data.id, function (params) {
+                                            if (params == 200) {
+                                                toaster.pop({ type: 'success', body: '删除成功!' });
+                                                $scope.initFavor()
+                                            } else {
+                                                toaster.pop({ type: 'danger', body: '删除失败!' });
+                                            }
+                                        })
+
+                                        $scope.closeThisDialog(); //关闭弹窗
+                                    };
+                                    $scope.cancel = function () {
+                                        $scope.closeThisDialog(); //关闭弹窗
+                                    }
+                                }
+                            });
+
+                            break;
+                        case 'edit':
+                            ShowEdit(item, '编辑', type);
+                            break;
+                        case 'down':
+                            ShowEdit(item, '新增下级', type);
+                            break;
+                        case 'equal':
+                            ShowEdit(item, '新增同级', type);
+                            break;
+
+                        default:
+                            break;
+                    }
+                }
+
+
+                var ShowEdit = function (item, title, type) {
+
+                    var url = 'partials/system/modals/treeEdit.html';
+                    var modalInstance = $uibModal.open({
+
+                        templateUrl: url,
+                        controller: 'treeEdit-controller',
+                        size: 600,
+                        resolve: {
+                            values: function () {
+                                var data = {
+                                    Name: type == 'edit' ? item.Name : '',
+                                    Title: title
+                                }
+                                return data;
+                            }
+                        }
+                    });
+                    modalInstance.result.then(function (res) {
+                        if (res) {
+                            $scope.EditName = res;
+                            switch (type) {
+                                case 'edit':
+
+                                    var data = {
+                                        id: item.Id,
+                                        name: $scope.EditName,
+                                        parentid: item.ParentID,
+                                        inputuserid: user.id,
+                                        modifyuserid: user.id
+                                    }
+                                    var tet = "新增";
+
+                                    addFav(data, tet)
+                                    break;
+                                case 'down':
+                                    var data = {
+                                        id: '',
+                                        name: $scope.EditName,
+                                        parentid: item.Id,
+                                        inputuserid: user.id,
+                                        modifyuserid: user.id
+                                    }
+
+                                    var tet = '新增下级';
+                                    addFav(data, tet)
+                                    break;
+                                case 'equal':
+
+                                    var data = {
+                                        id: '',
+                                        name: $scope.EditName,
+                                        parentid: item.ParentID,
+                                        inputuserid: user.id,
+                                        modifyuserid: user.id
+                                    }
+
+                                    var tet = '新增同级';
+                                    addFav(data, tet)
+                                    break;
+
+                                default:
+                                    break;
+                            }
+                        }
+                    });
+                }
+
+                //新增或编辑收藏夹
+                function addFav(data, txt) {
+                    usercenterService.SaveOrUpdateFavorite(data, function (params) {
+                        if (params == 200) {
+                            toaster.pop({ type: 'success', body: txt + '成功!' });
+                            $scope.initFavor();
+                        } else {
+                            toaster.pop({ type: 'danger', body: txt + '失败!' });
+                        }
+                    })
+                }
+
+                //初始化tab页
+                if (postData) {
+                    postData = JSON.parse(postData);
+                    var data = { Name: '待办箱' };
+                    $scope.clickMenu(data);
+                }
+
+                //取消收藏
+                $scope.dismissFav = function (item) {
+
+                    $scope.text = "确定取消收藏吗？";
+                    var modalInstance = ngDialog.openConfirm({
+                        templateUrl: 'partials/_confirmModal.html',
+                        appendTo: 'body',
+                        className: 'ngdialog-theme-default',
+                        showClose: false,
+                        scope: $scope,
+                        size: 400,
+                        controller: function ($scope) {
+                            $scope.ok = function () {
+
+                                usercenterService.DismissFavorite($scope.clickFavValue, item.id, function (params) {
+                                    if (params == 200) {
+                                        toaster.pop({ type: 'success', body: '取消收藏成功!' });
+                                        $scope.initFavor();
+                                    } else {
+                                        toaster.pop({ type: 'success', body: '取消收藏失败!' });
+                                    }
+                                })
+
+                                $scope.closeThisDialog(); //关闭弹窗
+                            };
+                            $scope.cancel = function () {
+                                $scope.closeThisDialog(); //关闭弹窗
+                            }
+                        }
+                    });
+
+                }
 
                 $scope.clickTable = function (params) {
                     $scope.tableRow.selected = params;

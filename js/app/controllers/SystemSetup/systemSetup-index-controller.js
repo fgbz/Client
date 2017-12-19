@@ -320,10 +320,10 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                                     systemService.SaveOrUpdateApproveSetting(0, function (res) {
 
                                         $scope.systemdata.sfsh = 0;
-                                         $scope.closeThisDialog(); //关闭弹窗
+                                        $scope.closeThisDialog(); //关闭弹窗
                                     })
 
-                                   
+
                                 };
                                 $scope.cancel = function () {
                                     $scope.closeThisDialog(); //关闭弹窗
@@ -351,7 +351,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
 
                             var data = {
                                 id: item.Id,
-                                typename: item.EditName,
+                                typename: item.Name,
                                 parentid: item.ParentID,
                                 inputuserid: user.id,
                                 modifyuserid: user.id
@@ -390,7 +390,14 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                                                 })
                                                 break;
                                             case '141':
-                                                systemService.DeleteOrganization(data, function (params) {
+                                                var orgdata = {
+                                                    id: item.Id,
+                                                    orgname: $scope.Name,
+                                                    parentid: item.ParentID,
+                                                    inputuserid: user.id,
+                                                    modifyuserid: user.id
+                                                }
+                                                systemService.DeleteOrganization(orgdata, function (params) {
                                                     if (params == 1) {
                                                         toaster.pop({ type: 'success', body: '删除成功!' });
                                                         $scope.initOrg();

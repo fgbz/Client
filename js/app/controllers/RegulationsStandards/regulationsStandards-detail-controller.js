@@ -62,6 +62,26 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                     $state.go(sRouter, { "data": data });
                 }
 
+                //收藏
+                $scope.favorieLaw  =function () {
+                     var url = 'partials/system/modals/favorite.html';
+                    var modalInstance = $uibModal.open({
+
+                        templateUrl: url,
+                        controller: 'favorite-controller',
+
+                        size: 'sm',
+                        resolve: {
+                            values: function () {
+                                var data = {
+                                    id:postData.item.id
+                                }
+                                return data;
+                            }
+                        }
+                    });
+                }
+
                 //点击替代
                 $scope.checkRepalce = function (params) {
                     regulationService.getLawstandardById(params, function (res) {

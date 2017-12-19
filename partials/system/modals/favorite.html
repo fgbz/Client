@@ -1,0 +1,45 @@
+<div class="modal-header">
+    <button type="button" ng-click="cancel()" class="close" aria-hidden="true">&times;</button>
+    <h4 class="color_blue">收藏</h4>
+</div>
+<div name="combo_tree" class="fav_content">
+    <div ui-tree>
+        <ol ui-tree-nodes ng-model="source">
+            <li ng-repeat="item in source" ui-tree-node ng-include="'childnodes.html'">
+            </li>
+        </ol>
+        <script type="text/ng-template" id="childnodes.html">
+            <div ui-tree-handle data-nodrag style="height:30px;">
+            
+                <!--图片-->
+                <div  ng-class="{true:'combotree_fav',false:'combotree_favclose'}[item.Extend]" ng-if="item.Nodes&&item.Nodes.length>0" ng-click="Extend(item)" ></div>
+
+                <!--叶子节点-->
+                <div ng-bind="item.Name" class="combotree_name ml10 fl" ng-click="clicktreeNode(item)" ng-if="!item.Nodes||item.Nodes.length==0"
+                    ng-style="{'background-color':treeModel==item.id?'#d2eaff':'none','color':treeModel==item.id?'#363636':'#363636'}">  
+                    </div>   
+
+                <div ng-bind="item.Name" class="combotree_name fl" ng-click="clicktreeNode(item)"  ng-if="item.Nodes&&item.Nodes.length>0"
+                    ng-style="{'background-color':treeModel==item.id?'#d2eaff':'none','color':treeModel==item.id?'#363636':'#363636'}">  
+                    </div>   
+
+                <input type="checkbox" class="fr"  ng-click="clickfav(item)" ng-click="item.IsCheck"/>
+            </div>
+
+            <!--下级-->
+            <ol ui-tree-nodes="" ng-model="item.Nodes">  
+                
+                 <div ng-show="item.Extend">
+                     <li ng-repeat="item in item.Nodes" ui-tree-node ng-include="'childnodes.html'" ></li>
+                </div>
+                
+            </ol>
+        </script>
+    </div>
+</div>
+
+
+<div class="modal-footer" style=" margin-top: 10px;">
+    <button type="button" style="margin:0;" class="btn btn-primary modal_btn search_btn" ng-click="ok()">确&emsp;定</button>
+    <button type="button" style="margin:0;" class="cancle_btn" ng-click="cancel()">取&emsp;消</button>
+</div>
