@@ -34,8 +34,6 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                 }
 
                 $scope.isSaving = false;
-
-
                 var dics = JSON.parse(localStorage.getItem('DicItems'));
 
                 $scope.PublishList = dics.Pub;

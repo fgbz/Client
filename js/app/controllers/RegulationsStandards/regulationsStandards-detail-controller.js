@@ -8,6 +8,12 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
 
             var postData = $stateParams.data;
 
+             var user = localStorage.getItem("loginUser");
+
+            if (user) {
+                user = JSON.parse(user);
+            }
+
             //变量
             var define_variable = function () {
                 $scope.Attachments = [];
@@ -19,6 +25,9 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                 if (postData) {
                     postData = JSON.parse(postData);
                 }
+
+                var isDownload = utils.getListItem('下载', 'menuname', user.menus);
+                var isSup = utils.getListItem('超级管理员', 'menuname', user.menus);
 
                 //获取附件信息
                 accessoryService.getAccessoryByDirId(postData.item.id, function (res) {

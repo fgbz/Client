@@ -188,8 +188,8 @@
                     <div class="reg_dr">批量导入</div>
                 </div>
 
-                <input type="button" class="deletebtn fr mr10" value="删 除" ng-click="deleteLaw()" ng-show="selectItem.approvestatus==1"/>
-                <input type="button" class="normalcheckbtn fr mr10" ng-click="Edit()" value="编 辑" ng-show="selectItem.approvestatus==1"/>
+                <input type="button" class="deletebtn fr mr10" value="删 除" ng-click="deleteLaw()" ng-show="selectItem.approvestatus==1||isSup"/>
+                <input type="button" class="normalcheckbtn fr mr10" ng-click="Edit()" value="编 辑" ng-show="selectItem.approvestatus==1||isSup"/>
                 <input type="button" class="normalbtn fr mr10" value="审核信息" ng-click="Exam()" />
 
             </div>
@@ -214,7 +214,7 @@
                             <input type="button " class="checkbtn" ng-click="Check(item)" value="查 看 " />
                         </td>
                     </tr>
-                    <tr ng-if="items.length==0 ">
+                    <tr ng-if="itemManages.length==0 ">
                         <td colspan="5 " class="text-center ">无数据</td>
                     </tr>
                 </tbody>
