@@ -58,7 +58,7 @@
                                 <span class="ml10">关键字</span>
                             </td>
                             <td>
-                                <input class="home-input" type="text" ng-model="KeyWords" maxlength="25" />
+                                <input class="home-input" type="text" ng-model="KeyWordsSingle" maxlength="25" />
                             </td>
 
                         </tr>
@@ -76,7 +76,7 @@
                 <!--按钮-->
                 <div>
                     <div class="regluation_search">检索结果</div>
-                    <input type="button" class="normalbtn fr mb10 mr10" value="导 出" />
+                    <input type="button" class="normalbtn fr mb10 mr10" value="导 出" ng-click="exporeTec()"/>
                 </div>
                 <!--表格-->
                 <div>
@@ -144,8 +144,7 @@
                 <select class="home-select" ng-model="ApproveStatus">
                           <option value="">全部</option>
                           <option value="1">草稿</option>
-                          <option value="2">已提交待审核</option>
-                          <option value="3">发布</option>
+                          <option value="2">发布</option>
                   </select>
 
                 <input class="home-input w300" type="text" style="margin-left: 0px;" ng-model="KeyWords" maxlength="25" placeholder="请输入关键字"
@@ -158,11 +157,11 @@
             <!--操作-->
             <div class="mt10_mb10" style="height: 30px;">
                 <input type="button" class="normalbtn fl ml10" value="新 增" ng-click="Add()" />
-                <input type="button" class="downbtn fl ml10" value="下载模板" />
+                <input type="button" class="downbtn fl ml10" value="下载模板" ng-click="downloadtempelete()"/>
                 <input type="button" class="normalbtn fl ml10" value="批量导入" />
 
-                <input type="button" class="deletebtn fr mr10" value="删 除" ng-click="deleteLaw()" />
-                <input type="button" class="normalcheckbtn fr mr10" value="编 辑" ng-click="Edit()" />
+                <input type="button" class="deletebtn fr mr10" value="删 除" ng-click="deleteLaw()" ng-show="selectItem.approvestatus==1"/>
+                <input type="button" class="normalcheckbtn fr mr10" value="编 辑" ng-click="Edit()" ng-show="selectItem.approvestatus==1"/>
 
             </div>
 

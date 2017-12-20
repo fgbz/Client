@@ -12,6 +12,7 @@ define(['bootstrap/app',
     'ctrls/system/favorite-controller',
     'ctrls/system/addsuggestion-controller',
     'ctrls/suggestion-controller',
+    'ctrls/solr-controller',
     'ctrls/RegulationsStandards/regulationsStandards-index-controller',
     'ctrls/RegulationsStandards/regulationsStandards-addOrEdit-controller',
     'ctrls/RegulationsStandards/regulationsStandards-detail-controller',
@@ -21,7 +22,7 @@ define(['bootstrap/app',
     'ctrls/UserCenter/userCenter-index-controller',
     'ctrls/SystemSetup/systemSetup-index-controller',
 
-     'ctrls/error-controller'], function (app) {
+    'ctrls/error-controller'], function (app) {
         'use strict';
 
         app.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
@@ -71,6 +72,13 @@ define(['bootstrap/app',
                 url: 'suggestion',
                 templateUrl: 'partials/suggestion.html',
                 controller: 'suggestion-controller'
+            });
+
+            //全文检索
+            $stateProvider.state('main.solr', {
+                url: 'solr/{data}',
+                templateUrl: 'partials/solr.html',
+                controller: 'solr-controller'
             });
 
             $stateProvider.state('main.map', {

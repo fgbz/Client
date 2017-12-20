@@ -14,6 +14,9 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                 user = JSON.parse(user);
             }
 
+            var histroyData = [];
+            var histroyindex = 0;
+
             //变量
             var define_variable = function () {
                 $scope.Attachments = [];
@@ -27,8 +30,7 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                 }
 
                 var isDownload = utils.getListItem('法规标准下载', 'menuname', user.menus);
-                // var isSup = utils.getListItem('超级管理员', 'menuname', user.menus);
-
+ 
                 //获取附件信息
                 accessoryService.getAccessoryByDirId(postData.item.id, function (res) {
                     $scope.Attachments = res;
@@ -46,6 +48,8 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
 
                 $scope.goState = function () {
 
+
+
                     var sRouter = "";
                     if (postData.clickValue == 'approve' || postData.clickValue == 'fav') {
                         sRouter = "main.userCenter";
@@ -60,6 +64,9 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                     var data = JSON.stringify(itemDeal);
 
                     $state.go(sRouter, { "data": data });
+
+
+
                 }
 
                 //收藏
@@ -86,16 +93,9 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                     });
                 }
 
-                //点击替代
-                $scope.checkRepalce = function (params) {
-                    regulationService.getLawstandardById(params, function (res) {
-                        $scope.DetaiData = res;
-                    });
+                //点击替代或引用
+                $scope.checkRepalceOrRefence = function (params) {
 
-                }
-
-                //点击引用
-                $scope.checkRefence = function (params) {
                     regulationService.getLawstandardById(params, function (res) {
                         $scope.DetaiData = res;
                     });

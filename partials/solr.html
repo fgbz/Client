@@ -1,0 +1,128 @@
+<div class="h100 index_header_solr">
+
+    <div class="concent_center mt10 h200">
+        <div class="solr_title"></div>
+        <input class="home_topsearch" type="text" ng-model="solrText" maxlength="100" placeholder="请输入关键字进行检索" 
+        />
+        <span class="home_topsearch_icon" ng-click="searchinfo()">全文检索</span>
+    </div>
+
+    <!--详细-->
+    <div style="height: calc(100% - 210px);">
+        <div class="solr_left">
+            <div class="solr_searchdiv">
+                <div class="doublesolr">二次检索</div>
+                <table>
+                    <tr height="40px;">
+                        <td class="tr">
+                            <span>标题</span>
+                        </td>
+                        <td>
+                            <input class="home-input" type="text" ng-model="Title" maxlength="25" />
+                        </td>
+                    </tr>
+                    <tr height="40px;">
+                        <td class="tr">
+                            英文标题
+                        </td>
+                        <td>
+                            <input class="home-input" type="text" ng-model="EnglishTitle" maxlength="25" />
+                        </td>
+                    </tr>
+                    <tr height="40px;">
+                        <td class="tr">
+                            编号
+                        </td>
+                        <td>
+                            <input class="home-input" type="text" ng-model="Number" maxlength="25" />
+                        </td>
+                    </tr>
+                    <tr height="40px;">
+                        <td class="tr">
+                            信息摘要
+                        </td>
+                        <td>
+                            <input class="home-input" type="text" ng-model="Summaryinfo" maxlength="25" />
+                        </td>
+                    </tr>
+                    <tr height="40px;">
+                        <td class="tr">
+                            类别选择
+                        </td>
+                        <td>
+                            <combo-tree-select style="width:170px" tree-data="treeData" is-normal="true" tree-model="TreeValue" btn-show="false" img-color="2"></combo-tree-select>
+                        </td>
+                    </tr>
+                    <tr height="40px;">
+                        <td class="tr">
+                            关键字
+                        </td>
+                        <td>
+                            <input class="home-input" type="text" ng-model="KeyWordsSingle" maxlength="25" />
+                        </td>
+                    </tr>
+                    <tr height="40px;">
+                        <td class="tr">
+                            状态
+                        </td>
+                        <td>
+                            <select class="home-select" ng-model="State" ng-options=" type.id as type.name for type in StateList">
+                                            <option value="">全部</option>
+                                </select>
+                        </td>
+                    </tr>
+                    <tr height="40px;">
+                        <td class="tr">
+                            发布日期
+                        </td>
+                        <td>
+                            <input type="text" id="FiledTimeStart" style="width: 78px;" class="case_table_timepicker_input" ng-model="FiledTimeStart"
+                                je-date format="YYYY-MM-DD" readonly />-
+
+                            <input type="text" id="FiledTimeEnd" style="width: 78px;" class="case_table_timepicker_input" ng-model="FiledTimeEnd" je-date
+                                format="YYYY-MM-DD" readonly />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="solr_bottom_btn">
+
+                <input type="button" class="canclelbtn fr mr10" value="重 置" ng-click="reset()" />
+                <input type="button" class="normalbtn fr mr10" ng-click="searchinfo()" value="查 询" />
+            </div>
+        </div>
+
+        <div class="solr_right posi_re">
+            <div class="solr_result">
+                <div class="regluation_search" style="line-height: 60px;">检索结果</div>
+                <div class=" fr mb10 mr10">耗时:{{time}}秒</div>
+            </div>
+
+
+            <div ng-repeat="item in items" class="solr_repeat" ng-show="isLoaded">
+                <div class="fl solr_chinsesename" >{{item.chinesename}}</div>
+                <div class="fr solr_time" ng-style="{'margin-right':$first?'-50px':'0px'}">{{item.releasedate|recordtime}}</div>
+                <div class="clear">
+                    <div><label>关键字:</label>{{item.keywords}}</div>
+                    <div title="{{item.summaryinfo}}"><label>摘要:</label>{{item.summaryinfo|tooltips:90}}</div>
+                </div>
+            </div>
+          
+            <div class="text-center " ng-show="!isLoaded">
+                <img src="images/loading.gif " />
+            </div>
+
+            <div class="home_paging">
+                <div class="pagination-info " style="display: inline-block;margin-top: 12px; margin-left: 10px;">
+                    <span class="ng-binding ">共{{pager.total}}条</span>
+                </div>
+                <div class="pull-right ">
+                    <uib uib-pagination rotate="true " boundary-link-numbers="true " boundary-links="false
+                                " total-items="pager.total " ng-model="pager.current " max-size="10 " ng-change="searchinfo(true) "
+                        items-per-page="pager.size " class="pagination-sm
+                                " previous-text="上页 " next-text="下页 " first-text="首页 " last-text="末页 "></uib>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

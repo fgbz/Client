@@ -3,12 +3,12 @@ define(['bootstrap/app', 'utils', 'services/technical-service'], function (app, 
 
     var config = require('app/config-manager');
     var baseUrl = config.baseUrl();
-    app.controller('technicalDocuments-index-controller', ['$rootScope', '$scope', '$state', 'toaster', '$uibModal', 'technical-service', 'ngDialog','$stateParams','$cookies',
-        function ($rootScope, $scope, $state, toaster, $uibModal, technicalService, ngDialog,$stateParams,$cookies) {
+    app.controller('technicalDocuments-index-controller', ['$rootScope', '$scope', '$state', 'toaster', '$uibModal', 'technical-service', 'ngDialog', '$stateParams', '$cookies', 'http-service',
+        function ($rootScope, $scope, $state, toaster, $uibModal, technicalService, ngDialog, $stateParams, $cookies,http) {
 
             var postData = $stateParams.data;
             var user = sessionStorage.getItem('loginUser');
-            
+
             if (user) {
                 user = JSON.parse(user);
 
@@ -176,7 +176,7 @@ define(['bootstrap/app', 'utils', 'services/technical-service'], function (app, 
                     $scope.Title = "";
                     $scope.FiledTimeStart = "";
                     $scope.FiledTimeEnd = "";
-                    $scope.KeyWords = "";
+                    $scope.KeyWordsSingle = "";
 
                 }
 
@@ -217,13 +217,14 @@ define(['bootstrap/app', 'utils', 'services/technical-service'], function (app, 
                     if ($scope.FiledTimeEnd) {
                         options.conditions.push({ key: 'FiledTimeEnd', value: $scope.FiledTimeEnd });
                     }
-                    if ($scope.KeyWords) {
-                        options.conditions.push({ key: 'KeyWords', value: $scope.KeyWords });
+                    if ($scope.KeyWordsSingle) {
+                        options.conditions.push({ key: 'KeyWordsSingle', value: $scope.KeyWordsSingle });
                     }
                     if ($scope.clickTreeValue) {
                         options.conditions.push({ key: 'TreeValue', value: $scope.clickTreeValue });
                     }
 
+                    options.conditions.push({ key: 'ApproveStatus', value:2 });
 
                     technicalService.getTechnicalList(options, function (response) {
                         $scope.isLoaded = true;
@@ -274,6 +275,32 @@ define(['bootstrap/app', 'utils', 'services/technical-service'], function (app, 
                 }
 
                 $scope.searchManage();
+
+
+                //导出
+                $scope.exporeTec = function () {
+
+                    var data = {
+                        Number: $scope.Number ? $scope.Number : null,
+                        Title: $scope.Title ? $scope.Title : null,
+                        FiledTimeStart: $scope.FiledTimeStart ? $scope.FiledTimeStart : null,
+                        FiledTimeEnd: $scope.FiledTimeEnd ? $scope.FiledTimeEnd : null,
+                        KeyWordsSingle:$scope.KeyWordsSingle ? $scope.KeyWordsSingle : null,
+                        TreeValue: $scope.TreeValue ? $scope.TreeValue : null,
+                    }
+                    var url = baseUrl + "/Technical/ExportTec?Number=" + data.Number + "&Title=" + data.Title + "&FiledTimeStart=" + data.FiledTimeStart
+                        + "&FiledTimeEnd=" + data.FiledTimeEnd +"&KeyWordsSingle="+data.KeyWordsSingle + "&TreeValue="+data.TreeValue + "&ApproveStatus=" + 2;
+
+                    url = http.wrapUrl(url);
+                    var exportWindow = window.open(url, "_blank");
+                    exportWindow.document.title = "技术文档";
+                }
+
+                  //下载模板
+                $scope.downloadtempelete = function () {
+                     window.open("partials/commom/tecTempele.xls", "_blank");
+                }
+
             };
 
             // 实际运行……

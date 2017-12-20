@@ -1,9 +1,9 @@
-define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/regulation-service','services/staff-service'], function (app, utils) {
+define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/regulation-service', 'services/staff-service'], function (app, utils) {
     'use strict';
     var moment = require('moment');
 
-    app.controller('home-controller', ['usercenter-service', '$rootScope', '$scope', '$state', '$timeout', '$cacheFactory', 'toaster', '$cookies', '$uibModal', '$http', 'regulation-service','staff-service',
-        function (usercenterService, $rootScope, $scope, $state, $timeout, $cacheFactory, toaster, $cookies, $uibModal, $http, regulationService,staffService) {
+    app.controller('home-controller', ['usercenter-service', '$rootScope', '$scope', '$state', '$timeout', '$cacheFactory', 'toaster', '$cookies', '$uibModal', '$http', 'regulation-service', 'staff-service',
+        function (usercenterService, $rootScope, $scope, $state, $timeout, $cacheFactory, toaster, $cookies, $uibModal, $http, regulationService, staffService) {
 
             var authID = $cookies.get('AUTH_ID');
 
@@ -227,7 +227,7 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/regul
                 //跳转到系统通知
                 $scope.goNotice = function (item) {
 
-                    if (!authID||!user) {
+                    if (!authID || !user) {
                         isLogined();
                     } else {
                         var sRouter = "main.notice";
@@ -253,7 +253,7 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/regul
 
                 $scope.goReg = function () {
 
-                    if (!authID||!user) {
+                    if (!authID || !user) {
                         isLogined();
                     } else {
                         var sRouter = "main.regulationsStandardsIndex";
@@ -264,10 +264,27 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/regul
 
                 }
 
+                //全文检索
+                $scope.Solr = function () {
+                    if (!authID || !user) {
+                        isLogined();
+                    } else {
+                        var sRouter = "main.solr";
+                        var itemDeal = {};
+                        itemDeal.text = $scope.solrText;
+
+                        var data = JSON.stringify(itemDeal);
+                        $rootScope.$emit("menustateChange", { value: sRouter, HeadNew: false });
+
+                        $state.go(sRouter, { "data": data });
+
+                    }
+                }
+
                 //跳转到用户留言
                 $scope.goSuggestion = function (item) {
 
-                    if (!authID||!user) {
+                    if (!authID || !user) {
                         isLogined();
                     } else {
                         var sRouter = "main.suggestion";

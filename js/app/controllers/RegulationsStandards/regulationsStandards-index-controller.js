@@ -3,8 +3,8 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
 
     var config = require('app/config-manager');
     var baseUrl = config.baseUrl();
-    app.controller('regulationsStandards-index-controller', ['$stateParams', '$rootScope', '$scope', '$state', 'toaster', '$uibModal', 'regulation-service', 'ngDialog','$cookies',
-        function ($stateParams, $rootScope, $scope, $state, toaster, $uibModal, regulationService, ngDialog,$cookies) {
+    app.controller('regulationsStandards-index-controller', ['$stateParams', '$rootScope', '$scope', '$state', 'toaster', '$uibModal', 'regulation-service', 'ngDialog', '$cookies', 'http-service',
+        function ($stateParams, $rootScope, $scope, $state, toaster, $uibModal, regulationService, ngDialog, $cookies, http) {
 
             var postData = $stateParams.data;
 
@@ -328,6 +328,34 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                     }, function (reason) { }
 
                     );
+                }
+
+                //导出
+                $scope.exporeLaw = function () {
+
+                    var data = {
+                        Number: $scope.Number ? $scope.Number : null,
+                        Title: $scope.Title ? $scope.Title : null,
+                        FiledTimeStart: $scope.FiledTimeStart ? $scope.FiledTimeStart : null,
+                        FiledTimeEnd: $scope.FiledTimeEnd ? $scope.FiledTimeEnd : null,
+                        State: $scope.State ? $scope.State : null,
+                        organization: $scope.organization ? $scope.organization : null,
+                        MaterialTmeStart: $scope.MaterialTmeStart ? $scope.MaterialTmeStart : null,
+                        MaterialTmeEnd: $scope.MaterialTmeEnd ? $scope.MaterialTmeEnd : null,
+                        TreeValue: $scope.TreeValue ? $scope.TreeValue : null,
+                    }
+                    var url = baseUrl + "/Lawstandard/ExportLaw?Number=" + data.Number + "&Title=" + data.Title + "&FiledTimeStart=" + data.FiledTimeStart
+                        + "&FiledTimeEnd=" + data.FiledTimeEnd + "&State=" + data.State + "&organization=" + data.organization + "&MaterialTmeStart=" + data.MaterialTmeStart
+                        + "&MaterialTmeEnd=" + data.MaterialTmeEnd + "&TreeValue=" + data.TreeValue + "&ApproveStatus=" + 3;
+
+                    url = http.wrapUrl(url);
+                    var exportWindow = window.open(url, "_blank");
+                    exportWindow.document.title = "法规标准";
+                }
+
+                //下载模板
+                $scope.downloadtempelete = function () {
+                     window.open("partials/commom/lawTempele.xls", "_blank");
                 }
 
 

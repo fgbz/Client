@@ -65,7 +65,7 @@
                     <td class="color_blue first_td">引用标准 : </td>
                     <td class="va_topnormal">
                         <ul>
-                            <li ng-repeat="item in DetaiData.refence" class="regluation_detail_Reference color_blue" ng-click="checkRefence(item)">
+                            <li ng-repeat="item in DetaiData.refence" class="regluation_detail_Reference color_blue" ng-click="checkRepalceOrRefence(item)">
                                 <span>{{item.code}}</span>
                             </li>
                         </ul>
@@ -108,7 +108,7 @@
                 </div>
             </div>
             <div class="regluation_detail_replacebtn">
-                <input type="button" class="bluecheckbtn" value="查 看" title="查看" ng-click="checkRepalce(item)" />
+                <input type="button" class="bluecheckbtn" value="查 看" title="查看" ng-click="checkRepalceOrRefence(item)" />
             </div>
         </div>
 

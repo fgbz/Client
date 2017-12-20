@@ -925,7 +925,8 @@ define(['angular', 'nicEdit', 'jquery', 'utils'], function (ng, nicEditObj, jque
                 treeModel: '=', //默认选中值的Value,
                 btnShow: "=", // 是否显示按钮
                 imgColor: '=', //背景色
-                isSystemRoot: '='//系统管理左侧树特殊处理
+                isSystemRoot: '=',//系统管理左侧树特殊处理
+               
             },
             require: '?uiTree',
             link: function (scope, element, attributes) {
@@ -1005,6 +1006,7 @@ define(['angular', 'nicEdit', 'jquery', 'utils'], function (ng, nicEditObj, jque
                 treeModel: '=', //默认选中值的Value,
                 btnShow: "=", // 是否显示按钮
                 imgColor: '=', //背景色
+                isNormal:'='
             },
             require: '?uiTree',
             link: function (scope, element, attributes) {

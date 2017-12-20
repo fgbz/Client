@@ -20,6 +20,8 @@ body {
     background-size: 100% 600px;
 }
 
+
+
 .index_titlepic{
     height: 150px;
     width: 400px;
@@ -93,6 +95,75 @@ body {
     width: 100%;
     height: 6px;
     background-color: #08589f;
+}
+
+
+/*全文检索*/
+.index_header_solr{
+    width: 100%;
+    height:100%;
+    background: url(../../images/bg.png) no-repeat;
+    background-size: 100% 200px;
+}
+.solr_title{
+    background: url(../../images/top_title.png) no-repeat; 
+}
+
+.doublesolr{
+    color: #08589f;
+    height: 50px;
+    line-height: 50px;
+    padding-left: 40px;
+    background: url(../../images/ss_icon.png) no-repeat; 
+    background-position: 10px;
+}
+
+.solr_left{
+    width: 300px;
+    height: 100%;
+    background: #f2f2f2;
+    float: left;
+    height: calc(100%);
+}
+.solr_right{
+    width: calc(100% - 310px);
+    float: right;
+    height: 100%;
+}
+
+.solr_bottom_btn{
+    height: 50px;
+    line-height: 50px;
+    padding-top: 10px;
+}
+.solr_searchdiv{
+    height: calc(100% - 50px);
+    padding-left: 10px;
+    overflow: auto;
+}
+
+
+.solr_result{
+    height: 60px;
+    line-height: 60px;
+    border-bottom: 4px solid #08589f;
+}
+
+.solr_chinsesename{
+    font-size: 18px;
+    color: #08589f;
+    margin: 15px 0px 15px 0px;
+}
+.solr_time{
+    font-size: 18px;
+    color: #363636;
+    margin-top: 15px;
+}
+.solr_repeat{
+     margin-left: 20px;
+    border-bottom: 2px solid #cccccc;
+    padding-bottom: 15px;
+    height: 140px;
 }
 
 
@@ -364,7 +435,7 @@ body {
 
 .regluation_detail_Attachments{
     display: inline-block;
-    width: 400px;
+    /*width: 400px;*/
 }
 .regluation_detail_splice{
     border: 1px dashed #ccc;
@@ -1607,6 +1678,9 @@ body {
 .h300{
     height: 300px;
 }
+.h200{
+    height: 200px;
+}
 .w100{
    width: 100%;
 }
@@ -1707,7 +1781,9 @@ body {
     padding: 10px;
 }
 
-
+.curpointer{
+    cursor: pointer;
+}
 
 
 
