@@ -3,14 +3,9 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
 
     var config = require('app/config-manager');
     var baseUrl = config.baseUrl();
-    app.controller('userCenter-index-controller', ['$rootScope', '$scope', '$state', 'toaster', '$uibModal', 'usercenter-service', 'ngDialog', 'regulation-service', '$stateParams', 'md5-service',
-        function ($rootScope, $scope, $state, toaster, $uibModal, usercenterService, ngDialog, regulationService, $stateParams, md5Service) {
+    app.controller('userCenter-index-controller', ['$rootScope', '$scope', '$state', 'toaster', '$uibModal', 'usercenter-service', 'ngDialog', 'regulation-service', '$stateParams', 'md5-service', '$cookies',
+        function ($rootScope, $scope, $state, toaster, $uibModal, usercenterService, ngDialog, regulationService, $stateParams, md5Service, $cookies) {
 
-            var user = localStorage.getItem("loginUser");
-
-            if (user) {
-                user = JSON.parse(user);
-            }
             var postData = $stateParams.data;
 
             //变量
@@ -51,13 +46,13 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
                 ]
 
 
-                var user = localStorage.getItem("loginUser");
+                var user = sessionStorage.getItem('loginUser');
 
                 if (user) {
                     user = JSON.parse(user);
 
                     //权限重置
-                    var check = utils.getListItem('法规审核', 'menuname', user.menus);
+                    var check = utils.getListItem('待办箱', 'menuname', user.menus);
                     var manage = utils.getListItem('通知管理', 'menuname', user.menus);
 
                     if (check) {
@@ -179,7 +174,7 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
                         conditions: []
                     };
                     if ($scope.adviceData.Title) {
-                        options.conditions.push({ key: 'Title', value: $scope.adviceData.Title });
+                        options.conditions.push({ key: 'keyWords', value: $scope.adviceData.Title });
                     }
 
                     usercenterService.getAdviceList(options, function (response) {

@@ -1,13 +1,13 @@
-define(['bootstrap/app', 'utilities/cryto','app/config-manager'], function (app) {
+define(['bootstrap/app', 'utilities/cryto', 'app/config-manager'], function (app) {
     'use strict';
 
     var cryto = require('utilities/cryto');
     var config = require('app/config-manager');
 
-    app.service('http-service', ['$http', '$cookies', 'baseUrl', '$cacheFactory', '$q','$window', function ($http, $cookies, baseUrl, $cacheFactory, $q,$window) {
+    app.service('http-service', ['$http', '$cookies', 'baseUrl', '$cacheFactory', '$q', '$window', function ($http, $cookies, baseUrl, $cacheFactory, $q, $window) {
 
         //   var authID = $cookies.get('AUTH_ID');
-
+        var authID = '1';
         var hostAddress = baseUrl;
 
         var headers = {

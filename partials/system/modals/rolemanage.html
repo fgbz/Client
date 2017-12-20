@@ -15,11 +15,43 @@
         <tr>
             <td class="system_td">
                 权限</td>
-            <td style="padding-left: 10px;padding-top: 10px;">
-                <div ng-repeat="item in menuItems" class="system_role">
-                    <input type="checkbox" id="{{item.id}}" ng-click="clickSingle(item)" ng-disabled="isCheck" ng-checked="item.ischeck" />
-                    <label for="{{item.id}}" class="normallabel">{{item.menuname}}</label>
+            <td style="padding-top: 10px;">
+
+                <input class="home-input w300" readonly ng-model="displayText" ng-click="expandTree()" title="{{displayText}}" />
+                <div name="combo_tree"  class="selecttreearea" ng-show="showTree"  >
+                    <div ui-tree>
+                        <ol ui-tree-nodes ng-model="source">
+                            <li ng-repeat="item in source" ui-tree-node ng-include="'childnodes.html'">
+                            </li>
+                        </ol>
+                        <script type="text/ng-template" id="childnodes.html">
+            <div ui-tree-handle data-nodrag  ng-style="{'background-color':treeModel==item.id?'#d2eaff':'none','height':'30px','cursor': 'pointer'}">
+            
+               <!--图片-->
+                <div ng-style="{'background-color':'#fff'}" class="combotree_pic" ng-if="item.Nodes&&item.Nodes.length>0" ng-click="Extend(item)" ></div>
+
+                <!--叶子节点-->
+                <div ng-bind="item.menuname" class="combotree_name ml10 fl" ng-click="clicktreeNode(item)" ng-if="!item.Nodes||item.Nodes.length==0"
+                   >  
+                    </div>   
+
+                <div ng-bind="item.menuname" class="combotree_name fl" ng-click="clicktreeNode(item)"  ng-if="item.Nodes&&item.Nodes.length>0">  
+                    </div>   
+
+                <input type="checkbox" class="fr" ng-disabled="isCheck" ng-click="clickfav(item)" ng-checked="item.IsCheck" ng-show="!item.Nodes||item.Nodes.length==0"/>
+            </div>
+
+            <!--下级-->
+            <ol ui-tree-nodes="" ng-model="item.Nodes">  
+                
+                 <div ng-show="item.Extend">
+                     <li ng-repeat="item in item.Nodes" ui-tree-node ng-include="'childnodes.html'" ></li>
                 </div>
+                
+            </ol>
+        </script>
+                    </div>
+                </div>    
             </td>
         </tr>
 

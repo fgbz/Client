@@ -3,13 +3,13 @@ define(['bootstrap/app', 'utils', 'services/technical-service', 'services/access
 
     var config = require('app/config-manager');
     var baseUrl = config.baseUrl();
-    app.controller('technicalDocuments-addOrEdit-controller', ['$stateParams', '$rootScope', '$scope', '$state', 'toaster', '$uibModal', 'technical-service', 'accessory-service',
-        function ($stateParams, $rootScope, $scope, $state, toaster, $uibModal, technicalService, accessoryService) {
+    app.controller('technicalDocuments-addOrEdit-controller', ['$stateParams', '$rootScope', '$scope', '$state', 'toaster', '$uibModal', 'technical-service', 'accessory-service','$cookies',
+        function ($stateParams, $rootScope, $scope, $state, toaster, $uibModal, technicalService, accessoryService,$cookies) {
 
             var postData = $stateParams.data;
 
 
-            var user = localStorage.getItem("loginUser");
+           var user = sessionStorage.getItem('loginUser');
 
             if (user) {
                 user = JSON.parse(user);

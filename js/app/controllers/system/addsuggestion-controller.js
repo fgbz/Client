@@ -3,10 +3,10 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service'], function (app,
 
     var config = require('app/config-manager');
     var baseUrl = config.baseUrl();
-    app.controller('addsuggestion-controller', ['$rootScope', '$scope', '$state', 'toaster', '$uibModal', '$uibModalInstance', 'values', 'usercenter-service',
-        function ($rootScope, $scope, $state, toaster, $uibModal, $modalInstance, values, usercenterService) {
+    app.controller('addsuggestion-controller', ['$rootScope', '$scope', '$state', 'toaster', '$uibModal', '$uibModalInstance', 'values', 'usercenter-service','$cookies',
+        function ($rootScope, $scope, $state, toaster, $uibModal, $modalInstance, values, usercenterService,$cookies) {
 
-            var user = localStorage.getItem("loginUser");
+            var user = sessionStorage.getItem('loginUser');
 
             if (user) {
                 user = JSON.parse(user);
@@ -33,7 +33,7 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service'], function (app,
                 } else {
                     $scope.data.id = "";
                     $scope.data.inputuserid = user.id;
-                    $scope.data.inputname = user.inputname;
+                    $scope.data.inputname = user.userrealname;
                     $scope.data.inputdate = utils.format(new Date(), "yyyy-MM-dd");
                 }
 

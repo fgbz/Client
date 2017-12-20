@@ -3,11 +3,11 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/usercenter-ser
 
     var config = require('app/config-manager');
     var baseUrl = config.baseUrl();
-    app.controller('favorite-controller', ['$rootScope', '$scope', '$state', 'toaster', '$uibModal', '$uibModalInstance', 'values', 'usercenter-service',
-        function ($rootScope, $scope, $state, toaster, $uibModal, $modalInstance, values, usercenterService) {
+    app.controller('favorite-controller', ['$rootScope', '$scope', '$state', 'toaster', '$uibModal', '$uibModalInstance', 'values', 'usercenter-service', '$cookies',
+        function ($rootScope, $scope, $state, toaster, $uibModal, $modalInstance, values, usercenterService, $cookies) {
 
 
-            var user = localStorage.getItem("loginUser");
+            var user = sessionStorage.getItem('loginUser');
 
             if (user) {
                 user = JSON.parse(user);
@@ -97,19 +97,18 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/usercenter-ser
                         favs: []
                     }
 
-                    if ($scope.checkdata.length > 0) {
-                        for (var i = 0; i < $scope.checkdata.length; i++) {
-                            lawdata.favs.push({ id: $scope.checkdata[i].id });
-                        }
-                        usercenterService.SaveFavoriteLawsLink(lawdata, function (params) {
-                            if (params == 200) {
-                                toaster.pop({ type: 'success', body: '收藏成功!' });
-                                $modalInstance.dismiss('cancel');
-                            }
-                        })
-                    } else {
-                        $modalInstance.dismiss('cancel');
+                    for (var i = 0; i < $scope.checkdata.length; i++) {
+                        lawdata.favs.push({ id: $scope.checkdata[i].id });
                     }
+                    usercenterService.SaveFavoriteLawsLink(lawdata, function (params) {
+                        if (params == 200) {
+                            toaster.pop({ type: 'success', body: '收藏成功!' });
+                            var collect = $scope.checkdata.length > 0 ? true : false;
+                             $modalInstance.close(collect);
+
+                        }
+                    })
+
 
                 }
 

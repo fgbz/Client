@@ -3,12 +3,12 @@ define(['bootstrap/app', 'utils', 'services/system-service','services/md5-servic
 
     var config = require('app/config-manager');
     var baseUrl = config.baseUrl();
-    app.controller('userManage-controller', ['$rootScope', '$scope', '$state', 'toaster', '$uibModal', '$uibModalInstance', 'values', 'system-service','md5-service',
-        function ($rootScope, $scope, $state, toaster, $uibModal, $modalInstance, values, systemService,md5Service) {
+    app.controller('userManage-controller', ['$rootScope', '$scope', '$state', 'toaster', '$uibModal', '$uibModalInstance', 'values', 'system-service','md5-service','$cookies',
+        function ($rootScope, $scope, $state, toaster, $uibModal, $modalInstance, values, systemService,md5Service,$cookies) {
 
 
 
-            var user = localStorage.getItem("loginUser");
+           var user = sessionStorage.getItem('loginUser');
 
             if (user) {
                 user = JSON.parse(user);

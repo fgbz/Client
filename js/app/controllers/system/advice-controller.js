@@ -3,10 +3,10 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service'], function (app,
 
     var config = require('app/config-manager');
     var baseUrl = config.baseUrl();
-    app.controller('advice-controller', ['$rootScope', '$scope', '$state', 'toaster', '$uibModal', '$uibModalInstance', 'values', 'usercenter-service',
-        function ($rootScope, $scope, $state, toaster, $uibModal, $modalInstance, values, usercenterService) {
+    app.controller('advice-controller', ['$rootScope', '$scope', '$state', 'toaster', '$uibModal', '$uibModalInstance', 'values', 'usercenter-service','$cookies',
+        function ($rootScope, $scope, $state, toaster, $uibModal, $modalInstance, values, usercenterService,$cookies) {
 
-            var user = localStorage.getItem("loginUser");
+          var user = sessionStorage.getItem('loginUser');
 
             if (user) {
                 user = JSON.parse(user);

@@ -3,12 +3,12 @@ define(['bootstrap/app', 'utils', 'services/technical-service'], function (app, 
 
     var config = require('app/config-manager');
     var baseUrl = config.baseUrl();
-    app.controller('technicalDocuments-index-controller', ['$rootScope', '$scope', '$state', 'toaster', '$uibModal', 'technical-service', 'ngDialog','$stateParams',
-        function ($rootScope, $scope, $state, toaster, $uibModal, technicalService, ngDialog,$stateParams) {
+    app.controller('technicalDocuments-index-controller', ['$rootScope', '$scope', '$state', 'toaster', '$uibModal', 'technical-service', 'ngDialog','$stateParams','$cookies',
+        function ($rootScope, $scope, $state, toaster, $uibModal, technicalService, ngDialog,$stateParams,$cookies) {
 
             var postData = $stateParams.data;
-            var user = localStorage.getItem("loginUser");
-
+            var user = sessionStorage.getItem('loginUser');
+            
             if (user) {
                 user = JSON.parse(user);
 

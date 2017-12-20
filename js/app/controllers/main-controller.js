@@ -1,4 +1,4 @@
-define(['bootstrap/app', 'utilities/cryto', 'ctrls/system/modals/logout-controller', 'services/organization-manager-service', 'services/cache-service', 'services/dictionary-service'], function (app) {
+define(['bootstrap/app', 'utilities/cryto', 'ctrls/system/modals/logout-controller', 'services/dictionary-service', 'services/staff-service'], function (app) {
     'use strict';
 
     var cryto = require('utilities/cryto');
@@ -8,13 +8,13 @@ define(['bootstrap/app', 'utilities/cryto', 'ctrls/system/modals/logout-controll
     var baseUrl = config.baseUrl();
 
     app.controller('main-controller', ['$rootScope', '$scope', '$cookies', '$state', '$uibModal',
-        'authorization-service', '$timeout', 'organization-manager-service', '$cacheFactory', 'cache-service', 'toaster', 'ngDialog', 'dictionary-service',
+        '$timeout', '$cacheFactory', 'toaster', 'ngDialog', 'dictionary-service', 'staff-service',
         function ($rootScope, $scope, $cookies, $state, $uibModal,
-            auth_service, $timeout, organizationService, $cacheFactory, cacheService, toaster, ngDialog, dictionaryService) {
+            $timeout, $cacheFactory, toaster, ngDialog, dictionaryService, staffService) {
 
             $scope.baseUrl = baseUrl;
 
-            var user = localStorage.getItem("loginUser");
+            var user = sessionStorage.getItem('loginUser');
 
             if (user) {
                 user = JSON.parse(user);
@@ -82,6 +82,11 @@ define(['bootstrap/app', 'utilities/cryto', 'ctrls/system/modals/logout-controll
 
                 }
 
+                //登录就有用户中心
+                if (user) {
+                    $scope.mainMenu[3].show = true;
+                }
+
 
 
                 $scope.HeadNew = true;
@@ -140,12 +145,11 @@ define(['bootstrap/app', 'utilities/cryto', 'ctrls/system/modals/logout-controll
                     controller: function ($scope) {
                         $scope.ok = function () {
 
-                            localStorage.removeItem('loginUser');
                             $cookies.remove("AUTH_ID");
-
+                            sessionStorage.removeItem('loginUser');
 
                             if ($scope.menustate == "main.home") {
-                                 location.reload();
+                                location.reload();
                             } else {
                                 $cookies.put('reload', true);
                                 var sRouter = "main.home";
@@ -170,7 +174,7 @@ define(['bootstrap/app', 'utilities/cryto', 'ctrls/system/modals/logout-controll
 
                     templateUrl: url,
                     controller: 'login-controller',
-                    size:'sm',  
+                    size: 'sm',
                     resolve: {
                         values: function () {
 
@@ -234,7 +238,7 @@ define(['bootstrap/app', 'utilities/cryto', 'ctrls/system/modals/logout-controll
     }]);
 
     //附件上传modal
-    app.controller('uploadModal-controller', ['$scope', 'Upload', '$timeout', '$uibModalInstance', 'values', 'accessory-service', 'authorization-service', function ($scope, Upload, $timeout, $modalInstance, values, accessoryService, auth_service) {
+    app.controller('uploadModal-controller', ['$scope', 'Upload', '$timeout', '$uibModalInstance', 'values', 'accessory-service', function ($scope, Upload, $timeout, $modalInstance, values, accessoryService) {
         // upload later on form submit or something similar
 
         $scope.submit = function () {
@@ -280,7 +284,7 @@ define(['bootstrap/app', 'utilities/cryto', 'ctrls/system/modals/logout-controll
         // upload on file select or drop
         $scope.upload = function (file) {
             Upload.upload({
-                url: baseUrl + '/Foundation/Attachment/uploadWithNoThum?AUTH_ID=' + '1'+"&userid="+values.userid,
+                url: baseUrl + '/Foundation/Attachment/uploadWithNoThum?AUTH_ID=' + '1' + "&userid=" + values.userid,
                 data: { file: file, 'username': $scope.username },
                 removeAfterUpload: true,
             }).then(function (resp) {

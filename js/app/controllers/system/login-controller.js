@@ -1,10 +1,10 @@
-define(['bootstrap/app', 'utils', 'services/system-service','services/md5-service'], function (app, utils) {
+define(['bootstrap/app', 'utils', 'services/system-service', 'services/md5-service','services/staff-service'], function (app, utils) {
     'use strict';
-
+    var cryto = require('utilities/cryto');
     var config = require('app/config-manager');
     var baseUrl = config.baseUrl();
-    app.controller('login-controller', ['$rootScope', '$scope', '$state', 'toaster', '$uibModal', '$uibModalInstance', 'values', 'system-service', '$cookies','md5-service',
-        function ($rootScope, $scope, $state, toaster, $uibModal, $modalInstance, values, systemService, $cookies,md5Service) {
+    app.controller('login-controller', ['$rootScope', '$scope', '$state', 'toaster', '$uibModal', '$uibModalInstance', 'values', 'system-service', '$cookies', 'md5-service','staff-service',
+        function ($rootScope, $scope, $state, toaster, $uibModal, $modalInstance, values, systemService, $cookies, md5Service,staffService) {
 
             //变量
             var define_variable = function () {
@@ -15,11 +15,11 @@ define(['bootstrap/app', 'utils', 'services/system-service','services/md5-servic
             //加载
             var initialize = function () {
 
-               var account= localStorage.getItem('account');
-               if(account){
-                   $scope.account = JSON.parse(account);
-                   $scope.isremember =true;
-               }
+                var account = localStorage.getItem('account');
+                if (account) {
+                    $scope.account = JSON.parse(account);
+                    $scope.isremember = true;
+                }
             };
 
             //方法
@@ -53,8 +53,9 @@ define(['bootstrap/app', 'utils', 'services/system-service','services/md5-servic
                         if (res && res.LoginState) {
                             // userinfo
                             var loginUser = res.LoginResult;
-                            localStorage.setItem('loginUser', JSON.stringify(loginUser));
-
+                            // $cookies.put('loginUser', cryto.encrypt(JSON.stringify(loginUser)));
+                            // staffService.setStaff(loginUser);
+                            sessionStorage.setItem('loginUser', JSON.stringify(loginUser));
                             // ticket
                             var authID = res.ticket;
                             $cookies.put('AUTH_ID', authID);

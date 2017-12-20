@@ -24,7 +24,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/usercenter-ser
             var initialize = function () {
 
 
-                //获取通知列表
+                //获取留言列表
                 $scope.selectSuggestion = function (isPaging) {
                     $scope.isLoaded = false;
 
@@ -44,7 +44,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/usercenter-ser
                     };
                     options.conditions.push({ key: 'Type', value: null })
                     if ($scope.Name) {
-                        options.conditions.push({ key: 'Title', value: $scope.Name });
+                        options.conditions.push({ key: 'KeyWords', value: $scope.Name });
                     }
 
                     usercenterService.getSuggestionList(options, function (response) {

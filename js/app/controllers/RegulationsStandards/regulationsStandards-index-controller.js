@@ -3,12 +3,12 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
 
     var config = require('app/config-manager');
     var baseUrl = config.baseUrl();
-    app.controller('regulationsStandards-index-controller', ['$stateParams', '$rootScope', '$scope', '$state', 'toaster', '$uibModal', 'regulation-service', 'ngDialog',
-        function ($stateParams, $rootScope, $scope, $state, toaster, $uibModal, regulationService, ngDialog) {
+    app.controller('regulationsStandards-index-controller', ['$stateParams', '$rootScope', '$scope', '$state', 'toaster', '$uibModal', 'regulation-service', 'ngDialog','$cookies',
+        function ($stateParams, $rootScope, $scope, $state, toaster, $uibModal, regulationService, ngDialog,$cookies) {
 
             var postData = $stateParams.data;
 
-            var user = localStorage.getItem("loginUser");
+            var user = sessionStorage.getItem('loginUser');
 
             if (user) {
                 user = JSON.parse(user);

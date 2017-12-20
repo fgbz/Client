@@ -39,26 +39,26 @@
             <table>
                 <tr height="50px;">
                     <td class="color_blue first_td">关键字 : </td>
-                    <td class="va_top">{{DetaiData.keywords}}</td>
+                    <td class="va_topnormal">{{DetaiData.keywords}}</td>
                 </tr>
                 <tr height="50px;">
                     <td class="color_blue first_td">摘 要 : </td>
-                    <td class="va_top">{{DetaiData.summaryinfo}}</td>
+                    <td class="va_topnormal">{{DetaiData.summaryinfo}}</td>
                 </tr>
                 <tr height="50px;">
                     <td class="color_blue first_td">备 注 : </td>
-                    <td class="va_top">{{DetaiData.memo}}</td>
+                    <td class="va_topnormal">{{DetaiData.memo}}</td>
                 </tr>
                 <tr height="50px;">
                     <td class="color_blue first_td">附 件 : </td>
-                    <td class="va_top" style="overflow-y: auto;">
+                    <td class="va_topnormal" style="overflow-y: auto;">
                         <ul>
                             <li ng-repeat="accitem in Attachments" class="regluation_detail_Attachments">
 
                                 <div title="{{accitem.FileName}}"> {{accitem.FileName|tooltips:15}}
                                     <input type="button" class="checkbtn ml20" value="查 看" title="查看" ng-show="canPreview(accitem.FileName)" ng-click="preview(accitem.ID)"
                                     />
-                                    <input class="downloadbtn ml10" value="下 载" title="下载" ng-click="downloadAccessory(accitem.ID)" />
+                                    <input class="downloadbtn ml10" value="下 载" title="下载" ng-click="downloadAccessory(accitem.ID)" ng-show="isDownload"/>
                                 </div>
 
                             </li>

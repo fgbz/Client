@@ -1,4 +1,4 @@
-﻿/* Copyright 2012 Mozilla Foundation
+/* Copyright 2012 Mozilla Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,7 +25,11 @@
 
 'use strict';
 
-var DEFAULT_URL = '法规标准系统.pdf';
+//var DEFAULT_URL = '国土资源违法线索管理信息系统-用户手册V1.0.pdf';
+var fileUrlStr = window.location.search;
+var strIndex = window.location.search.indexOf("url=");
+var fileUrl = fileUrlStr.substr(strIndex+4);
+var DEFAULT_URL = fileUrl;
 var DEFAULT_SCALE_DELTA = 1.1;
 var MIN_SCALE = 0.25;
 var MAX_SCALE = 10.0;
@@ -7164,9 +7168,9 @@ function validateFileURL(file) {
     // Removing of the following line will not guarantee that the viewer will
     // start accepting URLs from foreign origin -- CORS headers on the remote
     // server must be properly configured.
-    if (fileOrigin !== viewerOrigin) {
-      throw new Error('file origin does not match viewer\'s');
-    }
+    // if (fileOrigin !== viewerOrigin) {
+    //   throw new Error('file origin does not match viewer\'s');
+    // }
   } catch (e) {
     var message = e && e.message;
     var loadingErrorMessage = mozL10n.get('loading_error', null,

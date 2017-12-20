@@ -3,10 +3,10 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
 
     var config = require('app/config-manager');
     var baseUrl = config.baseUrl();
-    app.controller('systemSetup-index-controller', ['$rootScope', '$scope', '$state', 'toaster', '$uibModal', 'regulation-service', 'technical-service', 'system-service', 'ngDialog',
-        function ($rootScope, $scope, $state, toaster, $uibModal, regulationService, technicalService, systemService, ngDialog) {
+    app.controller('systemSetup-index-controller', ['$rootScope', '$scope', '$state', 'toaster', '$uibModal', 'regulation-service', 'technical-service', 'system-service', 'ngDialog','$cookies',
+        function ($rootScope, $scope, $state, toaster, $uibModal, regulationService, technicalService, systemService, ngDialog, $cookies) {
 
-            var user = localStorage.getItem("loginUser");
+            var user = sessionStorage.getItem('loginUser');
 
             if (user) {
                 user = JSON.parse(user);

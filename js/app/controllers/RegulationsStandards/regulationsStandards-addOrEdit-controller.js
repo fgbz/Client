@@ -3,12 +3,12 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
 
     var config = require('app/config-manager');
     var baseUrl = config.baseUrl();
-    app.controller('regulationsStandards-addOrEdit-controller', ['$stateParams', '$rootScope', '$scope', '$state', 'toaster', '$uibModal', 'regulation-service', 'accessory-service', 'system-service',
-        function ($stateParams, $rootScope, $scope, $state, toaster, $uibModal, regulationService, accessoryService, systemService) {
+    app.controller('regulationsStandards-addOrEdit-controller', ['$stateParams', '$rootScope', '$scope', '$state', 'toaster', '$uibModal', 'regulation-service', 'accessory-service', 'system-service','http-service','$cookies',
+        function ($stateParams, $rootScope, $scope, $state, toaster, $uibModal, regulationService, accessoryService, systemService,http,$cookies) {
 
             var postData = $stateParams.data;
 
-            var user = localStorage.getItem("loginUser");
+           var user = sessionStorage.getItem('loginUser');
 
             if (user) {
                 user = JSON.parse(user);
@@ -323,19 +323,15 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                 //预览
                 $scope.preview = function (fileId) {
 
-                    var url = "";
-                    accessoryService.getPreView(fileId, function (params) {
-                        url = params.path;
-                        var url = baseUrl + "/Phalaenopsis/UploadFiles/3/8/38d207fb-f2a1-486f-b510-1fb7d78053e8.swf";
-
-                        window.open('partials/FileUpload/documentView.jsp?url=' + url);
-                    })
+                    
+                    var url = baseUrl + '/Foundation/Attachment/getPreView?fileid=' + fileId ;
+                    window.open('usermanual/web/viewer.html?url=' +http.wrapUrl(url));
+                    // var url = baseUrl + '/Foundation/Attachment/getPreView/?file=' + fileId + "&AUTH_ID=" + '1';
+                    // window.open('partials/FileUpload/documentView.jsp?url=' + url);
 
 
-                }
-
-            };
-
+                };
+            }
             // 实际运行……
             define_variable();
 

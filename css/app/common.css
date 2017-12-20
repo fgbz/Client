@@ -318,6 +318,13 @@ body {
     background: url('../../images/but_sc_c.png') right no-repeat ;
 }
 
+.regluation_detail_nocollect{
+    padding-right: 30px;
+    float: right;
+    margin-right: 20px;
+    background: url('../../images/but_sc_n.png') right no-repeat ;
+}
+
 .regluation_detail_chinesetitle{
     color: #08589f;
     font-size: 30px;
@@ -419,6 +426,22 @@ body {
     color: #fff;
     margin-right: 16px;
 }
+
+
+
+.regluation_detail_rep{
+    float: left;
+    background: #55a8f6;
+    width: 60px;
+    text-align: center;
+    line-height: 60px;
+    height: 60px;
+    margin-left: 40px;
+    margin-top: 10px;
+    color: #fff;
+    margin-right: 16px;
+}
+
 
 .regluation_detail_statenoactive{
     float: left;
@@ -1619,6 +1642,9 @@ body {
 .va_top{
     vertical-align: top;
     padding-top: 10px;
+}
+.va_topnormal{
+    vertical-align: top;
 }
 
 .color363636{

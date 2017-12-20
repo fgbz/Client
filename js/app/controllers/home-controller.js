@@ -1,9 +1,9 @@
-define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/regulation-service'], function (app, utils) {
+define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/regulation-service','services/staff-service'], function (app, utils) {
     'use strict';
     var moment = require('moment');
 
-    app.controller('home-controller', ['usercenter-service', '$rootScope', '$scope', '$state', '$timeout', '$cacheFactory', 'toaster', '$cookies', '$uibModal', '$http', 'regulation-service',
-        function (usercenterService, $rootScope, $scope, $state, $timeout, $cacheFactory, toaster, $cookies, $uibModal, $http, regulationService) {
+    app.controller('home-controller', ['usercenter-service', '$rootScope', '$scope', '$state', '$timeout', '$cacheFactory', 'toaster', '$cookies', '$uibModal', '$http', 'regulation-service','staff-service',
+        function (usercenterService, $rootScope, $scope, $state, $timeout, $cacheFactory, toaster, $cookies, $uibModal, $http, regulationService,staffService) {
 
             var authID = $cookies.get('AUTH_ID');
 
@@ -13,7 +13,7 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/regul
                 location.reload();
             }
 
-            var user = localStorage.getItem("loginUser");
+            var user = sessionStorage.getItem('loginUser');
 
             if (user) {
                 user = JSON.parse(user);
@@ -148,7 +148,7 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/regul
 
                     var datax = [];
                     var datay = [];
-                    for (var i=0; i < data.length; i++) {
+                    for (var i = 0; i < data.length; i++) {
                         datax.push(data[i].name);
                         datay.push(parseFloat(data[i].count));
                     }
@@ -227,7 +227,7 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/regul
                 //跳转到系统通知
                 $scope.goNotice = function (item) {
 
-                    if (!authID) {
+                    if (!authID||!user) {
                         isLogined();
                     } else {
                         var sRouter = "main.notice";
@@ -253,7 +253,7 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/regul
 
                 $scope.goReg = function () {
 
-                    if (!authID) {
+                    if (!authID||!user) {
                         isLogined();
                     } else {
                         var sRouter = "main.regulationsStandardsIndex";
@@ -267,7 +267,7 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/regul
                 //跳转到用户留言
                 $scope.goSuggestion = function (item) {
 
-                    if (!authID) {
+                    if (!authID||!user) {
                         isLogined();
                     } else {
                         var sRouter = "main.suggestion";

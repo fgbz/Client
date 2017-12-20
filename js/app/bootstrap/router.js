@@ -1,6 +1,5 @@
 define(['bootstrap/app',
-    'ctrls/main-controller', 'ctrls/login-controller', 'ctrls/home-controller',
-    'ctrls/system/region-controller', 'ctrls/system/organization-controller', 'ctrls/system/staff-controller', 'ctrls/system/role-controller',
+    'ctrls/main-controller', 'ctrls/home-controller',
     'ctrls/system/reference-controller',
     'ctrls/system/examCheck-controller',
     'ctrls/system/settings-controller',
@@ -22,7 +21,7 @@ define(['bootstrap/app',
     'ctrls/UserCenter/userCenter-index-controller',
     'ctrls/SystemSetup/systemSetup-index-controller',
 
-    'ctrls/help-controller', 'ctrls/error-controller'], function (app) {
+     'ctrls/error-controller'], function (app) {
         'use strict';
 
         app.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
@@ -134,15 +133,6 @@ define(['bootstrap/app',
                 templateUrl: 'partials/SystemSetup/systemSetup-index.htm',
                 controller: 'systemSetup-index-controller'
             });
-
-
-            //帮助
-            $stateProvider.state('main.help', {
-                url: 'help',
-                templateUrl: 'partials/help.htm',
-                controller: 'help-controller'
-            });
-
 
 
             // 如果出现了没有存在的状态，则进入默认的 URL。 settings-controller

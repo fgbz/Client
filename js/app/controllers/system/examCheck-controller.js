@@ -3,12 +3,11 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/usercenter-ser
 
     var config = require('app/config-manager');
     var baseUrl = config.baseUrl();
-    app.controller('examCheck-controller', ['$rootScope', '$scope', '$state', 'toaster', '$uibModal', '$uibModalInstance', 'values', 'usercenter-service',
-        function ($rootScope, $scope, $state, toaster, $uibModal, $modalInstance, values, usercenterService) {
+    app.controller('examCheck-controller', ['$rootScope', '$scope', '$state', 'toaster', '$uibModal', '$uibModalInstance', 'values', 'usercenter-service','$cookies',
+        function ($rootScope, $scope, $state, toaster, $uibModal, $modalInstance, values, usercenterService,$cookies) {
 
 
-            var user = localStorage.getItem("loginUser");
-
+          var user = sessionStorage.getItem('loginUser');
             if (user) {
                 user = JSON.parse(user);
             }

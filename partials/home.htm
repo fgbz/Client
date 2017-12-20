@@ -7,7 +7,7 @@
     <div class="home_notice">
         <input type="button" class="noticebtn" value="系统通知" ng-click="goNotice()" />
         <marquee id="affiche" align="left" behavior="scroll" direction="left" height="50" width="200" hspace="30" style="margin: 0;margin-left: 20px;width: calc(100% - 140px);float: right;"
-            vspace="20" loop="-1" scrollamount="10" scrolldelay="100">
+            vspace="20" loop="-1" scrollamount="5" scrolldelay="100" onMouseOut="this.start()" onMouseOver="this.stop()">
             <div ng-repeat="item in activeItems" class="home_advice" ng-click="goNotice(item)">
                 <span>{{item.title}}</span>
             </div>

@@ -3,12 +3,12 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
 
     var config = require('app/config-manager');
     var baseUrl = config.baseUrl();
-    app.controller('regulationsStandards-detail-controller', ['$stateParams', '$rootScope', '$scope', '$state', 'toaster', '$uibModal', 'regulation-service', 'accessory-service',
-        function ($stateParams, $rootScope, $scope, $state, toaster, $uibModal, regulationService, accessoryService) {
+    app.controller('regulationsStandards-detail-controller', ['$stateParams', '$rootScope', '$scope', '$state', 'toaster', '$uibModal', 'regulation-service', 'accessory-service', '$cookies',
+        function ($stateParams, $rootScope, $scope, $state, toaster, $uibModal, regulationService, accessoryService, $cookies) {
 
             var postData = $stateParams.data;
 
-            var user = localStorage.getItem("loginUser");
+            var user = sessionStorage.getItem('loginUser');
 
             if (user) {
                 user = JSON.parse(user);
@@ -26,8 +26,8 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                     postData = JSON.parse(postData);
                 }
 
-                var isDownload = utils.getListItem('下载', 'menuname', user.menus);
-                var isSup = utils.getListItem('超级管理员', 'menuname', user.menus);
+                var isDownload = utils.getListItem('法规标准下载', 'menuname', user.menus);
+                // var isSup = utils.getListItem('超级管理员', 'menuname', user.menus);
 
                 //获取附件信息
                 accessoryService.getAccessoryByDirId(postData.item.id, function (res) {
@@ -49,7 +49,7 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                     var sRouter = "";
                     if (postData.clickValue == 'approve' || postData.clickValue == 'fav') {
                         sRouter = "main.userCenter";
-                    }else {
+                    } else {
                         sRouter = "main.regulationsStandardsIndex";
                     }
 
@@ -79,6 +79,10 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                                 return data;
                             }
                         }
+                    });
+
+                    modalInstance.result.then(function (res) {
+                        $scope.DetaiData.iscollect = res;
                     });
                 }
 

@@ -1,13 +1,18 @@
-define(['bootstrap/app', 'utils',  'services/technical-service','services/accessory-service'], function (app, utils) {
+define(['bootstrap/app', 'utils', 'services/technical-service', 'services/accessory-service'], function (app, utils) {
     'use strict';
 
     var config = require('app/config-manager');
     var baseUrl = config.baseUrl();
-    app.controller('technicalDocuments-detail-controller', ['$stateParams', '$rootScope', '$scope', '$state', 'toaster', '$uibModal','technical-service','accessory-service',
-        function ($stateParams, $rootScope, $scope, $state, toaster, $uibModal, technicalService,accessoryService) {
+    app.controller('technicalDocuments-detail-controller', ['$stateParams', '$rootScope', '$scope', '$state', 'toaster', '$uibModal', 'technical-service', 'accessory-service',
+        function ($stateParams, $rootScope, $scope, $state, toaster, $uibModal, technicalService, accessoryService) {
 
             var postData = $stateParams.data;
 
+            var user = sessionStorage.getItem('loginUser');
+
+            if (user) {
+                user = JSON.parse(user);
+            }
             //变量
             var define_variable = function () {
                 $scope.Attachments = [];
@@ -20,6 +25,8 @@ define(['bootstrap/app', 'utils',  'services/technical-service','services/access
                     postData = JSON.parse(postData);
                 }
 
+                var isDownload = utils.getListItem('技术文档下载', 'menuname', user.menus);
+
                 //获取附件信息
                 accessoryService.getAccessoryByDirId(postData.item.id, function (res) {
                     $scope.Attachments = res;
@@ -27,7 +34,7 @@ define(['bootstrap/app', 'utils',  'services/technical-service','services/access
 
                 technicalService.getTechnicalById(postData.item, function (params) {
                     $scope.DetaiData = params;
-                     $scope.DetaiData.inputdate = utils.parseTime(new Date($scope.DetaiData.inputdate), "YYYY-MM-DD");
+                    $scope.DetaiData.inputdate = utils.parseTime(new Date($scope.DetaiData.inputdate), "YYYY-MM-DD");
                 })
 
             };
@@ -40,8 +47,8 @@ define(['bootstrap/app', 'utils',  'services/technical-service','services/access
                     var sRouter = "main.technicalDocuments";
 
                     var itemDeal = {};
-                     itemDeal.clickValue = postData.clickValue;
-                    
+                    itemDeal.clickValue = postData.clickValue;
+
 
                     var data = JSON.stringify(itemDeal);
 
