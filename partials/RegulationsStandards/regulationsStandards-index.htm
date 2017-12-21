@@ -100,7 +100,7 @@
                 <!--按钮-->
                 <div>
                     <div class="regluation_search">检索结果</div>
-                    <input type="button" class="normalbtn fr mb10 mr10" value="导 出" ng-click="exporeLaw()"/>
+                    <input type="button" class="normalbtn fr mb10 mr10" value="导 出" ng-click="exporeLaw()" />
                 </div>
                 <!--表格-->
                 <div>
@@ -116,7 +116,7 @@
                             </tr>
                         </thead>
                         <tbody ng-if="isLoaded">
-                            <tr ng-repeat="item in items" style="height: 40px;cursor: pointer" ng-click="clickTable($index);" ng-class="{true: 'tr_selected',false: ''}[tableRow.selected==$index] ">
+                            <tr ng-repeat="item in items" style="height: 40px;cursor: pointer" ng-click="clicksearchTable($index);" ng-class="{true: 'tr_selected',false: ''}[tableRowsearch.selected==$index] ">
                                 <td>{{$index+1}}</td>
                                 <td title="{{item.chinesename}} " class="w300 ">{{item.chinesename| tooltips:20}}</td>
                                 <td title="{{item.code}} ">{{item.code| tooltips:13 }}</td>
@@ -168,29 +168,36 @@
                           <option value="2">已提交待审核</option>
                           <option value="3">发布</option>
                   </select>
+                <span>是否批量导入:</span>
+                <select class="home-select" ng-model="IsBatch" style="margin-left: 5px;">
+                          <option value="">全部</option>
+                          <option value="1">是</option>
+                          <option value="0">否</option>
+                  </select>
 
                 <input class="home-input w300" type="text" style="margin-left: 0px;" ng-model="KeyWords" maxlength="25" placeholder="请输入关键字"
                 />
 
-                <input type="button" class="normalbtn mr10" value="查 询" ng-click="searchManage()"/>
+                <input type="button" class="normalbtn mr10" value="查 询" ng-click="searchManage()" />
 
             </div>
 
             <!--操作-->
             <div class="mt10_mb10" style="height: 30px;">
                 <input type="button" class="normalbtn fl ml10" ng-click="Add()" value="新 增" />
-                <a type="button" class="downbtn fl ml10" value="下载模板" ng-click="downloadtempelete()"/>
-                <!--<a  href="/download/lawTempele.xls" title="下载模板">下载模板</a>-->
+                <a class="downbtn fl ml10" href="/download/lawTempele.xls" title="下载模板" style="text-decoration: none;padding-top: 6px;color:#fff">下载模板</a>
 
                 <div class="normalbtn fl ml10 posi_re">
 
                     <input id="uploader_input" type="file" class="attachment_upload_input" type="file" ngf-select ng-model="file" name="file"
-                        ngf-pattern="'.xlsx'" ngf-accept="'.xlsx'" ngf-max-size="200MB" ng-change="defaultName(file)" />
+                        ngf-pattern="'.xls'" ngf-accept="'.xls'" ngf-max-size="200MB" ng-change="defaultName(file)" />
                     <div class="reg_dr">批量导入</div>
                 </div>
 
-                <input type="button" class="deletebtn fr mr10" value="删 除" ng-click="deleteLaw()" ng-show="selectItem.approvestatus==1||isSup"/>
-                <input type="button" class="normalcheckbtn fr mr10" ng-click="Edit()" value="编 辑" ng-show="selectItem.approvestatus==1||isSup"/>
+                <input type="button" class="deletebtn fr mr10" value="删 除" ng-click="deleteLaw()" ng-show="selectItem.approvestatus==1||isSup"
+                />
+                <input type="button" class="normalcheckbtn fr mr10" ng-click="Edit()" value="编 辑" ng-show="selectItem.approvestatus==1||isSup"
+                />
                 <input type="button" class="normalbtn fr mr10" value="审核信息" ng-click="Exam()" />
 
             </div>
@@ -201,6 +208,7 @@
                         <th>序号</th>
                         <th>标题</th>
                         <th>类别</th>
+                        <th>是否批量导入</th>
                         <th>信息状态</th>
                         <th>操作</th>
                     </tr>
@@ -210,7 +218,9 @@
                         <td>{{$index+1}}</td>
                         <td title="{{item.chinesename}} " class="w300 ">{{item.chinesename| tooltips:20}}</td>
                         <td title="{{item.typename}} ">{{item.typename| tooltips:13 }}</td>
-                        <td title="{{item.approvestatus}} ">{{item.approvestatus|approvestatus }}</td>
+
+                         <td title="{{item.isbatch&&item.isbatch==1?'是':'否'}} ">{{item.isbatch&&item.isbatch==1?'是':'否'}}</td>
+                        <td title="{{item.approvestatus|approvestatus}} ">{{item.approvestatus|approvestatus }}</td>
                         <td>
                             <input type="button " class="checkbtn" ng-click="Check(item)" value="查 看 " />
                         </td>

@@ -67,7 +67,8 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/regul
                         pageSize: 10,
                         conditions: []
                     };
-                    options.conditions.push({ key: 'Type', value: 'uptodata10' })
+                    options.conditions.push({ key: 'Type', value: 'uptodata10' });
+                     options.conditions.push({ key: 'ApproveStatus', value: 3 });
                     regulationService.getUptodateLawstandardList(options, function (response) {
                         $scope.LawItems = response.CurrentList;
                     })
@@ -135,7 +136,7 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/regul
                     { Title: "中华人民共和国安全生产法", Number: "第52号", MaterialDate: "2014-11-19" }
                 ]
 
-
+                //初始化图表
                 regulationService.getHomeChart(function (params) {
                     var allChart = params;
 

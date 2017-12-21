@@ -3,8 +3,8 @@ define(['bootstrap/app', 'utils', 'services/technical-service'], function (app, 
 
     var config = require('app/config-manager');
     var baseUrl = config.baseUrl();
-    app.controller('technicalDocuments-index-controller', ['$rootScope', '$scope', '$state', 'toaster', '$uibModal', 'technical-service', 'ngDialog', '$stateParams', '$cookies', 'http-service',
-        function ($rootScope, $scope, $state, toaster, $uibModal, technicalService, ngDialog, $stateParams, $cookies,http) {
+    app.controller('technicalDocuments-index-controller', ['$rootScope', '$scope', '$state', 'toaster', '$uibModal', 'technical-service', 'ngDialog', '$stateParams', '$cookies', 'http-service', 'Upload',
+        function ($rootScope, $scope, $state, toaster, $uibModal, technicalService, ngDialog, $stateParams, $cookies, http, Upload) {
 
             var postData = $stateParams.data;
             var user = sessionStorage.getItem('loginUser');
@@ -43,6 +43,10 @@ define(['bootstrap/app', 'utils', 'services/technical-service'], function (app, 
                 $scope.pagerManage = {
                     size: 10,
                     current: 1
+                }
+
+                $scope.tableRowsearch = {
+                    selected: 0
                 }
             };
 
@@ -83,6 +87,10 @@ define(['bootstrap/app', 'utils', 'services/technical-service'], function (app, 
                 $scope.clickTable = function (params) {
                     $scope.tableRow.selected = params;
                     $scope.selectItem = $scope.itemManages[params];
+                }
+
+                $scope.clicksearchTable = function (params) {
+                    $scope.tableRowsearch.selected = params;
                 }
 
                 $scope.clickTree = function (params) {
@@ -138,9 +146,14 @@ define(['bootstrap/app', 'utils', 'services/technical-service'], function (app, 
                         controller: function ($scope) {
                             $scope.ok = function () {
 
-                                technicalService.DeleteTechnicalById($scope.selectItem, function () {
-                                    toaster.pop({ type: 'success', body: '删除成功!' });
-                                    $scope.searchManage();
+                                technicalService.DeleteTechnicalById($scope.selectItem, function (res) {
+                                    if (res == 200) {
+                                        toaster.pop({ type: 'success', body: '删除成功!' });
+                                        $scope.searchManage();
+                                    } else {
+                                        toaster.pop({ type: 'danger', body: '删除失败!' });
+                                    }
+
                                 })
 
                                 $scope.closeThisDialog(); //关闭弹窗
@@ -224,8 +237,8 @@ define(['bootstrap/app', 'utils', 'services/technical-service'], function (app, 
                         options.conditions.push({ key: 'TreeValue', value: $scope.clickTreeValue });
                     }
 
-                    options.conditions.push({ key: 'ApproveStatus', value:2 });
-
+                    options.conditions.push({ key: 'ApproveStatus', value: 2 });
+                    $scope.tableRowsearch.selected = 0;
                     technicalService.getTechnicalList(options, function (response) {
                         $scope.isLoaded = true;
                         $scope.items = response.CurrentList;
@@ -261,13 +274,18 @@ define(['bootstrap/app', 'utils', 'services/technical-service'], function (app, 
                     if ($scope.ApproveStatus) {
                         options.conditions.push({ key: 'ApproveStatus', value: $scope.ApproveStatus });
                     }
-
+                    if ($scope.IsBatch) {
+                        options.conditions.push({ key: 'IsBatch', value: $scope.IsBatch });
+                    }
+                    $scope.tableRow.selected = 0;
                     technicalService.getTechnicalList(options, function (response) {
                         $scope.isLoaded = true;
                         $scope.itemManages = response.CurrentList;
                         $scope.pagerManage.total = response.RecordCount;
                         if ($scope.itemManages.length > 0) {
                             $scope.selectItem = $scope.itemManages[0];
+                        } else {
+                            $scope.selectItem = "";
                         }
 
                     })
@@ -285,20 +303,52 @@ define(['bootstrap/app', 'utils', 'services/technical-service'], function (app, 
                         Title: $scope.Title ? $scope.Title : null,
                         FiledTimeStart: $scope.FiledTimeStart ? $scope.FiledTimeStart : null,
                         FiledTimeEnd: $scope.FiledTimeEnd ? $scope.FiledTimeEnd : null,
-                        KeyWordsSingle:$scope.KeyWordsSingle ? $scope.KeyWordsSingle : null,
+                        KeyWordsSingle: $scope.KeyWordsSingle ? $scope.KeyWordsSingle : null,
                         TreeValue: $scope.TreeValue ? $scope.TreeValue : null,
                     }
                     var url = baseUrl + "/Technical/ExportTec?Number=" + data.Number + "&Title=" + data.Title + "&FiledTimeStart=" + data.FiledTimeStart
-                        + "&FiledTimeEnd=" + data.FiledTimeEnd +"&KeyWordsSingle="+data.KeyWordsSingle + "&TreeValue="+data.TreeValue + "&ApproveStatus=" + 2;
+                        + "&FiledTimeEnd=" + data.FiledTimeEnd + "&KeyWordsSingle=" + data.KeyWordsSingle + "&TreeValue=" + data.TreeValue + "&ApproveStatus=" + 2;
 
                     url = http.wrapUrl(url);
                     var exportWindow = window.open(url, "_blank");
                     exportWindow.document.title = "技术文档";
                 }
 
-                  //下载模板
-                $scope.downloadtempelete = function () {
-                     window.open("partials/commom/tecTempele.xls", "_blank");
+
+                //批量导入
+                $scope.defaultName = function (file) {
+                    if (file == null)
+                        return;
+
+                    var url = baseUrl + '/Technical/ImportTec';
+
+                    Upload.upload({
+                        url: http.wrapUrl(url),
+                        data: { file: file },
+                        removeAfterUpload: true,
+                    }).then(function (resp) {
+                        switch (resp.data) {
+                            case 200:
+                                toaster.pop({ type: 'success', body: '导入成功!' });
+                                $scope.searchManage();
+                                break;
+                            case 404:
+                                toaster.pop({ type: 'danger', body: '内容为空!', timeout: 0 });
+                                break;
+                            case 1:
+                                toaster.pop({ type: 'danger', body: '中文标题不能为空!', timeout: 0 });
+                                break;
+                            case 2:
+                                toaster.pop({ type: 'danger', body: '编号不能为空!', timeout: 0 });
+                                break;
+
+                            default:
+                                toaster.pop({ type: 'error', body: '导入失败!', timeout: 0 });
+                                break;
+                        }
+
+                    });
+
                 }
 
             };

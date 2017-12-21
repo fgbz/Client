@@ -4,15 +4,15 @@ define(['bootstrap/app', 'utilities/cryto', 'app/config-manager'], function (app
     var cryto = require('utilities/cryto');
     var config = require('app/config-manager');
 
-    app.service('http-service', ['$http', '$cookies', 'baseUrl', '$cacheFactory', '$q', '$window', function ($http, $cookies, baseUrl, $cacheFactory, $q, $window) {
+    app.service('http-service', ['$http', '$cookies', 'baseUrl', '$cacheFactory', '$q', '$window', '$state', function ($http, $cookies, baseUrl, $cacheFactory, $q, $window, $state) {
 
-        //   var authID = $cookies.get('AUTH_ID');
-        var authID = '1';
+        var authID = $cookies.get('AUTH_ID');
+        // var authID = '1';
         var hostAddress = baseUrl;
 
         var headers = {
             'Content-Type': 'application/json; charset=UTF-8',
-            'AUTH_ID': '1'
+            'AUTH_ID': authID
         };
 
         function onError(ex, statusCode) {
@@ -20,7 +20,12 @@ define(['bootstrap/app', 'utilities/cryto', 'app/config-manager'], function (app
                 //超时
                 $cookies.remove('AUTH_ID');
                 alert('操作超时，请重新登录！');
-                $window.location.replace('/page/login.html');
+
+                $cookies.remove("AUTH_ID");
+                sessionStorage.removeItem('loginUser');
+                
+                var sRouter = "main.home";
+                $state.go(sRouter);
             }
             else if (statusCode == 500) {
                 //请求出错

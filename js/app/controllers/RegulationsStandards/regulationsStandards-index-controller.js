@@ -3,8 +3,8 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
 
     var config = require('app/config-manager');
     var baseUrl = config.baseUrl();
-    app.controller('regulationsStandards-index-controller', ['$stateParams', '$rootScope', '$scope', '$state', 'toaster', '$uibModal', 'regulation-service', 'ngDialog', '$cookies', 'http-service',
-        function ($stateParams, $rootScope, $scope, $state, toaster, $uibModal, regulationService, ngDialog, $cookies, http) {
+    app.controller('regulationsStandards-index-controller', ['$stateParams', '$rootScope', '$scope', '$state', 'toaster', '$uibModal', 'regulation-service', 'ngDialog', '$cookies', 'http-service', 'Upload',
+        function ($stateParams, $rootScope, $scope, $state, toaster, $uibModal, regulationService, ngDialog, $cookies, http, Upload) {
 
             var postData = $stateParams.data;
 
@@ -46,6 +46,10 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
 
 
                 $scope.tableRow = {
+                    selected: 0
+                }
+
+                $scope.tableRowsearch = {
                     selected: 0
                 }
             };
@@ -93,6 +97,9 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                     $scope.tableRow.selected = params;
 
                     $scope.selectItem = $scope.itemManages[params];
+                }
+                $scope.clicksearchTable = function (params) {
+                    $scope.tableRowsearch.selected = params;
                 }
 
                 $scope.clickTree = function (params) {
@@ -147,9 +154,14 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                         controller: function ($scope) {
                             $scope.ok = function () {
 
-                                regulationService.DeleteLawstandardById($scope.selectItem, function () {
-                                    toaster.pop({ type: 'succcess', body: '删除成功!' });
-                                    $scope.searchManage();
+                                regulationService.DeleteLawstandardById($scope.selectItem, function (res) {
+                                    if (res == 200) {
+                                        toaster.pop({ type: 'succcess', body: '删除成功!' });
+                                        $scope.searchManage();
+                                    } else {
+                                        toaster.pop({ type: 'succcess', body: '删除失败!' });
+                                    }
+
                                 })
 
                                 $scope.closeThisDialog(); //关闭弹窗
@@ -249,6 +261,8 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
 
                     options.conditions.push({ key: 'ApproveStatus', value: 3 });
 
+                    $scope.tableRowsearch.selected = 0;
+
                     regulationService.getLawstandardList(options, function (response) {
                         $scope.isLoaded = true;
                         $scope.items = response.CurrentList;
@@ -283,6 +297,12 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                     if ($scope.ApproveStatus) {
                         options.conditions.push({ key: 'ApproveStatus', value: $scope.ApproveStatus });
                     }
+                    if ($scope.IsBatch) {
+                        options.conditions.push({ key: 'IsBatch', value: $scope.IsBatch });
+                    }
+                    $scope.tableRow.selected = 0;
+
+
 
                     regulationService.getLawstandardList(options, function (response) {
                         $scope.isLoaded = true;
@@ -290,6 +310,8 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                         $scope.pagerManage.total = response.RecordCount;
                         if ($scope.itemManages.length > 0) {
                             $scope.selectItem = $scope.itemManages[0];
+                        } else {
+                            $scope.selectItem = "";
                         }
 
                     })
@@ -353,9 +375,40 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                     exportWindow.document.title = "法规标准";
                 }
 
-                //下载模板
-                $scope.downloadtempelete = function () {
-                     window.open("partials/commom/lawTempele.xls", "_blank");
+                //批量导入
+                $scope.defaultName = function (file) {
+                    if (file == null)
+                        return;
+
+                    var url = baseUrl + '/Lawstandard/ImportLaw';
+
+                    Upload.upload({
+                        url: http.wrapUrl(url),
+                        data: { file: file },
+                        removeAfterUpload: true,
+                    }).then(function (resp) {
+                        switch (resp.data) {
+                            case 200:
+                                toaster.pop({ type: 'success', body: '导入成功!' });
+                                $scope.searchManage();
+                                break;
+                            case 404:
+                                toaster.pop({ type: 'danger', body: '内容为空!', timeout: 0 });
+                                break;
+                            case 1:
+                                toaster.pop({ type: 'danger', body: '中文标题不能为空!', timeout: 0 });
+                                break;
+                            case 2:
+                                toaster.pop({ type: 'danger', body: '编号不能为空!', timeout: 0 });
+                                break;
+
+                            default:
+                                toaster.pop({ type: 'error', body: '导入失败!', timeout: 0 });
+                                break;
+                        }
+
+                    });
+
                 }
 
 

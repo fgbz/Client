@@ -3,12 +3,12 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
 
     var config = require('app/config-manager');
     var baseUrl = config.baseUrl();
-    app.controller('regulationsStandards-addOrEdit-controller', ['$stateParams', '$rootScope', '$scope', '$state', 'toaster', '$uibModal', 'regulation-service', 'accessory-service', 'system-service','http-service','$cookies',
-        function ($stateParams, $rootScope, $scope, $state, toaster, $uibModal, regulationService, accessoryService, systemService,http,$cookies) {
+    app.controller('regulationsStandards-addOrEdit-controller', ['$stateParams', '$rootScope', '$scope', '$state', 'toaster', '$uibModal', 'regulation-service', 'accessory-service', 'system-service', 'http-service', '$cookies',
+        function ($stateParams, $rootScope, $scope, $state, toaster, $uibModal, regulationService, accessoryService, systemService, http, $cookies) {
 
             var postData = $stateParams.data;
 
-           var user = sessionStorage.getItem('loginUser');
+            var user = sessionStorage.getItem('loginUser');
 
             if (user) {
                 user = JSON.parse(user);
@@ -272,6 +272,7 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
 
                         if (!$scope.data.lawtype) {
                             toaster.pop({ type: 'danger', body: '请选择类别!' });
+                            $scope.isSaving = false;
                             return;
                         }
                         var fileids = [];
@@ -283,11 +284,16 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                         $scope.data.fileids = fileids;
 
                         regulationService.SaveOrUpdateLawstandard($scope.data, function (response) {
+                            if (response == 200) {
+                                toaster.pop({ type: 'success', body: '保存成功!' });
 
-                            toaster.pop({ type: 'success', body: '保存成功!' });
+                                $scope.goState("second"); F
+                            } else if (response == 461) {
+                                toaster.pop({ type: 'danger', body: '编号重复!', timeout: 0 });
+                            } else {
+                                toaster.pop({ type: 'danger', body: '保存失败!' });
+                            }
                             $scope.isSaving = false;
-
-                            $scope.goState("second");
 
                         })
                     })
@@ -323,9 +329,9 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                 //预览
                 $scope.preview = function (fileId) {
 
-                    
-                    var url = baseUrl + '/Foundation/Attachment/getPreView?fileid=' + fileId ;
-                    window.open('usermanual/web/viewer.html?url=' +http.wrapUrl(url));
+
+                    var url = baseUrl + '/Foundation/Attachment/getPreView?fileid=' + fileId;
+                    window.open('usermanual/web/viewer.html?url=' + http.wrapUrl(url));
                     // var url = baseUrl + '/Foundation/Attachment/getPreView/?file=' + fileId + "&AUTH_ID=" + '1';
                     // window.open('partials/FileUpload/documentView.jsp?url=' + url);
 

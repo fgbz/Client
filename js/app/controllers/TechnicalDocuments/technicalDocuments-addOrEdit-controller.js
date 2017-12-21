@@ -153,6 +153,7 @@ define(['bootstrap/app', 'utils', 'services/technical-service', 'services/access
 
                     if (!$scope.data.tectype) {
                         toaster.pop({ type: 'danger', body: '请选择类别!' });
+                         $scope.isSaving = false;
                         return;
                     }
                     var fileids = [];
