@@ -36,10 +36,10 @@
 
         <div class="home_new_regright">
 
-            <div ng-repeat="item in NewRegulationItem" class="clear">
-                <div class="parentname">{{item.Name}}</div>
-                <div ng-repeat="childitem in item.Childs">
-                    <div class="childname">{{childitem.Name}}</div>
+            <div ng-repeat="item in LawRegulationItem" class="clear">
+                <div class="parentname" title="{{item.typename}}" ng-click="goLaws(item.id)">{{item.typename|tooltips:8}}</div>
+                <div ng-repeat="childitem in item.childLists">
+                    <div class="childname"  ng-click="goLaws(childitem.id)" title="{{childitem.typename}}">{{childitem.typename|tooltips:8}}</div>
                 </div>
             </div>
 
@@ -51,8 +51,8 @@
         <div class="home_new_lbdh">
 
             <div class="title">类别导航</div>
-            <div ng-repeat="item in LbdhMenus">
-                <div ng-class="{true:'menu_select',false:'menu_normal'}[SelectLbMenu==item.Name]" ng-click="clickLbMenu(item.Name)">{{item.Name}}</div>
+            <div ng-repeat="item in LawRegulationItem">
+                <div ng-class="{true:'menu_select',false:'menu_normal'}[SelectLbMenu==item.id]" ng-click="clickLbMenu(item)" title="{{item.typename}}">{{item.typename|tooltips:8}}</div>
             </div>
         </div>
 
@@ -62,7 +62,7 @@
                 <table class="w100">
                     <tr>
                         <td ng-repeat="item in LbdhChildMenus" style=" text-align: -webkit-center;">
-                            <div ng-class="{true:'home_new_menu_select',false:'home_new_menu_normal'}[clickLbdhChildMenuValue==item.Name]" ng-click="clickLbdhChildMenu(item.Name)">{{item.Name}}</div>
+                            <div ng-class="{true:'home_new_menu_select',false:'home_new_menu_normal'}[clickLbdhChildMenuValue==item.id]" ng-click="clickLbdhChildMenu(item)" title="{{item.typename}}">{{item.typename|tooltips:8}}</div>
                         </td>
                     </tr>
                 </table>
@@ -80,18 +80,18 @@
                 </thead>
                 <tbody>
                     <tr ng-repeat="item in LbdhTableItems" style="height: 40px;cursor: pointer" ng-click="clickLbdhTable($index);" ng-class="{true: 'tr_selected',false: ''}[LbdhSelected==$index] ">
-                        <td title="{{item.Title}} " class="w300 ">{{item.Title| tooltips:20}}</td>
-                        <td title="{{item.Number}} ">{{item.Number| tooltips:13 }}</td>
-                        <td title="{{item.MaterialDate}} ">{{item.MaterialDate}}</td>
+                        <td title="{{item.chinesename}} " class="w300 " >{{item.chinesename| tooltips:20}}</td>
+                        <td title="{{item.code}} ">{{item.code| tooltips:13 }}</td>
+                        <td title="{{item.impdate|recordtime}} ">{{item.impdate|recordtime}}</td>
                     </tr>
-                    <tr ng-if="items.length==0 ">
-                        <td colspan="6 " class="text-center ">无数据</td>
+                    <tr ng-if="LbdhTableItems.length==0 ">
+                        <td colspan="3 " class="text-center ">无数据</td>
                     </tr>
                 </tbody>
 
             </table>
 
-            <div class="morecheck">
+            <div class="morecheck" ng-click="goReg()">
                 <span class="underline">查看更多</span>
                 <span>></span>
             </div>

@@ -25,7 +25,8 @@ define(['bootstrap/app', 'app/config-manager', 'services/http-service', 'utiliti
 
 		//下载
 		this.downloadAccessory = function (fileId) {
-			location.href = baseUrl + '/Foundation/Attachment/Download?file=' + fileId+'&AUTH_ID='+'1';
+			var url = baseUrl + '/Foundation/Attachment/Download?file=' + fileId;
+			location.href =  http.wrapUrl(url);
 		};
 
 		//预览

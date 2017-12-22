@@ -29,8 +29,8 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                     postData = JSON.parse(postData);
                 }
 
-                var isDownload = utils.getListItem('法规标准下载', 'menuname', user.menus);
- 
+                $scope.isDownload = utils.getListItem('法规标准下载', 'menuname', user.menus);
+
                 //获取附件信息
                 accessoryService.getAccessoryByDirId(postData.item.id, function (res) {
                     $scope.Attachments = res;
@@ -93,7 +93,7 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                     });
                 }
 
-                //点击替代或引用
+                //点击代替或引用
                 $scope.checkRepalceOrRefence = function (params) {
 
                     regulationService.getLawstandardById(params, function (res) {
@@ -121,6 +121,18 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                     window.open('usermanual/web/viewer.html?url=' + baseUrl + '/Foundation/Attachment/Download?file=' + fileId + '&AUTH_ID=' + '1');
                 }
 
+                $scope.canPreview = function (fileName) {
+                    var pos = fileName.lastIndexOf('.');
+                    var format = fileName.substring(pos + 1);
+                    var picType = ['pdf', 'doc', 'txt', 'xls', 'xlsx', 'doc', 'docx', 'ppt', 'pptx'];
+                    var res = false;
+                    angular.forEach(picType, function (value, key) {
+                        if (value == format.toLowerCase()) {
+                            res = true;
+                        }
+                    });
+                    return res;
+                }
             };
 
             // 实际运行……

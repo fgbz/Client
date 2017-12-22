@@ -7,6 +7,13 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/usercenter-ser
         function ($rootScope, $scope, $state, toaster, $uibModal, usercenterService, ngDialog) {
 
 
+            var user = sessionStorage.getItem('loginUser');
+
+            if (user) {
+                user = JSON.parse(user);
+            }
+            $scope.user = user;
+
             //变量
             var define_variable = function () {
 
@@ -16,7 +23,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/usercenter-ser
                 }
 
                 $scope.tableRow = {
-                    selected :0
+                    selected: 0
                 }
             };
 
@@ -45,6 +52,12 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/usercenter-ser
                     options.conditions.push({ key: 'Type', value: null })
                     if ($scope.Name) {
                         options.conditions.push({ key: 'KeyWords', value: $scope.Name });
+                    }
+                    if ($scope.FiledTimeStart) {
+                        options.conditions.push({ key: 'FiledTimeStart', value: $scope.FiledTimeStart });
+                    }
+                    if ($scope.FiledTimeEnd) {
+                        options.conditions.push({ key: 'FiledTimeEnd', value: $scope.FiledTimeEnd });
                     }
 
                     usercenterService.getSuggestionList(options, function (response) {

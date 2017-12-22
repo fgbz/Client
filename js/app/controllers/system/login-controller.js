@@ -1,10 +1,10 @@
-define(['bootstrap/app', 'utils', 'services/system-service', 'services/md5-service','services/staff-service'], function (app, utils) {
+define(['bootstrap/app', 'utils', 'services/system-service', 'services/md5-service', 'services/staff-service'], function (app, utils) {
     'use strict';
     var cryto = require('utilities/cryto');
     var config = require('app/config-manager');
     var baseUrl = config.baseUrl();
-    app.controller('login-controller', ['$rootScope', '$scope', '$state', 'toaster', '$uibModal', '$uibModalInstance', 'values', 'system-service', '$cookies', 'md5-service','staff-service',
-        function ($rootScope, $scope, $state, toaster, $uibModal, $modalInstance, values, systemService, $cookies, md5Service,staffService) {
+    app.controller('login-controller', ['$rootScope', '$scope', '$state', 'toaster', '$uibModal', '$uibModalInstance', 'values', 'system-service', '$cookies', 'md5-service', 'staff-service',
+        function ($rootScope, $scope, $state, toaster, $uibModal, $modalInstance, values, systemService, $cookies, md5Service, staffService) {
 
             //变量
             var define_variable = function () {
@@ -19,7 +19,13 @@ define(['bootstrap/app', 'utils', 'services/system-service', 'services/md5-servi
                 if (account) {
                     $scope.account = JSON.parse(account);
                     $scope.isremember = true;
+                    //获取焦点
+                    // document.getElementById('accountinput').focus();
+                } else {
+                    // document.getElementById('passwordinput').focus();
                 }
+
+                $scope.isSaving = false;
             };
 
             //方法
@@ -39,6 +45,9 @@ define(['bootstrap/app', 'utils', 'services/system-service', 'services/md5-servi
                 }
 
                 $scope.login = function () {
+
+                    $scope.isSaving = true;
+
                     $scope.loginMessage = "";
 
                     if ($scope.isremember) {
@@ -66,6 +75,7 @@ define(['bootstrap/app', 'utils', 'services/system-service', 'services/md5-servi
                             $scope.password = "";
                             $scope.loginMessage = '帐号或密码错误。';
                         }
+                        $scope.isSaving = false;
                     })
                 }
 

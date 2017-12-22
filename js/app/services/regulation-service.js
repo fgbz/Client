@@ -55,6 +55,11 @@ define(['bootstrap/app', 'app/config-manager', 'services/http-service'], functio
         this.getHomeChart = function (callback) {
             http.get('/Lawstandard/getHomeChart', null, callback);
         }
+        
+        //类别导航
+        this.getHomePageLawsType = function (callback) {
+             http.get('/Lawstandard/getHomePageLawsType', null, callback);
+        }
 
 
     }]);

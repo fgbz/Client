@@ -45,7 +45,7 @@ body {
 .index_menu{
     text-align: center;
     width: 100px;
-    float: left;
+    float: right;
     height: 45px;
     line-height: 45px;
     font-size: 16px;
@@ -56,7 +56,7 @@ body {
 .index_menu_new{
     text-align: center;
     width: 100px;
-    float: left;
+    float: right;
     height: 45px;
     line-height: 45px;
     font-size: 16px;
@@ -67,7 +67,7 @@ body {
 .index_menu_select{
     text-align: center;
     width: 100px;
-    float: left;
+    float: right;
     height: 45px;
     line-height: 45px;
     font-size: 16px;
@@ -1206,6 +1206,7 @@ body {
     font-size: 18px;
     color: #08589f;
     margin: 10px;
+    cursor: pointer;
 }
 .home_new_regright .childname{
     float: left;
@@ -1214,6 +1215,7 @@ body {
     font-size: 14px;
     margin-left: 10px;
     margin-bottom: 20px;
+    cursor: pointer;
 }
 
 .home_new_lbdh{

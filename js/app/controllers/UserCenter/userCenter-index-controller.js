@@ -7,7 +7,7 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
         function ($rootScope, $scope, $state, toaster, $uibModal, usercenterService, ngDialog, regulationService, $stateParams, md5Service, $cookies) {
 
             var postData = $stateParams.data;
-
+            var user = sessionStorage.getItem('loginUser');
             //变量
             var define_variable = function () {
 
@@ -46,7 +46,7 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
                 ]
 
 
-                var user = sessionStorage.getItem('loginUser');
+
 
                 if (user) {
                     user = JSON.parse(user);
@@ -205,6 +205,7 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
                         options.conditions.push({ key: 'KeyWords', value: $scope.approvedata.KeyWordLaw });
                     }
                     options.conditions.push({ key: 'ApproveStatus', value: 2 });
+                    options.conditions.push({ key: 'Userid', value: user.id });
                     regulationService.getLawstandardList(options, function (response) {
                         $scope.isLoaded = true;
                         $scope.LawstandardItems = response.CurrentList;

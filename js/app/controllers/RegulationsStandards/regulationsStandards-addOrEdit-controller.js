@@ -198,7 +198,7 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                     }
                 }
 
-                //替代关系
+                //代替关系
                 $scope.openReplace = function () {
 
                     var url = 'partials/system/modals/Reference.html';
@@ -210,7 +210,7 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                         resolve: {
                             values: function () {
                                 var data = {
-                                    title: '替代关系'
+                                    title: '代替关系'
                                 }
                                 return data;
                             }

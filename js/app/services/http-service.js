@@ -23,7 +23,7 @@ define(['bootstrap/app', 'utilities/cryto', 'app/config-manager'], function (app
 
                 $cookies.remove("AUTH_ID");
                 sessionStorage.removeItem('loginUser');
-                
+                $cookies.put('reload', true);
                 var sRouter = "main.home";
                 $state.go(sRouter);
             }

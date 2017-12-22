@@ -9,7 +9,7 @@
     <input type="text" class="attachment_upload_filename" ng-model="displayName" placeholder="请点击浏览按钮上传附件，附件名称不超过100个字符" />
     <div class="clear" style="display: inline-block;position: relative;left: 10px;bottom: 1px;width: 90px;height: 40px;line-height: 40px;vertical-align: bottom;">
       <input id="uploader_input" type="file" class="attachment_upload_input" style="float:right;" type="file" ngf-select ng-model="file"
-        name="file" ngf-pattern="'.PNG,.JPG,.JPEG,.BMP,.GIF,.doc,.docx,.xlsx,.pdf'" ngf-accept="'.PNG,.JPG,.JPEG,.BMP,.GIF,.doc,.docx,.xlsx,.pdf'"
+        name="file" ngf-pattern="'.doc,.docx,.txt,.pdf'" ngf-accept="'.doc,.docx,.txt,.pdf'"
         ngf-max-size="200MB" ng-change="defaultName(file)" />
       <div class="attachment_upload_div"><button class="attachment_upload_btn"><span>浏览</span></button></div>
     </div><br><br>

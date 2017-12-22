@@ -64,6 +64,18 @@ define(['bootstrap/app', 'utils', 'services/technical-service', 'services/access
                 $scope.preview = function (fileId) {
                     window.open('usermanual/web/viewer.html?url=' + baseUrl + '/Foundation/Attachment/Download?file=' + fileId + '&AUTH_ID=' + '1');
                 }
+                $scope.canPreview = function (fileName) {
+                    var pos = fileName.lastIndexOf('.');
+                    var format = fileName.substring(pos + 1);
+                    var picType = ['pdf', 'doc', 'txt', 'xls', 'xlsx', 'doc', 'docx', 'ppt', 'pptx'];
+                    var res = false;
+                    angular.forEach(picType, function (value, key) {
+                        if (value == format.toLowerCase()) {
+                            res = true;
+                        }
+                    });
+                    return res;
+                }
 
             };
 

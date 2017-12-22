@@ -8,9 +8,9 @@ define(['bootstrap/app', 'utilities/cryto', 'ctrls/system/modals/logout-controll
     var baseUrl = config.baseUrl();
 
     app.controller('main-controller', ['$rootScope', '$scope', '$cookies', '$state', '$uibModal',
-        '$timeout', '$cacheFactory', 'toaster', 'ngDialog', 'dictionary-service', 'staff-service',
+        '$timeout', '$cacheFactory', 'toaster', 'ngDialog', 'dictionary-service', 'staff-service', 'http-service',
         function ($rootScope, $scope, $cookies, $state, $uibModal,
-            $timeout, $cacheFactory, toaster, ngDialog, dictionaryService, staffService) {
+            $timeout, $cacheFactory, toaster, ngDialog, dictionaryService, staffService, http) {
 
             $scope.baseUrl = baseUrl;
 
@@ -28,19 +28,10 @@ define(['bootstrap/app', 'utilities/cryto', 'ctrls/system/modals/logout-controll
                     showWeeks: false
                 }
                 $scope.mainMenu = [
+
                     {
-                        name: '首页',
-                        state: 'main.home',
-                        show: true
-                    },
-                    {
-                        name: '法规标准',
-                        state: 'main.regulationsStandardsIndex',
-                        show: false
-                    },
-                    {
-                        name: '技术文档',
-                        state: 'main.technicalDocuments',
+                        name: '系统设置',
+                        state: 'main.systemSetup',
                         show: false
                     },
                     {
@@ -49,10 +40,21 @@ define(['bootstrap/app', 'utilities/cryto', 'ctrls/system/modals/logout-controll
                         show: false
                     },
                     {
-                        name: '系统设置',
-                        state: 'main.systemSetup',
+                        name: '技术文档',
+                        state: 'main.technicalDocuments',
                         show: false
+                    },
+                    {
+                        name: '法规标准',
+                        state: 'main.regulationsStandardsIndex',
+                        show: false
+                    },
+                    {
+                        name: '首页',
+                        state: 'main.home',
+                        show: true
                     }
+
                 ];
 
                 $scope.menustate = "";
@@ -84,7 +86,7 @@ define(['bootstrap/app', 'utilities/cryto', 'ctrls/system/modals/logout-controll
 
                 //登录就有用户中心
                 if (user) {
-                    $scope.mainMenu[3].show = true;
+                    $scope.mainMenu[1].show = true;
                 }
 
 
@@ -238,7 +240,7 @@ define(['bootstrap/app', 'utilities/cryto', 'ctrls/system/modals/logout-controll
     }]);
 
     //附件上传modal
-    app.controller('uploadModal-controller', ['$scope', 'Upload', '$timeout', '$uibModalInstance', 'values', 'accessory-service', function ($scope, Upload, $timeout, $modalInstance, values, accessoryService) {
+    app.controller('uploadModal-controller', ['$scope', 'Upload', '$timeout', '$uibModalInstance', 'values', 'accessory-service', 'http-service', function ($scope, Upload, $timeout, $modalInstance, values, accessoryService, http) {
         // upload later on form submit or something similar
 
         $scope.submit = function () {
@@ -264,7 +266,7 @@ define(['bootstrap/app', 'utilities/cryto', 'ctrls/system/modals/logout-controll
                 }
 
             } else {
-                $scope.warningMessage = '请上传JPG、JPEG、PNG、BMP、GIF,DOC,DOCX,XLSX,PDF格式文件。';
+                $scope.warningMessage = '请上传DOC,DOCX,PDF,txt格式文件。';
                 return;
             }
         };
@@ -283,8 +285,11 @@ define(['bootstrap/app', 'utilities/cryto', 'ctrls/system/modals/logout-controll
 
         // upload on file select or drop
         $scope.upload = function (file) {
+
+            var url = baseUrl + '/Foundation/Attachment/uploadWithNoThum?userid=' + values.userid;
+
             Upload.upload({
-                url: baseUrl + '/Foundation/Attachment/uploadWithNoThum?AUTH_ID=' + '1' + "&userid=" + values.userid,
+                url: http.wrapUrl(url),
                 data: { file: file, 'username': $scope.username },
                 removeAfterUpload: true,
             }).then(function (resp) {

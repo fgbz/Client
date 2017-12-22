@@ -55,7 +55,7 @@
                                 <input class="home-input w300" type="text" ng-model="data.code" name="code" maxlength="25" validator="required" />
                             </div>
                         </td>
-                        <td class="regluation_add_td">类别</td>
+                        <td class="regluation_add_td"><span class="div_required">*</span>类别</td>
                         <td class="w300">
                             <combo-tree-select tree-data="treeData" tree-model="data.lawtype" btn-show="false" img-color="2" is-normal="false"></combo-tree-select>
                         </td>
@@ -148,7 +148,7 @@
 
                     <tr height="50px">
                         <td class="regluation_add_td va_top">
-                            <div>替代关系</div>
+                            <div>代替关系</div>
                             <div> <input type="button" class="normalbtn regluation_add_btn" value="搜索" ng-click="openReplace()"
                                 /></div>
                         </td>

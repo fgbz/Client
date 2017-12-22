@@ -61,80 +61,53 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/regul
                 $scope.selectSuggestion();
 
                 //获取最新的法规
-                $scope.selectLawstands = function () {
+                $scope.selectLawstands = function (flag) {
                     var options = {
                         pageNo: 1,
                         pageSize: 10,
                         conditions: []
                     };
                     options.conditions.push({ key: 'Type', value: 'uptodata10' });
-                     options.conditions.push({ key: 'ApproveStatus', value: 3 });
+                    options.conditions.push({ key: 'ApproveStatus', value: 3 });
+                    if (flag && $scope.clickLbdhChildMenuValue) {
+                        options.conditions.push({ key: 'TreeValue', value: $scope.clickLbdhChildMenuValue });
+                    }
                     regulationService.getUptodateLawstandardList(options, function (response) {
-                        $scope.LawItems = response.CurrentList;
+                        if (flag) {
+                            $scope.LbdhTableItems =  response.CurrentList;
+                        } else {
+                            $scope.LawItems = response.CurrentList;
+                        }
+
                     })
                 }
-                $scope.selectLawstands();
+                $scope.selectLawstands(false);
 
-                $scope.NewRegulationItem = [
-                    {
-                        Name: "国家行政文件",
-                        Childs: [
-                            { Name: "国务院法规" }, { Name: "国家法律" }, { Name: "部门规章" }
-                        ]
-                    },
-                    {
-                        Name: "国家标准",
-                        Childs: [
-                            { Name: "环境保护标准" }, { Name: "能源局标准" }, { Name: "国家标准" }, { Name: "核行业标准" }, { Name: "电力行业标准" }, { Name: "其他SS" }
-                        ]
-                    },
-                    {
-                        Name: "国家公约及标准",
-                        Childs: [
-                            { Name: "IEC" }, { Name: "IAEA安全标准" }, { Name: "国际公约" }, { Name: "其他国家表标准" }, { Name: "其他" }
-                        ]
-                    },
-                    {
-                        Name: "技术文档",
-                        Childs: [
-                            { Name: "论文" }, { Name: "期刊" }, { Name: "会议" }, { Name: "其他" }
-                        ]
+
+
+
+                //类别导航
+                regulationService.getHomePageLawsType(function (res) {
+                    $scope.LawRegulationItem = res;
+                    if (res && res.length > 0) {
+                        $scope.SelectLbMenu = $scope.LawRegulationItem[0].id;
+                        $scope.LbdhChildMenus = $scope.LawRegulationItem[0].childLists;
+                        if ($scope.LbdhChildMenus && $scope.LbdhChildMenus.length > 0) {
+                            $scope.clickLbdhChildMenuValue = $scope.LbdhChildMenus[0].id;
+                            //查询列表
+                            $scope.selectLawstands(true);
+                        }
                     }
-                ];
+                })
 
 
-                $scope.LbdhMenus = [
-                    { Name: '国家行政' }, { Name: '国家标准' }, { Name: '国家公约及标准' }, { Name: '技术文档' }
-                ]
 
-                $scope.SelectLbMenu = "国家行政";
-
-                $scope.LbdhChildMenus = [
-                    { Name: "国务院法规" }, { Name: "国家法律" }, { Name: "部门规章" }
-                ]
-
-                $scope.clickLbdhChildMenuValue = '国家法律';
 
                 $scope.sjtjMenus = [
                     { Name: "上传前十统计" }, { Name: "上传部门统计" }, { Name: "上传分类统计" }
                 ]
 
                 $scope.sjtjMenusuValue = '上传部门统计';
-
-
-                $scope.LbdhTableItems = [
-                    { Title: "中华人民共和国劳动合同法", Number: "第三十七号", MaterialDate: "2014-12-09" },
-                    { Title: "中华人民共和国特种设备安全法", Number: "第四条", MaterialDate: "2014-12-09" },
-                    { Title: "中华人民共和国环境保护法", Number: "12-8", MaterialDate: "2016-08-21" },
-                    { Title: "中华人民共和国安全生产法", Number: "第52号", MaterialDate: "2014-11-19" },
-                    { Title: "中华人民共和国职业病防治法", Number: "第五十条", MaterialDate: "2013-05-05" },
-
-                    { Title: "中华人民共和国劳动法", Number: "第69条", MaterialDate: "2015-11-19" },
-                    { Title: "中华人民共和国预算法", Number: "第28号", MaterialDate: "2014-06-12" },
-                    { Title: "中华人民共和国安全生产法", Number: "第52号", MaterialDate: "2014-11-19" },
-                    { Title: "中华人民共和国劳动合同法", Number: "第三十七号", MaterialDate: "2014-12-09" },
-                    { Title: "中华人民共和国安全生产法", Number: "第52号", MaterialDate: "2014-11-19" }
-                ]
 
                 //初始化图表
                 regulationService.getHomeChart(function (params) {
@@ -209,7 +182,15 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/regul
             var define_function = function () {
 
                 $scope.clickLbMenu = function (params) {
-                    $scope.SelectLbMenu = params;
+                    $scope.SelectLbMenu = params.id;
+                    $scope.LbdhChildMenus = params.childLists;
+                    if ($scope.LbdhChildMenus && $scope.LbdhChildMenus.length > 0) {
+                        $scope.clickLbdhChildMenuValue = $scope.LbdhChildMenus[0].id;
+                    } else {
+                        $scope.clickLbdhChildMenuValue = "";
+                    }
+                    //查询列表
+                    $scope.selectLawstands(true);
                 }
 
                 $scope.clickLbdhTable = function (params) {
@@ -217,7 +198,9 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/regul
                 }
 
                 $scope.clickLbdhChildMenu = function (params) {
-                    $scope.clickLbdhChildMenuValue = params;
+                    $scope.clickLbdhChildMenuValue = params.id;
+                    //查询列表
+                    $scope.selectLawstands(true);
                 }
 
                 $scope.clickSjtjMenu = function (params) {
@@ -293,6 +276,23 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/regul
 
 
                         $state.go(sRouter);
+                    }
+
+                }
+
+                //点击类别导航
+                $scope.goLaws = function (id) {
+
+                    if (!authID || !user) {
+                        isLogined();
+                    } else {
+                        var sRouter = "main.regulationsStandardsIndex";
+                        $rootScope.$emit("menustateChange", { value: sRouter, HeadNew: false });
+
+                        var itemDeal = {};
+                        itemDeal.treevalueid = id;
+                        var data = JSON.stringify(itemDeal);
+                        $state.go(sRouter, { "data": data });
                     }
 
                 }

@@ -59,9 +59,15 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
 
                 if (postData) {
                     postData = JSON.parse(postData);
+
+                    if (postData.treevalueid) {
+                        $scope.clickTreeValue = postData.treevalueid;
+                    }
                 }
 
-                $scope.clickValue = postData ? postData.clickValue : $scope.clickValue;
+
+
+                $scope.clickValue = postData && postData.clickValue ? postData.clickValue : $scope.clickValue;
 
                 $scope.isLoaded = true;
 
