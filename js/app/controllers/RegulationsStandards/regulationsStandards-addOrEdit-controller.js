@@ -3,8 +3,8 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
 
     var config = require('app/config-manager');
     var baseUrl = config.baseUrl();
-    app.controller('regulationsStandards-addOrEdit-controller', ['$stateParams', '$rootScope', '$scope', '$state', 'toaster', '$uibModal', 'regulation-service', 'accessory-service', 'system-service', 'http-service', '$cookies',
-        function ($stateParams, $rootScope, $scope, $state, toaster, $uibModal, regulationService, accessoryService, systemService, http, $cookies) {
+    app.controller('regulationsStandards-addOrEdit-controller', ['$stateParams', '$rootScope', '$scope', '$state', 'toaster', '$uibModal', 'regulation-service', 'accessory-service', 'system-service', 'http-service', '$cookies','ngDialog',
+        function ($stateParams, $rootScope, $scope, $state, toaster, $uibModal, regulationService, accessoryService, systemService, http, $cookies,ngDialog) {
 
             var postData = $stateParams.data;
 
@@ -275,6 +275,22 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                             $scope.isSaving = false;
                             return;
                         }
+
+                        if ($scope.Attachments.length == 0) {
+                            toaster.pop({ type: 'danger', body: '请至少上传一个主附件!' });
+                            $scope.isSaving = false;
+                            return;
+                        }
+
+                        if ($scope.data.releasedate && $scope.data.impdate) {
+                            if ($scope.data.releasedate > $scope.data.impdate) {
+                                toaster.pop({ type: 'danger', body: '发布日期应小于等于实施日期!' });
+                                $scope.isSaving = false;
+                                return;
+                            }
+                        }
+
+
                         var fileids = [];
 
                         for (var i = 0; i < $scope.Attachments.length; i++) {
@@ -287,7 +303,7 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                             if (response == 200) {
                                 toaster.pop({ type: 'success', body: '保存成功!' });
 
-                                $scope.goState("second"); 
+                                $scope.goState("second");
                             } else if (response == 461) {
                                 toaster.pop({ type: 'danger', body: '编号重复!', timeout: 0 });
                             } else {
@@ -299,6 +315,30 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                     })
 
 
+                }
+
+                //提交
+                $scope.commit = function (params) {
+                    $scope.text = "确定提交吗？";
+                    var modalInstance = ngDialog.openConfirm({
+                        templateUrl: 'partials/_confirmModal.html',
+                        appendTo: 'body',
+                        className: 'ngdialog-theme-default',
+                        showClose: false,
+                        scope: $scope,
+                        size: 400,
+                        controller: function ($scope) {
+                            $scope.ok = function () {
+
+                                $scope.save(params);
+
+                                $scope.closeThisDialog(); //关闭弹窗
+                            };
+                            $scope.cancel = function () {
+                                $scope.closeThisDialog(); //关闭弹窗
+                            }
+                        }
+                    });
                 }
 
                 $scope.downloadAccessory = function (fileId) {

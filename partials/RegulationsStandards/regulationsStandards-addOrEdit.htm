@@ -3,7 +3,7 @@
         <div class="mt10_mb10" style="height:30px;">
           
             <input type="button" class="canclelbtn fr ml10 border1ccc" value="返 回" ng-click="goState()"/>
-            <input type="button" class="normalbtn fr ml10" value="提 交" validation-submit="addLawForm" ng-click="save('commit')" ng-disabled="isSaving"/>
+            <input type="button" class="normalbtn fr ml10" value="提 交" validation-submit="addLawForm" ng-click="commit('commit')" ng-disabled="isSaving"/>
             <input type="button" class="normalbtn fr" value="保 存" validation-submit="addLawForm" ng-click="save('save')" ng-disabled="isSaving"/>
         </div>
 
@@ -115,10 +115,10 @@
                         <td colspan="3">
                             <div class="home-txtarea regluation_add_textarea" style="margin-bottom:10px;overflow-y: auto;">
                                 <ul>
-                                    <li ng-repeat="accitem in Attachments" class="regluation_detail_Attachments">
+                                    <li ng-repeat="accitem in Attachments">
 
-                                        <div title="{{accitem.FileName}}" class="fl mr10 attachment_file_operation">
-                                            {{accitem.FileName|tooltips:30}}
+                                        <div title="{{accitem.FileName}}" style="height:40px;">
+                                            <div class="regluation_file_wrap">{{accitem.FileName|tooltips:30}}</div>
                                             <input type="button" class="attachment_view" title="查看" ng-show="canPreview(accitem.FileName)" ng-click="preview(accitem.ID)"/>
                                             <input class="attachment_download" title="下载" ng-click="downloadAccessory(accitem.ID)"/>
                                              <input class="attachment_delete" title="删除" ng-click="deletefile(accitem.ID)"/>

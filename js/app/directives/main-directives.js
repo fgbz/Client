@@ -499,6 +499,8 @@ define(['angular', 'nicEdit', 'jquery', 'utils'], function (ng, nicEditObj, jque
         }
     }]);
 
+
+
     md.directive('resizeContentMenu', function ($window) {
         return function (scope, element) {
             var w = angular.element($window);

@@ -3,10 +3,10 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service'], function (app,
 
     var config = require('app/config-manager');
     var baseUrl = config.baseUrl();
-    app.controller('advice-controller', ['$rootScope', '$scope', '$state', 'toaster', '$uibModal', '$uibModalInstance', 'values', 'usercenter-service','$cookies',
-        function ($rootScope, $scope, $state, toaster, $uibModal, $modalInstance, values, usercenterService,$cookies) {
+    app.controller('advice-controller', ['$rootScope', '$scope', '$state', 'toaster', '$uibModal', '$uibModalInstance', 'values', 'usercenter-service', '$cookies',
+        function ($rootScope, $scope, $state, toaster, $uibModal, $modalInstance, values, usercenterService, $cookies) {
 
-          var user = sessionStorage.getItem('loginUser');
+            var user = sessionStorage.getItem('loginUser');
 
             if (user) {
                 user = JSON.parse(user);
@@ -30,12 +30,15 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service'], function (app,
                         $scope.data = res;
                         $scope.data.inputdate = utils.parseTime(new Date($scope.data.inputdate), "YYYY-MM-DD");
                         $scope.data.modifyuserid = user.id;
+                        angular.element('.nicEdit-main')[0].innerHTML = $scope.data.details;
                     })
                 } else {
+
                     $scope.data.id = "";
                     $scope.data.inputuserid = user.id;
                     $scope.data.orgname = user.orgname;
                     $scope.data.inputdate = utils.format(new Date(), "yyyy-MM-dd");
+                    $scope.data.details = "";
                 }
 
 
@@ -51,6 +54,9 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service'], function (app,
                         return;
 
                     }
+
+                    $scope.data.details = $(".nicEdit-main").html();
+
                     if (!$scope.data.details) {
                         toaster.pop({ type: 'danger', body: '请填写内容！' });
                         return;
@@ -68,9 +74,11 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service'], function (app,
 
 
                 }
+
                 $scope.cancel = function () {
                     $modalInstance.dismiss('cancel');
                 };
+
             };
 
             // 实际运行……

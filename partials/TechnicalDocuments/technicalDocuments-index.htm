@@ -46,7 +46,7 @@
                             <td colspan="2">
                                 <input type="text" id="FiledTimeStart" class="case_table_timepicker_input" ng-model="FiledTimeStart" je-date format="YYYY-MM-DD"
                                     readonly />
-
+                                <span style="margin-left: 8px;">至</span>
                                 <input type="text" id="FiledTimeEnd" class="case_table_timepicker_input" ng-model="FiledTimeEnd" je-date format="YYYY-MM-DD"
                                     readonly />
                             </td>
@@ -88,6 +88,7 @@
                                 <th>标准编号</th>
                                 <th>类别</th>
                                 <th>发布日期</th>
+                                <th>录入日期</th>
                                 <th>操作</th>
                             </tr>
                         </thead>
@@ -98,6 +99,7 @@
                                 <td title="{{item.code}} ">{{item.code| tooltips:13 }}</td>
                                 <td title="{{item.typename}} ">{{item.typename| tooltips:13 }}</td>
                                 <td title="{{item.releasedate|recordtime}} ">{{item.releasedate|recordtime}}</td>
+                                <td title="{{item.inputdate|recordtime}} ">{{item.inputdate |recordtime}}</td>
                                 <td>
                                     <input type="button " class="checkbtn" ng-click="Check(item)" value="查 看 " />
                                 </td>
@@ -170,8 +172,10 @@
                     <div class="reg_dr">批量导入</div>
                 </div>
 
-                <input type="button" class="deletebtn fr mr10" value="删 除" ng-click="deleteLaw()" ng-show="selectItem.approvestatus==1||isSup" />
-                <input type="button" class="normalcheckbtn fr mr10" value="编 辑" ng-click="Edit()" ng-show="selectItem.approvestatus==1||isSup" />
+                <input type="button" class="deletebtn fr mr10" value="删 除" ng-click="deleteLaw()" ng-show="selectItem.approvestatus==1||isSup"
+                />
+                <input type="button" class="normalcheckbtn fr mr10" value="编 辑" ng-click="Edit()" ng-show="selectItem.approvestatus==1||isSup"
+                />
 
             </div>
 
@@ -183,7 +187,9 @@
                         <th>编号</th>
                         <th>是否批量导入</th>
                         <th>类别</th>
+                        <th>信息状态</th>
                         <th>发布时间</th>
+                        <th>录入日期</th>
                         <th>操作</th>
                     </tr>
                 </thead>
@@ -191,10 +197,12 @@
                     <tr ng-repeat="item in itemManages" style="height: 40px;cursor: pointer" ng-click="clickTable($index);" ng-class="{true: 'tr_selected',false: ''}[tableRow.selected==$index] ">
                         <td>{{$index+1}}</td>
                         <td title="{{item.chinesename}} " class="w300 ">{{item.chinesename| tooltips:20}}</td>
-                        <td title="{{item.code}} ">{{item.code| tooltips:13 }}</td>
+                        <td title="{{item.code}} ">{{item.code| tooltips:20 }}</td>
                         <td title="{{item.isbatch&&item.isbatch==1?'是':'否'}} ">{{item.isbatch&&item.isbatch==1?'是':'否'}}</td>
                         <td title="{{item.typename}} ">{{item.typename| tooltips:13 }}</td>
+                        <td title="{{item.approvestatus|approvestatus}} ">{{item.approvestatus|approvestatus }}</td>
                         <td title="{{item.releasedate|recordtime}} ">{{item.releasedate|recordtime}}</td>
+                        <td title="{{item.inputdate|recordtime}} ">{{item.inputdate |recordtime}}</td>
                         <td>
                             <input type="button " class="checkbtn" ng-click="Check(item)" value="查 看 " />
                         </td>

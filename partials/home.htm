@@ -9,7 +9,7 @@
         <marquee id="affiche" align="left" behavior="scroll" direction="left" height="50" width="200" hspace="30" style="margin: 0;margin-left: 20px;width: calc(100% - 140px);float: right;"
             vspace="20" loop="-1" scrollamount="5" scrolldelay="100" onMouseOut="this.start()" onMouseOver="this.stop()">
             <div ng-repeat="item in activeItems" class="home_advice" ng-click="goNotice(item)">
-                <span>{{item.title}}</span>
+                <span style="color:#fff;">{{item.title}}({{item.inputdate|recordtime}})</span>
             </div>
         </marquee>
     </div>
@@ -116,9 +116,9 @@
                 </table>
             </div>
 
-            <highchart config="uploadpeopleChart" ng-if="sjtjMenusuValue=='上传前十统计'"></highchart>
-            <highchart config="uploadOrgnameChart" ng-if="sjtjMenusuValue=='上传部门统计'"></highchart>
-            <highchart config="uploadTypeChart" ng-if="sjtjMenusuValue=='上传分类统计'"></highchart>
+            <highchart config="uploadpeopleChart" style="height: 360px;" ng-if="sjtjMenusuValue=='上传前十统计'"></highchart>
+            <highchart config="uploadOrgnameChart" style="height: 360px;" ng-if="sjtjMenusuValue=='上传部门统计'"></highchart>
+            <highchart config="uploadTypeChart" style="height: 360px;"  ng-if="sjtjMenusuValue=='上传分类统计'"></highchart>
         </div>
 
         <div class="yhly">

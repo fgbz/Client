@@ -49,7 +49,7 @@
                             <td colspan="2">
                                 <input type="text" id="FiledTimeStart" class="case_table_timepicker_input" ng-model="FiledTimeStart" je-date format="YYYY-MM-DD"
                                     readonly />
-
+                                <span style="margin-left: 8px;">至</span>
                                 <input type="text" id="FiledTimeEnd" class="case_table_timepicker_input" ng-model="FiledTimeEnd" je-date format="YYYY-MM-DD"
                                     readonly />
                             </td>
@@ -81,7 +81,7 @@
                             <td colspan="2">
                                 <input type="text" id="MaterialTmeStart" class="case_table_timepicker_input" ng-model="MaterialTmeStart" je-date format="YYYY-MM-DD"
                                     readonly />
-
+                                <span style="margin-left: 8px;">至</span>
                                 <input type="text" id="MaterialTmeEnd" class="case_table_timepicker_input" ng-model="MaterialTmeEnd" je-date format="YYYY-MM-DD"
                                     readonly />
                             </td>
@@ -112,6 +112,7 @@
                                 <th>标准编号</th>
                                 <th>状态</th>
                                 <th>实施日期</th>
+                                <th>录入日期</th>
                                 <th>操作</th>
                             </tr>
                         </thead>
@@ -119,20 +120,21 @@
                             <tr ng-repeat="item in items" style="height: 40px;cursor: pointer" ng-click="clicksearchTable($index);" ng-class="{true: 'tr_selected',false: ''}[tableRowsearch.selected==$index] ">
                                 <td>{{$index+1}}</td>
                                 <td title="{{item.chinesename}} " class="w300 ">{{item.chinesename| tooltips:20}}</td>
-                                <td title="{{item.code}} ">{{item.code| tooltips:13 }}</td>
+                                <td title="{{item.code}} ">{{item.code| tooltips:20 }}</td>
                                 <td title="{{item.statusname}} ">{{item.statusname}}</td>
                                 <td title="{{item.impdate|recordtime}} ">{{item.impdate |recordtime}}</td>
+                                <td title="{{item.inputdate|recordtime}} ">{{item.inputdate |recordtime}}</td>
                                 <td>
                                     <input type="button " class="checkbtn" ng-click="Check(item)" value="查 看 " />
                                 </td>
                             </tr>
                             <tr ng-if="items.length==0 ">
-                                <td colspan="6 " class="text-center ">无数据</td>
+                                <td colspan="7 " class="text-center ">无数据</td>
                             </tr>
                         </tbody>
                         <tbody ng-if="!isLoaded ">
                             <tr>
-                                <td colspan="6 " class="text-center ">
+                                <td colspan="7" class="text-center ">
                                     <img src="images/loading.gif " />
                                 </td>
                             </tr>
@@ -207,10 +209,11 @@
                     <tr>
                         <th>序号</th>
                         <th>标题</th>
-                         <th>标准编号</th>
+                        <th>标准编号</th>
                         <th>类别</th>
                         <th>是否批量导入</th>
                         <th>信息状态</th>
+                        <th>录入日期</th>
                         <th>操作</th>
                     </tr>
                 </thead>
@@ -218,11 +221,12 @@
                     <tr ng-repeat="item in itemManages" style="height: 40px;cursor: pointer" ng-click="clickTable($index);" ng-class="{true: 'tr_selected',false: ''}[tableRow.selected==$index] ">
                         <td>{{$index+1}}</td>
                         <td title="{{item.chinesename}} " class="w300 ">{{item.chinesename| tooltips:20}}</td>
-                          <td title="{{item.code}} ">{{item.code| tooltips:13 }}</td>
+                        <td title="{{item.code}} ">{{item.code| tooltips:20 }}</td>
                         <td title="{{item.typename}} ">{{item.typename| tooltips:13 }}</td>
 
-                         <td title="{{item.isbatch&&item.isbatch==1?'是':'否'}} ">{{item.isbatch&&item.isbatch==1?'是':'否'}}</td>
+                        <td title="{{item.isbatch&&item.isbatch==1?'是':'否'}} ">{{item.isbatch&&item.isbatch==1?'是':'否'}}</td>
                         <td title="{{item.approvestatus|approvestatus}} ">{{item.approvestatus|approvestatus }}</td>
+                         <td title="{{item.inputdate|recordtime}} ">{{item.inputdate |recordtime}}</td>
                         <td>
                             <input type="button " class="checkbtn" ng-click="Check(item)" value="查 看 " />
                         </td>
