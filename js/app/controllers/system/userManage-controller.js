@@ -1,14 +1,14 @@
-define(['bootstrap/app', 'utils', 'services/system-service','services/md5-service'], function (app, utils) {
+define(['bootstrap/app', 'utils', 'services/system-service', 'services/md5-service'], function (app, utils) {
     'use strict';
 
     var config = require('app/config-manager');
     var baseUrl = config.baseUrl();
-    app.controller('userManage-controller', ['$rootScope', '$scope', '$state', 'toaster', '$uibModal', '$uibModalInstance', 'values', 'system-service','md5-service','$cookies',
-        function ($rootScope, $scope, $state, toaster, $uibModal, $modalInstance, values, systemService,md5Service,$cookies) {
+    app.controller('userManage-controller', ['$rootScope', '$scope', '$state', 'toaster', '$uibModal', '$uibModalInstance', 'values', 'system-service', 'md5-service', '$cookies',
+        function ($rootScope, $scope, $state, toaster, $uibModal, $modalInstance, values, systemService, md5Service, $cookies) {
 
 
 
-           var user = sessionStorage.getItem('loginUser');
+            var user = sessionStorage.getItem('loginUser');
 
             if (user) {
                 user = JSON.parse(user);
@@ -74,6 +74,31 @@ define(['bootstrap/app', 'utils', 'services/system-service','services/md5-servic
                     if (postdata.password != $scope.passwordSure) {
                         toaster.pop({ type: 'danger', body: '2次输入密码不一致!', timeout: 0 });
                         $scope.passwordSure = "";
+                        return;
+                    }
+
+                    var countChar = 0;
+                    var countNumber = 0;
+                    var str = postdata.password;
+                    for (var i = 0; i < str.length; i++) {
+                        var c = str.charAt(i);
+                        if (c >= 'A' && c <= 'Z') {
+                            countChar++;
+                        }
+                        if (c >= 'a' && c <= 'z') {
+                            countChar++;
+                        }
+                        if (c >= '0' && c <= '9') {
+                            countNumber++;
+                        }
+                    }
+                    if (countChar == 0 || countNumber == 0) {
+                        toaster.pop({ type: 'danger', body: '密码必须包含数字与字符!', timeout: 0 });
+                        return;
+                    }
+                    //验证密码格式
+                    if (postdata.password.length < 6) {
+                        toaster.pop({ type: 'danger', body: '密码长度不能小于6位!', timeout: 0 });
                         return;
                     }
                     postdata.roles = [];

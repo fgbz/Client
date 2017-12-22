@@ -170,8 +170,8 @@
                     <div class="reg_dr">批量导入</div>
                 </div>
 
-                <input type="button" class="deletebtn fr mr10" value="删 除" ng-click="deleteLaw()" ng-show="selectItem.approvestatus==1" />
-                <input type="button" class="normalcheckbtn fr mr10" value="编 辑" ng-click="Edit()" ng-show="selectItem.approvestatus==1" />
+                <input type="button" class="deletebtn fr mr10" value="删 除" ng-click="deleteLaw()" ng-show="selectItem.approvestatus==1||isSup" />
+                <input type="button" class="normalcheckbtn fr mr10" value="编 辑" ng-click="Edit()" ng-show="selectItem.approvestatus==1||isSup" />
 
             </div>
 

@@ -45,6 +45,17 @@ define(['bootstrap/app', 'app/config-manager', 'services/http-service'], functio
             http.post('/UserCenter/SaveOrUpdateSuggestion', data, callback);
         }
 
+        //获取反馈列表
+        this.getFeedBackList = function (id, callback) {
+            var url = "/UserCenter/getFeedBackList?id=" + id;
+            http.get(url, null, callback);
+        }
+
+        //保存反馈信息
+        this.SaveSuggestionFeedBack = function (data, callback) {
+            http.post('/UserCenter/SaveSuggestionFeedBack', data, callback);
+        }
+
         //保存审核
         this.SaveApprove = function (data, callback) {
             http.post('/UserCenter/SaveApprove', data, callback);
@@ -89,14 +100,14 @@ define(['bootstrap/app', 'app/config-manager', 'services/http-service'], functio
             http.get(url, null, callback);
         }
         //取消收藏
-        this.DismissFavorite = function (favid,lawid,callback) {
-             var url = "/UserCenter/DismissFavorite?favid=" + favid+"&lawid="+lawid;
+        this.DismissFavorite = function (favid, lawid, callback) {
+            var url = "/UserCenter/DismissFavorite?favid=" + favid + "&lawid=" + lawid;
             http.get(url, null, callback);
         }
 
         //更新密码
-        this.updateUserPassword = function (id,oldpassword,newpassword,callback) {
-            var url = "/UserCenter/updateUserPassword?id=" + id+"&oldpassword="+oldpassword+"&newpassword="+newpassword;
+        this.updateUserPassword = function (id, oldpassword, newpassword, callback) {
+            var url = "/UserCenter/updateUserPassword?id=" + id + "&oldpassword=" + oldpassword + "&newpassword=" + newpassword;
             http.get(url, null, callback);
         }
 

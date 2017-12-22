@@ -287,7 +287,7 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                             if (response == 200) {
                                 toaster.pop({ type: 'success', body: '保存成功!' });
 
-                                $scope.goState("second"); F
+                                $scope.goState("second"); 
                             } else if (response == 461) {
                                 toaster.pop({ type: 'danger', body: '编号重复!', timeout: 0 });
                             } else {

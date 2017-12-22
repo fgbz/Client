@@ -214,6 +214,14 @@ body {
     background: url('../../images/top_but_tc_new.png') no-repeat center;
 }
 
+.btn_login_new {
+    width: 20px;
+    height: 20px;
+    float: left;
+     margin-right: 5px;
+    background: url('../../images/4.png') no-repeat center;
+}
+
 .btn_download {
     width: 20px;
     height: 20px;
@@ -431,6 +439,7 @@ body {
     display: inline-block;
     margin-left: 30px;
     text-decoration: underline;
+    cursor: pointer;
 }
 
 .regluation_detail_Attachments{
@@ -626,14 +635,45 @@ body {
     height: calc(100% - 50px);
 }
 
+/*********************反馈*********************/
 
+.feedback_table{
+    background: #f2f2f2;
+    padding: 10px;
+}
 
+.feedback_myself{
+    float: left;
+    line-height: 30px;
+    margin-left: 10px;
+}
+.feedback_content{
+    width: 577px;
+    height: 135px;
+    border: 1px solid #ccc;
+    margin-top: 10px;
+}
 
+.feedback_content .count{
+     height: 30px;
+    background: #f2f2f2;
+    text-align: right;
+    padding-right: 10px;
+    line-height: 30px;
+}
 
+.feedback_histroy{
+    height: 80px;
+    padding: 10px;
+    border-bottom: 2px solid #cccccc;
+}
 
-
-
-
+.feeback_his_div{
+    overflow-y: auto;
+    height: 250px;
+    border-top: 2px solid #cccccc;
+    margin-top: 10px;
+}
 
 
 

@@ -1,6 +1,6 @@
 <div class="h100">
     <div class="mt10_mb10" style="height:30px;">
-         <input type="button" class="canclelbtn fr ml10 border1ccc" value="返 回" ng-click="goState()"/>
+        <input type="button" class="canclelbtn fr ml10 border1ccc" value="返 回" ng-click="goState()" />
     </div>
 
     <div class="regluation_detail_border">
@@ -9,13 +9,14 @@
             <span class="ml40">录入时间：{{DetaiData.inputdate}}</span>
             <span class="ml40">录入单位：{{DetaiData.inputorgname}}</span>
             <span class="ml40">录入点击次数：{{DetaiData.clickcount}}</span>
-
+            <span class="ml10">修改人：{{DetaiData.modifyusername}}</span>
+            <span class="ml40">修改时间：{{DetaiData.modifyusername?DetaiData.modifydate:''}}</span>
 
 
             <div ng-class="{true:'system_hk_yes',false:'system_hk_no'}[DetaiData.istop==1]">
                 <div ng-class="{true:'system_hkb_right',false:'system_hkb_left'}[DetaiData.istop==1]" ng-click="clicksfzd(DetaiData)"></div>
             </div>
-            <div class="fr">{{DetaiData.istop==1?'已置顶':'置顶'}}</div>
+            <div class="fr" style="width: 50px;">{{DetaiData.istop==1?'已置顶':'置顶'}}</div>
 
             <div ng-class="{true:'regluation_detail_collect',false:'regluation_detail_nocollect'}[DetaiData.iscollect]" ng-click="favorieLaw()">收藏</div>
 
@@ -38,7 +39,7 @@
                     <td class="color_blue">{{DetaiData.pubdepname}}</td>
                     <td class="tr">发布日期:</td>
                     <td class="color_blue">{{DetaiData.releasedate|recordtime}}</td>
-                   
+
                 </tr>
                 <tr height="40px;">
                     <td class="tr">执行状态:</td>
@@ -66,7 +67,7 @@
                     <td class="va_topnormal">
                         <ul>
                             <li ng-repeat="item in DetaiData.refence" class="regluation_detail_Reference color_blue" ng-click="checkRepalceOrRefence(item)">
-                                <span>{{item.code}}</span>
+                                <span title="标题:{{item.chinesename}}">{{item.code}}</span>
                             </li>
                         </ul>
                     </td>
@@ -84,7 +85,7 @@
                                 <div title="{{accitem.FileName}}"> {{accitem.FileName|tooltips:15}}
                                     <input type="button" class="checkbtn ml20" value="查 看" title="查看" ng-show="canPreview(accitem.FileName)" ng-click="preview(accitem.ID)"
                                     />
-                                    <input class="downloadbtn ml10" value="下 载" title="下载" ng-click="downloadAccessory(accitem.ID)" ng-show="isDownload"/>
+                                    <input class="downloadbtn ml10" value="下 载" title="下载" ng-click="downloadAccessory(accitem.ID)" ng-show="isDownload" />
                                 </div>
 
                             </li>

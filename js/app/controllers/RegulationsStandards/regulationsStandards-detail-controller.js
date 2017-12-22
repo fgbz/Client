@@ -39,6 +39,7 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                 regulationService.getLawstandardById(postData.item, function (params) {
                     $scope.DetaiData = params;
                     $scope.DetaiData.inputdate = utils.parseTime(new Date($scope.DetaiData.inputdate), "YYYY-MM-DD");
+                    $scope.DetaiData.modifydate = utils.parseTime(new Date($scope.DetaiData.modifydate), "YYYY-MM-DD");
                 })
 
             };

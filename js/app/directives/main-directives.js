@@ -926,12 +926,13 @@ define(['angular', 'nicEdit', 'jquery', 'utils'], function (ng, nicEditObj, jque
                 btnShow: "=", // 是否显示按钮
                 imgColor: '=', //背景色
                 isSystemRoot: '=',//系统管理左侧树特殊处理
-               
+
             },
             require: '?uiTree',
             link: function (scope, element, attributes) {
                 // 构建树数据
                 var dataList = []; // 数据列表，与树数据源指向相同引用
+                var count = 0;
                 function LoadTreeData(treeNodesData, parentId, flag) {
                     var data = [];
                     if (treeNodesData)
@@ -942,7 +943,7 @@ define(['angular', 'nicEdit', 'jquery', 'utils'], function (ng, nicEditObj, jque
                                     'Name': item.Name,
                                     'ParentID': item.ParentID,
                                     'Type': flag,
-                                    'Extend': true,
+                                    'Extend': false,
                                     'CanDelete': item.CanDelete,
                                     'Nodes': LoadTreeData(treeNodesData, item.Id, 1)
                                 };
@@ -956,8 +957,21 @@ define(['angular', 'nicEdit', 'jquery', 'utils'], function (ng, nicEditObj, jque
                     if (v) {
                         dataList = [];
                         scope.source = LoadTreeData(scope.treeData, null, 0);
+                        initExtend();
                     }
                 }, true);
+
+                //默认展开根节点及第二项
+                var initExtend = function () {
+                    if (scope.source && scope.source.length > 0) {
+                        scope.source[0].Extend = true;
+                        // if (scope.source[0].Nodes.length > 0) {
+                        //     for (var i = 0; i < scope.source[0].Nodes.length; i++) {
+                        //         scope.source[0].Nodes[i].Extend = true;
+                        //     }
+                        // }
+                    }
+                }
 
                 //选中项
                 scope.clickNode = function (newValue) {
@@ -1006,7 +1020,7 @@ define(['angular', 'nicEdit', 'jquery', 'utils'], function (ng, nicEditObj, jque
                 treeModel: '=', //默认选中值的Value,
                 btnShow: "=", // 是否显示按钮
                 imgColor: '=', //背景色
-                isNormal:'='
+                isNormal: '='
             },
             require: '?uiTree',
             link: function (scope, element, attributes) {
@@ -1103,6 +1117,65 @@ define(['angular', 'nicEdit', 'jquery', 'utils'], function (ng, nicEditObj, jque
             }
         }
     });
+    // 自定义窗口拖拽
+    md.directive('customDraggable', function ($window, $document) {
+        return function (scope, element, attr) {
+            var startX = 0,
+                startY = 0,
+                x = 0,
+                y = 0;
+            var header = angular.element(element[0]);
 
+            var target = element[0],
+                modalBox;
+            while (angular.element(target).attr('class').indexOf('custom-modal') == -1) {
+                target = target.parentNode;
+            }
+            var modal = angular.element(target);
+
+            header.on('mousedown', mousedown);
+            var IsFirst = true;
+
+            function mousedown(e) {
+                e.preventDefault();
+                header.css({ cursor: 'move' });
+                startX = e.pageX;
+                startY = e.pageY;
+                modal.css({ filter: 'alpha(opacity=70)', opacity: 0.7 });
+                $document.on('mousemove', mousemove);
+                $document.on('mouseup', mouseup);
+            }
+
+            function mousemove(e) {
+                var dy = e.pageY - startY;
+                var dx = e.pageX - startX;
+                startX = e.pageX;
+                startY = e.pageY;
+                y = modal[0].offsetTop + dy;
+                x = modal[0].offsetLeft + dx;
+                boundControl();
+                modal.css({ top: y + 'px', left: x + 'px' });
+            }
+
+            // 边界控制，防止窗口被移到屏幕外
+            function boundControl() {
+                if (x < -(modal[0].offsetParent.offsetLeft + modal[0].offsetWidth - 50))
+                    x = -(modal[0].offsetParent.offsetLeft + modal[0].offsetWidth - 50)
+                else if (x > modal[0].offsetParent.offsetWidth - 50)
+                    x = modal[0].offsetParent.offsetWidth - 50
+                if (y < -modal[0].offsetParent.offsetTop + 40)
+                    y = -modal[0].offsetParent.offsetTop + 40;
+                else if (y > $window.innerHeight - modal[0].offsetParent.offsetTop - 40)
+                    y = $window.innerHeight - modal[0].offsetParent.offsetTop - 40;
+            }
+
+            function mouseup(e) {
+                header.css({ cursor: 'default' });
+                modal.css({ filter: 'alpha(opacity=100)', opacity: 1 });
+                $document.off('mousemove', mousemove);
+                $document.off('mouseup', mouseup);
+            }
+        };
+    })
 
 });

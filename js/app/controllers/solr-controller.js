@@ -106,7 +106,7 @@ define(['bootstrap/app', 'utils', 'services/regulation-service'], function (app,
                         options.conditions.push({ key: 'TreeValue', value: $scope.clickTreeValue });
                     }
                     if ($scope.solrText) {
-                        options.conditions.push({ key: 'Solr', value: $scope.solrText });
+                        options.conditions.push({ key: 'Solr', value: $scope.solrText});
                     }
                     if ($scope.EnglishTitle) {
                         options.conditions.push({ key: 'EnglishTitle', value: $scope.EnglishTitle });

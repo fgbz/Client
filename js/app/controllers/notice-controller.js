@@ -20,7 +20,6 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/usercenter-ser
             //加载
             var initialize = function () {
 
-
                 //获取通知列表
                 $scope.selectAdvice = function (isPaging) {
                     $scope.isLoaded = false;
@@ -50,7 +49,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/usercenter-ser
                                 postData = JSON.parse(postData);
                                 $scope.clickvalue = postData.clickValue;
                             } else {
-                                $scope.clickvalue=$scope.items[0].id;
+                                $scope.clickvalue = $scope.items[0].id;
                             }
                         }
 

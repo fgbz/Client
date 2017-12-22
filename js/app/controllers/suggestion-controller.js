@@ -30,6 +30,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/usercenter-ser
             //加载
             var initialize = function () {
 
+                $scope.isSup = utils.getListItem('超级管理员', 'menuname', user.menus);
 
                 //获取留言列表
                 $scope.selectSuggestion = function (isPaging) {
@@ -118,6 +119,29 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/usercenter-ser
 
 
                 }
+                //反馈
+                $scope.showSuggestionFeedBack = function (item) {
+                    var url = 'partials/system/modals/suggestionFeedBack.html';
+                    var modalInstance = $uibModal.open({
+
+                        templateUrl: url,
+                        controller: 'suggestionFeedBack-controller',
+                        size: 600,
+                        resolve: {
+                            values: function () {
+                                var data = {
+                                    suggData: item   
+                                }
+
+                                return data;
+                            }
+                        }
+                    });
+                    modalInstance.result.then(function (res) {
+                       
+                    });
+                }
+
 
                 $scope.clickTable = function (parms) {
                     $scope.clickvalue = $scope.items[parms].id;

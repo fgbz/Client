@@ -17,7 +17,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                 var check = utils.getListItem('法规标准查看', 'menuname', user.menus);
                 var manage = utils.getListItem('法规标准管理', 'menuname', user.menus);
 
-                var isSup = utils.getListItem('超级管理员', 'menuname', user.menus);
+                $scope.isSup = utils.getListItem('超级管理员', 'menuname', user.menus);
 
                 if (check) {
                     $scope.ischeckshow = true;
@@ -306,6 +306,8 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                     if ($scope.IsBatch) {
                         options.conditions.push({ key: 'IsBatch', value: $scope.IsBatch });
                     }
+                    options.conditions.push({ key: 'LawInputuserid', value:user.id });
+                    
                     $scope.tableRow.selected = 0;
 
 
