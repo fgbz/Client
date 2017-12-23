@@ -3,13 +3,13 @@ define(['bootstrap/app', 'utils', 'services/technical-service', 'services/access
 
     var config = require('app/config-manager');
     var baseUrl = config.baseUrl();
-    app.controller('technicalDocuments-addOrEdit-controller', ['$stateParams', '$rootScope', '$scope', '$state', 'toaster', '$uibModal', 'technical-service', 'accessory-service','$cookies',
-        function ($stateParams, $rootScope, $scope, $state, toaster, $uibModal, technicalService, accessoryService,$cookies) {
+    app.controller('technicalDocuments-addOrEdit-controller', ['$stateParams', '$rootScope', '$scope', '$state', 'toaster', '$uibModal', 'technical-service', 'accessory-service', '$cookies',
+        function ($stateParams, $rootScope, $scope, $state, toaster, $uibModal, technicalService, accessoryService, $cookies) {
 
             var postData = $stateParams.data;
 
 
-           var user = sessionStorage.getItem('loginUser');
+            var user = sessionStorage.getItem('loginUser');
 
             if (user) {
                 user = JSON.parse(user);
@@ -58,7 +58,7 @@ define(['bootstrap/app', 'utils', 'services/technical-service', 'services/access
                             $scope.data = params;
                             $scope.data.modifyuserid = user.id;
                             $scope.data.inputdate = utils.parseTime(new Date($scope.data.inputdate), "YYYY-MM-DD");
-                            
+
                             if ($scope.data.releasedate) {
                                 $scope.data.releasedate = utils.parseTime(new Date($scope.data.releasedate), "YYYY-MM-DD");
                             }
@@ -94,7 +94,7 @@ define(['bootstrap/app', 'utils', 'services/technical-service', 'services/access
 
                 $scope.openUploadModal = function () {
 
-                    var url = 'partials/system/modals/uploadModal.html';
+                    var url = 'partials/system/modals/uploadModalTec.html';
                     var modalInstance = $uibModal.open({
 
                         templateUrl: url,
@@ -103,7 +103,8 @@ define(['bootstrap/app', 'utils', 'services/technical-service', 'services/access
                         resolve: {
                             values: function () {
                                 var data = {
-
+                                    userid: user.id,
+                                    type: 'Tec'
                                 }
                                 return data;
                             }
@@ -127,10 +128,10 @@ define(['bootstrap/app', 'utils', 'services/technical-service', 'services/access
                     );
                 };
 
-                $scope.canPreview = function (fileName) {
+               $scope.canPreview = function (fileName) {
                     var pos = fileName.lastIndexOf('.');
                     var format = fileName.substring(pos + 1);
-                    var picType = ['pdf'];
+                    var picType = ['pdf', 'doc', 'txt', 'docx'];
                     var res = false;
                     angular.forEach(picType, function (value, key) {
                         if (value == format.toLowerCase()) {
@@ -138,6 +139,11 @@ define(['bootstrap/app', 'utils', 'services/technical-service', 'services/access
                         }
                     });
                     return res;
+                }
+
+                //去掉字符串前后空格
+                function Trim(str) {
+                    return str.replace(/(^\s*)|(\s*$)/g, "");
                 }
 
 
@@ -153,7 +159,7 @@ define(['bootstrap/app', 'utils', 'services/technical-service', 'services/access
 
                     if (!$scope.data.tectype) {
                         toaster.pop({ type: 'danger', body: '请选择类别!' });
-                         $scope.isSaving = false;
+                        $scope.isSaving = false;
                         return;
                     }
                     var fileids = [];
@@ -164,6 +170,8 @@ define(['bootstrap/app', 'utils', 'services/technical-service', 'services/access
 
                     $scope.data.fileids = fileids;
 
+                    $scope.data.code = Trim($scope.data.code);
+
                     technicalService.SaveOrUpdateTechnical($scope.data, function (response) {
 
                         toaster.pop({ type: 'success', body: '保存成功!' });
@@ -173,6 +181,30 @@ define(['bootstrap/app', 'utils', 'services/technical-service', 'services/access
 
                     })
 
+                }
+
+                //提交
+                $scope.commit = function (params) {
+                    $scope.text = "确定提交吗？";
+                    var modalInstance = ngDialog.openConfirm({
+                        templateUrl: 'partials/_confirmModal.html',
+                        appendTo: 'body',
+                        className: 'ngdialog-theme-default',
+                        showClose: false,
+                        scope: $scope,
+                        size: 400,
+                        controller: function ($scope) {
+                            $scope.ok = function () {
+
+                                $scope.save(params);
+
+                                $scope.closeThisDialog(); //关闭弹窗
+                            };
+                            $scope.cancel = function () {
+                                $scope.closeThisDialog(); //关闭弹窗
+                            }
+                        }
+                    });
                 }
 
                 $scope.downloadAccessory = function (fileId) {

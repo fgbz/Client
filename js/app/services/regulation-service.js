@@ -55,10 +55,15 @@ define(['bootstrap/app', 'app/config-manager', 'services/http-service'], functio
         this.getHomeChart = function (callback) {
             http.get('/Lawstandard/getHomeChart', null, callback);
         }
-        
+
         //类别导航
         this.getHomePageLawsType = function (callback) {
-             http.get('/Lawstandard/getHomePageLawsType', null, callback);
+            http.get('/Lawstandard/getHomePageLawsType', null, callback);
+        }
+
+        //批量删除
+        this.DeleteAllSelectLawstandard = function (data,callback) {
+            http.post('/Lawstandard/DeleteAllSelectLawstandard', data, callback);
         }
 
 

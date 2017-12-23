@@ -6,7 +6,10 @@ define(['bootstrap/app', 'utils', 'services/regulation-service'], function (app,
     app.controller('reference-controller', ['$rootScope', '$scope', '$state', 'toaster', '$uibModal', '$uibModalInstance', 'regulation-service', 'values',
         function ($rootScope, $scope, $state, toaster, $uibModal, $modalInstance, regulationService, values) {
 
-
+            var user = sessionStorage.getItem('loginUser');
+            if (user) {
+                user = JSON.parse(user);
+            }
 
             //变量
             var define_variable = function () {
@@ -49,6 +52,8 @@ define(['bootstrap/app', 'utils', 'services/regulation-service'], function (app,
                     if ($scope.Title) {
                         options.conditions.push({ key: 'Title', value: $scope.Title });
                     }
+                    options.conditions.push({ key: 'ReplaceOrRefenceid', value: user.id});
+                    options.conditions.push({ key: 'ApproveStatus', value: 3 });
 
                     regulationService.getLawstandardList(options, function (response) {
                         $scope.isLoaded = true;
@@ -74,7 +79,7 @@ define(['bootstrap/app', 'utils', 'services/regulation-service'], function (app,
                     if ($scope.selectAll) {
                         angular.forEach($scope.items, function (value, key) {
                             value.IsCheck = false;
-                            deleteData(item);
+                            deleteData(value);
                         });
                         $scope.selectAll = false;
                     } else {
@@ -110,7 +115,7 @@ define(['bootstrap/app', 'utils', 'services/regulation-service'], function (app,
                     }
 
                     if (!flag) {
-                        var itemdata =angular.copy(item);
+                        var itemdata = angular.copy(item);
                         delete itemdata.IsCheck;
                         $scope.data.push(itemdata);
                     }

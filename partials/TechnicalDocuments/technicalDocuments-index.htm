@@ -105,12 +105,12 @@
                                 </td>
                             </tr>
                             <tr ng-if="items.length==0 ">
-                                <td colspan="6 " class="text-center ">无数据</td>
+                                <td colspan="7 " class="text-center ">无数据</td>
                             </tr>
                         </tbody>
                         <tbody ng-if="!isLoaded ">
                             <tr>
-                                <td colspan="6 " class="text-center ">
+                                <td colspan="7 " class="text-center ">
                                     <img src="images/loading.gif " />
                                 </td>
                             </tr>
@@ -200,7 +200,7 @@
                         <td title="{{item.code}} ">{{item.code| tooltips:20 }}</td>
                         <td title="{{item.isbatch&&item.isbatch==1?'是':'否'}} ">{{item.isbatch&&item.isbatch==1?'是':'否'}}</td>
                         <td title="{{item.typename}} ">{{item.typename| tooltips:13 }}</td>
-                        <td title="{{item.approvestatus|approvestatus}} ">{{item.approvestatus|approvestatus }}</td>
+                        <td title="{{item.approvestatus==1?'草稿':'发布'}}">{{item.approvestatus==1?'草稿':'发布'}}</td>
                         <td title="{{item.releasedate|recordtime}} ">{{item.releasedate|recordtime}}</td>
                         <td title="{{item.inputdate|recordtime}} ">{{item.inputdate |recordtime}}</td>
                         <td>

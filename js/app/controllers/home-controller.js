@@ -1,9 +1,11 @@
-define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/regulation-service', 'services/staff-service'], function (app, utils) {
+define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/regulation-service', 'services/staff-service','app/config-manager'], function (app, utils) {
     'use strict';
     var moment = require('moment');
+    var config = require('app/config-manager');
+    var baseUrl = config.baseUrl();
 
-    app.controller('home-controller', ['usercenter-service', '$rootScope', '$scope', '$state', '$timeout', '$cacheFactory', 'toaster', '$cookies', '$uibModal', '$http', 'regulation-service', 'staff-service',
-        function (usercenterService, $rootScope, $scope, $state, $timeout, $cacheFactory, toaster, $cookies, $uibModal, $http, regulationService, staffService) {
+    app.controller('home-controller', ['usercenter-service', '$rootScope', '$scope', '$state', '$timeout', '$cacheFactory', 'toaster', '$cookies', '$uibModal', 'http-service', 'regulation-service', 'staff-service',
+        function (usercenterService, $rootScope, $scope, $state, $timeout, $cacheFactory, toaster, $cookies, $uibModal, http, regulationService, staffService) {
 
             var authID = $cookies.get('AUTH_ID');
 
@@ -74,7 +76,7 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/regul
                     }
                     regulationService.getUptodateLawstandardList(options, function (response) {
                         if (flag) {
-                            $scope.LbdhTableItems =  response.CurrentList;
+                            $scope.LbdhTableItems = response.CurrentList;
                         } else {
                             $scope.LawItems = response.CurrentList;
                         }
@@ -215,7 +217,7 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/regul
                         isLogined();
                     } else {
                         var sRouter = "main.notice";
-                        $rootScope.$emit("menustateChange", { value: sRouter, HeadNew: false });
+                        $rootScope.$emit("menustateChange", { value: null, HeadNew: false });
 
                         var itemDeal = {};
                         if (item) {
@@ -232,6 +234,24 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/regul
 
 
 
+                }
+
+                //调到通知详细界面
+                $scope.goNoticeDetails = function (item) {
+
+                    if (!authID || !user) {
+                        isLogined();
+                    } else {
+                        var sRouter = "main.adviceDetails";
+                        $rootScope.$emit("menustateChange", { value: null, HeadNew: false });
+                        var itemDeal = {};
+                        itemDeal.clickValue = item.id;
+                        itemDeal.type = "home";
+
+                        var data = JSON.stringify(itemDeal);
+
+                        $state.go(sRouter, { "data": data });
+                    }
                 }
 
 
@@ -258,7 +278,7 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/regul
                         itemDeal.text = $scope.solrText;
 
                         var data = JSON.stringify(itemDeal);
-                        $rootScope.$emit("menustateChange", { value: sRouter, HeadNew: false });
+                        $rootScope.$emit("menustateChange", { value: null, HeadNew: false });
 
                         $state.go(sRouter, { "data": data });
 
@@ -272,7 +292,7 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/regul
                         isLogined();
                     } else {
                         var sRouter = "main.suggestion";
-                        $rootScope.$emit("menustateChange", { value: sRouter, HeadNew: false });
+                        $rootScope.$emit("menustateChange", { value: null, HeadNew: false });
 
 
                         $state.go(sRouter);
@@ -295,6 +315,19 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/regul
                         $state.go(sRouter, { "data": data });
                     }
 
+                }
+
+                //导出数据统计
+                $scope.exportchart = function () {
+                    if (!authID || !user) {
+                        isLogined();
+                    } else {
+                        var url = baseUrl + "/Lawstandard/downHomeChart" ;
+
+                        url = http.wrapUrl(url);
+                        var exportWindow = window.open(url, "_blank");
+                        exportWindow.document.title = "数据统计";
+                    }
                 }
 
                 //是否登陆

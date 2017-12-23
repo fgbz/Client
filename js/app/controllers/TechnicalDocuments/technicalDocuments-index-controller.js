@@ -279,6 +279,9 @@ define(['bootstrap/app', 'utils', 'services/technical-service'], function (app, 
                     if ($scope.IsBatch) {
                         options.conditions.push({ key: 'IsBatch', value: $scope.IsBatch });
                     }
+
+                    options.conditions.push({ key: 'TecInputuserid', value: user.id });
+
                     $scope.tableRow.selected = 0;
                     technicalService.getTechnicalList(options, function (response) {
                         $scope.isLoaded = true;

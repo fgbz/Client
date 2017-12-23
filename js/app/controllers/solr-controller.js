@@ -115,6 +115,8 @@ define(['bootstrap/app', 'utils', 'services/regulation-service'], function (app,
                         options.conditions.push({ key: 'Summaryinfo', value: $scope.Summaryinfo });
                     }
 
+                      options.conditions.push({ key: 'ApproveStatus', value: 3 });
+
                     var startTime = new Date();
                     regulationService.getLawstandardList(options, function (response) {
                         var endime = new Date();

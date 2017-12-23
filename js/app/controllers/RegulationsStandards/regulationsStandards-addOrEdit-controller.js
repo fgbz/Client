@@ -3,8 +3,8 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
 
     var config = require('app/config-manager');
     var baseUrl = config.baseUrl();
-    app.controller('regulationsStandards-addOrEdit-controller', ['$stateParams', '$rootScope', '$scope', '$state', 'toaster', '$uibModal', 'regulation-service', 'accessory-service', 'system-service', 'http-service', '$cookies','ngDialog',
-        function ($stateParams, $rootScope, $scope, $state, toaster, $uibModal, regulationService, accessoryService, systemService, http, $cookies,ngDialog) {
+    app.controller('regulationsStandards-addOrEdit-controller', ['$stateParams', '$rootScope', '$scope', '$state', 'toaster', '$uibModal', 'regulation-service', 'accessory-service', 'system-service', 'http-service', '$cookies', 'ngDialog',
+        function ($stateParams, $rootScope, $scope, $state, toaster, $uibModal, regulationService, accessoryService, systemService, http, $cookies, ngDialog) {
 
             var postData = $stateParams.data;
 
@@ -110,7 +110,8 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                         resolve: {
                             values: function () {
                                 var data = {
-                                    userid: user.id
+                                    userid: user.id,
+                                    type:'Law'
                                 }
                                 return data;
                             }
@@ -137,7 +138,7 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                 $scope.canPreview = function (fileName) {
                     var pos = fileName.lastIndexOf('.');
                     var format = fileName.substring(pos + 1);
-                    var picType = ['pdf', 'doc', 'txt', 'xls', 'xlsx', 'doc', 'docx', 'ppt', 'pptx'];
+                    var picType = ['pdf', 'doc', 'txt', 'docx'];
                     var res = false;
                     angular.forEach(picType, function (value, key) {
                         if (value == format.toLowerCase()) {
@@ -249,6 +250,11 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                     }
                 }
 
+                //去掉字符串前后空格
+                function Trim(str) {
+                    return str.replace(/(^\s*)|(\s*$)/g, "");
+                }
+
 
                 $scope.save = function (params) {
 
@@ -276,12 +282,6 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                             return;
                         }
 
-                        if ($scope.Attachments.length == 0) {
-                            toaster.pop({ type: 'danger', body: '请至少上传一个主附件!' });
-                            $scope.isSaving = false;
-                            return;
-                        }
-
                         if ($scope.data.releasedate && $scope.data.impdate) {
                             if ($scope.data.releasedate > $scope.data.impdate) {
                                 toaster.pop({ type: 'danger', body: '发布日期应小于等于实施日期!' });
@@ -289,7 +289,14 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                                 return;
                             }
                         }
+                        if ($scope.Attachments.length == 0) {
+                            toaster.pop({ type: 'danger', body: '请至少上传一个主附件!' });
+                            $scope.isSaving = false;
+                            return;
+                        }
 
+
+                        $scope.data.code = Trim($scope.data.code);
 
                         var fileids = [];
 

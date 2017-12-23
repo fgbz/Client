@@ -15,7 +15,6 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
             }
 
             var histroyData = [];
-            var histroyindex = 0;
 
             //变量
             var define_variable = function () {
@@ -28,6 +27,8 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                 if (postData) {
                     postData = JSON.parse(postData);
                 }
+                //向历史扭转中添加数据
+                histroyData.push(postData.clickValue)
 
                 $scope.isDownload = utils.getListItem('法规标准下载', 'menuname', user.menus);
 
@@ -49,23 +50,29 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
 
                 $scope.goState = function () {
 
+                    //返回点击查看的界面
+                    if (histroyData.length == 1) {
+                        var sRouter = "";
+                        if (postData.clickValue == 'approve' || postData.clickValue == 'fav') {
+                            sRouter = "main.userCenter";
+                        } else {
+                            sRouter = "main.regulationsStandardsIndex";
+                        }
 
 
-                    var sRouter = "";
-                    if (postData.clickValue == 'approve' || postData.clickValue == 'fav') {
-                        sRouter = "main.userCenter";
+                        var itemDeal = {};
+                        itemDeal.clickValue = postData.clickValue;
+
+                        var data = JSON.stringify(itemDeal);
+
+                        $state.go(sRouter, { "data": data });
                     } else {
-                        sRouter = "main.regulationsStandardsIndex";
+
+                        regulationService.getLawstandardById({ id: histroyData[histroyData.length - 1] }, function (res) {
+                            $scope.DetaiData = res;
+                            histroyData.splice(histroyData.length - 1, 1);
+                        });
                     }
-
-
-                    var itemDeal = {};
-                    itemDeal.clickValue = postData.clickValue;
-
-                    var data = JSON.stringify(itemDeal);
-
-                    $state.go(sRouter, { "data": data });
-
 
 
                 }
@@ -97,8 +104,15 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                 //点击代替或引用
                 $scope.checkRepalceOrRefence = function (params) {
 
+                    //向历史扭转中添加数据
+                    histroyData.push($scope.DetaiData.id);
+
                     regulationService.getLawstandardById(params, function (res) {
                         $scope.DetaiData = res;
+                        if ($scope.DetaiData.modifydate) {
+                            $scope.DetaiData.modifydate = utils.parseTime(new Date($scope.DetaiData.modifydate), "YYYY-MM-DD");
+                        }
+
                     });
 
                 }
@@ -125,7 +139,7 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                 $scope.canPreview = function (fileName) {
                     var pos = fileName.lastIndexOf('.');
                     var format = fileName.substring(pos + 1);
-                    var picType = ['pdf', 'doc', 'txt', 'xls', 'xlsx', 'doc', 'docx', 'ppt', 'pptx'];
+                    var picType = ['pdf', 'doc', 'txt','docx'];
                     var res = false;
                     angular.forEach(picType, function (value, key) {
                         if (value == format.toLowerCase()) {

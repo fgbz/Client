@@ -3,7 +3,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
 
     var config = require('app/config-manager');
     var baseUrl = config.baseUrl();
-    app.controller('systemSetup-index-controller', ['$rootScope', '$scope', '$state', 'toaster', '$uibModal', 'regulation-service', 'technical-service', 'system-service', 'ngDialog','$cookies',
+    app.controller('systemSetup-index-controller', ['$rootScope', '$scope', '$state', 'toaster', '$uibModal', 'regulation-service', 'technical-service', 'system-service', 'ngDialog', '$cookies',
         function ($rootScope, $scope, $state, toaster, $uibModal, regulationService, technicalService, systemService, ngDialog, $cookies) {
 
             var user = sessionStorage.getItem('loginUser');
@@ -318,9 +318,14 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                                 $scope.ok = function () {
 
                                     systemService.SaveOrUpdateApproveSetting(0, function (res) {
+                                        if (res.count == 0) {
+                                            $scope.systemdata.sfsh = 0;
+                                            $scope.closeThisDialog(); //关闭弹窗
+                                        }else{
+                                             toaster.pop({ type: 'danger', body: '尚有'+res.count+'份待审稿，请审批完成后再关闭审核功能!', timeout: 0  });
+                                             $scope.closeThisDialog(); //关闭弹窗
+                                        }
 
-                                        $scope.systemdata.sfsh = 0;
-                                        $scope.closeThisDialog(); //关闭弹窗
                                     })
 
 

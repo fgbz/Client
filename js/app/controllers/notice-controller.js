@@ -39,7 +39,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/usercenter-ser
                         conditions: []
                     };
 
-                    usercenterService.getUpToDateAdviceinfos(options, function (response) {
+                    usercenterService.getAdviceList(options, function (response) {
                         $scope.isLoaded = true;
                         $scope.items = response.CurrentList;
                         $scope.pager.total = response.RecordCount;
@@ -65,40 +65,24 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/usercenter-ser
                 $scope.goState = function () {
 
                     var sRouter = "main.home";
-
-
                     $rootScope.$emit("menustateChange", { value: sRouter, HeadNew: true });
                     $state.go(sRouter);
                 }
-
-                //查看
+                //调到通知详细界面
                 $scope.showAdvice = function (item) {
 
-                    $scope.clickvalue = item.id;
-                    var url = 'partials/system/modals/advice.html';
-                    var modalInstance = $uibModal.open({
+                    var sRouter = "main.adviceDetails";
+                    var itemDeal = {};
+                    itemDeal.clickValue = item.id;
+                    itemDeal.type = "advice";
 
-                        templateUrl: url,
-                        controller: 'advice-controller',
-                        size: 600,
-                        resolve: {
-                            values: function () {
-                                var data = {
-                                    id: item.id,
-                                    Title: '查看',
-                                    isCheck: true
-                                }
+                    var data = JSON.stringify(itemDeal);
 
-                                return data;
-                            }
-                        }
-                    });
-                    modalInstance.result.then(function (res) {
-
-                    });
-
+                    $state.go(sRouter, { "data": data });
 
                 }
+
+
             };
 
             // 实际运行……

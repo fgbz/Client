@@ -14,6 +14,7 @@ define(['bootstrap/app',
     'ctrls/system/suggestionFeedBack-controller',
     'ctrls/suggestion-controller',
     'ctrls/solr-controller',
+    'ctrls/adviceDetails-controller',
     'ctrls/RegulationsStandards/regulationsStandards-index-controller',
     'ctrls/RegulationsStandards/regulationsStandards-addOrEdit-controller',
     'ctrls/RegulationsStandards/regulationsStandards-detail-controller',
@@ -80,6 +81,13 @@ define(['bootstrap/app',
                 url: 'solr/{data}',
                 templateUrl: 'partials/solr.html',
                 controller: 'solr-controller'
+            });
+
+            //通知详情
+            $stateProvider.state('main.adviceDetails', {
+                url: 'adviceDetails/{data}',
+                templateUrl: 'partials/adviceDetails.html',
+                controller: 'adviceDetails-controller'
             });
 
             $stateProvider.state('main.map', {

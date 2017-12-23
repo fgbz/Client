@@ -25,7 +25,7 @@ define(['bootstrap/app', 'utils', 'services/technical-service', 'services/access
                     postData = JSON.parse(postData);
                 }
 
-                var isDownload = utils.getListItem('技术文档下载', 'menuname', user.menus);
+                $scope.isDownload = utils.getListItem('技术文档下载', 'menuname', user.menus);
 
                 //获取附件信息
                 accessoryService.getAccessoryByDirId(postData.item.id, function (res) {
@@ -67,7 +67,7 @@ define(['bootstrap/app', 'utils', 'services/technical-service', 'services/access
                 $scope.canPreview = function (fileName) {
                     var pos = fileName.lastIndexOf('.');
                     var format = fileName.substring(pos + 1);
-                    var picType = ['pdf', 'doc', 'txt', 'xls', 'xlsx', 'doc', 'docx', 'ppt', 'pptx'];
+                    var picType = ['pdf', 'doc', 'txt', 'docx'];
                     var res = false;
                     angular.forEach(picType, function (value, key) {
                         if (value == format.toLowerCase()) {

@@ -118,7 +118,9 @@ define(['bootstrap/app', 'utilities/cryto', 'ctrls/system/modals/logout-controll
 
             $rootScope.$on('menustateChange', function (params, value) {
 
-                $scope.menustate = value.value;
+                if (value.value != null) {
+                    $scope.menustate = value.value;
+                }
                 $scope.HeadNew = value.HeadNew;
             });
 
@@ -243,6 +245,8 @@ define(['bootstrap/app', 'utilities/cryto', 'ctrls/system/modals/logout-controll
     app.controller('uploadModal-controller', ['$scope', 'Upload', '$timeout', '$uibModalInstance', 'values', 'accessory-service', 'http-service', function ($scope, Upload, $timeout, $modalInstance, values, accessoryService, http) {
         // upload later on form submit or something similar
 
+        $scope.type = values.type;
+
         $scope.submit = function () {
 
 
@@ -266,7 +270,12 @@ define(['bootstrap/app', 'utilities/cryto', 'ctrls/system/modals/logout-controll
                 }
 
             } else {
-                $scope.warningMessage = '请上传DOC,DOCX,PDF,txt格式文件。';
+                if ($scope.type == 'Law') {
+                    $scope.warningMessage = '请上传DOC,DOCX,PDF,txt格式文件。';
+                }else{
+                    $scope.warningMessage = '请选择文件。';
+                }
+
                 return;
             }
         };

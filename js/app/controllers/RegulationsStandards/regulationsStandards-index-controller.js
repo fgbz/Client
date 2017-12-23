@@ -52,6 +52,8 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                 $scope.tableRowsearch = {
                     selected: 0
                 }
+
+                $scope.data = [];
             };
 
             //加载
@@ -131,12 +133,14 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                         toaster.pop({ type: 'danger', body: '请选择编辑对象!' });
                         return;
                     }
+                    var itemdata = angular.copy($scope.selectItem);
+                    delete itemdata.IsCheck;
                     var sRouter = "main.regulationsStandardsAddOrEdit";
 
                     var itemDeal = {};
                     itemDeal.type = "edit";
                     itemDeal.clickValue = $scope.clickValue;
-                    itemDeal.item = $scope.selectItem;
+                    itemDeal.item = itemdata;
 
                     var data = JSON.stringify(itemDeal);
 
@@ -160,12 +164,14 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                         controller: function ($scope) {
                             $scope.ok = function () {
 
-                                regulationService.DeleteLawstandardById($scope.selectItem, function (res) {
+                                var itemdata = angular.copy($scope.selectItem);
+                                delete itemdata.IsCheck;
+                                regulationService.DeleteLawstandardById(itemdata, function (res) {
                                     if (res == 200) {
-                                        toaster.pop({ type: 'succcess', body: '删除成功!' });
+                                        toaster.pop({ type: 'success', body: '删除成功!' });
                                         $scope.searchManage();
                                     } else {
-                                        toaster.pop({ type: 'succcess', body: '删除失败!' });
+                                        toaster.pop({ type: 'success', body: '删除失败!' });
                                     }
 
                                 })
@@ -184,14 +190,16 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
 
                 //查看
                 $scope.Check = function (item) {
+                    var itemdata = angular.copy(item);
+                    delete itemdata.IsCheck;
 
-                    regulationService.AddLawstandardCount(item, function () {
+                    regulationService.AddLawstandardCount(itemdata, function () {
                         var sRouter = "main.regulationsStandardsDetail";
 
                         var itemDeal = {};
                         itemDeal.type = "check";
                         itemDeal.clickValue = $scope.clickValue;
-                        itemDeal.item = item;
+                        itemDeal.item = itemdata;
 
                         var data = JSON.stringify(itemDeal);
 
@@ -306,8 +314,8 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                     if ($scope.IsBatch) {
                         options.conditions.push({ key: 'IsBatch', value: $scope.IsBatch });
                     }
-                    options.conditions.push({ key: 'LawInputuserid', value:user.id });
-                    
+                    options.conditions.push({ key: 'LawInputuserid', value: user.id });
+
                     $scope.tableRow.selected = 0;
 
 
@@ -315,6 +323,33 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                     regulationService.getLawstandardList(options, function (response) {
                         $scope.isLoaded = true;
                         $scope.itemManages = response.CurrentList;
+
+                        angular.forEach($scope.itemManages, function (value, key) {
+                            angular.extend($scope.itemManages[key], { IsCheck: false });
+                        });
+
+                        var count = 0;
+                        var candeletecount = 0;
+                        //标记checkbox
+                        for (var i = 0; i < $scope.itemManages.length; i++) {
+                            if ($scope.itemManages[i].approvestatus == 1 || $scope.isSup) {
+                                candeletecount++;
+                            }
+                            for (var j = 0; j < $scope.data.length; j++) {
+                                if ($scope.data[j].id == $scope.itemManages[i].id) {
+                                    $scope.itemManages[i].IsCheck = true;
+                                    count++;
+                                    break;
+                                }
+                            }
+                        }
+                        if (candeletecount == count && count > 0) {
+                            $scope.selectAll = true;
+                        } else {
+                            $scope.selectAll = false;
+                        }
+
+
                         $scope.pagerManage.total = response.RecordCount;
                         if ($scope.itemManages.length > 0) {
                             $scope.selectItem = $scope.itemManages[0];
@@ -416,6 +451,115 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                         }
 
                     });
+
+                }
+
+                //批量删除
+                $scope.DeleteAll = function () {
+                    var ids = [];
+                    for (var i = 0; i < $scope.data.length; i++) {
+                        ids.push($scope.data[i].id);
+                    }
+
+                    if (ids.length == 0) {
+                        toaster.pop({ type: 'danger', body: '请选择删除对象!' });
+                        return;
+                    }
+
+                    $scope.ids = ids;
+                    $scope.text = "确定批量删除" + ids.length + "条数据吗？";
+                    var modalInstance = ngDialog.openConfirm({
+                        templateUrl: 'partials/_confirmModal.html',
+                        appendTo: 'body',
+                        className: 'ngdialog-theme-default',
+                        showClose: false,
+                        scope: $scope,
+                        size: 400,
+                        controller: function ($scope) {
+                            $scope.ok = function () {
+
+                                regulationService.DeleteAllSelectLawstandard($scope.ids, function (res) {
+                                    if (res == 200) {
+                                        toaster.pop({ type: 'success', body: '批量删除成功!' });
+                                        $scope.searchManage();
+                                    } else {
+                                        toaster.pop({ type: 'success', body: '批量删除失败!' });
+                                    }
+
+                                })
+
+                                $scope.closeThisDialog(); //关闭弹窗
+                            };
+                            $scope.cancel = function () {
+                                $scope.closeThisDialog(); //关闭弹窗
+                            }
+                        }
+                    });
+
+                }
+
+                $scope.clickAll = function () {
+
+                    if ($scope.selectAll) {
+                        angular.forEach($scope.itemManages, function (value, key) {
+                            if (value.approvestatus == 1 || $scope.isSup) {
+                                value.IsCheck = false;
+                                deleteData(value);
+                            }
+
+                        });
+                        $scope.selectAll = false;
+                    } else {
+                        angular.forEach($scope.itemManages, function (value, key) {
+
+                            if (value.approvestatus == 1 || $scope.isSup) {
+                                value.IsCheck = true;
+                                addData(value);
+                            }
+
+                        });
+                        $scope.selectAll = true;
+                    }
+
+                }
+
+                $scope.clickSingle = function (item) {
+
+                    if (item.IsCheck) {
+                        item.IsCheck = false;
+                        deleteData(item);
+                    } else {
+                        item.IsCheck = true;
+                        addData(item);
+                    }
+
+                }
+
+                var addData = function (item) {
+
+                    var flag = false;
+                    for (var i = 0; i < $scope.data.length; i++) {
+                        if ($scope.data[i].id == item.id) {
+                            flag = true;
+                            break;
+                        }
+                    }
+
+                    if (!flag) {
+                        var itemdata = angular.copy(item);
+                        delete itemdata.IsCheck;
+                        $scope.data.push(itemdata);
+                    }
+                }
+
+                var deleteData = function (item) {
+
+                    for (var i = 0; i < $scope.data.length; i++) {
+                        if ($scope.data[i].id == item.id) {
+                            $scope.data.splice(i, 1);
+                            break;
+                        }
+                    }
 
                 }
 

@@ -13,6 +13,7 @@
 
         <div>
             <div ng-repeat="item in items" class="home_repeat" ng-click="showAdvice(item)" ng-style="{'background':clickvalue==item.id?'#79a5ff':''}">
+                <div class="fl ml10">{{$index+1}}</div>
                 <div class="fl point">.</div>
                 <div class="fl color363636" title="{{item.title}}">{{item.title|tooltips:30}}</div>
 

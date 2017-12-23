@@ -422,4 +422,10 @@ define(['angular', 'utils'], function (ng, utils) {
         };
     }]);
 
+    fm.filter("parseHTML", function ($sce) {
+        return function (text) {
+            return $sce.trustAsHtml(text);
+        }
+    })
+
 });

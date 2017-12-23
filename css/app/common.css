@@ -395,11 +395,13 @@ body {
     float: right;
     margin-right: 20px;
     background: url('../../images/but_sc_c.png') right no-repeat ;
+    cursor: pointer;
 }
 
 .regluation_detail_nocollect{
     padding-right: 30px;
     float: right;
+    cursor: pointer;
     margin-right: 20px;
     background: url('../../images/but_sc_n.png') right no-repeat ;
 }
@@ -585,6 +587,7 @@ body {
     margin: 0 20px 0 20px;
     font-size: medium;
     text-align: center;
+    cursor: pointer;
 }
 
 .usercenter_left .menu_select{
@@ -594,6 +597,7 @@ body {
     font-size: medium;
     text-align: center;
     background: #b7dffa;
+    cursor: pointer;
 }
 
 .usercenter_left .index_menu:hover{
@@ -835,6 +839,7 @@ body {
     background: #ff5959;
     text-align: center;
     border: 0;
+    cursor: pointer;
 }
 .deletebtn:hover{
       background-color: red;
@@ -849,6 +854,7 @@ body {
     background: #07ac22;
     text-align: center;
     border: 0;
+    cursor: pointer;
 }
 .normalcheckbtn:hover{
   background-color: #00EC00;
@@ -877,6 +883,7 @@ body {
     background: #f6a800;
     text-align: center;
     border: 0;
+    cursor: pointer;
 }
 .collectbtn:hover{
      background-color: #FFDC35;
@@ -1095,6 +1102,7 @@ body {
     height: 32px;
     line-height: 32px;
     clear: both;
+    cursor: pointer;
 }
 .home_repeat:hover{
   background-color: #f2f2f2; 
@@ -1173,8 +1181,8 @@ body {
   line-height: 50px;
   color: #ffffff;
   font-size: 16px;
-  padding-left: 35px;
-  background:#08589f url('../../images/but_qwjs.png') 10px no-repeat;
+  padding-left: 50px;
+  background:#08589f url('../../images/but_qwjs.png') 20px no-repeat;
 }
 
 .home_notice{
@@ -1295,6 +1303,7 @@ body {
     padding-left: 40px;
     margin-left: 20px;
     font-family: MicrosoftYaHei;
+    cursor: pointer;
 }
 
 .home_new_lbdh .menu_select{
@@ -1307,6 +1316,7 @@ body {
     padding-left: 40px;
     margin-left: 20px;
     font-family: MicrosoftYaHei;
+    cursor: pointer;
 }
 
 .lbdh_detail {
@@ -1482,6 +1492,7 @@ body {
     position: relative;
     margin-left: 10px;
     float: right;
+    cursor: pointer;
 }
 
 .system_hk_no{
@@ -1494,6 +1505,7 @@ body {
     margin-left: 10px;
     border: 1px solid #fff;
     float: right;
+     cursor: pointer;
 }
 
 .system_hkb_right{
@@ -1679,6 +1691,39 @@ body {
 .advice_textarea:disabled{
    background: #d7d7d7;
 }
+
+
+.advicedetail{
+    height: calc(100% - 50px);
+    border: 1px solid #cccccc;
+    border-top: 4px solid #4cb5ff;
+}
+.advicedetail_title{
+    font-size: 18px;
+    height: 60px;
+    line-height: 60px;
+    margin-bottom: 20px;
+    margin-top: 60px;
+    text-align: center;
+}
+
+.advicedetail_time{
+    text-align: center;
+    height: 60px;
+    line-height: 40px;
+    margin-left: 60px;
+    margin-right: 60px;
+    border-bottom: 1px dashed #cccccc;
+}
+
+.advicedetail_details{
+    height: 300px;
+    margin-top: 60px;
+    margin-left: 60px;
+    margin-right: 60px;
+    border-bottom: 1px dashed #cccccc;
+}
+
 
 /**j***************基本样式********************/
 
