@@ -1022,12 +1022,14 @@ define(['angular', 'nicEdit', 'jquery', 'utils'], function (ng, nicEditObj, jque
                 treeModel: '=', //默认选中值的Value,
                 btnShow: "=", // 是否显示按钮
                 imgColor: '=', //背景色
-                isNormal: '='
+                isNormal: '=',
+                treeWidth:'='
             },
             require: '?uiTree',
             link: function (scope, element, attributes) {
                 // 构建树数据
                 var dataList = []; // 数据列表，与树数据源指向相同引用
+                var count = 0;
                 function LoadTreeData(treeNodesData, parentId, flag) {
                     var data = [];
                     if (treeNodesData)
@@ -1038,7 +1040,7 @@ define(['angular', 'nicEdit', 'jquery', 'utils'], function (ng, nicEditObj, jque
                                     'Name': item.Name,
                                     'ParentID': item.ParentID,
                                     'Type': flag,
-                                    'Extend': true,
+                                    'Extend': false,
                                     'Nodes': LoadTreeData(treeNodesData, item.Id, 1)
                                 };
                                 dataList.push(t);
@@ -1049,11 +1051,19 @@ define(['angular', 'nicEdit', 'jquery', 'utils'], function (ng, nicEditObj, jque
                 };
 
                 scope.$watch('treeData', function (v) {
-                    if (v) {
+                  if (v) {
                         dataList = [];
                         scope.source = LoadTreeData(scope.treeData, null, 0);
+                        initExtend();
                     }
                 }, true);
+
+                //默认展开根节点及第二项
+                var initExtend = function () {
+                    if (scope.source && scope.source.length > 0) {
+                        scope.source[0].Extend = true;
+                    }
+                }
 
                 //选中项
                 scope.clickNode = function (newValue) {

@@ -314,6 +314,10 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                     if ($scope.IsBatch) {
                         options.conditions.push({ key: 'IsBatch', value: $scope.IsBatch });
                     }
+                    if ($scope.TreeValue) {
+                        options.conditions.push({ key: 'TreeValue', value: $scope.TreeValue });
+                    }
+
                     options.conditions.push({ key: 'LawInputuserid', value: user.id });
 
                     $scope.tableRow.selected = 0;
@@ -430,25 +434,16 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                         data: { file: file },
                         removeAfterUpload: true,
                     }).then(function (resp) {
-                        switch (resp.data) {
-                            case 200:
-                                toaster.pop({ type: 'success', body: '导入成功!' });
-                                $scope.searchManage();
-                                break;
-                            case 404:
-                                toaster.pop({ type: 'danger', body: '内容为空!', timeout: 0 });
-                                break;
-                            case 1:
-                                toaster.pop({ type: 'danger', body: '中文标题不能为空!', timeout: 0 });
-                                break;
-                            case 2:
-                                toaster.pop({ type: 'danger', body: '编号不能为空!', timeout: 0 });
-                                break;
 
-                            default:
-                                toaster.pop({ type: 'error', body: '导入失败!', timeout: 0 });
-                                break;
+                        if (resp.data.Result == 200) {
+                            toaster.pop({ type: 'success', body: '导入成功!' });
+                            $scope.searchManage();
+                        } else if (resp.data.Result == 400) {
+                            toaster.pop({ type: 'danger', body: resp.data.Msg, timeout: 0 });
+                        } else {
+                            toaster.pop({ type: 'danger', body: "时间格式有误", timeout: 0 });
                         }
+
 
                     });
 

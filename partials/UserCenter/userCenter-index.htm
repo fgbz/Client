@@ -62,39 +62,41 @@
 
             <!--表格-->
             <div class="usercenter_collect_table h100 posi_re">
-                <table class="index_table">
-                    <thead>
-                        <tr>
-                            <th>标题</th>
-                            <th>收藏夹名称</th>
-                            <th>收藏时间</th>
-                            <th>操作</th>
-                        </tr>
-                    </thead>
-                    <tbody ng-if="isLoaded">
-                        <tr ng-repeat="item in CollectItems" style="height: 40px;cursor: pointer" ng-click="clickTable($index);" ng-class="{true: 'tr_selected',false: ''}[tableRow.selected==$index] ">
-                            <td title="{{item.chinesename}} " class="w300 ">{{item.chinesename| tooltips:20}}</td>
-                            <td title="{{item.favname}}">{{item.favname| tooltips:10}}</td>
-                            <td title="{{item.inputdate|recordtime}} ">{{item.inputdate|recordtime}}</td>
-                            <td>
-                                <input type="button " class="normalcheckbtn" value="查 看 " ng-click="CheckByFav(item)" />
-                                <input type="button " class="collectbtn" value="取消收藏 " ng-click="dismissFav(item)" />
-                            </td>
-                        </tr>
-                        <tr ng-if="CollectItems.length==0 ">
-                            <td colspan="3" class="text-center ">无数据</td>
-                        </tr>
-                    </tbody>
-                    <tbody ng-if="!isLoaded ">
-                        <tr>
-                            <td colspan="3 " class="text-center ">
-                                <img src="images/loading.gif " />
-                            </td>
-                        </tr>
-                    </tbody>
 
-                </table>
+                <div class="of" style="height: calc(100% - 100px);">
+                    <table class="index_table">
+                        <thead>
+                            <tr>
+                                <th>标题</th>
+                                <th>收藏夹名称</th>
+                                <th>收藏时间</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody ng-if="isLoaded">
+                            <tr ng-repeat="item in CollectItems" style="height: 40px;cursor: pointer" ng-click="clickTable($index);" ng-class="{true: 'tr_selected',false: ''}[tableRow.selected==$index] ">
+                                <td title="{{item.chinesename}} " class="w300 ">{{item.chinesename| tooltips:20}}</td>
+                                <td title="{{item.favname}}">{{item.favname| tooltips:10}}</td>
+                                <td title="{{item.inputdate|recordtime}} ">{{item.inputdate|recordtime}}</td>
+                                <td>
+                                    <input type="button " class="normalcheckbtn" value="查 看 " ng-click="CheckByFav(item)" />
+                                    <input type="button " class="collectbtn" value="取消收藏 " ng-click="dismissFav(item)" />
+                                </td>
+                            </tr>
+                            <tr ng-if="CollectItems.length==0 ">
+                                <td colspan="3" class="text-center ">无数据</td>
+                            </tr>
+                        </tbody>
+                        <tbody ng-if="!isLoaded ">
+                            <tr>
+                                <td colspan="3 " class="text-center ">
+                                    <img src="images/loading.gif " />
+                                </td>
+                            </tr>
+                        </tbody>
 
+                    </table>
+                </div>
                 <div class="home_paging">
                     <div class="pagination-info " style="display: inline-block;margin-top: 12px; margin-left: 10px;">
                         <span class="ng-binding ">共{{pagerDeal.total}}条</span>
@@ -132,42 +134,43 @@
             </div>
 
             <!--表格-->
-            <div class="usercenter_deal_table posi_re">
-                <table class="index_table">
-                    <thead>
-                        <tr>
-                            <th>序号</th>
-                            <th>标题</th>
-                            <th>标准编号</th>
-                            <th>录入人</th>
-                            <th>操作</th>
-                        </tr>
-                    </thead>
-                    <tbody ng-if="isLoaded">
-                        <tr ng-repeat="item in LawstandardItems" style="height: 40px;cursor: pointer" ng-click="clickTable($index);" ng-class="{true: 'tr_selected',false: ''}[tableRow.selected==$index] ">
-                            <td>{{$index+1}}</td>
-                            <td title="{{item.chinesename}} " class="w300 ">{{item.chinesename| tooltips:20}}</td>
-                            <td title="{{item.code}} ">{{item.code}}</td>
-                            <td title="{{item.inputusername}} ">{{item.inputusername}}</td>
-                            <td>
-                                <input type="button " class="normalcheckbtn" value="查 看" ng-click="Check(item)" />
-                                <input type="button " class="normalbtn" value="审 核" ng-click="Exam(item)" />
-                            </td>
-                        </tr>
-                        <tr ng-if="LawstandardItems.length==0 ">
-                            <td colspan="5" class="text-center ">无数据</td>
-                        </tr>
-                    </tbody>
-                    <tbody ng-if="!isLoaded ">
-                        <tr>
-                            <td colspan="5 " class="text-center ">
-                                <img src="images/loading.gif " />
-                            </td>
-                        </tr>
-                    </tbody>
+            <div class="usercenter_deal_table posi_re h100">
+                <div class="of" style="height: calc(100% - 100px);">
+                    <table class="index_table">
+                        <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>标题</th>
+                                <th>标准编号</th>
+                                <th>录入人</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody ng-if="isLoaded">
+                            <tr ng-repeat="item in LawstandardItems" style="height: 40px;cursor: pointer" ng-click="clickTable($index);" ng-class="{true: 'tr_selected',false: ''}[tableRow.selected==$index] ">
+                                <td>{{$index+1}}</td>
+                                <td title="{{item.chinesename}} " class="w300 ">{{item.chinesename| tooltips:20}}</td>
+                                <td title="{{item.code}} ">{{item.code}}</td>
+                                <td title="{{item.inputusername}} ">{{item.inputusername}}</td>
+                                <td>
+                                    <input type="button " class="normalcheckbtn" value="查 看" ng-click="Check(item)" />
+                                    <input type="button " class="normalbtn" value="审 核" ng-click="Exam(item)" />
+                                </td>
+                            </tr>
+                            <tr ng-if="LawstandardItems.length==0 ">
+                                <td colspan="5" class="text-center ">无数据</td>
+                            </tr>
+                        </tbody>
+                        <tbody ng-if="!isLoaded ">
+                            <tr>
+                                <td colspan="5 " class="text-center ">
+                                    <img src="images/loading.gif " />
+                                </td>
+                            </tr>
+                        </tbody>
 
-                </table>
-
+                    </table>
+                </div>
                 <div class="home_paging">
                     <div class="pagination-info " style="display: inline-block;margin-top: 12px; margin-left: 10px;">
                         <span class="ng-binding ">共{{pagerLawstandard.total}}条</span>
@@ -202,41 +205,42 @@
 
                 </div>
 
-                <table class="index_table" style="width: 100%;">
-                    <thead>
-                        <tr>
-                            <th>序号</th>
-                            <th>标题</th>
-                            <th>来源</th>
-                            <th>发布时间</th>
-                            <th>操作</th>
-                        </tr>
-                    </thead>
-                    <tbody ng-if="isLoaded ">
-                        <tr ng-repeat="item in adviceItems" style="height: 40px;cursor: pointer" ng-click="clickTable($index);" ng-class="{true: 'tr_selected',false: ''}[tableRow.selected==$index] ">
-                            <td>{{$index+1}}</td>
-                            <td title="{{item.title}} " class="w300 ">{{item.title|tooltips:20}}</td>
-                            <td title="{{item.orgname}} ">{{item.orgname}}</td>
-                            <td title="{{item.inputdate|recordtime}} ">{{item.inputdate|recordtime}}</td>
-                            <td>
-                                <input type="button " class="checkbtn" ng-click="ShowAdvice(item,true,'查看')" value="查 看" />
-                                <input type="button " class="deletebtn" ng-click="DeleteAdvice(item)" value="删 除" ng-show="item.inputuserid==user.id||isSup"
-                                />
-                            </td>
-                        </tr>
-                        <tr ng-if="userItems.length==0 ">
-                            <td colspan="5 " class="text-center ">无数据</td>
-                        </tr>
-                    </tbody>
-                    <tbody ng-if="!isLoaded ">
-                        <tr>
-                            <td colspan="5" class="text-center ">
-                                <img src="images/loading.gif " />
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-
+                <div class="of" style="height: calc(100% - 100px);">
+                    <table class="index_table" style="width: 100%;">
+                        <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>标题</th>
+                                <th>来源</th>
+                                <th>发布时间</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody ng-if="isLoaded ">
+                            <tr ng-repeat="item in adviceItems" style="height: 40px;cursor: pointer" ng-click="clickTable($index);" ng-class="{true: 'tr_selected',false: ''}[tableRow.selected==$index] ">
+                                <td>{{$index+1}}</td>
+                                <td title="{{item.title}} " class="w300 ">{{item.title|tooltips:20}}</td>
+                                <td title="{{item.orgname}} ">{{item.orgname}}</td>
+                                <td title="{{item.inputdate|recordtime}} ">{{item.inputdate|recordtime}}</td>
+                                <td>
+                                    <input type="button " class="checkbtn" ng-click="ShowAdvice(item,true,'查看')" value="查 看" />
+                                    <input type="button " class="deletebtn" ng-click="DeleteAdvice(item)" value="删 除" ng-show="item.inputuserid==user.id||isSup"
+                                    />
+                                </td>
+                            </tr>
+                            <tr ng-if="userItems.length==0 ">
+                                <td colspan="5 " class="text-center ">无数据</td>
+                            </tr>
+                        </tbody>
+                        <tbody ng-if="!isLoaded ">
+                            <tr>
+                                <td colspan="5" class="text-center ">
+                                    <img src="images/loading.gif " />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
                 <div class="home_paging">
                     <div class="pagination-info " style="display: inline-block;margin-top: 12px; margin-left: 10px;">
                         <span class="ng-binding ">共{{pagerAdvice.total}}条</span>

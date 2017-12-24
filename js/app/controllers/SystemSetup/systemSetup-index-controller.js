@@ -12,6 +12,10 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                 user = JSON.parse(user);
             }
 
+            var dics = JSON.parse(localStorage.getItem('DicItems'));
+
+            $scope.PageSize = dics.PageSize;
+
             //变量
             var define_variable = function () {
 
@@ -133,7 +137,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                         $scope.pagerPublishdep.current = 1;
                     }
 
-                    $scope.pagerPublishdep.size = pagesize;
+                    $scope.pagerPublishdep.size = $scope.PageSize;
 
                     var options = {
                         pageNo: $scope.pagerPublishdep.current,
@@ -162,11 +166,11 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                         $scope.pagerStatus.current = 1;
                     }
 
-                    $scope.pagerStatus.size = pagesize;
+                    $scope.pagerStatus.size = $scope.PageSize;
 
                     var options = {
                         pageNo: $scope.pagerStatus.current,
-                        pageSize: $scope.pagerStatus.size,
+                        pageSize:  $scope.pagerStatus.size,
                         conditions: []
                     };
                     if ($scope.systemdata.statusName) {
@@ -249,11 +253,11 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                         $scope.pagerRole.current = 1;
                     }
 
-                    $scope.pagerRole.size = pagesize;
+                    $scope.pagerRole.size =$scope.PageSize;
 
                     var options = {
                         pageNo: $scope.pagerRole.current,
-                        pageSize: $scope.pagerRole.size,
+                        pageSize:  $scope.pagerRole.size ,
                         conditions: []
                     };
                     if ($scope.userdata.roleName) {
@@ -279,11 +283,11 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                         $scope.pagerUser.current = 1;
                     }
 
-                    $scope.pagerUser.size = pagesize;
+                    $scope.pagerUser.size = $scope.PageSize;
 
                     var options = {
                         pageNo: $scope.pagerUser.current,
-                        pageSize: $scope.pagerUser.size,
+                        pageSize:   $scope.pagerUser.size,
                         conditions: []
                     };
                     if ($scope.userdata.Name) {
@@ -321,9 +325,9 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                                         if (res.count == 0) {
                                             $scope.systemdata.sfsh = 0;
                                             $scope.closeThisDialog(); //关闭弹窗
-                                        }else{
-                                             toaster.pop({ type: 'danger', body: '尚有'+res.count+'份待审稿，请审批完成后再关闭审核功能!', timeout: 0  });
-                                             $scope.closeThisDialog(); //关闭弹窗
+                                        } else {
+                                            toaster.pop({ type: 'danger', body: '尚有' + res.count + '份待审稿，请审批完成后再关闭审核功能!', timeout: 0 });
+                                            $scope.closeThisDialog(); //关闭弹窗
                                         }
 
                                     })

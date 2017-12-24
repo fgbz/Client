@@ -36,7 +36,12 @@ define(['bootstrap/app', 'app/config-manager', 'services/http-service'], functio
         //删除
         this.DeleteTechnicalById  = function (data,callback) {
              http.post('/Technical/DeleteTechnicalById', data, callback); 
-        }
+        };
+
+         //类别导航
+        this.getHomePageTecsType = function (callback) {
+            http.get('/Technical/getHomePageTecsType', null, callback);
+        };
 
 
 

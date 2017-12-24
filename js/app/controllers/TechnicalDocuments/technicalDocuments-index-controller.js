@@ -62,7 +62,7 @@ define(['bootstrap/app', 'utils', 'services/technical-service'], function (app, 
                     postData = JSON.parse(postData);
                 }
 
-                $scope.clickValue = postData ? postData.clickValue : $scope.clickValue;
+                $scope.clickValue = postData&& postData.clickValue ? postData.clickValue : $scope.clickValue;
 
 
                 //右侧树
@@ -332,24 +332,13 @@ define(['bootstrap/app', 'utils', 'services/technical-service'], function (app, 
                         data: { file: file },
                         removeAfterUpload: true,
                     }).then(function (resp) {
-                        switch (resp.data) {
-                            case 200:
-                                toaster.pop({ type: 'success', body: '导入成功!' });
-                                $scope.searchManage();
-                                break;
-                            case 404:
-                                toaster.pop({ type: 'danger', body: '内容为空!', timeout: 0 });
-                                break;
-                            case 1:
-                                toaster.pop({ type: 'danger', body: '中文标题不能为空!', timeout: 0 });
-                                break;
-                            case 2:
-                                toaster.pop({ type: 'danger', body: '编号不能为空!', timeout: 0 });
-                                break;
-
-                            default:
-                                toaster.pop({ type: 'error', body: '导入失败!', timeout: 0 });
-                                break;
+                        if (resp.data.Result == 200) {
+                            toaster.pop({ type: 'success', body: '导入成功!' });
+                            $scope.searchManage();
+                        } else if (resp.data.Result == 400) {
+                            toaster.pop({ type: 'danger', body: resp.data.Msg, timeout: 0 });
+                        } else {
+                            toaster.pop({ type: 'danger', body: "时间格式有误", timeout: 0 });
                         }
 
                     });

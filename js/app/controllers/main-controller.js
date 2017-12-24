@@ -97,6 +97,7 @@ define(['bootstrap/app', 'utilities/cryto', 'ctrls/system/modals/logout-controll
                 dictionaryService.GetAllDic(function (res) {
 
                     localStorage.setItem('DicItems', JSON.stringify(res));
+                    // $rootScope.PageSize = res.PageSize;
                 })
             }
 

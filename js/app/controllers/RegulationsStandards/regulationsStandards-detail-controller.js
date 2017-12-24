@@ -3,8 +3,8 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
 
     var config = require('app/config-manager');
     var baseUrl = config.baseUrl();
-    app.controller('regulationsStandards-detail-controller', ['$stateParams', '$rootScope', '$scope', '$state', 'toaster', '$uibModal', 'regulation-service', 'accessory-service', '$cookies',
-        function ($stateParams, $rootScope, $scope, $state, toaster, $uibModal, regulationService, accessoryService, $cookies) {
+    app.controller('regulationsStandards-detail-controller', ['$stateParams', '$rootScope', '$scope', '$state', 'toaster', '$uibModal', 'regulation-service', 'accessory-service', '$cookies','http-service',
+        function ($stateParams, $rootScope, $scope, $state, toaster, $uibModal, regulationService, accessoryService, $cookies,http) {
 
             var postData = $stateParams.data;
 
@@ -55,6 +55,8 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                         var sRouter = "";
                         if (postData.clickValue == 'approve' || postData.clickValue == 'fav') {
                             sRouter = "main.userCenter";
+                        } else if (postData.clickValue == 'solr') {
+                            sRouter = "main.solr";
                         } else {
                             sRouter = "main.regulationsStandardsIndex";
                         }
@@ -133,13 +135,15 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
 
                 //预览
                 $scope.preview = function (fileId) {
-                    window.open('usermanual/web/viewer.html?url=' + baseUrl + '/Foundation/Attachment/Download?file=' + fileId + '&AUTH_ID=' + '1');
+                    var url = baseUrl + '/Foundation/Attachment/Download?file=' + fileId;
+                   
+                    window.open('usermanual/web/viewer.html?url=' + http.wrapUrl(url));
                 }
 
                 $scope.canPreview = function (fileName) {
                     var pos = fileName.lastIndexOf('.');
                     var format = fileName.substring(pos + 1);
-                    var picType = ['pdf', 'doc', 'txt','docx'];
+                  var picType = ['pdf'];
                     var res = false;
                     angular.forEach(picType, function (value, key) {
                         if (value == format.toLowerCase()) {

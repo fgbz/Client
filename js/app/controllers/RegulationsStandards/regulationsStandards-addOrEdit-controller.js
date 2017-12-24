@@ -138,7 +138,7 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                 $scope.canPreview = function (fileName) {
                     var pos = fileName.lastIndexOf('.');
                     var format = fileName.substring(pos + 1);
-                    var picType = ['pdf', 'doc', 'txt', 'docx'];
+                    var picType = ['pdf'];
                     var res = false;
                     angular.forEach(picType, function (value, key) {
                         if (value == format.toLowerCase()) {
@@ -377,10 +377,10 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                 $scope.preview = function (fileId) {
 
 
-                    var url = baseUrl + '/Foundation/Attachment/getPreView?fileid=' + fileId;
+                     var url = baseUrl + '/Foundation/Attachment/Download?file=' + fileId;
+                   
                     window.open('usermanual/web/viewer.html?url=' + http.wrapUrl(url));
-                    // var url = baseUrl + '/Foundation/Attachment/getPreView/?file=' + fileId + "&AUTH_ID=" + '1';
-                    // window.open('partials/FileUpload/documentView.jsp?url=' + url);
+                
 
 
                 };

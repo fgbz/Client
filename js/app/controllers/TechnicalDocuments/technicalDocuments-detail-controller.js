@@ -3,8 +3,8 @@ define(['bootstrap/app', 'utils', 'services/technical-service', 'services/access
 
     var config = require('app/config-manager');
     var baseUrl = config.baseUrl();
-    app.controller('technicalDocuments-detail-controller', ['$stateParams', '$rootScope', '$scope', '$state', 'toaster', '$uibModal', 'technical-service', 'accessory-service',
-        function ($stateParams, $rootScope, $scope, $state, toaster, $uibModal, technicalService, accessoryService) {
+    app.controller('technicalDocuments-detail-controller', ['$stateParams', '$rootScope', '$scope', '$state', 'toaster', '$uibModal', 'technical-service', 'accessory-service','http-service',
+        function ($stateParams, $rootScope, $scope, $state, toaster, $uibModal, technicalService, accessoryService,http) {
 
             var postData = $stateParams.data;
 
@@ -62,12 +62,14 @@ define(['bootstrap/app', 'utils', 'services/technical-service', 'services/access
 
                 //预览
                 $scope.preview = function (fileId) {
-                    window.open('usermanual/web/viewer.html?url=' + baseUrl + '/Foundation/Attachment/Download?file=' + fileId + '&AUTH_ID=' + '1');
+                      var url = baseUrl + '/Foundation/Attachment/Download?file=' + fileId;
+                   
+                    window.open('usermanual/web/viewer.html?url=' + http.wrapUrl(url));
                 }
                 $scope.canPreview = function (fileName) {
                     var pos = fileName.lastIndexOf('.');
                     var format = fileName.substring(pos + 1);
-                    var picType = ['pdf', 'doc', 'txt', 'docx'];
+                    var picType = ['pdf'];
                     var res = false;
                     angular.forEach(picType, function (value, key) {
                         if (value == format.toLowerCase()) {

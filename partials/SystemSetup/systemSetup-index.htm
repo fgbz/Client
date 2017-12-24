@@ -49,7 +49,7 @@
         </div>
 
         <!--发布部门管理-->
-        <div ng-if="clickTreeValue=='131'" class="posi_re">
+        <div ng-if="clickTreeValue=='131'" class="posi_re h100">
             <div class="system_userconfig">
                 <div class="fl">
 
@@ -61,34 +61,36 @@
                 <input type="button" class="normalbtn fr mr10" value="新 增" ng-click="ShowPublishdep(null,false,'新增')" />
             </div>
 
-            <table class="index_table">
-                <thead>
-                    <tr>
-                        <th>部门名称</th>
-                        <th>操作</th>
-                    </tr>
-                </thead>
-                <tbody ng-if="isLoaded">
-                    <tr ng-repeat="item in publishdepItems" style="height: 40px;cursor: pointer" ng-click="clickTable($index);" ng-class="{true: 'tr_selected',false: ''}[tableRow.selected==$index] ">
-                        <td title="{{item.pubdepname}} " class="w300 ">{{item.pubdepname}}</td>
-                        <td>
-                            <input type="button " class="normalcheckbtn " ng-click="ShowPublishdep(item,false,'编辑') " value="编 辑" />
-                            <input type="button " class="deletebtn " ng-click="DeletePublishdep(item.id) " ng-show="item.candelete" value="删 除" />
-                        </td>
-                    </tr>
-                    <tr ng-if="roleItems.length==0 ">
-                        <td colspan="2 " class="text-center ">无数据</td>
-                    </tr>
-                </tbody>
-                <tbody ng-if="!isLoaded ">
-                    <tr>
-                        <td colspan="2 " class="text-center ">
-                            <img src="images/loading.gif " />
-                        </td>
-                    </tr>
-                </tbody>
+            <div class="of" style="height: calc(100% - 100px);">
+                <table class="index_table">
+                    <thead>
+                        <tr>
+                            <th>部门名称</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody ng-if="isLoaded">
+                        <tr ng-repeat="item in publishdepItems" style="height: 40px;cursor: pointer" ng-click="clickTable($index);" ng-class="{true: 'tr_selected',false: ''}[tableRow.selected==$index] ">
+                            <td title="{{item.pubdepname}} " class="w300 ">{{item.pubdepname}}</td>
+                            <td>
+                                <input type="button " class="normalcheckbtn " ng-click="ShowPublishdep(item,false,'编辑') " value="编 辑" />
+                                <input type="button " class="deletebtn " ng-click="DeletePublishdep(item.id) " ng-show="item.candelete" value="删 除" />
+                            </td>
+                        </tr>
+                        <tr ng-if="roleItems.length==0 ">
+                            <td colspan="2 " class="text-center ">无数据</td>
+                        </tr>
+                    </tbody>
+                    <tbody ng-if="!isLoaded ">
+                        <tr>
+                            <td colspan="2 " class="text-center ">
+                                <img src="images/loading.gif " />
+                            </td>
+                        </tr>
+                    </tbody>
 
-            </table>
+                </table>
+            </div>
 
             <div class="home_paging">
                 <div class="pagination-info " style="display: inline-block;margin-top: 12px; margin-left: 10px;">
@@ -96,15 +98,15 @@
                 </div>
                 <div class="pull-right ">
                     <uib uib-pagination rotate="true " boundary-link-numbers="true " boundary-links="false
-                                " total-items="pagerPublishdep.total " ng-model="pagerPublishdep.current " max-size="10 " ng-change="getpublishdep(true) "
-                        items-per-page="pagerPublishdep.size " class="pagination-sm
+                                " total-items="pagerPublishdep.total " ng-model="pagerPublishdep.current " max-size="10 "
+                        ng-change="getpublishdep(true) " items-per-page="pagerPublishdep.size " class="pagination-sm
                                 " previous-text="上页 " next-text="下页 " first-text="首页 " last-text="末页 "></uib>
                 </div>
             </div>
         </div>
 
         <!--法规标准执行状态管理-->
-        <div ng-if="clickTreeValue=='132'" class="posi_re">
+        <div ng-if="clickTreeValue=='132'" class="posi_re h100">
             <div class="system_userconfig">
                 <div class="fl">
 
@@ -116,34 +118,36 @@
                 <input type="button" class="normalbtn fr mr10" value="新 增" ng-click="ShowStatus(null,false,'新增')" />
             </div>
 
-            <table class="index_table">
-                <thead>
-                    <tr>
-                        <th>状态名称</th>
-                        <th>操作</th>
-                    </tr>
-                </thead>
-                <tbody ng-if="isLoaded">
-                    <tr ng-repeat="item in statusItems" style="height: 40px;cursor: pointer" ng-click="clickTable($index);" ng-class="{true: 'tr_selected',false: ''}[tableRow.selected==$index] ">
-                        <td title="{{item.statusname}} " class="w300 ">{{item.statusname}}</td>
-                        <td>
-                            <input type="button " class="normalcheckbtn " ng-click="ShowStatus(item,false,'编辑') " value="编 辑" />
-                            <input type="button " class="deletebtn " ng-click="DeleteStatus(item.id) " ng-show="item.candelete" value="删 除" />
-                        </td>
-                    </tr>
-                    <tr ng-if="roleItems.length==0 ">
-                        <td colspan="2 " class="text-center ">无数据</td>
-                    </tr>
-                </tbody>
-                <tbody ng-if="!isLoaded ">
-                    <tr>
-                        <td colspan="2 " class="text-center ">
-                            <img src="images/loading.gif " />
-                        </td>
-                    </tr>
-                </tbody>
+            <div class="of" style="height: calc(100% - 100px);">
+                <table class="index_table">
+                    <thead>
+                        <tr>
+                            <th>状态名称</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody ng-if="isLoaded">
+                        <tr ng-repeat="item in statusItems" style="height: 40px;cursor: pointer" ng-click="clickTable($index);" ng-class="{true: 'tr_selected',false: ''}[tableRow.selected==$index] ">
+                            <td title="{{item.statusname}} " class="w300 ">{{item.statusname}}</td>
+                            <td>
+                                <input type="button " class="normalcheckbtn " ng-click="ShowStatus(item,false,'编辑') " value="编 辑" />
+                                <input type="button " class="deletebtn " ng-click="DeleteStatus(item.id) " ng-show="item.candelete" value="删 除" />
+                            </td>
+                        </tr>
+                        <tr ng-if="roleItems.length==0 ">
+                            <td colspan="2 " class="text-center ">无数据</td>
+                        </tr>
+                    </tbody>
+                    <tbody ng-if="!isLoaded ">
+                        <tr>
+                            <td colspan="2 " class="text-center ">
+                                <img src="images/loading.gif " />
+                            </td>
+                        </tr>
+                    </tbody>
 
-            </table>
+                </table>
+            </div>
 
             <div class="home_paging">
                 <div class="pagination-info " style="display: inline-block;margin-top: 12px; margin-left: 10px;">
@@ -189,46 +193,46 @@
 
 
                 </div>
+                <div class="of" style="height: calc(100% - 100px);">
+                    <table class="index_table" style="width: 100%;">
+                        <thead>
+                            <tr>
+                                <th>用户名</th>
+                                <th>姓名</th>
+                                <th>部门</th>
+                                <th>邮箱</th>
+                                <th>电话</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody ng-if="isLoaded ">
+                            <tr ng-repeat="item in userItems" style="height: 40px;cursor: pointer" ng-click="clickTable($index);" ng-class="{true: 'tr_selected',false: ''}[tableRow.selected==$index] ">
+                                <td title="{{item.username}}">{{item.username}}</td>
+                                <td title="{{item.userrealname}} ">{{item.userrealname}}</td>
+                                <td title="{{item.orgname}} ">{{item.orgname}}</td>
+                                <td title="{{item.email}}">{{item.email}}</td>
+                                <td title="{{item.mobile}} ">{{item.mobile}}</td>
+                                <td>
+                                    <input type="button " class="checkbtn" ng-click="ShowUser(item,true,'查看') " value="查 看" />
+                                    <input type="button " class="normalcheckbtn" ng-click="ShowUser(item,false,'编辑') " value="编 辑" />
+                                    <input type="button " class="deletebtn" ng-click="DeleteUser(item)" value="删 除" />
+                                </td>
+                            </tr>
+                            <tr ng-if="userItems.length==0 ">
+                                <td colspan="5 " class="text-center ">无数据</td>
+                            </tr>
+                        </tbody>
+                        <tbody ng-if="!isLoaded ">
+                            <tr>
+                                <td colspan="6" class="text-center ">
+                                    <img src="images/loading.gif " />
+                                </td>
+                            </tr>
+                        </tbody>
 
-                <table class="index_table" style="width: 100%;">
-                    <thead>
-                        <tr>
-                            <th>用户名</th>
-                            <th>姓名</th>
-                            <th>部门</th>
-                            <th>邮箱</th>
-                            <th>电话</th>
-                            <th>操作</th>
-                        </tr>
-                    </thead>
-                    <tbody ng-if="isLoaded ">
-                        <tr ng-repeat="item in userItems" style="height: 40px;cursor: pointer" ng-click="clickTable($index);" ng-class="{true: 'tr_selected',false: ''}[tableRow.selected==$index] ">
-                            <td title="{{item.username}}">{{item.username}}</td>
-                            <td title="{{item.userrealname}} ">{{item.userrealname}}</td>
-                            <td title="{{item.orgname}} ">{{item.orgname}}</td>
-                            <td title="{{item.email}}">{{item.email}}</td>
-                            <td title="{{item.mobile}} ">{{item.mobile}}</td>
-                            <td>
-                                <input type="button " class="checkbtn" ng-click="ShowUser(item,true,'查看') " value="查 看" />
-                                <input type="button " class="normalcheckbtn" ng-click="ShowUser(item,false,'编辑') " value="编 辑" />
-                                <input type="button " class="deletebtn" ng-click="DeleteUser(item)" value="删 除" />
-                            </td>
-                        </tr>
-                        <tr ng-if="userItems.length==0 ">
-                            <td colspan="5 " class="text-center ">无数据</td>
-                        </tr>
-                    </tbody>
-                    <tbody ng-if="!isLoaded ">
-                        <tr>
-                            <td colspan="6" class="text-center ">
-                                <img src="images/loading.gif " />
-                            </td>
-                        </tr>
-                    </tbody>
 
-
-                </table>
-
+                    </table>
+                </div>
                 <div class="home_paging">
                     <div class="pagination-info " style="display: inline-block;margin-top: 12px; margin-left: 10px;">
                         <span class="ng-binding ">共{{pagerUser.total}}条</span>
@@ -245,7 +249,7 @@
         </div>
 
         <!--权限管理-->
-        <div ng-if="clickTreeValue=='143'" class="posi_re">
+        <div ng-if="clickTreeValue=='143'" class="posi_re h100">
 
             <div class="system_userconfig">
                 <div class="fl">
@@ -258,36 +262,37 @@
                 <input type="button" class="normalbtn fr mr10" value="新 增" ng-click="ShowRole(null,false,'新增')" />
             </div>
 
-            <table class="index_table">
-                <thead>
-                    <tr>
-                        <th>角色名称</th>
-                        <th>操作</th>
-                    </tr>
-                </thead>
-                <tbody ng-if="isLoaded">
-                    <tr ng-repeat="item in roleItems" style="height: 40px;cursor: pointer" ng-click="clickTable($index);" ng-class="{true: 'tr_selected',false: ''}[tableRow.selected==$index] ">
-                        <td title="{{item.rolename}} " class="w300 ">{{item.rolename}}</td>
-                        <td>
-                            <input type="button " class="checkbtn " ng-click="ShowRole(item,true,'查看') " value="查 看" />
-                            <input type="button " class="normalcheckbtn " ng-click="ShowRole(item,false,'编辑') " value="编 辑" />
-                            <input type="button " class="deletebtn " ng-click="DeleteRole(item.id) " ng-show="item.candelete" value="删 除" />
-                        </td>
-                    </tr>
-                    <tr ng-if="roleItems.length==0 ">
-                        <td colspan="2 " class="text-center ">无数据</td>
-                    </tr>
-                </tbody>
-                <tbody ng-if="!isLoaded ">
-                    <tr>
-                        <td colspan="2 " class="text-center ">
-                            <img src="images/loading.gif " />
-                        </td>
-                    </tr>
-                </tbody>
+            <div class="of" style="height: calc(100% - 100px);">
+                <table class="index_table">
+                    <thead>
+                        <tr>
+                            <th>角色名称</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody ng-if="isLoaded">
+                        <tr ng-repeat="item in roleItems" style="height: 40px;cursor: pointer" ng-click="clickTable($index);" ng-class="{true: 'tr_selected',false: ''}[tableRow.selected==$index] ">
+                            <td title="{{item.rolename}} " class="w300 ">{{item.rolename}}</td>
+                            <td>
+                                <input type="button " class="checkbtn " ng-click="ShowRole(item,true,'查看') " value="查 看" />
+                                <input type="button " class="normalcheckbtn " ng-click="ShowRole(item,false,'编辑') " value="编 辑" />
+                                <input type="button " class="deletebtn " ng-click="DeleteRole(item.id) " ng-show="item.candelete" value="删 除" />
+                            </td>
+                        </tr>
+                        <tr ng-if="roleItems.length==0 ">
+                            <td colspan="2 " class="text-center ">无数据</td>
+                        </tr>
+                    </tbody>
+                    <tbody ng-if="!isLoaded ">
+                        <tr>
+                            <td colspan="2 " class="text-center ">
+                                <img src="images/loading.gif " />
+                            </td>
+                        </tr>
+                    </tbody>
 
-            </table>
-
+                </table>
+            </div>
             <div class="home_paging">
                 <div class="pagination-info " style="display: inline-block;margin-top: 12px; margin-left: 10px;">
                     <span class="ng-binding ">共{{pagerRole.total}}条</span>

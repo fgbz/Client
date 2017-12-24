@@ -47,7 +47,8 @@
 
         <div class="exam_item"><span>审核人:</span>{{item.username}}</div>
         <div class="exam_item"><span>审核时间:</span>{{item.approveDate|recordtime}}</div>
-        <div class="exam_item"> <span>审核不通过说明:</span>{{item.content}}</div>
+        <div class="exam_item"><span>审核结果:</span>{{item.status==0?'不通过':'通过'}}</div>
+        <div class="exam_item" ng-show="item.status==0"> <span>审核不通过说明:</span>{{item.content}}</div>
 
     </div>
 </div>

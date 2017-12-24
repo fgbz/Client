@@ -29,10 +29,10 @@
             </div>
 
             <!--下级-->
-            <ol ui-tree-nodes="" ng-model="item.Nodes" class="posi_re">  
+            <ol ui-tree-nodes="" ng-model="item.Nodes" class="posi_re ml10" >  
                    
                  <div class="tree_vr_line_out1" ng-show="!$last"></div>
-                 <div ng-show="item.Extend">
+                 <div ng-show="item.Extend" >
                      <li ng-repeat="item in item.Nodes" ui-tree-node ng-include="'childnodes.html'" ></li>
                 </div>
                 

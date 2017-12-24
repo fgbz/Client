@@ -106,7 +106,7 @@ define(['bootstrap/app', 'utils', 'services/regulation-service'], function (app,
                         options.conditions.push({ key: 'TreeValue', value: $scope.clickTreeValue });
                     }
                     if ($scope.solrText) {
-                        options.conditions.push({ key: 'Solr', value: $scope.solrText});
+                        options.conditions.push({ key: 'Solr', value: $scope.solrText });
                     }
                     if ($scope.EnglishTitle) {
                         options.conditions.push({ key: 'EnglishTitle', value: $scope.EnglishTitle });
@@ -115,12 +115,12 @@ define(['bootstrap/app', 'utils', 'services/regulation-service'], function (app,
                         options.conditions.push({ key: 'Summaryinfo', value: $scope.Summaryinfo });
                     }
 
-                      options.conditions.push({ key: 'ApproveStatus', value: 3 });
+                    options.conditions.push({ key: 'ApproveStatus', value: 3 });
 
                     var startTime = new Date();
                     regulationService.getLawstandardList(options, function (response) {
                         var endime = new Date();
-                        $scope.time=parseInt(endime - startTime) / 1000;//两个时间相差的秒数
+                        $scope.time = parseInt(endime - startTime) / 1000;//两个时间相差的秒数
                         $scope.isLoaded = true;
                         $scope.items = response.CurrentList;
                         $scope.pager.total = response.RecordCount;
@@ -140,6 +140,25 @@ define(['bootstrap/app', 'utils', 'services/regulation-service'], function (app,
 
                     var sRouter = "main.home";
                     $state.go(sRouter);
+
+                }
+
+                //查看
+                $scope.Check = function (item) {
+
+                    var itemdata = angular.copy(item);
+                    regulationService.AddLawstandardCount(itemdata, function () {
+                        var sRouter = "main.regulationsStandardsDetail";
+
+                        var itemDeal = {};
+                        itemDeal.type = "check";
+                        itemDeal.clickValue ='solr';
+                        itemDeal.item = itemdata;
+
+                        var data = JSON.stringify(itemDeal);
+
+                        $state.go(sRouter, { "data": data });
+                    })
 
                 }
 

@@ -50,7 +50,7 @@
                             类别选择
                         </td>
                         <td>
-                            <combo-tree-select style="width:170px" tree-data="treeData" is-normal="true" tree-model="TreeValue" btn-show="false" img-color="2"></combo-tree-select>
+                            <combo-tree-select style="width:170px" tree-data="treeData" is-normal="true" tree-width="180" tree-model="TreeValue" btn-show="false" img-color="2"></combo-tree-select>
                         </td>
                     </tr>
                     <tr height="40px;">
@@ -99,7 +99,7 @@
             </div>
 
 
-            <div ng-repeat="item in items" class="solr_repeat" ng-show="isLoaded">
+            <div ng-repeat="item in items" class="solr_repeat" ng-show="isLoaded" ng-click="Check(item)">
                 <div class="fl solr_chinsesename" >{{item.chinesename}}</div>
                 <div class="fr solr_time" ng-style="{'margin-right':$first?'-50px':'0px'}">{{item.releasedate|recordtime}}</div>
                 <div class="clear">

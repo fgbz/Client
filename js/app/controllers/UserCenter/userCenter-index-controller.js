@@ -8,6 +8,11 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
 
             var postData = $stateParams.data;
             var user = sessionStorage.getItem('loginUser');
+
+            var dics = JSON.parse(localStorage.getItem('DicItems'));
+
+            $scope.PageSize = dics.PageSize;
+
             //变量
             var define_variable = function () {
 
@@ -101,7 +106,7 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
                         $scope.pagerDeal.current = 1;
                     }
 
-                    $scope.pagerDeal.size = pagesize;
+                    $scope.pagerDeal.size = $scope.PageSize;
 
                     var options = {
                         pageNo: $scope.pagerDeal.current,
@@ -167,11 +172,11 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
                         $scope.pagerAdvice.current = 1;
                     }
 
-                    $scope.pagerAdvice.size = pagesize;
+                    $scope.pagerAdvice.size =  $scope.PageSize;
 
                     var options = {
                         pageNo: $scope.pagerAdvice.current,
-                        pageSize: $scope.pagerAdvice.size,
+                        pageSize: $scope.pagerAdvice.size ,
                         conditions: []
                     };
                     if ($scope.adviceData.Title) {
@@ -195,11 +200,11 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
                         $scope.pagerLawstandard.current = 1;
                     }
 
-                    $scope.pagerLawstandard.size = pagesize;
+                    $scope.pagerLawstandard.size = $scope.PageSize;
 
                     var options = {
                         pageNo: $scope.pagerLawstandard.current,
-                        pageSize: $scope.pagerLawstandard.size,
+                        pageSize:  $scope.pagerLawstandard.size,
                         conditions: []
                     };
                     if ($scope.approvedata.KeyWordLaw) {
