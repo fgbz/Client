@@ -82,7 +82,9 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
                                 Id: params[i].id,
                                 Name: params[i].name,
                                 ParentID: params[i].parentid,
-                                CanDelete: true
+                                CanDelete: true,
+                                 itemlevel: params[i].itemlevel,
+                                itemlevelcode: params[i].itemlevelcode,
                             }
                             $scope.treeFavoriteData.push(data);
 
@@ -172,11 +174,11 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
                         $scope.pagerAdvice.current = 1;
                     }
 
-                    $scope.pagerAdvice.size =  $scope.PageSize;
+                    $scope.pagerAdvice.size = $scope.PageSize;
 
                     var options = {
                         pageNo: $scope.pagerAdvice.current,
-                        pageSize: $scope.pagerAdvice.size ,
+                        pageSize: $scope.pagerAdvice.size,
                         conditions: []
                     };
                     if ($scope.adviceData.Title) {
@@ -204,7 +206,7 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
 
                     var options = {
                         pageNo: $scope.pagerLawstandard.current,
-                        pageSize:  $scope.pagerLawstandard.size,
+                        pageSize: $scope.pagerLawstandard.size,
                         conditions: []
                     };
                     if ($scope.approvedata.KeyWordLaw) {
@@ -292,7 +294,10 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
                                 name: item.Name,
                                 parentid: item.ParentID,
                                 inputuserid: user.id,
-                                modifyuserid: user.id
+                                modifyuserid: user.id,
+                                itemlevel: item.itemlevel,
+                                itemlevelcode: item.itemlevelcode,
+                                handletype: 'delete'
                             };
 
                             $scope.text = "确定删除吗？";
@@ -369,7 +374,9 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
                                         name: $scope.EditName,
                                         parentid: item.ParentID,
                                         inputuserid: user.id,
-                                        modifyuserid: user.id
+                                        modifyuserid: user.id,
+                                        itemlevelcode: item.itemlevelcode,
+                                        handletype: 'edit'
                                     }
                                     var tet = "新增";
 
@@ -381,7 +388,10 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
                                         name: $scope.EditName,
                                         parentid: item.Id,
                                         inputuserid: user.id,
-                                        modifyuserid: user.id
+                                        modifyuserid: user.id,
+                                        handletype: 'addDown',
+                                        itemlevel: item.itemlevel + 1,
+                                        handleitem: { id: item.Id, parentid: item.ParentID }
                                     }
 
                                     var tet = '新增下级';
@@ -394,11 +404,44 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
                                         name: $scope.EditName,
                                         parentid: item.ParentID,
                                         inputuserid: user.id,
-                                        modifyuserid: user.id
+                                        modifyuserid: user.id,
+                                        itemlevel: item.itemlevel,
+                                        handletype: 'addEqual',
+                                        handleitem: { id: item.Id, parentid: item.ParentID }
+
                                     }
 
                                     var tet = '新增同级';
                                     addFav(data, tet)
+                                    break;
+                                case 'moveDown':
+                                    var data = {
+                                        id: item.Id,
+                                        typename: item.Name,
+                                        parentid: item.ParentID,
+                                        inputuserid: user.id,
+                                        modifyuserid: user.id,
+                                        handletype: 'moveDown',
+                                        itemlevelcode: item.itemlevelcode
+                                    }
+                                    var tet = '下移';
+                                    addFav(data, tet);
+                                    break;
+
+                                case 'moveUp':
+
+                                    var data = {
+                                        id: item.Id,
+                                        typename: item.Name,
+                                        parentid: item.ParentID,
+                                        inputuserid: user.id,
+                                        modifyuserid: user.id,
+                                        handletype: 'moveUp',
+                                        itemlevelcode: item.itemlevelcode
+                                    }
+
+                                    var tet = '上移';
+                                    addFav(data, tet);
                                     break;
 
                                 default:

@@ -131,7 +131,7 @@ define(['bootstrap/app', 'utils', 'services/technical-service', 'services/access
                $scope.canPreview = function (fileName) {
                     var pos = fileName.lastIndexOf('.');
                     var format = fileName.substring(pos + 1);
-                  var picType = ['pdf'];
+                   var picType = ['pdf','doc','docx','txt'];
                     var res = false;
                     angular.forEach(picType, function (value, key) {
                         if (value == format.toLowerCase()) {
@@ -234,7 +234,7 @@ define(['bootstrap/app', 'utils', 'services/technical-service', 'services/access
 
                 //预览
                 $scope.preview = function (fileId) {
-                     var url = baseUrl + '/Foundation/Attachment/Download?file=' + fileId;
+                     var url = baseUrl + '/Foundation/Attachment/getPreView?file=' + fileId;
                    
                     window.open('usermanual/web/viewer.html?url=' + http.wrapUrl(url));
                 }

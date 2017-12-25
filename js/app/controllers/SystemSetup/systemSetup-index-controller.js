@@ -170,7 +170,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
 
                     var options = {
                         pageNo: $scope.pagerStatus.current,
-                        pageSize:  $scope.pagerStatus.size,
+                        pageSize: $scope.pagerStatus.size,
                         conditions: []
                     };
                     if ($scope.systemdata.statusName) {
@@ -194,7 +194,9 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                                 Id: params[i].id,
                                 Name: params[i].orgname,
                                 ParentID: params[i].parentid,
-                                CanDelete: params[i].candelete
+                                CanDelete: params[i].candelete,
+                                 itemlevel: params[i].itemlevel,
+                                itemlevelcode: params[i].itemlevelcode,
                             }
                             $scope.treeDataOrg.push(data);
 
@@ -216,7 +218,9 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                                 Id: params[i].id,
                                 Name: params[i].typename,
                                 ParentID: params[i].parentid,
-                                CanDelete: params[i].candelete
+                                CanDelete: params[i].candelete,
+                                 itemlevel: params[i].itemlevel,
+                                itemlevelcode: params[i].itemlevelcode,
                             }
                             $scope.treeDataReg.push(data);
 
@@ -234,7 +238,9 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                                 Id: params[i].id,
                                 Name: params[i].typename,
                                 ParentID: params[i].parentid,
-                                CanDelete: params[i].candelete
+                                CanDelete: params[i].candelete,
+                                itemlevel: params[i].itemlevel,
+                                itemlevelcode: params[i].itemlevelcode,
                             }
                             $scope.treeDataTec.push(data);
 
@@ -253,11 +259,11 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                         $scope.pagerRole.current = 1;
                     }
 
-                    $scope.pagerRole.size =$scope.PageSize;
+                    $scope.pagerRole.size = $scope.PageSize;
 
                     var options = {
                         pageNo: $scope.pagerRole.current,
-                        pageSize:  $scope.pagerRole.size ,
+                        pageSize: $scope.pagerRole.size,
                         conditions: []
                     };
                     if ($scope.userdata.roleName) {
@@ -287,7 +293,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
 
                     var options = {
                         pageNo: $scope.pagerUser.current,
-                        pageSize:   $scope.pagerUser.size,
+                        pageSize: $scope.pagerUser.size,
                         conditions: []
                     };
                     if ($scope.userdata.Name) {
@@ -363,7 +369,10 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                                 typename: item.Name,
                                 parentid: item.ParentID,
                                 inputuserid: user.id,
-                                modifyuserid: user.id
+                                modifyuserid: user.id,
+                                itemlevel: item.itemlevel,
+                                itemlevelcode: item.itemlevelcode,
+                                handletype: 'delete'
                             };
 
                             $scope.text = "确定删除吗？";
@@ -380,7 +389,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                                         switch ($scope.clickTreeValue) {
                                             case '15':
                                                 regulationService.DeleteLawstandardType(data, function (params) {
-                                                    if (params == 1) {
+                                                    if (params == 200) {
                                                         toaster.pop({ type: 'success', body: '删除成功!' });
                                                         $scope.initReg();
                                                     } else {
@@ -390,7 +399,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                                                 break;
                                             case '16':
                                                 technicalService.DeleteTechnicalType(data, function (params) {
-                                                    if (params == 1) {
+                                                    if (params == 200) {
                                                         toaster.pop({ type: 'success', body: '删除成功!' });
                                                         $scope.initTec();
                                                     } else {
@@ -404,10 +413,13 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                                                     orgname: $scope.Name,
                                                     parentid: item.ParentID,
                                                     inputuserid: user.id,
-                                                    modifyuserid: user.id
+                                                    modifyuserid: user.id,
+                                                    itemlevel: item.itemlevel,
+                                                    itemlevelcode: item.itemlevelcode,
+                                                    handletype: 'delete'
                                                 }
                                                 systemService.DeleteOrganization(orgdata, function (params) {
-                                                    if (params == 1) {
+                                                    if (params == 200) {
                                                         toaster.pop({ type: 'success', body: '删除成功!' });
                                                         $scope.initOrg();
                                                     } else {
@@ -440,6 +452,65 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                             break;
                         case 'equal':
                             ShowEdit(item, '新增同级', type);
+                            break;
+                        case 'moveDown':
+                            var data = {
+                                id: item.Id,
+                                typename: item.Name,
+                                parentid: item.ParentID,
+                                inputuserid: user.id,
+                                modifyuserid: user.id,
+                                handletype: 'moveDown',
+                                itemlevelcode: item.itemlevelcode
+                            }
+                            var tet = '下移';
+                            if ($scope.clickTreeValue == '15') {
+                                addReg(data, tet);
+                            } else if ($scope.clickTreeValue == '16') {
+                                addTec(data, tet);
+                            } else {
+                                var data = {
+                                    id: item.Id,
+                                    orgname: item.Name,
+                                    parentid: item.ParentID,
+                                    inputuserid: user.id,
+                                    modifyuserid: user.id,
+                                    handletype: 'moveDown',
+                                    itemlevelcode: item.itemlevelcode
+                                }
+                                addOrg(orgdata, tet);
+                            }
+                            break;
+
+                        case 'moveUp':
+
+                            var data = {
+                                id: item.Id,
+                                typename: item.Name,
+                                parentid: item.ParentID,
+                                inputuserid: user.id,
+                                modifyuserid: user.id,
+                                handletype: 'moveUp',
+                                itemlevelcode: item.itemlevelcode
+                            }
+
+                            var tet = '上移';
+                            if ($scope.clickTreeValue == '15') {
+                                addReg(data, tet);
+                            } else if ($scope.clickTreeValue == '16') {
+                                addTec(data, tet);
+                            } else {
+                                var data = {
+                                    id: item.Id,
+                                    orgname: item.Name,
+                                    parentid: item.ParentID,
+                                    inputuserid: user.id,
+                                    modifyuserid: user.id,
+                                    handletype: 'moveUp',
+                                    itemlevelcode: item.itemlevelcode
+                                }
+                                addOrg(orgdata, tet);
+                            }
                             break;
 
                         default:
@@ -477,7 +548,9 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                                         typename: $scope.EditName,
                                         parentid: item.ParentID,
                                         inputuserid: user.id,
-                                        modifyuserid: user.id
+                                        modifyuserid: user.id,
+                                        itemlevelcode: item.itemlevelcode,
+                                        handletype: 'edit'
                                     }
                                     var tet = '编辑';
 
@@ -491,7 +564,9 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                                             orgname: $scope.EditName,
                                             parentid: item.ParentID,
                                             inputuserid: user.id,
-                                            modifyuserid: user.id
+                                            modifyuserid: user.id,
+                                            itemlevelcode: item.itemlevelcode,
+                                            handletype: 'edit'
                                         }
                                         addOrg(orgdata, tet);
                                     }
@@ -506,7 +581,10 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                                         typename: $scope.EditName,
                                         parentid: item.Id,
                                         inputuserid: user.id,
-                                        modifyuserid: user.id
+                                        modifyuserid: user.id,
+                                        handletype: 'addDown',
+                                        itemlevel: item.itemlevel + 1,
+                                        handleitem: { id: item.Id, parentid: item.ParentID }
                                     }
 
                                     var tet = '新增下级';
@@ -521,7 +599,10 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                                             orgname: $scope.EditName,
                                             parentid: item.Id,
                                             inputuserid: user.id,
-                                            modifyuserid: user.id
+                                            modifyuserid: user.id,
+                                            handletype: 'addDown',
+                                            itemlevel: item.itemlevel + 1,
+                                            handleitem: { id: item.Id, parentid: item.ParentID }
                                         }
                                         addOrg(orgdata, tet);
                                     }
@@ -534,7 +615,10 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                                         typename: $scope.EditName,
                                         parentid: item.ParentID,
                                         inputuserid: user.id,
-                                        modifyuserid: user.id
+                                        modifyuserid: user.id,
+                                        itemlevel: item.itemlevel,
+                                        handletype: 'addEqual',
+                                        handleitem: { id: item.Id, parentid: item.ParentID }
                                     }
 
                                     var tet = '新增同级';
@@ -549,14 +633,15 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                                             orgname: $scope.EditName,
                                             parentid: item.ParentID,
                                             inputuserid: user.id,
-                                            modifyuserid: user.id
+                                            modifyuserid: user.id,
+                                            itemlevel: item.itemlevel,
+                                            handletype: 'addEqual',
+                                            handleitem: { id: item.Id, parentid: item.ParentID }
                                         }
                                         addOrg(orgdata, tet);
                                     }
 
-
                                     break;
-
                                 default:
                                     break;
                             }
@@ -567,7 +652,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                 //新增或编辑法律标准
                 function addReg(data, txt) {
                     regulationService.AddOrUpdateLawstandardType(data, function (params) {
-                        if (params == 1) {
+                        if (params == 200) {
                             toaster.pop({ type: 'success', body: txt + '成功!' });
                             $scope.initReg();
                         } else {
@@ -579,7 +664,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                 //新增技术文档
                 function addTec(data, txt) {
                     technicalService.AddOrUpdateTechnicalType(data, function (params) {
-                        if (params == 1) {
+                        if (params == 200) {
                             toaster.pop({ type: 'success', body: txt + '成功!' });
                             $scope.initTec();
                         } else {
@@ -591,7 +676,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                 //新增组织机构
                 function addOrg(data, txt) {
                     systemService.AddOrUpdateOrganizationType(data, function (params) {
-                        if (params == 1) {
+                        if (params == 200) {
                             toaster.pop({ type: 'success', body: txt + '成功!' });
                             $scope.initOrg();
                         } else {

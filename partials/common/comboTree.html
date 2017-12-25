@@ -25,6 +25,8 @@
                     <input type="button" class="normalcheckbtn fr ml10" value="编 辑" ng-click="clickTreeBtn(item,'edit')"/>
                     <input type="button" class="normalbtn fr ml10" value="新增下级" ng-click="clickTreeBtn(item,'down')"/>
                     <input type="button" class="normalbtn fr ml10" value="新增同级" ng-if="item.Type==1" ng-click="clickTreeBtn(item,'equal')"/>
+                    <input type="button" class="normalbtn fr ml10" value="下移" ng-if="item.Type==1&&item.itemlevelcode&&item.itemlevelcode!=parentLength-1" ng-click="clickTreeBtn(item,'moveDown')"/>
+                    <input type="button" class="normalbtn fr ml10" value="上移" ng-if="item.Type==1&&item.itemlevelcode&&item.itemlevelcode!=0" ng-click="clickTreeBtn(item,'moveUp')"/>
                  </div>   
             </div>
 

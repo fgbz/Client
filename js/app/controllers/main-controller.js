@@ -296,7 +296,7 @@ define(['bootstrap/app', 'utilities/cryto', 'ctrls/system/modals/logout-controll
         // upload on file select or drop
         $scope.upload = function (file) {
 
-            var url = baseUrl + '/Foundation/Attachment/uploadWithNoThum?userid=' + values.userid;
+            var url = baseUrl + '/Foundation/Attachment/uploadWithNoThum?userid=' + values.userid+"&module="+values.type;
 
             Upload.upload({
                 url: http.wrapUrl(url),

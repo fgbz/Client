@@ -947,6 +947,8 @@ define(['angular', 'nicEdit', 'jquery', 'utils'], function (ng, nicEditObj, jque
                                     'Type': flag,
                                     'Extend': false,
                                     'CanDelete': item.CanDelete,
+                                    'itemlevel': item.itemlevel,
+                                    'itemlevelcode': item.itemlevelcode,
                                     'Nodes': LoadTreeData(treeNodesData, item.Id, 1)
                                 };
                                 dataList.push(t);
@@ -960,6 +962,11 @@ define(['angular', 'nicEdit', 'jquery', 'utils'], function (ng, nicEditObj, jque
                         dataList = [];
                         scope.source = LoadTreeData(scope.treeData, null, 0);
                         initExtend();
+
+                        //展开选中项
+                        if (scope.selectnode) {
+                            ExpendParent(scope.selectnode);
+                        }
                     }
                 }, true);
 
@@ -967,11 +974,26 @@ define(['angular', 'nicEdit', 'jquery', 'utils'], function (ng, nicEditObj, jque
                 var initExtend = function () {
                     if (scope.source && scope.source.length > 0) {
                         scope.source[0].Extend = true;
-                        // if (scope.source[0].Nodes.length > 0) {
-                        //     for (var i = 0; i < scope.source[0].Nodes.length; i++) {
-                        //         scope.source[0].Nodes[i].Extend = true;
-                        //     }
-                        // }
+                    }
+                }
+
+
+                function GetParentNode(node) {
+                    var parent = null;
+                    for (var v in dataList) {
+                        if (dataList[v].Id == node.ParentID) {
+                            parent = dataList[v];
+                            break;
+                        }
+                    }
+                    return parent;
+                }
+
+                function ExpendParent(node) {
+                    var parent = GetParentNode(node);
+                    if (parent != null) {
+                        parent.Extend = true;
+                        ExpendParent(parent);
                     }
                 }
 
@@ -987,6 +1009,8 @@ define(['angular', 'nicEdit', 'jquery', 'utils'], function (ng, nicEditObj, jque
                     }
 
                     scope.treeModel = newValue.Id;
+                    scope.selectnode = newValue;
+
                     if (scope.$parent.clicktree) {
                         scope.$parent.clicktree(scope.treeModel);
                     }
@@ -994,6 +1018,13 @@ define(['angular', 'nicEdit', 'jquery', 'utils'], function (ng, nicEditObj, jque
                         scope.$parent.$parent.clickUsertree(scope.treeModel);
                     }
 
+                    //获取当前点击的节点共有多少同级
+                    for (var i = 0; i < dataList.length; i++) {
+                        if (dataList[i].Id == newValue.ParentID) {
+                            scope.parentLength = dataList[i].Nodes.length;
+                            break;
+                        }
+                    }
 
                 }
                 scope.Extend = function (item) {
@@ -1023,7 +1054,7 @@ define(['angular', 'nicEdit', 'jquery', 'utils'], function (ng, nicEditObj, jque
                 btnShow: "=", // 是否显示按钮
                 imgColor: '=', //背景色
                 isNormal: '=',
-                treeWidth:'='
+                treeWidth: '='
             },
             require: '?uiTree',
             link: function (scope, element, attributes) {
@@ -1051,7 +1082,7 @@ define(['angular', 'nicEdit', 'jquery', 'utils'], function (ng, nicEditObj, jque
                 };
 
                 scope.$watch('treeData', function (v) {
-                  if (v) {
+                    if (v) {
                         dataList = [];
                         scope.source = LoadTreeData(scope.treeData, null, 0);
                         initExtend();
