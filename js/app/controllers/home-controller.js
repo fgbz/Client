@@ -32,6 +32,15 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/regul
             //加载
             var initialize = function () {
 
+                $scope.userSuggestion = {};
+                if (user) {
+                    $scope.userSuggestion.id = '';
+                    $scope.userSuggestion.inputuserid = user.id;
+                    $scope.userSuggestion.inputname = user.userrealname;
+                    $scope.userSuggestion.inputdate = utils.format(new Date(), "yyyy-MM-dd");
+                }
+
+
                 //获取通知列表
                 $scope.selectAdvice = function () {
 
@@ -71,8 +80,12 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/regul
                     };
                     options.conditions.push({ key: 'Type', value: 'uptodata10' });
                     options.conditions.push({ key: 'ApproveStatus', value: 3 });
-                    if (flag && $scope.clickLbdhChildMenuValue) {
-                        options.conditions.push({ key: 'TreeValue', value: $scope.clickLbdhChildMenuValue });
+                    if (flag) {
+                        if ($scope.clickLbdhChildMenuValue) {
+                            options.conditions.push({ key: 'TreeValue', value: $scope.clickLbdhChildMenuValue });
+                        } else {
+                            options.conditions.push({ key: 'TreeValue', value: $scope.SelectLbMenu });
+                        }
                     }
                     regulationService.getUptodateLawstandardList(options, function (response) {
                         if (flag) {
@@ -91,16 +104,73 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/regul
                 //法规类别导航
                 regulationService.getHomePageLawsType(function (res) {
                     $scope.LawRegulationItem = res;
+                    $scope.LbdhChildMenus = [];
                     if (res && res.length > 0) {
                         $scope.SelectLbMenu = $scope.LawRegulationItem[0].id;
-                        $scope.LbdhChildMenus = $scope.LawRegulationItem[0].childLists;
-                        if ($scope.LbdhChildMenus && $scope.LbdhChildMenus.length > 0) {
+                        $scope.childDList = $scope.LawRegulationItem[0].childLists;
+                        //加入前三项
+                        if ($scope.childDList && $scope.childDList.length > 0) {
+                            $scope.LbdhChildMenus.push($scope.childDList[0]);
+                            if ($scope.childDList.length > 1) {
+                                $scope.LbdhChildMenus.push($scope.childDList[1]);
+                            }
+                            if ($scope.childDList.length > 2) {
+                                $scope.LbdhChildMenus.push($scope.childDList[2]);
+                            }
                             $scope.clickLbdhChildMenuValue = $scope.LbdhChildMenus[0].id;
+
+                            $scope.lawindex = 0;
                             //查询列表
                             $scope.selectLawstands(true);
+                        } else {
+                            $scope.clickLbdhChildMenuValue = "";
                         }
                     }
                 });
+
+                //法规导航左移
+                $scope.movetLaw = function (type, lbtype) {
+
+                    if (lbtype == 'Law') {
+                        if (type == 'left') {
+                            $scope.lawindex--;
+                        } else {
+                            $scope.lawindex++;
+                        }
+                        $scope.LbdhChildMenus = [];
+                        $scope.LbdhChildMenus.push($scope.childDList[$scope.lawindex]);
+                        $scope.LbdhChildMenus.push($scope.childDList[$scope.lawindex + 1]);
+                        $scope.LbdhChildMenus.push($scope.childDList[$scope.lawindex + 2]);
+                        if (type == 'left') {
+                            $scope.clickLbdhChildMenuValue = $scope.LbdhChildMenus[0].id;
+                        } else {
+                            $scope.clickLbdhChildMenuValue = $scope.LbdhChildMenus[2].id;
+                        }
+
+                        //查询列表
+                        $scope.selectLawstands(true);
+                    } else {
+                        if (type == 'left') {
+                            $scope.tecindex--;
+                        } else {
+                            $scope.tecindex++;
+                        }
+                        $scope.TecLbdhChildMenus = [];
+                        $scope.TecLbdhChildMenus.push($scope.TecchildDList[$scope.tecindex]);
+                        $scope.TecLbdhChildMenus.push($scope.TecchildDList[$scope.tecindex + 1]);
+                        $scope.TecLbdhChildMenus.push($scope.TecchildDList[$scope.tecindex + 2]);
+                        if (type == 'left') {
+                            $scope.TecclickLbdhChildMenuValue = $scope.TecLbdhChildMenus[0].id;
+                        } else {
+                            $scope.TecclickLbdhChildMenuValue = $scope.TecLbdhChildMenus[2].id;
+                        }
+
+                        //查询列表
+                        $scope.selectTecstands();
+                    }
+
+                }
+
 
                 //查询技术文件
                 $scope.selectTecstands = function () {
@@ -112,6 +182,8 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/regul
                     options.conditions.push({ key: 'ApproveStatus', value: 2 });
                     if ($scope.TecclickLbdhChildMenuValue) {
                         options.conditions.push({ key: 'TreeValue', value: $scope.TecclickLbdhChildMenuValue });
+                    } else {
+                        options.conditions.push({ key: 'TreeValue', value: $scope.SelectTecLbMenu });
                     }
                     technicalService.getTechnicalList(options, function (response) {
 
@@ -125,13 +197,27 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/regul
                 //技术文档导航
                 technicalService.getHomePageTecsType(function (res) {
                     $scope.TecRegulationItem = res;
+                    $scope.TecLbdhChildMenus = [];
                     if (res && res.length > 0) {
                         $scope.SelectTecLbMenu = $scope.TecRegulationItem[0].id;
-                        $scope.TecLbdhChildMenus = $scope.TecRegulationItem[0].childLists;
-                        if ($scope.TecLbdhChildMenus && $scope.TecLbdhChildMenus.length > 0) {
+
+                        $scope.TecchildDList = $scope.TecRegulationItem[0].childLists;
+                        //加入前三项
+                        if ($scope.TecchildDList && $scope.TecchildDList.length > 0) {
+                            $scope.TecLbdhChildMenus.push($scope.TecchildDList[0]);
+                            if ($scope.TecchildDList.length > 1) {
+                                $scope.TecLbdhChildMenus.push($scope.TecchildDList[1]);
+                            }
+                            if ($scope.TecchildDList.length > 2) {
+                                $scope.TecLbdhChildMenus.push($scope.TecchildDList[2]);
+                            }
                             $scope.TecclickLbdhChildMenuValue = $scope.TecLbdhChildMenus[0].id;
+
+                            $scope.tecindex = 0;
                             //查询列表
                             $scope.selectTecstands();
+                        } else {
+                            $scope.TecclickLbdhChildMenuValue = "";
                         }
                     }
                 });
@@ -220,9 +306,20 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/regul
                 $scope.clickLbMenu = function (params, type) {
                     if (type == 'Law') {
                         $scope.SelectLbMenu = params.id;
-                        $scope.LbdhChildMenus = params.childLists;
-                        if ($scope.LbdhChildMenus && $scope.LbdhChildMenus.length > 0) {
+                        $scope.childDList = params.childLists;
+                        $scope.LbdhChildMenus = [];
+                        //加入前三项
+                        if ($scope.childDList && $scope.childDList.length > 0) {
+                            $scope.LbdhChildMenus.push($scope.childDList[0]);
+                            if ($scope.childDList.length > 1) {
+                                $scope.LbdhChildMenus.push($scope.childDList[1]);
+                            }
+                            if ($scope.childDList.length > 2) {
+                                $scope.LbdhChildMenus.push($scope.childDList[2]);
+                            }
                             $scope.clickLbdhChildMenuValue = $scope.LbdhChildMenus[0].id;
+
+                            $scope.lawindex = 0;
                         } else {
                             $scope.clickLbdhChildMenuValue = "";
                         }
@@ -230,9 +327,22 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/regul
                         $scope.selectLawstands(true);
                     } else {
                         $scope.SelectTecLbMenu = params.id;
-                        $scope.TecLbdhChildMenus = params.childLists;
-                        if ($scope.TecLbdhChildMenus && $scope.TecLbdhChildMenus.length > 0) {
+
+                        $scope.TecchildDList = params.childLists;
+                        $scope.TecLbdhChildMenus = [];
+
+                        //加入前三项
+                        if ($scope.TecchildDList && $scope.TecchildDList.length > 0) {
+                            $scope.TecLbdhChildMenus.push($scope.TecchildDList[0]);
+                            if ($scope.TecchildDList.length > 1) {
+                                $scope.TecLbdhChildMenus.push($scope.TecchildDList[1]);
+                            }
+                            if ($scope.TecchildDList.length > 2) {
+                                $scope.TecLbdhChildMenus.push($scope.TecchildDList[2]);
+                            }
                             $scope.TecclickLbdhChildMenuValue = $scope.TecLbdhChildMenus[0].id;
+
+                            $scope.tecindex = 0;
                         } else {
                             $scope.TecclickLbdhChildMenuValue = "";
                         }
@@ -406,6 +516,35 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/regul
                         url = http.wrapUrl(url);
                         var exportWindow = window.open(url, "_blank");
                         exportWindow.document.title = "数据统计";
+                    }
+                }
+
+                //发布留言
+                $scope.pubsuggest = function () {
+                    if (!authID || !user) {
+                        isLogined();
+                    } else {
+                        if (!$scope.userSuggestion.title) {
+                            toaster.pop({ type: 'danger', body: '请填写标题！' });
+                            return;
+
+                        }
+                        if (!$scope.userSuggestion.details) {
+                            toaster.pop({ type: 'danger', body: '请填写内容！' });
+                            return;
+
+                        }
+
+                        usercenterService.SaveOrUpdateSuggestion($scope.userSuggestion, function (params) {
+                            if (params == 200) {
+                                toaster.pop({ type: 'success', body: '发布成功！' });
+                                $scope.selectSuggestion();
+                                $scope.userSuggestion.title = "";
+                                $scope.userSuggestion.details = "";
+                            } else {
+                                toaster.pop({ type: 'danger', body: '发布失败！' });
+                            }
+                        })
                     }
                 }
 

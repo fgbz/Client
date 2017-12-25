@@ -74,9 +74,9 @@ define(['bootstrap/app', 'app/config-manager', 'services/http-service'], functio
         }
 
         //删除收藏夹子项
-        this.DeleteFavoriteByID = function (id, callback) {
-            var url = "/UserCenter/DeleteFavoriteByID?id=" + id;
-            http.get(url, null, callback);
+        this.DeleteFavoriteByID = function (data, callback) {
+            var url = "/UserCenter/DeleteFavoriteByID";
+            http.post(url, data, callback);
         }
 
         //保存收藏夹

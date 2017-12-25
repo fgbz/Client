@@ -83,7 +83,7 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
                                 Name: params[i].name,
                                 ParentID: params[i].parentid,
                                 CanDelete: true,
-                                 itemlevel: params[i].itemlevel,
+                                itemlevel: params[i].itemlevel,
                                 itemlevelcode: params[i].itemlevelcode,
                             }
                             $scope.treeFavoriteData.push(data);
@@ -311,7 +311,7 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
                                 controller: function ($scope) {
                                     $scope.ok = function () {
 
-                                        usercenterService.DeleteFavoriteByID(data.id, function (params) {
+                                        usercenterService.DeleteFavoriteByID(data, function (params) {
                                             if (params == 200) {
                                                 toaster.pop({ type: 'success', body: '删除成功!' });
                                                 $scope.initFavor()
@@ -337,6 +337,36 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
                             break;
                         case 'equal':
                             ShowEdit(item, '新增同级', type);
+                            break;
+
+                        case 'moveDown':
+                            var data = {
+                                id: item.Id,
+                                name: item.Name,
+                                parentid: item.ParentID,
+                                inputuserid: user.id,
+                                modifyuserid: user.id,
+                                handletype: 'moveDown',
+                                itemlevelcode: item.itemlevelcode
+                            }
+                            var tet = '下移';
+                            addFav(data, tet);
+                            break;
+
+                        case 'moveUp':
+
+                            var data = {
+                                id: item.Id,
+                                name: item.Name,
+                                parentid: item.ParentID,
+                                inputuserid: user.id,
+                                modifyuserid: user.id,
+                                handletype: 'moveUp',
+                                itemlevelcode: item.itemlevelcode
+                            }
+
+                            var tet = '上移';
+                            addFav(data, tet);
                             break;
 
                         default:
@@ -413,35 +443,6 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
 
                                     var tet = '新增同级';
                                     addFav(data, tet)
-                                    break;
-                                case 'moveDown':
-                                    var data = {
-                                        id: item.Id,
-                                        typename: item.Name,
-                                        parentid: item.ParentID,
-                                        inputuserid: user.id,
-                                        modifyuserid: user.id,
-                                        handletype: 'moveDown',
-                                        itemlevelcode: item.itemlevelcode
-                                    }
-                                    var tet = '下移';
-                                    addFav(data, tet);
-                                    break;
-
-                                case 'moveUp':
-
-                                    var data = {
-                                        id: item.Id,
-                                        typename: item.Name,
-                                        parentid: item.ParentID,
-                                        inputuserid: user.id,
-                                        modifyuserid: user.id,
-                                        handletype: 'moveUp',
-                                        itemlevelcode: item.itemlevelcode
-                                    }
-
-                                    var tet = '上移';
-                                    addFav(data, tet);
                                     break;
 
                                 default:

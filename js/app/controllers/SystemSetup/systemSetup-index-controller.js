@@ -469,7 +469,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                             } else if ($scope.clickTreeValue == '16') {
                                 addTec(data, tet);
                             } else {
-                                var data = {
+                                var orgdata = {
                                     id: item.Id,
                                     orgname: item.Name,
                                     parentid: item.ParentID,
@@ -500,7 +500,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                             } else if ($scope.clickTreeValue == '16') {
                                 addTec(data, tet);
                             } else {
-                                var data = {
+                                var orgdata = {
                                     id: item.Id,
                                     orgname: item.Name,
                                     parentid: item.ParentID,

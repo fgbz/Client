@@ -59,15 +59,18 @@
         <div class="lbdh_detail">
             <!--ul-->
             <div class="home_new_menu">
-                <table class="w100">
+                <!--左移-->
+                <div class="lbdh_fg_left" ng-click="movetLaw('left','Law')" ng-show="childDList.length>3&&lawindex>0"></div>
+                <table style="width:calc(100% - 80px); float: left;">
                     <tr>
-                        <td ng-repeat="item in LbdhChildMenus" style=" text-align: -webkit-center;">
+                        <td ng-repeat="item in LbdhChildMenus track by $index" style=" text-align: -webkit-center;">
                             <div ng-class="{true:'home_new_menu_select',false:'home_new_menu_normal'}[clickLbdhChildMenuValue==item.id]" ng-click="clickLbdhChildMenu(item,'Law')"
                                 title="{{item.typename}}">{{item.typename|tooltips:8}}</div>
                         </td>
                     </tr>
                 </table>
-
+                <!--右移-->
+                <div class="lbdh_fg_right" ng-click="movetLaw('right','Law')" ng-show="childDList.length>3&&lawindex<childDList.length-3"></div>
             </div>
 
             <!--表格-->
@@ -103,7 +106,7 @@
     <!--技术文档类别导航-->
     <div class="clear" style="height:540px;">
 
-        <div class="home_new_lbdh">
+        <div class="home_new_lbdh fr">
 
             <div class="tec_title">技术文档导航</div>
             <div ng-repeat="item in TecRegulationItem">
@@ -114,15 +117,18 @@
         <div class="lbdh_detail">
             <!--ul-->
             <div class="home_new_menu">
-                <table class="w100">
+                <!--左移-->
+                <div class="lbdh_jswj_left" ng-click="movetLaw('left','Tec')" ng-show="TecchildDList.length>3&&tecindex>0"></div>
+                <table style="width:calc(100% - 80px); float: left;">
                     <tr>
-                        <td ng-repeat="item in TecLbdhChildMenus" style=" text-align: -webkit-center;">
+                        <td ng-repeat="item in TecLbdhChildMenus track by $index" style=" text-align: -webkit-center;">
                             <div ng-class="{true:'home_new_menu_select',false:'home_new_menu_normal'}[TecclickLbdhChildMenuValue==item.id]" ng-click="clickLbdhChildMenu(item,'Tec')"
                                 title="{{item.typename}}">{{item.typename|tooltips:8}}</div>
                         </td>
                     </tr>
                 </table>
-
+                <!--右移-->
+                <div class="lbdh_jswj_right" ng-click="movetLaw('right','Tec')" ng-show="TecchildDList.length>3&&tecindex<TecchildDList.length-3"></div>
             </div>
 
             <!--表格-->
@@ -185,11 +191,39 @@
                 用户留言
             </div>
             <div class="lylytext">
-                <div ng-repeat="item in SuggestionItems" class="clear">
-                    <div class="point fl">.</div>
-                    <div class="fl text">{{item.title}}</div>
+                <!--<div class="sugg_text">
+                    <div ng-repeat="item in SuggestionItems" class="clear">
+                        <div class="point fl">.</div>
+                        <div class="fl text">{{item.title}}</div>
+                    </div>
+                </div>-->
+
+                <marquee id="affiche" align="left" behavior="scroll" direction="up" height="50" width="400" hspace="30" class="sugg_text"
+                    style="height:160px;width:410px;margin: 0;margin-bottom: 10px;margin-left:10px" vspace="20" loop="-1" scrollamount="3"
+                    scrolldelay="100" onMouseOut="this.start()" onMouseOver="this.stop()">
+                    <div ng-repeat="item in SuggestionItems" class="clear">
+                        <div class="point fl">.</div>
+                        <div class="fl text">{{item.title}}</div>
+                    </div>
+                </marquee>
+
+                <div style="height: 40px">
+                    <span class="color666">{{userSuggestion.inputname}}</span>
+                    <span class="ml40 color666">{{userSuggestion.inputdate}}</span>
+                    <input type="button" class="pubilshbtn fr" value="发 布" ng-click="pubsuggest()" />
                 </div>
+                <div class="mb10">
+                    标题:<input class="home-input " style="width: 390px;" type="text" ng-model="userSuggestion.title" name="code"
+                        maxlength="25" />
+                </div>
+                <textarea class="home-txtarea" style="background: rgb(242, 242, 242); height: 95px;" maxlength="800" ng-model="userSuggestion.details"
+                    placeholder="我的留言..."> </textarea>
             </div>
+
+
+
+
+
             <div class="home_lylymore" ng-click="goSuggestion()">
                 <span class="underline">查看更多</span>
                 <span>></span>
