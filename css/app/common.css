@@ -287,6 +287,7 @@ body {
     height: 40px;
     float: left;
     line-height: 40px;
+    cursor: pointer;
      background: url('../../images/fg_left.png') no-repeat center;
 }
 .lbdh_fg_right{
@@ -294,6 +295,7 @@ body {
     height: 40px;
     float: right;
     line-height: 40px;
+    cursor: pointer;
      background: url('../../images/fg_right.png') no-repeat center;
 }
 
@@ -302,6 +304,7 @@ body {
     height: 40px;
     float: left;
     line-height: 40px;
+    cursor: pointer;
      background: url('../../images/jswj_left.png') no-repeat center;
 }
 .lbdh_jswj_right{
@@ -309,6 +312,7 @@ body {
     height: 40px;
     float: right;
     line-height: 40px;
+    cursor: pointer;
      background: url('../../images/jswj_right.png') no-repeat center;
 }
 

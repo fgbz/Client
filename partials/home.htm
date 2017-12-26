@@ -199,7 +199,7 @@
                 </div>-->
 
                 <marquee id="affiche" align="left" behavior="scroll" direction="up" height="50" width="400" hspace="30" class="sugg_text"
-                    style="height:160px;width:410px;margin: 0;margin-bottom: 10px;margin-left:10px" vspace="20" loop="-1" scrollamount="3"
+                    style="height:160px;width:95%;margin: 0;margin-bottom: 10px;margin-left:10px" vspace="20" loop="-1" scrollamount="3"
                     scrolldelay="100" onMouseOut="this.start()" onMouseOver="this.stop()">
                     <div ng-repeat="item in SuggestionItems" class="clear">
                         <div class="point fl">.</div>
@@ -213,7 +213,7 @@
                     <input type="button" class="pubilshbtn fr" value="发 布" ng-click="pubsuggest()" />
                 </div>
                 <div class="mb10">
-                    标题:<input class="home-input " style="width: 390px;" type="text" ng-model="userSuggestion.title" name="code"
+                    标题:<input class="home-input " style="width: 90%;" type="text" ng-model="userSuggestion.title" name="code"
                         maxlength="25" />
                 </div>
                 <textarea class="home-txtarea" style="background: rgb(242, 242, 242); height: 95px;" maxlength="800" ng-model="userSuggestion.details"
