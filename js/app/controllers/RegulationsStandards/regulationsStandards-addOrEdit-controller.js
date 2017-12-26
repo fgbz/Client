@@ -61,7 +61,7 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                             $scope.Attachments = res;
                         })
 
-                        regulationService.getLawstandardById(postData.item, function (params) {
+                        regulationService.getLawstandardById(postData.item.id, function (params) {
                             $scope.data = params;
                             $scope.data.modifyuserid = user.id;
                             $scope.data.inputdate = utils.parseTime(new Date($scope.data.inputdate), "YYYY-MM-DD");
@@ -140,7 +140,7 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                 $scope.canPreview = function (fileName) {
                     var pos = fileName.lastIndexOf('.');
                     var format = fileName.substring(pos + 1);
-                    var picType = ['pdf', 'doc', 'docx', 'txt'];
+                    var picType = ['pdf', 'doc', 'txt'];
                     var res = false;
                     angular.forEach(picType, function (value, key) {
                         if (value == format.toLowerCase()) {

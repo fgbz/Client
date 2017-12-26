@@ -26,7 +26,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/usercenter-ser
                 })
                 usercenterService.GetAdviceByID(postData.clickValue, function (res) {
                     $scope.data = res;
-                    $scope.data.inputdate = utils.parseTime(new Date($scope.data.inputdate), "YYYY-MM-DD");
+                    $scope.data.inputdate = utils.parseTime(new Date($scope.data.inputdate), "YYYY-MM-DD hh:mm:ss");
                     // angular.element('.nicEdit-main')[0].innerHTML = $scope.data.details;
                 })
 
@@ -70,7 +70,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/usercenter-ser
                 $scope.canPreview = function (fileName) {
                     var pos = fileName.lastIndexOf('.');
                     var format = fileName.substring(pos + 1);
-                    var picType = ['pdf', 'doc', 'docx', 'txt'];
+                     var picType = ['pdf', 'doc', 'txt'];
                     var res = false;
                     angular.forEach(picType, function (value, key) {
                         if (value == format.toLowerCase()) {

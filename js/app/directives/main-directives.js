@@ -1002,6 +1002,30 @@ define(['angular', 'nicEdit', 'jquery', 'utils'], function (ng, nicEditObj, jque
                     }
                 }
 
+                // //外部改变treeModel值时，选中对应的项
+                // scope.$watch('treeModel', function (newValue, oldValue) {
+                //     if (!(oldValue == undefined && newValue == undefined)) {
+                //         scope.selectnode = null;
+                //         getNodeByid(scope.treeModel);
+                //         if (scope.selectnode) {
+                //             ExpendParent(scope.selectnode);
+                //         } 
+
+                //     }
+                // })
+
+                //获取节点
+                function getNodeByid(id) {
+        
+                    for (var v in dataList) {
+                        if (dataList[v].Id == id) {
+                             scope.selectnode = dataList[v];
+                            break;
+                        }
+                    }
+ 
+                }
+
                 //选中项
                 scope.clickNode = function (newValue) {
 

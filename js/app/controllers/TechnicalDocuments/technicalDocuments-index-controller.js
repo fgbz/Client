@@ -129,7 +129,7 @@ define(['bootstrap/app', 'utils', 'services/technical-service'], function (app, 
                     var itemDeal = {};
                     itemDeal.type = "edit";
                     itemDeal.clickValue = $scope.clickValue;
-                    itemDeal.item = $scope.selectItem;
+                   itemDeal.item = { id: $scope.selectItem.id };
 
                     var data = JSON.stringify(itemDeal);
 
@@ -182,7 +182,7 @@ define(['bootstrap/app', 'utils', 'services/technical-service'], function (app, 
                     var itemDeal = {};
                     itemDeal.type = "check";
                     itemDeal.clickValue = $scope.clickValue;
-                    itemDeal.item = item;
+                    itemDeal.item = { id: item.id };
 
                     var data = JSON.stringify(itemDeal);
 

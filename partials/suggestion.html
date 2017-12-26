@@ -27,44 +27,44 @@
     <!--内容-->
     <div class="home_content posi_re">
 
+        <div style="overflow-y:auto;height: calc(100% - 66px);">
+            <table class="index_table" style="width: 100%;">
+                <thead>
+                    <tr>
+                        <th>标题</th>
+                        <th>内容</th>
+                        <th>发布人</th>
+                        <th>发布日期</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody ng-if="isLoaded ">
+                    <tr ng-repeat="item in items" style="height: 40px;cursor: pointer" ng-click="clickTable($index);" ng-class="{true: 'tr_selected',false: ''}[tableRow.selected==$index] ">
+                        <td title="{{item.title}}">{{item.title|tooltips:20}}</td>
+                        <td title="{{item.details}} ">{{item.details|tooltips:30}}</td>
+                        <td title="{{item.inputname}} ">{{item.inputname}}</td>
+                        <td title="{{item.inputdate|changeTime}}">{{item.inputdate|changeTime}}</td>
+                        <td>
+                            <input type="button " class="normalcheckbtn" style="width:80px;" ng-click="showSuggestionFeedBack(item)" value="查看并反馈" />
+                            <input type="button " class="deletebtn" ng-click="DeleteSuggestion()" value="删 除" ng-show="item.inputuserid == user.id||isSup"
+                            />
+                        </td>
+                    </tr>
+                    <tr ng-if="items.length==0 ">
+                        <td colspan="5 " class="text-center ">无数据</td>
+                    </tr>
+                </tbody>
+                <tbody ng-if="!isLoaded ">
+                    <tr>
+                        <td colspan="5" class="text-center ">
+                            <img src="images/loading.gif " />
+                        </td>
+                    </tr>
+                </tbody>
 
-        <table class="index_table" style="width: 100%;">
-            <thead>
-                <tr>
-                    <th>标题</th>
-                    <th>内容</th>
-                    <th>发布人</th>
-                    <th>发布日期</th>
-                    <th>操作</th>
-                </tr>
-            </thead>
-            <tbody ng-if="isLoaded ">
-                <tr ng-repeat="item in items" style="height: 40px;cursor: pointer" ng-click="clickTable($index);" ng-class="{true: 'tr_selected',false: ''}[tableRow.selected==$index] ">
-                    <td title="{{item.title}}">{{item.title|tooltips:20}}</td>
-                    <td title="{{item.details}} ">{{item.details|tooltips:30}}</td>
-                    <td title="{{item.inputname}} ">{{item.inputname}}</td>
-                    <td title="{{item.inputdate|recordtime}}">{{item.inputdate|recordtime}}</td>
-                    <td>
-                        <input type="button " class="normalcheckbtn" style="width:80px;" ng-click="showSuggestionFeedBack(item)" value="查看并反馈" />
-                        <input type="button " class="deletebtn" ng-click="DeleteSuggestion()" value="删 除" ng-show="item.inputuserid == user.id||isSup"
-                        />
-                    </td>
-                </tr>
-                <tr ng-if="items.length==0 ">
-                    <td colspan="5 " class="text-center ">无数据</td>
-                </tr>
-            </tbody>
-            <tbody ng-if="!isLoaded ">
-                <tr>
-                    <td colspan="5" class="text-center ">
-                        <img src="images/loading.gif " />
-                    </td>
-                </tr>
-            </tbody>
 
-
-        </table>
-
+            </table>
+        </div>
 
         <div class="home_paging" style="bottom:0">
             <div class="home_line"></div>

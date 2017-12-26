@@ -14,6 +14,10 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/usercenter-ser
             }
             $scope.user = user;
 
+            var dics = JSON.parse(localStorage.getItem('DicItems'));
+
+            $scope.PageSize = dics.PageSize;
+
             //变量
             var define_variable = function () {
 
@@ -43,7 +47,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/usercenter-ser
                         $scope.pager.current = 1;
                     }
 
-                    $scope.pager.size = pagesize;
+                    $scope.pager.size =   $scope.PageSize;
 
                     var options = {
                         pageNo: $scope.pager.current,
@@ -130,7 +134,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/usercenter-ser
                         resolve: {
                             values: function () {
                                 var data = {
-                                    suggData: item   
+                                    suggData: item
                                 }
 
                                 return data;
@@ -138,7 +142,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/usercenter-ser
                         }
                     });
                     modalInstance.result.then(function (res) {
-                       
+
                     });
                 }
 

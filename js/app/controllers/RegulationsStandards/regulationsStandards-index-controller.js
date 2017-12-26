@@ -63,8 +63,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
 
                 if (postData) {
                     postData = JSON.parse(postData);
-
-                    if (postData.treevalueid) {
+                    if (postData && postData.treevalueid) {
                         $scope.clickTreeValue = postData.treevalueid;
                     }
                 }
@@ -84,18 +83,18 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                 //右侧树
                 regulationService.SelectLawstandardType(function (params) {
                     $scope.treeData = [];
-
                     for (var i = 0; i < params.length; i++) {
                         var data = {
                             Id: params[i].id,
                             Name: params[i].typename,
                             ParentID: params[i].parentid
                         }
-                        $scope.treeData.push(data);
 
+                        $scope.treeData.push(data);
                     }
-                }, function (er) {
-                    var t = er;
+
+
+                    $scope.searchinfo();
                 })
 
             };
@@ -142,7 +141,8 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                     var itemDeal = {};
                     itemDeal.type = "edit";
                     itemDeal.clickValue = $scope.clickValue;
-                    itemDeal.item = itemdata;
+                   
+                    itemDeal.item = { id: itemdata.id };
 
                     var data = JSON.stringify(itemDeal);
 
@@ -201,7 +201,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                         var itemDeal = {};
                         itemDeal.type = "check";
                         itemDeal.clickValue = $scope.clickValue;
-                        itemDeal.item = itemdata;
+                        itemDeal.item = { id: item.id };
 
                         var data = JSON.stringify(itemDeal);
 
@@ -240,7 +240,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                         $scope.pager.current = 1;
                     }
 
-                    $scope.pager.size =   $scope.PageSize;
+                    $scope.pager.size = $scope.PageSize;
 
                     var options = {
                         pageNo: $scope.pager.current,
@@ -288,10 +288,8 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
 
                 }
 
-                $scope.searchinfo();
-
                 $scope.searchManage = function (isPaging) {
-                    $scope.isLoaded = false;
+                    $scope.isManageLoaded = false;
 
                     //通过当前高度计算每页个数
                     var pagesize = parseInt((window.innerHeight - 440) / 40);
@@ -327,7 +325,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
 
 
                     regulationService.getLawstandardList(options, function (response) {
-                        $scope.isLoaded = true;
+                        $scope.isManageLoaded = true;
                         $scope.itemManages = response.CurrentList;
 
                         angular.forEach($scope.itemManages, function (value, key) {

@@ -120,10 +120,11 @@ body {
 
 .solr_left{
     width: 300px;
-    height: 100%;
+    height: 370px;
     background: #f2f2f2;
     float: left;
-    height: calc(100%);
+    position: fixed;
+    /*height: calc(100%);*/
 }
 .solr_right{
     width: calc(100% - 310px);
@@ -153,6 +154,7 @@ body {
     font-size: 18px;
     color: #08589f;
     margin: 15px 0px 15px 0px;
+    text-decoration: underline;
 }
 .solr_time{
     font-size: 18px;
@@ -163,7 +165,7 @@ body {
      margin-left: 20px;
     border-bottom: 2px solid #cccccc;
     padding-bottom: 15px;
-    height: 130px;
+    /*height: 130px;*/
     cursor: pointer;
 }
 
@@ -730,7 +732,7 @@ body {
 
 .feeback_his_div{
     overflow-y: auto;
-    height: 250px;
+    height: 200px;
     border-top: 2px solid #cccccc;
     margin-top: 10px;
 }
@@ -839,6 +841,7 @@ body {
     background: #08589f;
     text-align: center;
     border: 0;
+    cursor: pointer;
 }
 
 
@@ -896,7 +899,7 @@ body {
 
 .normalcheckbtn{
     width: 70px;
-    height: 30px;
+    height: 32px;
     border-radius: 2px;
     color: #fff;
     background: #07ac22;
@@ -1179,12 +1182,12 @@ body {
 
 .home_repeat .date{
      color: #363636;
-    width: 100px;
+    width: 170px;
 }
 
 .home_repeat .Organization{
      color: #363636;
-    width: 150px;
+    width: 200px;
 }
 
 
@@ -1221,6 +1224,9 @@ body {
 }
 
 
+.home_lbdh_law{
+    width: 45%;
+}
 
 
 .home_topsearch{
@@ -1330,11 +1336,11 @@ body {
 }
 .home_new_regright .childname{
     float: left;
-    width: 150px;
+    /*width: 150px;*/
     color: #999999;
     font-size: 14px;
-    margin-left: 10px;
-    margin-bottom: 20px;
+    margin-left: 15px;
+    margin-bottom: 15px;
     cursor: pointer;
 }
 
@@ -1677,6 +1683,31 @@ body {
      cursor: pointer;
 }
 
+
+
+.attachment_upload_input_fg {
+    width: 180px;
+    height: 40px;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    margin-left: 10px;
+    cursor: pointer;
+    position: relative;
+    z-index: 99;
+}
+
+.attachment_upload_input_fg {
+    width: 90px;
+    height: 40px;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    margin-left: 10px;
+    cursor: pointer;
+    z-index: 99
+}
+.attachment_upload_input_fg:hover{
+      background-color: #072b7b!important;
+}
 
 /*********************引用关系*********************/
 

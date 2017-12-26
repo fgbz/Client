@@ -3,8 +3,8 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
 
     var config = require('app/config-manager');
     var baseUrl = config.baseUrl();
-    app.controller('regulationsStandards-detail-controller', ['$stateParams', '$rootScope', '$scope', '$state', 'toaster', '$uibModal', 'regulation-service', 'accessory-service', '$cookies','http-service',
-        function ($stateParams, $rootScope, $scope, $state, toaster, $uibModal, regulationService, accessoryService, $cookies,http) {
+    app.controller('regulationsStandards-detail-controller', ['$stateParams', '$rootScope', '$scope', '$state', 'toaster', '$uibModal', 'regulation-service', 'accessory-service', '$cookies', 'http-service',
+        function ($stateParams, $rootScope, $scope, $state, toaster, $uibModal, regulationService, accessoryService, $cookies, http) {
 
             var postData = $stateParams.data;
 
@@ -37,7 +37,7 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                     $scope.Attachments = res;
                 })
 
-                regulationService.getLawstandardById(postData.item, function (params) {
+                regulationService.getLawstandardById(postData.item.id, function (params) {
                     $scope.DetaiData = params;
                     $scope.DetaiData.inputdate = utils.parseTime(new Date($scope.DetaiData.inputdate), "YYYY-MM-DD");
                     $scope.DetaiData.modifydate = utils.parseTime(new Date($scope.DetaiData.modifydate), "YYYY-MM-DD");
@@ -57,6 +57,10 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                             sRouter = "main.userCenter";
                         } else if (postData.clickValue == 'solr') {
                             sRouter = "main.solr";
+                        } else if (postData.clickValue = 'home') {
+                             sRouter = "main.home";
+                            $rootScope.$emit("menustateChange", { value: sRouter, HeadNew: true });
+                            $state.go(sRouter);
                         } else {
                             sRouter = "main.regulationsStandardsIndex";
                         }
@@ -136,14 +140,14 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                 //预览
                 $scope.preview = function (fileId) {
                     var url = baseUrl + '/Foundation/Attachment/getPreView?file=' + fileId;
-                   
+
                     window.open('usermanual/web/viewer.html?url=' + http.wrapUrl(url));
                 }
 
                 $scope.canPreview = function (fileName) {
                     var pos = fileName.lastIndexOf('.');
                     var format = fileName.substring(pos + 1);
-                    var picType = ['pdf','doc','docx','txt'];
+                    var picType = ['pdf', 'doc', 'txt'];
                     var res = false;
                     angular.forEach(picType, function (value, key) {
                         if (value == format.toLowerCase()) {

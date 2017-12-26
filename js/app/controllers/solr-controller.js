@@ -74,12 +74,9 @@ define(['bootstrap/app', 'utils', 'services/regulation-service'], function (app,
                 //查询
                 $scope.searchinfo = function (isPaging) {
 
-                    if (!$scope.solrText && !isPaging) {
+                    if (!$scope.solrText) {
                         return;
-                    } else {
-                        $scope.solrText = postData.text;
                     }
-
                     $scope.isLoaded = false;
 
                     //通过当前高度计算每页个数
@@ -165,7 +162,7 @@ define(['bootstrap/app', 'utils', 'services/regulation-service'], function (app,
                         var itemDeal = {};
                         itemDeal.type = "check";
                         itemDeal.clickValue = 'solr';
-                        itemDeal.item = itemdata;
+                        itemDeal.item = {id:item.id};
 
                         var data = JSON.stringify(itemDeal);
 

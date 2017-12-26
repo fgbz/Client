@@ -8,7 +8,7 @@
     </div>
 
     <!--详细-->
-    <div style="height: calc(100% - 210px);">
+    <div style="height: calc(100% - 210px);overflow: auto;">
         <div class="solr_left">
             <div class="solr_searchdiv">
                 <div class="doublesolr">二次检索</div>
@@ -76,10 +76,17 @@
                             发布日期
                         </td>
                         <td>
-                            <input type="text" id="FiledTimeStart" style="width: 78px;" class="case_table_timepicker_input" ng-model="FiledTimeStart"
-                                je-date format="YYYY-MM-DD" readonly /> <span style="margin-left: 8px;">至</span>
-
-                            <input type="text" id="FiledTimeEnd" style="width: 78px;" class="case_table_timepicker_input" ng-model="FiledTimeEnd" je-date
+                            <input type="text" id="FiledTimeStart" class="case_table_timepicker_input" ng-model="FiledTimeStart"
+                                je-date format="YYYY-MM-DD" readonly />
+                        </td>
+                    </tr>
+                     <tr height="40px;">
+                        <td class="tr">
+                           至
+                        </td>
+                        <td>
+                          
+                            <input type="text" id="FiledTimeEnd"  class="case_table_timepicker_input" ng-model="FiledTimeEnd" je-date
                                 format="YYYY-MM-DD" readonly />
                         </td>
                     </tr>
@@ -106,7 +113,7 @@
                     <div><label>关键字:</label>{{item.keywords}}</div>
                     <div>
                         <label class="fl">摘要:</label>
-                        <div ng-bind-html="item.summaryinfo|parseHTML|tooltips:50"></div>
+                        <div ng-bind-html="item.summaryinfo|tooltips:100|parseHTML" title="{{item.summaryinfo|parseHTML}}"></div>
                     </div>
                 </div>
             </div>

@@ -230,7 +230,7 @@
                             <th>操作</th>
                         </tr>
                     </thead>
-                    <tbody ng-if="isLoaded">
+                    <tbody ng-if="isManageLoaded">
                         <tr ng-repeat="item in itemManages" style="height: 40px;cursor: pointer" ng-click="clickTable($index);" ng-class="{true: 'tr_selected',false: ''}[tableRow.selected==$index] ">
                             <td>
                                 <input type="checkbox" ng-checked="item.IsCheck" ng-click="clickSingle(item)" ng-show="item.approvestatus==1||isSup" />
@@ -251,7 +251,7 @@
                             <td colspan="9" class="text-center ">无数据</td>
                         </tr>
                     </tbody>
-                    <tbody ng-if="!isLoaded ">
+                    <tbody ng-if="!isManageLoaded ">
                         <tr>
                             <td colspan="9" class="text-center ">
                                 <img src="images/loading.gif " />

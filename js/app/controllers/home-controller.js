@@ -37,7 +37,7 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/regul
                     $scope.userSuggestion.id = '';
                     $scope.userSuggestion.inputuserid = user.id;
                     $scope.userSuggestion.inputname = user.userrealname;
-                    $scope.userSuggestion.inputdate = utils.format(new Date(), "yyyy-MM-dd");
+                    $scope.userSuggestion.inputdate = utils.format(new Date(), "yyyy-MM-dd HH:mm:ss");
                 }
 
 
@@ -362,14 +362,66 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/regul
 
 
 
-                $scope.clickLbdhTable = function (params, type) {
+                $scope.clickLbdhTable = function (params, type, item) {
                     if (type == 'Law') {
                         $scope.LbdhSelected = params;
+
+                        $scope.goLawDetail(item);
+
+
                     } else {
                         $scope.TecLbdhSelected = params;
+                        $scope.goTecDetail(item);
                     }
 
                 }
+
+                //跳转法规
+                $scope.goLawDetail = function (item) {
+                    if (!authID || !user) {
+                        isLogined();
+                    } else {
+                        var itemdata = angular.copy(item);
+
+                        regulationService.AddLawstandardCount(itemdata, function () {
+                            var sRouter = "main.regulationsStandardsDetail";
+
+                            var itemDeal = {};
+                            itemDeal.type = "home";
+                            itemDeal.clickValue = $scope.clickValue;
+                            itemDeal.item = { id: item.id };
+                            $rootScope.$emit("menustateChange", { value: sRouter, HeadNew: false });
+                            var data = JSON.stringify(itemDeal);
+
+                            $state.go(sRouter, { "data": data });
+                        })
+                    }
+
+
+                }
+
+                //跳转技术文件
+                $scope.goTecDetail = function (item) {
+                    if (!authID || !user) {
+                        isLogined();
+                    } else {
+                        var itemdata = angular.copy(item);
+                        var sRouter = "main.technicalDocumentsDetail";
+                        $rootScope.$emit("menustateChange", { value: sRouter, HeadNew: false });
+                        var itemDeal = {};
+                        itemDeal.type = "home";
+                        itemDeal.clickValue = $scope.clickValue;
+                        itemDeal.item = { id: item.id };
+
+                        var data = JSON.stringify(itemDeal);
+
+                        $state.go(sRouter, { "data": data });
+
+                    }
+
+
+                }
+
 
 
                 $scope.clickLbdhChildMenu = function (params, type) {
@@ -385,8 +437,32 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/regul
 
                 }
 
+                //留言反馈
+                $scope.goSuggestDetail = function (item) {
+                    if (!authID || !user) {
+                        isLogined();
+                    } else {
+                        var url = 'partials/system/modals/suggestionFeedBack.html';
+                        var modalInstance = $uibModal.open({
 
+                            templateUrl: url,
+                            controller: 'suggestionFeedBack-controller',
+                            size: 600,
+                            resolve: {
+                                values: function () {
+                                    var data = {
+                                        suggData: item
+                                    }
 
+                                    return data;
+                                }
+                            }
+                        });
+                        modalInstance.result.then(function (res) {
+
+                        });
+                    }
+                }
 
 
                 $scope.clickSjtjMenu = function (params) {

@@ -29,7 +29,7 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/acces
                     //初始化
                     usercenterService.GetAdviceByID(values.id, function (res) {
                         $scope.data = res;
-                        $scope.data.inputdate = utils.parseTime(new Date($scope.data.inputdate), "YYYY-MM-DD");
+                        $scope.data.inputdate = utils.parseTime(new Date($scope.data.inputdate), "YYYY-MM-DD hh:mm:ss");
                         $scope.data.modifyuserid = user.id;
                         angular.element('.nicEdit-main')[0].innerHTML = $scope.data.details;
                     })
@@ -38,7 +38,7 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/acces
                     $scope.data.id = "";
                     $scope.data.inputuserid = user.id;
                     $scope.data.orgname = user.orgname;
-                    $scope.data.inputdate = utils.format(new Date(), "yyyy-MM-dd");
+                    $scope.data.inputdate = utils.format(new Date(), "yyyy-MM-dd hh:mm:ss");
                     $scope.data.details = "";
                 }
 
@@ -127,7 +127,7 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/acces
                 $scope.canPreview = function (fileName) {
                     var pos = fileName.lastIndexOf('.');
                     var format = fileName.substring(pos + 1);
-                    var picType = ['pdf', 'doc', 'docx', 'txt'];
+                    var picType = ['pdf', 'doc', 'txt'];
                     var res = false;
                     angular.forEach(picType, function (value, key) {
                         if (value == format.toLowerCase()) {

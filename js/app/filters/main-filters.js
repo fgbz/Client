@@ -357,7 +357,7 @@ define(['angular', 'utils'], function (ng, utils) {
     fm.filter('changeTime', [function () {
         return function (time) {
 
-            var date = utils.format(time, "yyyy-MM-dd HH:mm:ss");
+            var date = utils.format(new Date(time), "yyyy-MM-dd HH:mm:ss");
             return date;
 
         }

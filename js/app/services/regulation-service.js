@@ -37,8 +37,8 @@ define(['bootstrap/app', 'app/config-manager', 'services/http-service'], functio
         };
 
         //获取法规详情
-        this.getLawstandardById = function (data, callback) {
-            http.post('/Lawstandard/getLawstandardById', data, callback);
+        this.getLawstandardById = function (id, callback) {
+            http.get('/Lawstandard/getLawstandardById?id='+id, null, callback);
         };
 
 

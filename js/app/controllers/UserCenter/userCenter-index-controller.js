@@ -259,7 +259,7 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
                         var itemDeal = {};
                         itemDeal.type = "check";
                         itemDeal.clickValue = 'approve';
-                        itemDeal.item = item;
+                        itemDeal.item = {id:item.id};
 
                         var data = JSON.stringify(itemDeal);
 
@@ -276,7 +276,7 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
                         var itemDeal = {};
                         itemDeal.type = "check";
                         itemDeal.clickValue = 'fav';
-                        itemDeal.item = item;
+                       itemDeal.item = {id:item.id};
 
                         var data = JSON.stringify(itemDeal);
 

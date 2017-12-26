@@ -30,8 +30,8 @@ define(['bootstrap/app', 'app/config-manager', 'services/http-service'], functio
         };
 
         //获取技术文件
-        this.getTechnicalById = function (data,callback) {
-             http.post('/Technical/getTechnicalById', data, callback);
+        this.getTechnicalById = function (id,callback) {
+             http.get('/Technical/getTechnicalById?id='+id, null, callback);
         };
         //删除
         this.DeleteTechnicalById  = function (data,callback) {
