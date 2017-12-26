@@ -11,6 +11,10 @@ define(['bootstrap/app', 'utils', 'services/regulation-service'], function (app,
                 user = JSON.parse(user);
             }
 
+            var dics = JSON.parse(localStorage.getItem('DicItems'));
+
+            $scope.PageSize = dics.PageSize;
+
             //变量
             var define_variable = function () {
                 $scope.pager = {
@@ -39,7 +43,7 @@ define(['bootstrap/app', 'utils', 'services/regulation-service'], function (app,
                         $scope.pager.current = 1;
                     }
 
-                    $scope.pager.size = pagesize;
+                    $scope.pager.size =  $scope.PageSize ;
 
                     var options = {
                         pageNo: $scope.pager.current,
@@ -52,7 +56,7 @@ define(['bootstrap/app', 'utils', 'services/regulation-service'], function (app,
                     if ($scope.Title) {
                         options.conditions.push({ key: 'Title', value: $scope.Title });
                     }
-                    options.conditions.push({ key: 'ReplaceOrRefenceid', value: user.id});
+                    options.conditions.push({ key: 'ReplaceOrRefenceid', value: user.id });
                     options.conditions.push({ key: 'ApproveStatus', value: 3 });
 
                     regulationService.getLawstandardList(options, function (response) {

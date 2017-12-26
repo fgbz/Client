@@ -22,6 +22,7 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
 
                 $scope.data.refence = [];
                 $scope.data.replace = [];
+                $scope.data.summaryinfo = "";
                 $scope.Attachments = [];
 
             };
@@ -71,6 +72,7 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                             if ($scope.data.impdate) {
                                 $scope.data.impdate = utils.parseTime(new Date($scope.data.impdate), "YYYY-MM-DD");
                             }
+                            angular.element('.nicEdit-main')[0].innerHTML = $scope.data.summaryinfo;
 
 
                         })
@@ -111,7 +113,7 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                             values: function () {
                                 var data = {
                                     userid: user.id,
-                                    type:'Law'
+                                    type: 'Law'
                                 }
                                 return data;
                             }
@@ -138,7 +140,7 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                 $scope.canPreview = function (fileName) {
                     var pos = fileName.lastIndexOf('.');
                     var format = fileName.substring(pos + 1);
-                    var picType = ['pdf','doc','docx','txt'];
+                    var picType = ['pdf', 'doc', 'docx', 'txt'];
                     var res = false;
                     angular.forEach(picType, function (value, key) {
                         if (value == format.toLowerCase()) {
@@ -306,6 +308,8 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
 
                         $scope.data.fileids = fileids;
 
+                        $scope.data.summaryinfo = $(".nicEdit-main").html();
+
                         regulationService.SaveOrUpdateLawstandard($scope.data, function (response) {
                             if (response == 200) {
                                 toaster.pop({ type: 'success', body: '保存成功!' });
@@ -377,10 +381,10 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                 $scope.preview = function (fileId) {
 
 
-                     var url = baseUrl + '/Foundation/Attachment/getPreView?file=' + fileId;
-                   
+                    var url = baseUrl + '/Foundation/Attachment/getPreView?file=' + fileId;
+
                     window.open('usermanual/web/viewer.html?url=' + http.wrapUrl(url));
-                
+
 
 
                 };

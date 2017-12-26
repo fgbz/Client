@@ -43,7 +43,7 @@
                 </tr>
                 <tr height="50px;">
                     <td class="color_blue first_td">摘 要 : </td>
-                    <td class="va_topnormal">{{DetaiData.summaryinfo}}</td>
+                    <td class="va_topnormal" ng-bind-html="DetaiData.summaryinfo|parseHTML"></td>
                 </tr>
                 <tr height="50px;">
                     <td class="color_blue first_td">备 注 : </td>

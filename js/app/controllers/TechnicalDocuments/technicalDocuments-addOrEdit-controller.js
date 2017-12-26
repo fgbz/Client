@@ -3,8 +3,8 @@ define(['bootstrap/app', 'utils', 'services/technical-service', 'services/access
 
     var config = require('app/config-manager');
     var baseUrl = config.baseUrl();
-    app.controller('technicalDocuments-addOrEdit-controller', ['$stateParams', '$rootScope', '$scope', '$state', 'toaster', '$uibModal', 'technical-service', 'accessory-service', '$cookies','ngDialog','http-service',
-        function ($stateParams, $rootScope, $scope, $state, toaster, $uibModal, technicalService, accessoryService, $cookies,ngDialog,http) {
+    app.controller('technicalDocuments-addOrEdit-controller', ['$stateParams', '$rootScope', '$scope', '$state', 'toaster', '$uibModal', 'technical-service', 'accessory-service', '$cookies', 'ngDialog', 'http-service',
+        function ($stateParams, $rootScope, $scope, $state, toaster, $uibModal, technicalService, accessoryService, $cookies, ngDialog, http) {
 
             var postData = $stateParams.data;
 
@@ -18,7 +18,7 @@ define(['bootstrap/app', 'utils', 'services/technical-service', 'services/access
             var define_variable = function () {
 
                 $scope.data = {};
-
+                $scope.data.summaryinfo = "";
                 $scope.Attachments = [];
 
             };
@@ -62,7 +62,7 @@ define(['bootstrap/app', 'utils', 'services/technical-service', 'services/access
                             if ($scope.data.releasedate) {
                                 $scope.data.releasedate = utils.parseTime(new Date($scope.data.releasedate), "YYYY-MM-DD");
                             }
-
+                            angular.element('.nicEdit-main')[0].innerHTML = $scope.data.summaryinfo;
 
                         })
                     } else {
@@ -128,10 +128,10 @@ define(['bootstrap/app', 'utils', 'services/technical-service', 'services/access
                     );
                 };
 
-               $scope.canPreview = function (fileName) {
+                $scope.canPreview = function (fileName) {
                     var pos = fileName.lastIndexOf('.');
                     var format = fileName.substring(pos + 1);
-                   var picType = ['pdf','doc','docx','txt'];
+                    var picType = ['pdf', 'doc', 'docx', 'txt'];
                     var res = false;
                     angular.forEach(picType, function (value, key) {
                         if (value == format.toLowerCase()) {
@@ -171,6 +171,8 @@ define(['bootstrap/app', 'utils', 'services/technical-service', 'services/access
                     $scope.data.fileids = fileids;
 
                     $scope.data.code = Trim($scope.data.code);
+
+                    $scope.data.summaryinfo = $(".nicEdit-main").html();
 
                     technicalService.SaveOrUpdateTechnical($scope.data, function (response) {
 
@@ -234,8 +236,8 @@ define(['bootstrap/app', 'utils', 'services/technical-service', 'services/access
 
                 //预览
                 $scope.preview = function (fileId) {
-                     var url = baseUrl + '/Foundation/Attachment/getPreView?file=' + fileId;
-                   
+                    var url = baseUrl + '/Foundation/Attachment/getPreView?file=' + fileId;
+
                     window.open('usermanual/web/viewer.html?url=' + http.wrapUrl(url));
                 }
 

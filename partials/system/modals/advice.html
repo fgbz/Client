@@ -9,8 +9,8 @@
         <tr>
             <td class="advice_td">
                 标题</td>
-            <td><input class="home-input mt10" style="width: 500px;margin-left:0" type="text" ng-model="data.title" maxlength="100" ng-disabled="isCheck"
-                /></td>
+            <td><input class="home-input mt10" style="width: 700px;margin-left:0" type="text" ng-model="data.title" maxlength="100"
+                    ng-disabled="isCheck" /></td>
         </tr>
         <tr>
             <td class="advice_td">
@@ -18,13 +18,35 @@
             <td>
                 <div class="advice_content">
                     <!--<div class="count">{{data.details?data.details.length:0}}/800</div>-->
-                    <textarea  nic-textarea text-content  id="test-content" ng-model="data.details" ng-disabled="isCheck" style="border: 0px; width: 499px;height: 170px;overflow:auto;border-radius: 0;" maxlength="800" >
+                    <textarea nic-textarea text-content id="test-content" ng-model="data.details" ng-disabled="isCheck" style="border: 0px; width: 698px;height: 263px;overflow:auto;border-radius: 0;"
+                        maxlength="800">
 
                     </textarea>
                 </div>
-               
+
             </td>
         </tr>
+        <td class="advice_td">
+            <div>附件</div>
+            <div> <input type="button" class="normalbtn regluation_add_btn" value="添加" ng-click="openUploadModal()" /></div>
+        </td>
+        <td colspan="3">
+            <div class="home-txtarea" style="margin-top:10px;margin-bottom:10px;overflow-y: auto;width:100%">
+                <ul>
+                    <li ng-repeat="accitem in Attachments">
+
+                        <div title="{{accitem.FileName}}" style="height:40px;">
+                            <div class="regluation_file_wrap">{{accitem.FileName|tooltips:30}}</div>
+                            <input type="button" class="attachment_view" title="查看" ng-show="canPreview(accitem.FileName)" ng-click="preview(accitem.ID)"
+                            />
+                            <input class="attachment_download" title="下载" ng-click="downloadAccessory(accitem.ID)" />
+                            <input class="attachment_delete" title="删除" ng-click="deletefile(accitem.ID)" />
+                        </div>
+
+                    </li>
+                </ul>
+            </div>
+        </td>
 
     </table>
 

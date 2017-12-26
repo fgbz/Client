@@ -494,7 +494,7 @@ define(['angular', 'nicEdit', 'jquery', 'utils'], function (ng, nicEditObj, jque
             link: function (scope, element, attr) {
                 $timeout(function () {
                     angular.element('.nicEdit-main')[0].innerHTML = scope.model;
-                })
+                }, 500)
             }
         }
     }]);
@@ -706,7 +706,6 @@ define(['angular', 'nicEdit', 'jquery', 'utils'], function (ng, nicEditObj, jque
             })
         }
     })
-
         //指令
         .directive('resizeEditTableHeight', function ($window) {
             return function (scope, element) {
@@ -740,6 +739,8 @@ define(['angular', 'nicEdit', 'jquery', 'utils'], function (ng, nicEditObj, jque
                 });
             }
         })
+
+
 
     //时分秒时间选择器
     md.directive('jeDate', function () {
@@ -928,7 +929,7 @@ define(['angular', 'nicEdit', 'jquery', 'utils'], function (ng, nicEditObj, jque
                 btnShow: "=", // 是否显示按钮
                 imgColor: '=', //背景色
                 isSystemRoot: '=',//系统管理左侧树特殊处理
-
+                isExtend: '=',//是否全部展开
             },
             require: '?uiTree',
             link: function (scope, element, attributes) {
@@ -945,7 +946,7 @@ define(['angular', 'nicEdit', 'jquery', 'utils'], function (ng, nicEditObj, jque
                                     'Name': item.Name,
                                     'ParentID': item.ParentID,
                                     'Type': flag,
-                                    'Extend': false,
+                                    'Extend': scope.isExtend ? scope.isExtend : false,
                                     'CanDelete': item.CanDelete,
                                     'itemlevel': item.itemlevel,
                                     'itemlevelcode': item.itemlevelcode,
@@ -961,12 +962,16 @@ define(['angular', 'nicEdit', 'jquery', 'utils'], function (ng, nicEditObj, jque
                     if (v) {
                         dataList = [];
                         scope.source = LoadTreeData(scope.treeData, null, 0);
-                        initExtend();
+                        //不全部展开时,展开2级
+                        if (!scope.isExtend) {
+                            initExtend();
 
-                        //展开选中项
-                        if (scope.selectnode) {
-                            ExpendParent(scope.selectnode);
+                            //展开选中项
+                            if (scope.selectnode) {
+                                ExpendParent(scope.selectnode);
+                            }
                         }
+
                     }
                 }, true);
 

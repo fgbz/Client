@@ -1,6 +1,6 @@
 <div class="h100 mt10">
     <div class="system_tree">
-        <combo-tree tree-data="treeData" tree-model="clickTreeValue" btn-show="false" img-color="2" is-system-root="true"></combo-tree>
+        <combo-tree tree-data="treeData" tree-model="clickTreeValue" btn-show="false" img-color="2" is-system-root="true" is-extend="true"></combo-tree>
     </div>
 
     <div class="system_left">
@@ -13,6 +13,19 @@
                     <div ng-class="{true:'system_hkb_right',false:'system_hkb_left'}[systemdata.sfsh==1]" ng-click="clicksfsh()"></div>
                 </div>
                 <div class="fr">{{systemdata.sfsh==1?'审核':'不审核'}}</div>
+
+            </div>
+
+        </div>
+
+        <div ng-if="clickTreeValue=='17'">
+            <div class="system_hc">
+                <span>分页设置</span>
+
+                <div class="fr mt10">
+                    <input type="button" class="normalbtn fr" value="保 存"  ng-click="savePagesize()"  ng-disabled="!pagedata.pagesize"/>
+                    <input class="home-input fr mr10" type="text" only-num in-decimals="0" ng-model="pagedata.pagesize" maxlength="5"/>   
+                </div>
 
             </div>
 
@@ -311,14 +324,14 @@
         <!--法规管理-->
         <div ng-if="clickTreeValue=='15'">
 
-            <combo-tree tree-data="treeDataReg" tree-model="clickRegValue" btn-show="true" img-color="1"></combo-tree>
+            <combo-tree tree-data="treeDataReg" tree-model="clickRegValue" btn-show="true" img-color="1" is-extend="true"></combo-tree>
 
         </div>
 
         <!--技术文档-->
         <div ng-if="clickTreeValue=='16'">
 
-            <combo-tree tree-data="treeDataTec" tree-model="clickTecValue" btn-show="true" img-color="1"></combo-tree>
+            <combo-tree tree-data="treeDataTec" tree-model="clickTecValue" btn-show="true" img-color="1" is-extend="true"></combo-tree>
 
         </div>
 

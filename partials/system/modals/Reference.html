@@ -10,53 +10,52 @@
         <input class="home-input" style="width: 120px;margin-right: 30px;" type="text" ng-model="Number" maxlength="25" />
         <span>标题</span>
         <input class="home-input" style="width: 425px;" type="text" ng-model="Title" maxlength="25" />
-        <input type="button" class="normalbtn ml20" value="查 询" ng-click="search()"/>
+        <input type="button" class="normalbtn ml20" value="查 询" ng-click="search()" />
     </div>
 
-    <div class="h300">
-        <table class="index_table">
-            <thead>
-                <tr>
-                    <th><input type="checkbox" ng-click="clickAll()" ng-checked="selectAll"/></th>
-                    <th>标题</th>
-                    <th>编号</th>
-                </tr>
-            </thead>
-            <tbody ng-if="isLoaded">
-                <tr ng-repeat="item in items" style="height: 40px;cursor: pointer" ng-click="clickTable($index);" ng-class="{true: 'tr_selected',false: ''}[tableRow.selected==$index] ">
-                    <td>
-                        <input type="checkbox" ng-checked="item.IsCheck" ng-click="clickSingle(item)"/>
+    <div class="h300 posi_re">
+        <div style="overflow-y: auto;    height: 265px;">
+            <table class="index_table">
+                <thead>
+                    <tr>
+                        <th><input type="checkbox" ng-click="clickAll()" ng-checked="selectAll" /></th>
+                        <th>标题</th>
+                        <th>编号</th>
+                    </tr>
+                </thead>
+                <tbody ng-if="isLoaded">
+                    <tr ng-repeat="item in items" style="height: 40px;cursor: pointer" ng-click="clickTable($index);" ng-class="{true: 'tr_selected',false: ''}[tableRow.selected==$index] ">
+                        <td>
+                            <input type="checkbox" ng-checked="item.IsCheck" ng-click="clickSingle(item)" />
                         </td>
-                    <td title="{{item.chinesename}} " class="w300 ">{{item.chinesename| tooltips:20}}</td>
-                    <td title="{{item.code}} ">{{item.code| tooltips:13 }}</td>
-                </tr>
-                <tr ng-if="items.length==0 ">
-                    <td colspan="3 " class="text-center ">无数据</td>
-                </tr>
-            </tbody>
-            <tbody ng-if="!isLoaded ">
-                <tr>
-                    <td colspan="3 " class="text-center ">
-                        <img src="images/loading.gif " />
-                    </td>
-                </tr>
-            </tbody>
-            <tfoot>
-                <tr>
-                    <td colspan="3">
-                        <div class="pagination-info" style="display: inline-block;margin-top: 12px;">
-                            <span class="ng-binding">共{{pager.total}}条</span>
-                        </div>
-                        <div class="pull-right">
-                            <uib uib-pagination rotate="true" boundary-link-numbers="true" boundary-links="false" total-items="pager.total" ng-model="pager.current"
-                                max-size="10" ng-change="search(true)" items-per-page="pager.size" class="pagination-sm" previous-text="上页"
-                                next-text="下页" first-text="首页" last-text="末页"></uib>
-                        </div>
-                    </td>
-                </tr>
-            </tfoot>
+                        <td title="{{item.chinesename}} " class="w300 ">{{item.chinesename| tooltips:30}}</td>
+                        <td title="{{item.code}} ">{{item.code| tooltips:20 }}</td>
+                    </tr>
+                    <tr ng-if="items.length==0 ">
+                        <td colspan="3 " class="text-center ">无数据</td>
+                    </tr>
+                </tbody>
+                <tbody ng-if="!isLoaded ">
+                    <tr>
+                        <td colspan="3 " class="text-center ">
+                            <img src="images/loading.gif " />
+                        </td>
+                    </tr>
+                </tbody>
 
-        </table>
+            </table>
+        </div>
+        <div class="home_paging">
+            <div class="pagination-info " style="display: inline-block;margin-top: 12px; margin-left: 10px;">
+                <span class="ng-binding ">共{{pager.total}}条</span>
+            </div>
+            <div class="pull-right ">
+                <uib uib-pagination rotate="true " boundary-link-numbers="true " boundary-links="false
+                                " total-items="pager.total " ng-model="pager.current " max-size="10 " ng-change="search(true)"
+                    items-per-page="pager.size " class="pagination-sm
+                                " previous-text="上页 " next-text="下页 " first-text="首页 " last-text="末页 "></uib>
+            </div>
+        </div>
     </div>
 
 

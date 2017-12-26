@@ -18,6 +18,8 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                 var manage = utils.getListItem('法规标准管理', 'menuname', user.menus);
 
                 $scope.isSup = utils.getListItem('超级管理员', 'menuname', user.menus);
+                $scope.isLawMaintain = utils.getListItem('法规发布维护', 'menuname', user.menus);
+
 
                 if (check) {
                     $scope.ischeckshow = true;
@@ -78,7 +80,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                 $scope.PublishList = dics.Pub;
                 $scope.StateList = dics.State;
 
-
+                $scope.PageSize = dics.PageSize;
                 //右侧树
                 regulationService.SelectLawstandardType(function (params) {
                     $scope.treeData = [];
@@ -238,7 +240,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                         $scope.pager.current = 1;
                     }
 
-                    $scope.pager.size = pagesize;
+                    $scope.pager.size =   $scope.PageSize;
 
                     var options = {
                         pageNo: $scope.pager.current,
@@ -298,7 +300,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                         $scope.pagerManage.current = 1;
                     }
 
-                    $scope.pagerManage.size = pagesize;
+                    $scope.pagerManage.size = $scope.PageSize;
 
                     var options = {
                         pageNo: $scope.pagerManage.current,

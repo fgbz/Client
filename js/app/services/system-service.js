@@ -9,6 +9,11 @@ define(['bootstrap/app', 'app/config-manager', 'services/http-service'], functio
             http.post('/System/Login', { "account": account, "password": password }, callback);
         }
 
+        //保存审核
+        this.SaveOrUpdateSettingValue = function (key, value, callback) {
+            http.post('/System/SaveOrUpdateSettingValue', { "key": key, "value": value }, callback);
+        }
+
         //查询组织机构
         this.getOrganizationList = function (callback) {
             http.post('/System/getOrganizationList', null, callback);
@@ -93,7 +98,7 @@ define(['bootstrap/app', 'app/config-manager', 'services/http-service'], functio
 
         //保存审核配置
         this.SaveOrUpdateApproveSetting = function (data, callback) {
-            http.get('/System/SaveOrUpdateApproveSetting?status='+ data,null, callback);
+            http.get('/System/SaveOrUpdateApproveSetting?status=' + data, null, callback);
         }
 
     }]);

@@ -74,7 +74,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/usercenter-ser
                     var sRouter = "main.adviceDetails";
                     var itemDeal = {};
                     itemDeal.clickValue = item.id;
-                    itemDeal.type = "advice";
+                    itemDeal.type = "notice";
 
                     var data = JSON.stringify(itemDeal);
 

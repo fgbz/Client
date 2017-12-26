@@ -1,10 +1,12 @@
 <div class="h100">
     <form name="addLawForm" novalidate="novalidate" class="h100">
         <div class="mt10_mb10" style="height:30px;">
-          
-            <input type="button" class="canclelbtn fr ml10 border1ccc" value="返 回" ng-click="goState()"/>
-            <input type="button" class="normalbtn fr ml10" value="提 交" validation-submit="addLawForm" ng-click="commit('commit')" ng-disabled="isSaving"/>
-            <input type="button" class="normalbtn fr" value="保 存" validation-submit="addLawForm" ng-click="save('save')" ng-disabled="isSaving"/>
+
+            <input type="button" class="canclelbtn fr ml10 border1ccc" value="返 回" ng-click="goState()" />
+            <input type="button" class="normalbtn fr ml10" value="提 交" validation-submit="addLawForm" ng-click="commit('commit')" ng-disabled="isSaving"
+            />
+            <input type="button" class="normalbtn fr" value="保 存" validation-submit="addLawForm" ng-click="save('save')" ng-disabled="isSaving"
+            />
         </div>
 
         <!--外围border-->
@@ -44,7 +46,7 @@
                     <tr height="50px">
                         <td class="regluation_add_td">关键字</td>
                         <td colspan="3">
-                            <input class="home-input w847" type="text" ng-model="data.keywords" maxlength="25" />
+                            <input class="home-input w847" type="text" ng-model="data.keywords" maxlength="200" />
                         </td>
                     </tr>
 
@@ -52,7 +54,7 @@
                         <td class="regluation_add_td"> <span class="div_required">*</span>编号</td>
                         <td class="w300">
                             <div class="posi_re">
-                                <input class="home-input w300" type="text" ng-model="data.code" name="code" maxlength="25" validator="required" />
+                                <input class="home-input w300" type="text" ng-model="data.code" name="code" maxlength="200" validator="required" />
                             </div>
                         </td>
                         <td class="regluation_add_td"><span class="div_required">*</span>类别</td>
@@ -94,8 +96,11 @@
 
                     <tr height="50px">
                         <td class="regluation_add_td va_top">摘要</td>
-                        <td colspan="3">
-                            <textarea ng-disabled="isCheck" class="home-txtarea regluation_add_textarea" maxlength="800" ng-model="data.summaryinfo"> </textarea>
+                        <td colspan="3" class="pl10">
+                            <div class="bgdfff">
+                                <textarea nic-textarea text-content id="test-content" name="Content"  ng-model="data.summaryinfo" class="home-txtarea regluation_add_textarea"
+                                    style="width:100%;border: 0px;overflow:auto;border-radius: 0;" maxlength="800"></textarea>
+                            </div>
                         </td>
                     </tr>
 
@@ -119,9 +124,10 @@
 
                                         <div title="{{accitem.FileName}}" style="height:40px;">
                                             <div class="regluation_file_wrap">{{accitem.FileName|tooltips:30}}</div>
-                                            <input type="button" class="attachment_view" title="查看" ng-show="canPreview(accitem.FileName)" ng-click="preview(accitem.ID)"/>
-                                            <input class="attachment_download" title="下载" ng-click="downloadAccessory(accitem.ID)"/>
-                                             <input class="attachment_delete" title="删除" ng-click="deletefile(accitem.ID)"/>
+                                            <input type="button" class="attachment_view" title="查看" ng-show="canPreview(accitem.FileName)" ng-click="preview(accitem.ID)"
+                                            />
+                                            <input class="attachment_download" title="下载" ng-click="downloadAccessory(accitem.ID)" />
+                                            <input class="attachment_delete" title="删除" ng-click="deletefile(accitem.ID)" />
                                         </div>
 
                                     </li>
@@ -139,8 +145,8 @@
                         <td colspan="3">
                             <div class="home-txtarea regluation_add_textarea" style="margin-bottom:10px;overflow-y: auto;">
                                 <div ng-repeat="item in data.refence" class="fl mr10">
-                                    <span>{{item.chinesename}}</span>
-                                    <input type="button" class="attachment_delete"  ng-click="deleteRefence(item)" />
+                                    <span title="编号:{{item.code}} 名称:{{item.chinesename}}">({{item.code}}){{item.chinesename}}</span>
+                                    <input type="button" class="attachment_delete" ng-click="deleteRefence(item)" />
                                 </div>
                             </div>
                         </td>
@@ -156,8 +162,8 @@
 
                             <div class="home-txtarea regluation_add_textarea" style="margin-bottom:10px;overflow-y: auto;">
                                 <div ng-repeat="item in data.replace" class="fl mr10">
-                                    <span>{{item.chinesename}}</span>
-                                    <input type="button" class="attachment_delete"  ng-click="deleteReplace(item)" />
+                                    <span title="编号:{{item.code}} 名称:{{item.chinesename}}">({{item.code}}){{item.chinesename}}</span>
+                                    <input type="button" class="attachment_delete" ng-click="deleteReplace(item)" />
                                 </div>
                             </div>
                         </td>

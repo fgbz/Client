@@ -31,14 +31,6 @@ define(['bootstrap/app',
 
             //$httpProvider.interceptors.push('interceptorService');
 
-            // 定义 App 中的各种状态
-            $stateProvider.state('login', {
-                url: '/login',
-                // templateUrl: 'partials/login-sso.htm',
-                templateUrl: 'partials/login.htm',
-                controller: 'login-controller'
-            });
-
             // 出错
             $stateProvider.state('error', {
                 url: '/error',

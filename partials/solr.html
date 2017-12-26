@@ -2,7 +2,7 @@
 
     <div class="concent_center mt10 h200">
         <div class="solr_title"></div>
-        <input class="home_topsearch" type="text" ng-model="solrText" maxlength="100" placeholder="请输入关键字进行检索" 
+        <input class="home_topsearch" type="text" ng-model="solrText" maxlength="100" placeholder="请输入关键字进行检索"  ng-keypress="PressSolr($event)"
         />
         <span class="home_topsearch_icon" ng-click="searchinfo()">检索</span>
     </div>
@@ -88,7 +88,7 @@
             <div class="solr_bottom_btn">
 
                 <input type="button" class="canclelbtn fr mr10" value="重 置" ng-click="reset()" />
-                <input type="button" class="normalbtn fr mr10" ng-click="searchinfo()" value="查 询" />
+                <input type="button" class="normalbtn fr mr10" ng-click="searchinfo()" ng-disabled="!solrText" value="查 询" />
             </div>
         </div>
 
@@ -104,7 +104,10 @@
                 <div class="fr solr_time" ng-style="{'margin-right':$first?'-50px':'0px'}">{{item.releasedate|recordtime}}</div>
                 <div class="clear">
                     <div><label>关键字:</label>{{item.keywords}}</div>
-                    <div title="{{item.summaryinfo}}"><label>摘要:</label>{{item.summaryinfo|tooltips:90}}</div>
+                    <div>
+                        <label class="fl">摘要:</label>
+                        <div ng-bind-html="item.summaryinfo|parseHTML|tooltips:50"></div>
+                    </div>
                 </div>
             </div>
           

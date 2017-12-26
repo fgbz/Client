@@ -1244,7 +1244,7 @@
     height: 40px;
     filter: alpha(opacity=0);
     opacity: 0;
-    margin-left: 10px;
+
     cursor: pointer;
     position: relative;
     z-index: 99;
@@ -1283,11 +1283,11 @@
     }
 
 .attachment_upload_input {
-    width: 90px;
-    height: 40px;
+    width: 40px;
+    height: 30px;
     filter: alpha(opacity=0);
     opacity: 0;
-    margin-left: 10px;
+
     cursor: pointer;
     z-index: 99
 }

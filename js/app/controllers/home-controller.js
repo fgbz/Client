@@ -457,11 +457,25 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/regul
 
                 }
 
+                //回车
+                $scope.PressSolr = function (target) {
+                    if (target.keyCode == 13) {
+                        $scope.Solr();
+
+                    }
+                }
+
                 //全文检索
                 $scope.Solr = function () {
                     if (!authID || !user) {
                         isLogined();
                     } else {
+
+                        //什么都不输入,不跳转
+                        if (!$scope.solrText) {
+                            return;
+                        }
+
                         var sRouter = "main.solr";
                         var itemDeal = {};
                         itemDeal.text = $scope.solrText;

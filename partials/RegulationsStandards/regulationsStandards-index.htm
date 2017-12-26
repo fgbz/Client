@@ -98,12 +98,12 @@
 
                 </div>
                 <!--按钮-->
-                <div>
+                <div style="height:40px;">
                     <div class="regluation_search">检索结果</div>
                     <input type="button" class="normalbtn fr mb10 mr10" value="导 出" ng-click="exporeLaw()" />
                 </div>
                 <!--表格-->
-                <div>
+                <div style="overflow-y:auto;height: calc(100% - 206px);">
                     <table class="index_table">
                         <thead>
                             <tr>
@@ -119,8 +119,8 @@
                         <tbody ng-if="isLoaded">
                             <tr ng-repeat="item in items" style="height: 40px;cursor: pointer" ng-click="clicksearchTable($index);" ng-class="{true: 'tr_selected',false: ''}[tableRowsearch.selected==$index] ">
                                 <td>{{$index+1}}</td>
-                                <td title="{{item.chinesename}} " class="w300 ">{{item.chinesename| tooltips:20}}</td>
-                                <td title="{{item.code}} ">{{item.code| tooltips:20 }}</td>
+                                <td title="{{item.chinesename}} " class="w300 " style="text-align: left;">{{item.chinesename| tooltips:25}}</td>
+                                <td title="{{item.code}}" style="text-align: left;">{{item.code| tooltips:20 }}</td>
                                 <td title="{{item.statusname}} ">{{item.statusname}}</td>
                                 <td title="{{item.impdate|recordtime}} ">{{item.impdate |recordtime}}</td>
                                 <td title="{{item.inputdate|recordtime}} ">{{item.inputdate |recordtime}}</td>
@@ -207,58 +207,60 @@
 
                 <input type="button" class="deletebtn fl ml10" ng-click="DeleteAll()" value="批量删除" />
 
-                <input type="button" class="deletebtn fr mr10" value="删 除" ng-click="deleteLaw()" ng-show="selectItem.approvestatus==1||isSup"
+                <input type="button" class="deletebtn fr mr10" value="删 除" ng-click="deleteLaw()" ng-show="selectItem.approvestatus==1||isSup||isLawMaintain"
                 />
-                <input type="button" class="normalcheckbtn fr mr10" ng-click="Edit()" value="编 辑" ng-show="selectItem.approvestatus==1||isSup"
+                <input type="button" class="normalcheckbtn fr mr10" ng-click="Edit()" value="编 辑" ng-show="selectItem.approvestatus==1||isSup||isLawMaintain"
                 />
                 <input type="button" class="normalbtn fr mr10" value="审核信息" ng-click="Exam()" ng-show="selectItem.isapprove" />
 
             </div>
 
-            <table class="index_table">
-                <thead>
-                    <tr>
-                        <th><input type="checkbox" ng-click="clickAll()" ng-checked="selectAll" /></th>
-                        <th>序号</th>
-                        <th>标题</th>
-                        <th>标准编号</th>
-                        <th>类别</th>
-                        <th>是否批量导入</th>
-                        <th>信息状态</th>
-                        <th>录入日期</th>
-                        <th>操作</th>
-                    </tr>
-                </thead>
-                <tbody ng-if="isLoaded">
-                    <tr ng-repeat="item in itemManages" style="height: 40px;cursor: pointer" ng-click="clickTable($index);" ng-class="{true: 'tr_selected',false: ''}[tableRow.selected==$index] ">
-                        <td>
-                            <input type="checkbox" ng-checked="item.IsCheck" ng-click="clickSingle(item)" ng-show="item.approvestatus==1||isSup" />
-                        </td>
-                        <td>{{$index+1}}</td>
-                        <td title="{{item.chinesename}} " class="w300 ">{{item.chinesename| tooltips:20}}</td>
-                        <td title="{{item.code}} ">{{item.code| tooltips:20 }}</td>
-                        <td title="{{item.typename}} ">{{item.typename| tooltips:13 }}</td>
+            <div style="overflow-y:auto;height: calc(100% - 130px);">
+                <table class="index_table">
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox" ng-click="clickAll()" ng-checked="selectAll" /></th>
+                            <th>序号</th>
+                            <th>标题</th>
+                            <th>标准编号</th>
+                            <th>类别</th>
+                            <th>是否批量导入</th>
+                            <th>信息状态</th>
+                            <th>录入日期</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody ng-if="isLoaded">
+                        <tr ng-repeat="item in itemManages" style="height: 40px;cursor: pointer" ng-click="clickTable($index);" ng-class="{true: 'tr_selected',false: ''}[tableRow.selected==$index] ">
+                            <td>
+                                <input type="checkbox" ng-checked="item.IsCheck" ng-click="clickSingle(item)" ng-show="item.approvestatus==1||isSup" />
+                            </td>
+                            <td>{{$index+1}}</td>
+                            <td title="{{item.chinesename}} " style="text-align: left;" class="w300 ">{{item.chinesename| tooltips:25}}</td>
+                            <td title="{{item.code}} " style="text-align: left;">{{item.code| tooltips:20 }}</td>
+                            <td title="{{item.typename}} ">{{item.typename| tooltips:13 }}</td>
 
-                        <td title="{{item.isbatch&&item.isbatch==1?'是':'否'}} ">{{item.isbatch&&item.isbatch==1?'是':'否'}}</td>
-                        <td title="{{item.approvestatus|approvestatus}} ">{{item.approvestatus|approvestatus }}</td>
-                        <td title="{{item.inputdate|recordtime}} ">{{item.inputdate |recordtime}}</td>
-                        <td>
-                            <input type="button " class="checkbtn" ng-click="Check(item)" value="查 看 " />
-                        </td>
-                    </tr>
-                    <tr ng-if="itemManages.length==0 ">
-                        <td colspan="9" class="text-center ">无数据</td>
-                    </tr>
-                </tbody>
-                <tbody ng-if="!isLoaded ">
-                    <tr>
-                        <td colspan="9" class="text-center ">
-                            <img src="images/loading.gif " />
-                        </td>
-                    </tr>
-                </tbody>
+                            <td title="{{item.isbatch&&item.isbatch==1?'是':'否'}} ">{{item.isbatch&&item.isbatch==1?'是':'否'}}</td>
+                            <td title="{{item.approvestatus|approvestatus}} ">{{item.approvestatus|approvestatus }}</td>
+                            <td title="{{item.inputdate|recordtime}} ">{{item.inputdate |recordtime}}</td>
+                            <td>
+                                <input type="button " class="checkbtn" ng-click="Check(item)" value="查 看 " />
+                            </td>
+                        </tr>
+                        <tr ng-if="itemManages.length==0 ">
+                            <td colspan="9" class="text-center ">无数据</td>
+                        </tr>
+                    </tbody>
+                    <tbody ng-if="!isLoaded ">
+                        <tr>
+                            <td colspan="9" class="text-center ">
+                                <img src="images/loading.gif " />
+                            </td>
+                        </tr>
+                    </tbody>
 
-            </table>
+                </table>
+            </div>
 
             <div class="home_paging">
                 <div class="pagination-info " style="display: inline-block;margin-top: 12px; margin-left: 10px;">

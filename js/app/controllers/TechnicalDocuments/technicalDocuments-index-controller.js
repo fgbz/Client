@@ -17,6 +17,7 @@ define(['bootstrap/app', 'utils', 'services/technical-service'], function (app, 
                 var manage = utils.getListItem('技术文档管理', 'menuname', user.menus);
 
                 $scope.isSup = utils.getListItem('超级管理员', 'menuname', user.menus);
+                $scope.isTecMaintain = utils.getListItem('技术发布维护', 'menuname', user.menus);
 
                 if (check) {
                     $scope.ischeckshow = true;
@@ -29,6 +30,10 @@ define(['bootstrap/app', 'utils', 'services/technical-service'], function (app, 
                     $scope.clickValue = 'add';
                 }
             }
+
+            var dics = JSON.parse(localStorage.getItem('DicItems'));
+
+            $scope.PageSize = dics.PageSize;
 
             //变量
             var define_variable = function () {
@@ -62,7 +67,7 @@ define(['bootstrap/app', 'utils', 'services/technical-service'], function (app, 
                     postData = JSON.parse(postData);
                 }
 
-                $scope.clickValue = postData&& postData.clickValue ? postData.clickValue : $scope.clickValue;
+                $scope.clickValue = postData && postData.clickValue ? postData.clickValue : $scope.clickValue;
 
 
                 //右侧树
@@ -213,7 +218,7 @@ define(['bootstrap/app', 'utils', 'services/technical-service'], function (app, 
                         $scope.pager.current = 1;
                     }
 
-                    $scope.pager.size = pagesize;
+                    $scope.pager.size = $scope.PageSize;
 
                     var options = {
                         pageNo: $scope.pager.current,
@@ -262,7 +267,7 @@ define(['bootstrap/app', 'utils', 'services/technical-service'], function (app, 
                         $scope.pagerManage.current = 1;
                     }
 
-                    $scope.pagerManage.size = pagesize;
+                    $scope.pagerManage.size = $scope.PageSize;
 
                     var options = {
                         pageNo: $scope.pagerManage.current,

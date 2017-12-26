@@ -10,6 +10,7 @@ define(['bootstrap/app', 'utils', 'services/regulation-service'], function (app,
 
             var user = sessionStorage.getItem('loginUser');
 
+            var dics = JSON.parse(localStorage.getItem('DicItems'));
             if (user) {
                 user = JSON.parse(user);
             }
@@ -22,8 +23,6 @@ define(['bootstrap/app', 'utils', 'services/regulation-service'], function (app,
 
             //变量
             var define_variable = function () {
-                var dics = JSON.parse(localStorage.getItem('DicItems'));
-
 
                 $scope.StateList = dics.State;
             };
@@ -65,8 +64,21 @@ define(['bootstrap/app', 'utils', 'services/regulation-service'], function (app,
                     $scope.Summaryinfo = "";
                 }
 
+                //回车
+                $scope.PressSolr = function (target) {
+                    if (target.keyCode == 13) {
+                        $scope.searchinfo();
+                    }
+                }
+
                 //查询
                 $scope.searchinfo = function (isPaging) {
+
+                    if (!$scope.solrText && !isPaging) {
+                        return;
+                    } else {
+                        $scope.solrText = postData.text;
+                    }
 
                     $scope.isLoaded = false;
 
@@ -77,7 +89,7 @@ define(['bootstrap/app', 'utils', 'services/regulation-service'], function (app,
                         $scope.pager.current = 1;
                     }
 
-                    $scope.pager.size = pagesize;
+                    $scope.pager.size = dics.PageSize;
 
                     var options = {
                         pageNo: $scope.pager.current,
@@ -118,7 +130,7 @@ define(['bootstrap/app', 'utils', 'services/regulation-service'], function (app,
                     options.conditions.push({ key: 'ApproveStatus', value: 3 });
 
                     var startTime = new Date();
-                    regulationService.getLawstandardList(options, function (response) {
+                    regulationService.getSolrList(options, function (response) {
                         var endime = new Date();
                         $scope.time = parseInt(endime - startTime) / 1000;//两个时间相差的秒数
                         $scope.isLoaded = true;
@@ -152,7 +164,7 @@ define(['bootstrap/app', 'utils', 'services/regulation-service'], function (app,
 
                         var itemDeal = {};
                         itemDeal.type = "check";
-                        itemDeal.clickValue ='solr';
+                        itemDeal.clickValue = 'solr';
                         itemDeal.item = itemdata;
 
                         var data = JSON.stringify(itemDeal);

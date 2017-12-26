@@ -13,7 +13,16 @@
             <span style="color: #cccccc;">来源:&nbsp;{{data.orgname}}</span>
         </div>
         <div ng-bind-html="data.details|parseHTML" class="advicedetail_details">
-            
+
+        </div>
+        <div class="advicedetail_file">
+            <ul>
+                <li ng-repeat="accitem in Attachments" class="regluation_detail_Attachments">
+                    <div title="{{accitem.FileName}}" class="fl"> {{accitem.FileName|tooltips:30}}</div>
+                    <div ng-show="canPreview(accitem.FileName)" class="fl advicedetail_btn" ng-click="preview(accitem.ID)">[查看]</div>
+                    <div ng-click="downloadAccessory(accitem.ID)" class="fl advicedetail_btn">[下载]</div>
+                </li>
+            </ul>
         </div>
 
     </div>

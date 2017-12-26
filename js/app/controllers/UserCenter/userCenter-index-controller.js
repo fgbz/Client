@@ -471,8 +471,11 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
                     if (postData.clickValue == 'fav') {
                         var data = { Name: '收藏夹' };
                         $scope.clickMenu(data);
-                    } else {
+                    } else if (postData.clickValue == 'approve') {
                         var data = { Name: '待办箱' };
+                        $scope.clickMenu(data);
+                    } else if (postData.clickValue == 'advice') {
+                        var data = { Name: '通知管理' };
                         $scope.clickMenu(data);
                     }
 
@@ -527,7 +530,7 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
 
                         templateUrl: url,
                         controller: 'advice-controller',
-                        size: 600,
+                        size: 800,
                         resolve: {
                             values: function () {
                                 var data = {
@@ -551,6 +554,20 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
                     });
 
                 }
+
+                //查看通知
+                $scope.checkAdvice = function (item) {
+
+                    var sRouter = "main.adviceDetails";
+                    var itemDeal = {};
+                    itemDeal.clickValue = item.id;
+                    itemDeal.type = "advice";
+
+                    var data = JSON.stringify(itemDeal);
+
+                    $state.go(sRouter, { "data": data });
+                }
+
                 //删除通知
                 $scope.DeleteAdvice = function (item) {
 

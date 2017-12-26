@@ -21,6 +21,11 @@ define(['bootstrap/app', 'app/config-manager', 'services/http-service'], functio
             http.post('/Lawstandard/getLawstandardList', data, callback);
         };
 
+        //获取全文检索数量
+        this.getSolrList = function (data, callback) {
+            http.post('/Lawstandard/getSolrList', data, callback);
+        }
+
         //获取最新10条法规标准
         this.getUptodateLawstandardList = function (data, callback) {
             http.post('/Lawstandard/getUptodateLawstandardList', data, callback);
@@ -62,7 +67,7 @@ define(['bootstrap/app', 'app/config-manager', 'services/http-service'], functio
         }
 
         //批量删除
-        this.DeleteAllSelectLawstandard = function (data,callback) {
+        this.DeleteAllSelectLawstandard = function (data, callback) {
             http.post('/Lawstandard/DeleteAllSelectLawstandard', data, callback);
         }
 

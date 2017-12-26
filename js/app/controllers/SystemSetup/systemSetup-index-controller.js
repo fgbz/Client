@@ -1,10 +1,10 @@
-define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-service', 'services/technical-service', 'services/system-service'], function (app, utils) {
+define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-service', 'services/technical-service', 'services/system-service','services/dictionary-service'], function (app, utils) {
     'use strict';
 
     var config = require('app/config-manager');
     var baseUrl = config.baseUrl();
-    app.controller('systemSetup-index-controller', ['$rootScope', '$scope', '$state', 'toaster', '$uibModal', 'regulation-service', 'technical-service', 'system-service', 'ngDialog', '$cookies',
-        function ($rootScope, $scope, $state, toaster, $uibModal, regulationService, technicalService, systemService, ngDialog, $cookies) {
+    app.controller('systemSetup-index-controller', ['$rootScope', '$scope', '$state', 'toaster', '$uibModal', 'regulation-service', 'technical-service', 'system-service', 'ngDialog', '$cookies', 'dictionary-service',
+        function ($rootScope, $scope, $state, toaster, $uibModal, regulationService, technicalService, systemService, ngDialog, $cookies,dictionaryService) {
 
             var user = sessionStorage.getItem('loginUser');
 
@@ -41,6 +41,9 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                 $scope.userdata = {};
                 $scope.systemdata = {};
 
+                $scope.pagedata = {};
+                $scope.pagedata.pagesize = dics.PageSize;
+
             };
 
             //加载
@@ -52,6 +55,8 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
 
 
                     { Id: '11', Name: '系统审核设置', ParentID: '01' },
+                    //后面增加的功能
+                    { Id: '17', Name: '系统分页设置', ParentID: '01' },
                     { Id: '12', Name: '系统邮件服务器设置', ParentID: '01' },
 
                     { Id: '13', Name: '数据字典管理', ParentID: '01' },
@@ -195,7 +200,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                                 Name: params[i].orgname,
                                 ParentID: params[i].parentid,
                                 CanDelete: params[i].candelete,
-                                 itemlevel: params[i].itemlevel,
+                                itemlevel: params[i].itemlevel,
                                 itemlevelcode: params[i].itemlevelcode,
                             }
                             $scope.treeDataOrg.push(data);
@@ -219,7 +224,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                                 Name: params[i].typename,
                                 ParentID: params[i].parentid,
                                 CanDelete: params[i].candelete,
-                                 itemlevel: params[i].itemlevel,
+                                itemlevel: params[i].itemlevel,
                                 itemlevelcode: params[i].itemlevelcode,
                             }
                             $scope.treeDataReg.push(data);
@@ -981,6 +986,22 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                         }
                     });
 
+                }
+
+                //修改分页个数
+                $scope.savePagesize = function () {
+
+                    systemService.SaveOrUpdateSettingValue('PageSize', $scope.pagedata.pagesize, function (res) {
+                        if (res == 200) {
+                              toaster.pop({ type: 'success', body:   '修改成功!' });
+                            //重新初始化字典
+                            dictionaryService.GetAllDic(function (res) {
+
+                                localStorage.setItem('DicItems', JSON.stringify(res));
+                                $scope.PageSize = res.PageSize;
+                            })
+                        }
+                    })
                 }
 
             };

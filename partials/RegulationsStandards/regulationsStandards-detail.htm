@@ -60,14 +60,14 @@
                 </tr>
                 <tr height="50px;">
                     <td class="color_blue first_td">摘 要 : </td>
-                    <td class="va_topnormal">{{DetaiData.summaryinfo}}</td>
+                    <td class="va_topnormal" ng-bind-html="DetaiData.summaryinfo|parseHTML"></td>
                 </tr>
                 <tr height="50px;">
                     <td class="color_blue first_td">引用标准 : </td>
                     <td class="va_topnormal">
                         <ul>
                             <li ng-repeat="item in DetaiData.refence" class="regluation_detail_Reference color_blue" ng-click="checkRepalceOrRefence(item)">
-                                <span title="标题:{{item.chinesename}}">{{item.code}}</span>
+                                <span title="编号:{{item.code}} 名称:{{item.chinesename}}">({{item.code}}){{item.chinesename}}</span>
                             </li>
                         </ul>
                     </td>
@@ -102,7 +102,7 @@
         <div ng-repeat="item in DetaiData.replace" class="clear">
             <div class="regluation_detail_rep">{{item.statusname}}</div>
             <div class="regluation_detail_replacetext">
-                <div style="height: 25px;">{{item.chinesename}}</div>
+                <div style="height: 25px;" title="编号:{{item.code}} 名称:{{item.chinesename}}">({{item.code}}){{item.chinesename}}</div>
                 <div>
                     <span class="color999999">发布时间: {{item.releasedate|recordtime}}</span>
                     <span class="ml40 color999999">法规标准类别: {{item.typename}}</span>

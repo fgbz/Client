@@ -1,16 +1,16 @@
-define(['bootstrap/app', 'utils', 'app/config-manager', 'services/usercenter-service'], function (app, utils) {
+define(['bootstrap/app', 'utils', 'app/config-manager', 'services/usercenter-service', 'services/accessory-service'], function (app, utils) {
     'use strict';
 
     var config = require('app/config-manager');
     var baseUrl = config.baseUrl();
-    app.controller('adviceDetails-controller', ['$rootScope', '$scope', '$state', 'toaster', '$uibModal', 'usercenter-service', '$stateParams',
-        function ($rootScope, $scope, $state, toaster, $uibModal, usercenterService, $stateParams) {
+    app.controller('adviceDetails-controller', ['$rootScope', '$scope', '$state', 'toaster', '$uibModal', 'usercenter-service', '$stateParams', 'accessory-service',
+        function ($rootScope, $scope, $state, toaster, $uibModal, usercenterService, $stateParams, accessoryService) {
 
             var postData = $stateParams.data;
 
             //变量
             var define_variable = function () {
-
+                $scope.Attachments = [];
             };
 
             //加载
@@ -19,6 +19,11 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/usercenter-ser
                 if (postData) {
                     postData = JSON.parse(postData);
                 }
+
+                //获取附件信息
+                accessoryService.getAccessoryByDirId(postData.clickValue, function (res) {
+                    $scope.Attachments = res;
+                })
                 usercenterService.GetAdviceByID(postData.clickValue, function (res) {
                     $scope.data = res;
                     $scope.data.inputdate = utils.parseTime(new Date($scope.data.inputdate), "YYYY-MM-DD");
@@ -39,7 +44,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/usercenter-ser
                         $rootScope.$emit("menustateChange", { value: sRouter, HeadNew: true });
                         $state.go(sRouter);
 
-                    } else {
+                    } else if (postData.type == "notice") {
 
                         sRouter = "main.notice";
                         $rootScope.$emit("menustateChange", { value: null, HeadNew: false });
@@ -48,10 +53,45 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/usercenter-ser
                         var data = JSON.stringify(itemDeal);
 
                         $state.go(sRouter, { "data": data });
+                    } else if (postData.type == "advice") {
+
+                        sRouter = "main.userCenter";
+                      
+                        var itemDeal = {};
+                        itemDeal.clickValue = 'advice';
+                        var data = JSON.stringify(itemDeal);
+
+                        $state.go(sRouter, { "data": data });
                     }
 
 
                 }
+
+                $scope.canPreview = function (fileName) {
+                    var pos = fileName.lastIndexOf('.');
+                    var format = fileName.substring(pos + 1);
+                    var picType = ['pdf', 'doc', 'docx', 'txt'];
+                    var res = false;
+                    angular.forEach(picType, function (value, key) {
+                        if (value == format.toLowerCase()) {
+                            res = true;
+                        }
+                    });
+                    return res;
+                }
+                $scope.downloadAccessory = function (fileId) {
+                    accessoryService.downloadAccessory(fileId);
+                };
+                $scope.preview = function (fileId) {
+
+
+                    var url = baseUrl + '/Foundation/Attachment/getPreView?file=' + fileId;
+
+                    window.open('usermanual/web/viewer.html?url=' + http.wrapUrl(url));
+
+
+
+                };
 
             };
 
