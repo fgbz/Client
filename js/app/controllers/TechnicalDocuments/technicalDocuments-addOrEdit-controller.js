@@ -131,7 +131,7 @@ define(['bootstrap/app', 'utils', 'services/technical-service', 'services/access
                 $scope.canPreview = function (fileName) {
                     var pos = fileName.lastIndexOf('.');
                     var format = fileName.substring(pos + 1);
-                     var picType = ['pdf', 'doc', 'txt'];
+                    var picType = ['pdf', 'doc', 'txt'];
                     var res = false;
                     angular.forEach(picType, function (value, key) {
                         if (value == format.toLowerCase()) {
@@ -170,7 +170,9 @@ define(['bootstrap/app', 'utils', 'services/technical-service', 'services/access
 
                     $scope.data.fileids = fileids;
 
-                    $scope.data.code = Trim($scope.data.code);
+                    if ($scope.data.code){
+                        $scope.data.code = Trim($scope.data.code);
+                    }
 
                     $scope.data.summaryinfo = $(".nicEdit-main").html();
 
