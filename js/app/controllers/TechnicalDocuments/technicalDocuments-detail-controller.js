@@ -63,7 +63,8 @@ define(['bootstrap/app', 'utils', 'services/technical-service', 'services/access
                         sRouter = "main.technicalDocuments";
                         var itemDeal = {};
                         itemDeal.clickValue = postData.clickValue;
-
+                        itemDeal.selectData = postData.selectData;
+                        itemDeal.treevalueid = postData.treevalueid;
 
                         var data = JSON.stringify(itemDeal);
 
@@ -85,7 +86,7 @@ define(['bootstrap/app', 'utils', 'services/technical-service', 'services/access
                             values: function () {
                                 var data = {
                                     id: postData.item.id,
-                                    type:'tec'
+                                    type: 'tec'
                                 }
                                 return data;
                             }

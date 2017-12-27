@@ -25,6 +25,7 @@ define(['bootstrap/app', 'utils', 'services/regulation-service'], function (app,
             var define_variable = function () {
 
                 $scope.StateList = dics.State;
+                $scope.searchdata = {};
             };
 
             //加载
@@ -32,8 +33,14 @@ define(['bootstrap/app', 'utils', 'services/regulation-service'], function (app,
 
                 if (postData) {
                     postData = JSON.parse(postData);
+                    //保留查询条件
+                    if (postData.selectData) {
+                        $scope.searchdata = postData.selectData;
+                    } else {
+                        $scope.searchdata.solrText = postData.text;
+                    }
                 }
-                $scope.solrText = postData.text;
+
 
 
                 //树
@@ -49,19 +56,22 @@ define(['bootstrap/app', 'utils', 'services/regulation-service'], function (app,
                         $scope.treeData.push(data);
 
                     }
+                    if (postData && postData.treevalueid) {
+                        $scope.clickTreeValue = postData.treevalueid;
+                    }
                 })
 
                 //重置
                 $scope.reset = function () {
-                    $scope.Number = "";
-                    $scope.Title = "";
-                    $scope.FiledTimeStart = "";
-                    $scope.FiledTimeEnd = "";
-                    $scope.State = "";
-                    $scope.KeyWordsSingle = "";
+                    $scope.searchdata.Number = "";
+                    $scope.searchdata.Title = "";
+                    $scope.searchdata.FiledTimeStart = "";
+                    $scope.searchdata.FiledTimeEnd = "";
+                    $scope.searchdata.State = "";
+                    $scope.searchdata.KeyWordsSingle = "";
                     $scope.clickTreeValue = "";
-                    $scope.EnglishTitle = "";
-                    $scope.Summaryinfo = "";
+                    $scope.searchdata.EnglishTitle = "";
+                    $scope.searchdata.Summaryinfo = "";
                 }
 
                 //回车
@@ -74,7 +84,7 @@ define(['bootstrap/app', 'utils', 'services/regulation-service'], function (app,
                 //查询
                 $scope.searchinfo = function (isPaging) {
 
-                    if (!$scope.solrText) {
+                    if (!$scope.searchdata.solrText) {
                         return;
                     }
                     $scope.isLoaded = false;
@@ -93,35 +103,37 @@ define(['bootstrap/app', 'utils', 'services/regulation-service'], function (app,
                         pageSize: $scope.pager.size,
                         conditions: []
                     };
-                    if ($scope.Number) {
-                        options.conditions.push({ key: 'Number', value: $scope.Number });
+                    if ($scope.searchdata.Number) {
+                        options.conditions.push({ key: 'Number', value: $scope.searchdata.Number });
                     }
-                    if ($scope.Title) {
-                        options.conditions.push({ key: 'Title', value: $scope.Title });
+                    if ($scope.searchdata.Title) {
+                        options.conditions.push({ key: 'Title', value: $scope.searchdata.Title });
                     }
-                    if ($scope.FiledTimeStart) {
-                        options.conditions.push({ key: 'FiledTimeStart', value: $scope.FiledTimeStart });
+                    if ($scope.searchdata.FiledTimeStart) {
+                        options.conditions.push({ key: 'FiledTimeStart', value: $scope.searchdata.FiledTimeStart });
                     }
-                    if ($scope.FiledTimeEnd) {
-                        options.conditions.push({ key: 'FiledTimeEnd', value: $scope.FiledTimeEnd });
+                    if ($scope.searchdata.FiledTimeEnd) {
+                        options.conditions.push({ key: 'FiledTimeEnd', value: $scope.searchdata.FiledTimeEnd });
                     }
-                    if ($scope.State) {
-                        options.conditions.push({ key: 'State', value: $scope.State });
+                    if ($scope.searchdata.State) {
+                        options.conditions.push({ key: 'State', value: $scope.searchdata.State });
                     }
-                    if ($scope.KeyWordsSingle) {
-                        options.conditions.push({ key: 'KeyWordsSingle', value: $scope.KeyWordsSingle });
+                    if ($scope.searchdata.KeyWordsSingle) {
+                        options.conditions.push({ key: 'KeyWordsSingle', value: $scope.searchdata.KeyWordsSingle });
                     }
                     if ($scope.clickTreeValue) {
                         options.conditions.push({ key: 'TreeValue', value: $scope.clickTreeValue });
+                    } else if (postData && postData.treevalueid) {
+                        options.conditions.push({ key: 'TreeValue', value: postData.treevalueid });
                     }
-                    if ($scope.solrText) {
-                        options.conditions.push({ key: 'Solr', value: $scope.solrText });
+                    if ($scope.searchdata.solrText) {
+                        options.conditions.push({ key: 'Solr', value: $scope.searchdata.solrText });
                     }
-                    if ($scope.EnglishTitle) {
-                        options.conditions.push({ key: 'EnglishTitle', value: $scope.EnglishTitle });
+                    if ($scope.searchdata.EnglishTitle) {
+                        options.conditions.push({ key: 'EnglishTitle', value: $scope.searchdata.EnglishTitle });
                     }
-                    if ($scope.Summaryinfo) {
-                        options.conditions.push({ key: 'Summaryinfo', value: $scope.Summaryinfo });
+                    if ($scope.searchdata.Summaryinfo) {
+                        options.conditions.push({ key: 'Summaryinfo', value: $scope.searchdata.Summaryinfo });
                     }
 
                     options.conditions.push({ key: 'ApproveStatus', value: 3 });
@@ -162,8 +174,9 @@ define(['bootstrap/app', 'utils', 'services/regulation-service'], function (app,
                         var itemDeal = {};
                         itemDeal.type = "check";
                         itemDeal.clickValue = 'solr';
-                        itemDeal.item = {id:item.id};
-
+                        itemDeal.item = { id: item.id };
+                        itemDeal.selectData = $scope.searchdata;
+                        itemDeal.treevalueid = $scope.clickTreeValue;
                         var data = JSON.stringify(itemDeal);
 
                         $state.go(sRouter, { "data": data });

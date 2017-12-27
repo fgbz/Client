@@ -49,6 +49,8 @@ define(['bootstrap/app', 'utils', 'services/technical-service', 'services/access
 
                     if (postData.type == 'edit') {
 
+                        $scope.isPublish = postData.item.approvestatus == 2 ? true : false;
+
                         //获取附件信息
                         accessoryService.getAccessoryByDirId(postData.item.id, function (res) {
                             $scope.Attachments = res;
@@ -66,6 +68,7 @@ define(['bootstrap/app', 'utils', 'services/technical-service', 'services/access
 
                         })
                     } else {
+                        $scope.isPublish = false;
                         $scope.data.inputuserid = user.id;
                         $scope.data.inputusername = user.userrealname;
                         $scope.data.inputorgname = user.orgname;
@@ -83,7 +86,8 @@ define(['bootstrap/app', 'utils', 'services/technical-service', 'services/access
                     var sRouter = "main.technicalDocuments";
 
                     var itemDeal = {};
-
+                    itemDeal.selectData = postData.selectData;
+                    itemDeal.treevalueid = postData.treevalueid;
                     itemDeal.clickValue = postData.clickValue;
                     var data = JSON.stringify(itemDeal);
 
@@ -151,14 +155,23 @@ define(['bootstrap/app', 'utils', 'services/technical-service', 'services/access
 
                     $scope.isSaving = true;
 
-                    if (params == 'commit') {
-                        $scope.data.approvestatus = 2;
-                    } else {
-                        $scope.data.approvestatus = 1;
+                    //已发布不再修改状态
+                    if ($scope.data.approvestatus != 2) {
+                        if (params == 'commit') {
+                            $scope.data.approvestatus = 2;
+                        } else {
+                            $scope.data.approvestatus = 1;
+                        }
                     }
 
                     if (!$scope.data.tectype) {
                         toaster.pop({ type: 'danger', body: '请选择类别!' });
+                        $scope.isSaving = false;
+                        return;
+                    }
+
+                    if ($scope.Attachments.length == 0) {
+                        toaster.pop({ type: 'danger', body: '请至少上传一个主附件!' });
                         $scope.isSaving = false;
                         return;
                     }
@@ -170,18 +183,24 @@ define(['bootstrap/app', 'utils', 'services/technical-service', 'services/access
 
                     $scope.data.fileids = fileids;
 
-                    if ($scope.data.code){
+                    if ($scope.data.code) {
                         $scope.data.code = Trim($scope.data.code);
                     }
 
+                    $scope.data.chinesename = Trim($scope.data.chinesename);
                     $scope.data.summaryinfo = $(".nicEdit-main").html();
 
                     technicalService.SaveOrUpdateTechnical($scope.data, function (response) {
 
-                        toaster.pop({ type: 'success', body: '保存成功!' });
+                        if (response == 200) {
+                            toaster.pop({ type: 'success', body: '保存成功!' });
+                            $scope.goState("second");
+                        } else if (response == 461) {
+                            toaster.pop({ type: 'danger', body: '标题重复!', timeout: 0 });
+                        } else {
+                            toaster.pop({ type: 'danger', body: '保存失败!' });
+                        }
                         $scope.isSaving = false;
-
-                        $scope.goState("second");
 
                     })
 
@@ -212,7 +231,7 @@ define(['bootstrap/app', 'utils', 'services/technical-service', 'services/access
                 }
 
                 $scope.downloadAccessory = function (fileId) {
-                    accessoryService.downloadAccessory(fileId,"Tec");
+                    accessoryService.downloadAccessory(fileId, "Tec");
                 };
 
                 //删除附件

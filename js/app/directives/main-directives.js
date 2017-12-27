@@ -929,7 +929,8 @@ define(['angular', 'nicEdit', 'jquery', 'utils'], function (ng, nicEditObj, jque
                 btnShow: "=", // 是否显示按钮
                 imgColor: '=', //背景色
                 isSystemRoot: '=',//系统管理左侧树特殊处理
-                isExtend: '=',//是否全部展开
+                isExtend: '=',//是否全部展开,
+
             },
             require: '?uiTree',
             link: function (scope, element, attributes) {
@@ -1002,28 +1003,28 @@ define(['angular', 'nicEdit', 'jquery', 'utils'], function (ng, nicEditObj, jque
                     }
                 }
 
-                // //外部改变treeModel值时，选中对应的项
-                // scope.$watch('treeModel', function (newValue, oldValue) {
-                //     if (!(oldValue == undefined && newValue == undefined)) {
-                //         scope.selectnode = null;
-                //         getNodeByid(scope.treeModel);
-                //         if (scope.selectnode) {
-                //             ExpendParent(scope.selectnode);
-                //         } 
+                 //外部改变treeModel值时，选中对应的项
+                scope.$watch('treeModel', function (newValue, oldValue) {
+                    if (!(oldValue == undefined && newValue == undefined)) {
+                        // scope.selectnode = null;
+                        getNodeByid(scope.treeModel);
+                        if (scope.selectnode) {
+                            ExpendParent(scope.selectnode);
+                        } 
 
-                //     }
-                // })
+                    }
+                })
 
                 //获取节点
                 function getNodeByid(id) {
-        
+
                     for (var v in dataList) {
                         if (dataList[v].Id == id) {
-                             scope.selectnode = dataList[v];
+                            scope.selectnode =angular.copy(dataList[v]);
                             break;
                         }
                     }
- 
+
                 }
 
                 //选中项
@@ -1083,10 +1084,12 @@ define(['angular', 'nicEdit', 'jquery', 'utils'], function (ng, nicEditObj, jque
                 btnShow: "=", // 是否显示按钮
                 imgColor: '=', //背景色
                 isNormal: '=',
-                treeWidth: '='
+                treeWidth: '=',
+                isDisable: '=' //是否不可用
             },
             require: '?uiTree',
             link: function (scope, element, attributes) {
+                scope.isDisable = scope.isDisable ? scope.isDisable : false;
                 // 构建树数据
                 var dataList = []; // 数据列表，与树数据源指向相同引用
                 var count = 0;
@@ -1159,7 +1162,7 @@ define(['angular', 'nicEdit', 'jquery', 'utils'], function (ng, nicEditObj, jque
                 $(document).mousedown(function (e) {
                     var event = window.event || e;
                     var target = event.target || event.srcElement;
-                    var comboTrees = document.getElementsByName('combo_tree');
+                    var comboTrees = document.getElementsByName('combo_tree1');
                     var flag = true;
                     do {
                         if (target == document) {

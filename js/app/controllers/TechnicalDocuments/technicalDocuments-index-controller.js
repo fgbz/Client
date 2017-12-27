@@ -55,6 +55,7 @@ define(['bootstrap/app', 'utils', 'services/technical-service'], function (app, 
                 $scope.tableRowsearch = {
                     selected: 0
                 }
+                $scope.searchdata = {};
             };
 
             //加载
@@ -65,10 +66,18 @@ define(['bootstrap/app', 'utils', 'services/technical-service'], function (app, 
 
                 if (postData) {
                     postData = JSON.parse(postData);
+
+                    //保留查询条件
+                    if (postData.selectData) {
+                        $scope.searchdata = postData.selectData;
+                    }
                 }
 
                 $scope.clickValue = postData && postData.clickValue ? postData.clickValue : $scope.clickValue;
 
+                $scope.userList = user.userList;
+
+                $scope.searchdata.selectInputUser = angular.copy(user.id);
 
                 //右侧树
                 technicalService.SelectTechnicalType(function (params) {
@@ -83,6 +92,10 @@ define(['bootstrap/app', 'utils', 'services/technical-service'], function (app, 
                         }
                         $scope.treeData.push(data);
 
+                    }
+
+                    if (postData && postData.treevalueid) {
+                        $scope.clickTecValue = postData.treevalueid;
                     }
                 })
 
@@ -101,7 +114,7 @@ define(['bootstrap/app', 'utils', 'services/technical-service'], function (app, 
                 }
 
                 $scope.clickTree = function (params) {
-                    $scope.clickTreeValue = params;
+                    $scope.clickTecValue = params;
                 }
 
 
@@ -112,7 +125,8 @@ define(['bootstrap/app', 'utils', 'services/technical-service'], function (app, 
                     var itemDeal = {};
                     itemDeal.type = "add";
                     itemDeal.clickValue = $scope.clickValue;
-
+                    itemDeal.selectData = $scope.searchdata;
+                    itemDeal.treevalueid = $scope.clickTecValue;
                     var data = JSON.stringify(itemDeal);
 
                     $state.go(sRouter, { "data": data });
@@ -129,7 +143,9 @@ define(['bootstrap/app', 'utils', 'services/technical-service'], function (app, 
                     var itemDeal = {};
                     itemDeal.type = "edit";
                     itemDeal.clickValue = $scope.clickValue;
-                   itemDeal.item = { id: $scope.selectItem.id };
+                    itemDeal.selectData = $scope.searchdata;
+                    itemDeal.treevalueid = $scope.clickTecValue;
+                    itemDeal.item = { id: $scope.selectItem.id, approvestatus: $scope.selectItem.approvestatus };
 
                     var data = JSON.stringify(itemDeal);
 
@@ -183,7 +199,8 @@ define(['bootstrap/app', 'utils', 'services/technical-service'], function (app, 
                     itemDeal.type = "check";
                     itemDeal.clickValue = $scope.clickValue;
                     itemDeal.item = { id: item.id };
-
+                    itemDeal.selectData = $scope.searchdata;
+                    itemDeal.treevalueid = $scope.clickTecValue;
                     var data = JSON.stringify(itemDeal);
 
                     $state.go(sRouter, { "data": data });
@@ -192,17 +209,17 @@ define(['bootstrap/app', 'utils', 'services/technical-service'], function (app, 
 
                 //重置
                 $scope.reset = function () {
-                    $scope.Number = "";
-                    $scope.Title = "";
-                    $scope.FiledTimeStart = "";
-                    $scope.FiledTimeEnd = "";
-                    $scope.KeyWordsSingle = "";
+                    $scope.searchdata.Number = "";
+                    $scope.searchdata.Title = "";
+                    $scope.searchdata.FiledTimeStart = "";
+                    $scope.searchdata.FiledTimeEnd = "";
+                    $scope.searchdata.KeyWordsSingle = "";
 
                 }
 
                 //点击树查询
                 $scope.clicktree = function (item) {
-                    $scope.clickTreeValue = item;
+                    $scope.clickTecValue = item;
                     $scope.searchinfo();
                 }
 
@@ -225,23 +242,25 @@ define(['bootstrap/app', 'utils', 'services/technical-service'], function (app, 
                         pageSize: $scope.pager.size,
                         conditions: []
                     };
-                    if ($scope.Number) {
-                        options.conditions.push({ key: 'Number', value: $scope.Number });
+                    if ($scope.searchdata.Number) {
+                        options.conditions.push({ key: 'Number', value: $scope.searchdata.Number });
                     }
-                    if ($scope.Title) {
-                        options.conditions.push({ key: 'Title', value: $scope.Title });
+                    if ($scope.searchdata.Title) {
+                        options.conditions.push({ key: 'Title', value: $scope.searchdata.Title });
                     }
-                    if ($scope.FiledTimeStart) {
-                        options.conditions.push({ key: 'FiledTimeStart', value: $scope.FiledTimeStart });
+                    if ($scope.searchdata.FiledTimeStart) {
+                        options.conditions.push({ key: 'FiledTimeStart', value: $scope.searchdata.FiledTimeStart });
                     }
-                    if ($scope.FiledTimeEnd) {
-                        options.conditions.push({ key: 'FiledTimeEnd', value: $scope.FiledTimeEnd });
+                    if ($scope.searchdata.FiledTimeEnd) {
+                        options.conditions.push({ key: 'FiledTimeEnd', value: $scope.searchdata.FiledTimeEnd });
                     }
-                    if ($scope.KeyWordsSingle) {
-                        options.conditions.push({ key: 'KeyWordsSingle', value: $scope.KeyWordsSingle });
+                    if ($scope.searchdata.KeyWordsSingle) {
+                        options.conditions.push({ key: 'KeyWordsSingle', value: $scope.searchdata.KeyWordsSingle });
                     }
-                    if ($scope.clickTreeValue) {
-                        options.conditions.push({ key: 'TreeValue', value: $scope.clickTreeValue });
+                    if ($scope.clickTecValue) {
+                        options.conditions.push({ key: 'TreeValue', value: $scope.clickTecValue });
+                    } else if (postData && postData.treevalueid) {
+                        options.conditions.push({ key: 'TreeValue', value: postData.treevalueid });
                     }
 
                     options.conditions.push({ key: 'ApproveStatus', value: 2 });
@@ -275,17 +294,25 @@ define(['bootstrap/app', 'utils', 'services/technical-service'], function (app, 
                         conditions: []
                     };
 
-                    if ($scope.KeyWords) {
-                        options.conditions.push({ key: 'KeyWords', value: $scope.KeyWords });
+                    if ($scope.searchdata.KeyWords) {
+                        options.conditions.push({ key: 'KeyWords', value: $scope.searchdata.KeyWords });
                     }
-                    if ($scope.ApproveStatus) {
-                        options.conditions.push({ key: 'ApproveStatus', value: $scope.ApproveStatus });
+                    if ($scope.searchdata.ApproveStatus) {
+                        options.conditions.push({ key: 'ApproveStatus', value: $scope.searchdata.ApproveStatus });
                     }
-                    if ($scope.IsBatch) {
-                        options.conditions.push({ key: 'IsBatch', value: $scope.IsBatch });
+                    if ($scope.searchdata.IsBatch) {
+                        options.conditions.push({ key: 'IsBatch', value: $scope.searchdata.IsBatch });
                     }
-
-                    options.conditions.push({ key: 'TecInputuserid', value: user.id });
+                    //有没有选择当前登录人
+                    if ($scope.searchdata.selectInputUser == user.id || !$scope.searchdata.selectInputUser) {
+                        options.conditions.push({ key: 'TecInputuserid', value: user.id })
+                        var org = {
+                            childsorg: user.orgList
+                        }
+                        options.conditions.push({ key: 'OrgList', value: JSON.stringify(org) });
+                    } else {
+                        options.conditions.push({ key: 'selectInputUser', value: $scope.searchdata.selectInputUser });
+                    }
 
                     $scope.tableRow.selected = 0;
                     technicalService.getTechnicalList(options, function (response) {

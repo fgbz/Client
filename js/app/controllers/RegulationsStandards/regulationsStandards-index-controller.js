@@ -33,9 +33,6 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                 }
             }
 
-            //登陆下组织和人员信息
-            var userdics = JSON.parse(localStorage.getItem('UserItems'));
-
             //变量
             var define_variable = function () {
 
@@ -59,6 +56,8 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                 }
 
                 $scope.data = [];
+
+                $scope.searchdata = {};
             };
 
             //加载
@@ -66,8 +65,10 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
 
                 if (postData) {
                     postData = JSON.parse(postData);
-                    if (postData && postData.treevalueid) {
-                        $scope.clickTreeValue = postData.treevalueid;
+
+                    //保留查询条件
+                    if (postData.selectData) {
+                        $scope.searchdata = postData.selectData;
                     }
                 }
 
@@ -84,9 +85,9 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                 $scope.PageSize = dics.PageSize;
 
 
-                $scope.userList = userdics.UserList;
+                $scope.userList = user.userList;
 
-                $scope.selectInputUser = angular.copy(user.id);
+                $scope.searchdata.selectInputUser = angular.copy(user.id);
 
                 //右侧树
                 regulationService.SelectLawstandardType(function (params) {
@@ -100,9 +101,17 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
 
                         $scope.treeData.push(data);
                     }
+                    $scope.treeDataManage = angular.copy( $scope.treeData);
+
+                    if (postData && postData.treemanageid) {
+                        $scope.TreeValue = postData.treemanageid;
+                    }
+
+                    if (postData && postData.treevalueid) {
+                        $scope.clickTreeValue = postData.treevalueid;
+                    }
 
 
-                    $scope.searchinfo();
                 })
 
             };
@@ -130,6 +139,9 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                     var itemDeal = {};
                     itemDeal.type = "add";
                     itemDeal.clickValue = $scope.clickValue;
+                    itemDeal.selectData = $scope.searchdata;
+                    itemDeal.treevalueid = $scope.clickTreeValue;
+                    itemDeal.treemanageid = $scope.TreeValue;
 
                     var data = JSON.stringify(itemDeal);
 
@@ -149,7 +161,9 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                     var itemDeal = {};
                     itemDeal.type = "edit";
                     itemDeal.clickValue = $scope.clickValue;
-
+                    itemDeal.selectData = $scope.searchdata;
+                    itemDeal.treevalueid = $scope.clickTreeValue;
+                    itemDeal.treemanageid = $scope.TreeValue;
                     itemDeal.item = { id: itemdata.id, approvestatus: itemdata.approvestatus };
 
                     var data = JSON.stringify(itemDeal);
@@ -210,7 +224,9 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                         itemDeal.type = "check";
                         itemDeal.clickValue = $scope.clickValue;
                         itemDeal.item = { id: item.id };
-
+                        itemDeal.treevalueid = $scope.clickTreeValue;
+                        itemDeal.selectData = $scope.searchdata;
+                        itemDeal.treemanageid = $scope.TreeValue;
                         var data = JSON.stringify(itemDeal);
 
                         $state.go(sRouter, { "data": data });
@@ -220,14 +236,14 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
 
                 //重置
                 $scope.reset = function () {
-                    $scope.Number = "";
-                    $scope.Title = "";
-                    $scope.FiledTimeStart = "";
-                    $scope.FiledTimeEnd = "";
-                    $scope.State = "";
-                    $scope.organization = "";
-                    $scope.MaterialTmeStart = "";
-                    $scope.MaterialTmeEnd = "";
+                    $scope.searchdata.Number = "";
+                    $scope.searchdata.Title = "";
+                    $scope.searchdata.FiledTimeStart = "";
+                    $scope.searchdata.FiledTimeEnd = "";
+                    $scope.searchdata.State = "";
+                    $scope.searchdata.organization = "";
+                    $scope.searchdata.MaterialTmeStart = "";
+                    $scope.searchdata.MaterialTmeEnd = "";
                 }
 
                 //点击树查询
@@ -255,32 +271,34 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                         pageSize: $scope.pager.size,
                         conditions: []
                     };
-                    if ($scope.Number) {
-                        options.conditions.push({ key: 'Number', value: $scope.Number });
+                    if ($scope.searchdata.Number) {
+                        options.conditions.push({ key: 'Number', value: $scope.searchdata.Number });
                     }
-                    if ($scope.Title) {
-                        options.conditions.push({ key: 'Title', value: $scope.Title });
+                    if ($scope.searchdata.Title) {
+                        options.conditions.push({ key: 'Title', value: $scope.searchdata.Title });
                     }
-                    if ($scope.FiledTimeStart) {
-                        options.conditions.push({ key: 'FiledTimeStart', value: $scope.FiledTimeStart });
+                    if ($scope.searchdata.FiledTimeStart) {
+                        options.conditions.push({ key: 'FiledTimeStart', value: $scope.searchdata.FiledTimeStart });
                     }
-                    if ($scope.FiledTimeEnd) {
-                        options.conditions.push({ key: 'FiledTimeEnd', value: $scope.FiledTimeEnd });
+                    if ($scope.searchdata.FiledTimeEnd) {
+                        options.conditions.push({ key: 'FiledTimeEnd', value: $scope.searchdata.FiledTimeEnd });
                     }
-                    if ($scope.State) {
-                        options.conditions.push({ key: 'State', value: $scope.State });
+                    if ($scope.searchdata.State) {
+                        options.conditions.push({ key: 'State', value: $scope.searchdata.State });
                     }
-                    if ($scope.organization) {
-                        options.conditions.push({ key: 'organization', value: $scope.organization });
+                    if ($scope.searchdata.organization) {
+                        options.conditions.push({ key: 'organization', value: $scope.searchdata.organization });
                     }
-                    if ($scope.MaterialTmeStart) {
-                        options.conditions.push({ key: 'MaterialTmeStart', value: $scope.MaterialTmeStart });
+                    if ($scope.searchdata.MaterialTmeStart) {
+                        options.conditions.push({ key: 'MaterialTmeStart', value: $scope.searchdata.MaterialTmeStart });
                     }
-                    if ($scope.MaterialTmeEnd) {
-                        options.conditions.push({ key: 'MaterialTmeEnd', value: $scope.MaterialTmeEnd });
+                    if ($scope.searchdata.MaterialTmeEnd) {
+                        options.conditions.push({ key: 'MaterialTmeEnd', value: $scope.searchdata.MaterialTmeEnd });
                     }
                     if ($scope.clickTreeValue) {
                         options.conditions.push({ key: 'TreeValue', value: $scope.clickTreeValue });
+                    } else if (postData && postData.treevalueid) {
+                        options.conditions.push({ key: 'TreeValue', value: postData.treevalueid });
                     }
 
                     options.conditions.push({ key: 'ApproveStatus', value: 3 });
@@ -295,6 +313,8 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
 
 
                 }
+
+                $scope.searchinfo();
 
                 $scope.searchManage = function (isPaging) {
                     $scope.isManageLoaded = false;
@@ -313,27 +333,29 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                         pageSize: $scope.pagerManage.size,
                         conditions: []
                     };
-                    if ($scope.KeyWords) {
-                        options.conditions.push({ key: 'KeyWords', value: $scope.KeyWords });
+                    if ($scope.searchdata.KeyWords) {
+                        options.conditions.push({ key: 'KeyWords', value: $scope.searchdata.KeyWords });
                     }
-                    if ($scope.ApproveStatus) {
-                        options.conditions.push({ key: 'ApproveStatus', value: $scope.ApproveStatus });
+                    if ($scope.searchdata.ApproveStatus) {
+                        options.conditions.push({ key: 'ApproveStatus', value: $scope.searchdata.ApproveStatus });
                     }
-                    if ($scope.IsBatch) {
-                        options.conditions.push({ key: 'IsBatch', value: $scope.IsBatch });
+                    if ($scope.searchdata.IsBatch) {
+                        options.conditions.push({ key: 'IsBatch', value: $scope.searchdata.IsBatch });
                     }
                     if ($scope.TreeValue) {
                         options.conditions.push({ key: 'TreeValue', value: $scope.TreeValue });
+                    } else if (postData && postData.treemanageid) {
+                        options.conditions.push({ key: 'TreeValue', value: postData.treemanageid });
                     }
                     //有没有选择当前登录人
-                    if ($scope.selectInputUser == user.id || !$scope.selectInputUser) {
+                    if ($scope.searchdata.selectInputUser == user.id || !$scope.searchdata.selectInputUser) {
                         options.conditions.push({ key: 'LawInputuserid', value: user.id })
-                        var org  = {
-                            childsorg:userdics.OrgList
+                        var org = {
+                            childsorg: user.orgList
                         }
                         options.conditions.push({ key: 'OrgList', value: JSON.stringify(org) });
                     } else {
-                        options.conditions.push({ key: 'selectInputUser', value: $scope.selectInputUser });
+                        options.conditions.push({ key: 'selectInputUser', value: $scope.searchdata.selectInputUser });
                     }
 
 

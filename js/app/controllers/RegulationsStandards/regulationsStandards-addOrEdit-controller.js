@@ -24,6 +24,7 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                 $scope.data.replace = [];
                 $scope.data.summaryinfo = "";
                 $scope.Attachments = [];
+                $scope.canEdit = true;
 
             };
 
@@ -35,13 +36,9 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
 
                 if (postData) {
                     postData = JSON.parse(postData);
-                    //维护权限
-                    if ($scope.isSup || $scope.isLawMaintain || postData.item.approvestatus == 1) {
-                        $scope.canEdit = true;
-                    } else {
-                        $scope.canEdit = false;
-                    }
                 }
+
+
 
                 $scope.isSaving = false;
                 var dics = JSON.parse(localStorage.getItem('DicItems'));
@@ -65,6 +62,15 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
 
                     if (postData.type == 'edit') {
 
+                        $scope.isPublish = postData.item.approvestatus == 3 ? true : false;
+
+                        //维护权限
+                        if ($scope.isSup || $scope.isLawMaintain || postData.item.approvestatus == 1) {
+                            $scope.canEdit = true;
+                        } else {
+                            $scope.canEdit = false;
+                        }
+
                         //获取附件信息
                         accessoryService.getAccessoryByDirId(postData.item.id, function (res) {
                             $scope.Attachments = res;
@@ -86,6 +92,8 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
 
                         })
                     } else {
+                        $scope.canEdit = true;
+                        $scope.isPublish = false;
                         $scope.data.inputuserid = user.id;
                         $scope.data.inputusername = user.userrealname;
                         $scope.data.inputorgname = user.orgname;
@@ -103,6 +111,9 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                     var sRouter = "main.regulationsStandardsIndex";
                     var itemDeal = {};
                     itemDeal.clickValue = postData.clickValue;
+                    itemDeal.selectData = postData.selectData;
+                    itemDeal.treemanageid = postData.treemanageid;
+                    itemDeal.treevalueid = postData.treevalueid;
                     var data = JSON.stringify(itemDeal);
 
                     $state.go(sRouter, { "data": data });

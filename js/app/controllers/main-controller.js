@@ -98,11 +98,11 @@ define(['bootstrap/app', 'utilities/cryto', 'ctrls/system/modals/logout-controll
                     localStorage.setItem('DicItems', JSON.stringify(res));
                 })
 
-                if (user) {
-                    dictionaryService.grtUserListByOrgId(user.orgid, function (res) {
-                        localStorage.setItem('UserItems', JSON.stringify(res));
-                    })
-                }
+                // if (user) {
+                //     dictionaryService.grtUserListByOrgId(user.orgid, function (res) {
+                //         localStorage.setItem('UserItems', JSON.stringify(res));
+                //     })
+                // }
 
 
             }

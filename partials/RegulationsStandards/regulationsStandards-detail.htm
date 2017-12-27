@@ -97,7 +97,7 @@
 
         <div class="regluation_detail_splice"></div>
 
-        <div class="regluation_detail_replace">代替关系</div>
+        <div class="regluation_detail_replace" ng-show="DetaiData.replace&&DetaiData.replace.length>0">代替关系</div>
 
         <div ng-repeat="item in DetaiData.replace" class="clear">
             <div class="regluation_detail_rep">{{item.statusname}}</div>

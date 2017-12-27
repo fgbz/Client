@@ -53,20 +53,27 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                     //返回点击查看的界面
                     if (histroyData.length == 1) {
                         var sRouter = "";
+                        var itemDeal = {};
+
                         if (postData.clickValue == 'approve' || postData.clickValue == 'fav') {
                             sRouter = "main.userCenter";
                         } else if (postData.clickValue == 'solr') {
                             sRouter = "main.solr";
+                            itemDeal.selectData = postData.selectData;
+
+                            itemDeal.treevalueid = postData.treevalueid;
                         } else if (postData.clickValue == 'home') {
-                             sRouter = "main.home";
+                            sRouter = "main.home";
                             $rootScope.$emit("menustateChange", { value: sRouter, HeadNew: true });
                             $state.go(sRouter);
                         } else {
+
                             sRouter = "main.regulationsStandardsIndex";
+                            itemDeal.selectData = postData.selectData;
+                            itemDeal.treemanageid = postData.treemanageid;
+                            itemDeal.treevalueid = postData.treevalueid;
                         }
 
-
-                        var itemDeal = {};
                         itemDeal.clickValue = postData.clickValue;
 
                         var data = JSON.stringify(itemDeal);
@@ -96,7 +103,7 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                             values: function () {
                                 var data = {
                                     id: postData.item.id,
-                                    type:'law'
+                                    type: 'law'
                                 }
                                 return data;
                             }
@@ -135,7 +142,7 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                 }
 
                 $scope.downloadAccessory = function (fileId) {
-                    accessoryService.downloadAccessory(fileId,"Law");
+                    accessoryService.downloadAccessory(fileId, "Law");
                 };
 
                 //预览

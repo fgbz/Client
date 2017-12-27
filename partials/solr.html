@@ -2,7 +2,7 @@
 
     <div class="concent_center mt10 h200">
         <div class="solr_title"></div>
-        <input class="home_topsearch" type="text" ng-model="solrText" maxlength="100" placeholder="请输入关键字进行检索"  ng-keypress="PressSolr($event)"
+        <input class="home_topsearch" type="text" ng-model="searchdata.solrText" maxlength="100" placeholder="请输入关键字进行检索"  ng-keypress="PressSolr($event)"
         />
         <span class="home_topsearch_icon" ng-click="searchinfo()">检索</span>
     </div>
@@ -18,7 +18,7 @@
                             <span>标题</span>
                         </td>
                         <td>
-                            <input class="home-input" type="text" ng-model="Title" maxlength="25" />
+                            <input class="home-input" type="text" ng-model="searchdata.Title" maxlength="25" />
                         </td>
                     </tr>
                     <tr height="40px;">
@@ -26,7 +26,7 @@
                             英文标题
                         </td>
                         <td>
-                            <input class="home-input" type="text" ng-model="EnglishTitle" maxlength="25" />
+                            <input class="home-input" type="text" ng-model="searchdata.EnglishTitle" maxlength="25" />
                         </td>
                     </tr>
                     <tr height="40px;">
@@ -34,7 +34,7 @@
                             编号
                         </td>
                         <td>
-                            <input class="home-input" type="text" ng-model="Number" maxlength="25" />
+                            <input class="home-input" type="text" ng-model="searchdata.Number" maxlength="25" />
                         </td>
                     </tr>
                     <tr height="40px;">
@@ -42,7 +42,7 @@
                             信息摘要
                         </td>
                         <td>
-                            <input class="home-input" type="text" ng-model="Summaryinfo" maxlength="25" />
+                            <input class="home-input" type="text" ng-model="searchdata.Summaryinfo" maxlength="25" />
                         </td>
                     </tr>
                     <tr height="40px;">
@@ -50,7 +50,7 @@
                             类别选择
                         </td>
                         <td>
-                            <combo-tree-select style="width:170px" tree-data="treeData" is-normal="true" tree-width="180" tree-model="TreeValue" btn-show="false" img-color="2"></combo-tree-select>
+                            <combo-tree-select style="width:170px" is-disable="false" tree-data="treeData" is-normal="true" tree-width="180" tree-model="clickTreeValue" btn-show="false" img-color="2"></combo-tree-select>
                         </td>
                     </tr>
                     <tr height="40px;">
@@ -58,7 +58,7 @@
                             关键字
                         </td>
                         <td>
-                            <input class="home-input" type="text" ng-model="KeyWordsSingle" maxlength="25" />
+                            <input class="home-input" type="text" ng-model="searchdata.KeyWordsSingle" maxlength="25" />
                         </td>
                     </tr>
                     <tr height="40px;">
@@ -66,7 +66,7 @@
                             状态
                         </td>
                         <td>
-                            <select class="home-select" ng-model="State" ng-options=" type.id as type.name for type in StateList">
+                            <select class="home-select" ng-model="searchdata.State" ng-options=" type.id as type.name for type in StateList">
                                             <option value="">全部</option>
                                 </select>
                         </td>
@@ -76,7 +76,7 @@
                             发布日期
                         </td>
                         <td>
-                            <input type="text" id="FiledTimeStart" class="case_table_timepicker_input" ng-model="FiledTimeStart"
+                            <input type="text" id="FiledTimeStart" class="case_table_timepicker_input" ng-model="searchdata.FiledTimeStart"
                                 je-date format="YYYY-MM-DD" readonly />
                         </td>
                     </tr>
@@ -86,7 +86,7 @@
                         </td>
                         <td>
                           
-                            <input type="text" id="FiledTimeEnd"  class="case_table_timepicker_input" ng-model="FiledTimeEnd" je-date
+                            <input type="text" id="FiledTimeEnd"  class="case_table_timepicker_input" ng-model="searchdata.FiledTimeEnd" je-date
                                 format="YYYY-MM-DD" readonly />
                         </td>
                     </tr>
@@ -95,7 +95,7 @@
             <div class="solr_bottom_btn">
 
                 <input type="button" class="canclelbtn fr mr10" value="重 置" ng-click="reset()" />
-                <input type="button" class="normalbtn fr mr10" ng-click="searchinfo()" ng-disabled="!solrText" value="查 询" />
+                <input type="button" class="normalbtn fr mr10" ng-click="searchinfo()" ng-disabled="!searchdata.solrText" value="查 询" />
             </div>
         </div>
 

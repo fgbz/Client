@@ -17,7 +17,7 @@
     <div class="clear" resize-index-content ng-style="setIndexHeightStyle()">
 
         <!--法律标准查看-->
-        <div ng-show="clickValue=='check'" class="h100">
+        <div ng-if="clickValue=='check'" class="h100">
             <!--树-->
             <div class="regluation_index_left">
 
@@ -35,22 +35,22 @@
                                 <span class="ml10">编号</span>
                             </td>
                             <td>
-                                <input class="home-input" type="text" ng-model="Number" maxlength="25" />
+                                <input class="home-input" type="text" ng-model="searchdata.Number" maxlength="25" />
                             </td>
                             <td>
                                 <span class="ml10">标题</span>
                             </td>
                             <td>
-                                <input class="home-input" type="text" ng-model="Title" maxlength="25" />
+                                <input class="home-input" type="text" ng-model="searchdata.Title" maxlength="25" />
                             </td>
                             <td>
                                 发布日期
                             </td>
                             <td colspan="2">
-                                <input type="text" id="FiledTimeStart" class="case_table_timepicker_input" ng-model="FiledTimeStart" je-date format="YYYY-MM-DD"
+                                <input type="text" id="FiledTimeStart" class="case_table_timepicker_input" ng-model="searchdata.FiledTimeStart" je-date format="YYYY-MM-DD"
                                     readonly />
                                 <span style="margin-left: 0px;">至</span>
-                                <input type="text" id="FiledTimeEnd" class="case_table_timepicker_input" ng-model="FiledTimeEnd" je-date format="YYYY-MM-DD"
+                                <input type="text" id="FiledTimeEnd" class="case_table_timepicker_input" ng-model="searchdata.FiledTimeEnd" je-date format="YYYY-MM-DD"
                                     readonly />
                             </td>
 
@@ -61,7 +61,7 @@
                                 <span class="ml10"> 状态</span>
                             </td>
                             <td>
-                                <select class="home-select" ng-model="State" ng-options=" type.id as type.name for type in StateList">
+                                <select class="home-select" ng-model="searchdata.State" ng-options=" type.id as type.name for type in StateList">
                                             <option value="">全部</option>
                                 </select>
                             </td>
@@ -70,7 +70,7 @@
                                 <span class="ml10"> 发布部门</span>
                             </td>
                             <td>
-                                <select class="home-select" ng-model="organization" ng-options=" type.id as type.name for type in PublishList">
+                                <select class="home-select" ng-model="searchdata.organization" ng-options=" type.id as type.name for type in PublishList">
                                             <option value="">全部</option>
                                 </select>
                             </td>
@@ -79,10 +79,10 @@
                                 实施日期
                             </td>
                             <td colspan="2">
-                                <input type="text" id="MaterialTmeStart" class="case_table_timepicker_input" ng-model="MaterialTmeStart" je-date format="YYYY-MM-DD"
+                                <input type="text" id="MaterialTmeStart" class="case_table_timepicker_input" ng-model="searchdata.MaterialTmeStart" je-date format="YYYY-MM-DD"
                                     readonly />
                                 <span style="margin-left: 0px;">至</span>
-                                <input type="text" id="MaterialTmeEnd" class="case_table_timepicker_input" ng-model="MaterialTmeEnd" je-date format="YYYY-MM-DD"
+                                <input type="text" id="MaterialTmeEnd" class="case_table_timepicker_input" ng-model="searchdata.MaterialTmeEnd" je-date format="YYYY-MM-DD"
                                     readonly />
                             </td>
                         </tr>
@@ -119,7 +119,7 @@
                         <tbody ng-if="isLoaded">
                             <tr ng-repeat="item in items" style="height: 40px;cursor: pointer" ng-click="clicksearchTable($index);" ng-class="{true: 'tr_selected',false: ''}[tableRowsearch.selected==$index] ">
                                 <td>{{$index+1}}</td>
-                                <td title="{{item.chinesename}} " class="w300 " style="text-align: left;">{{item.chinesename| tooltips:25}}</td>
+                                <td title="{{item.chinesename}} " class="w400 " style="text-align: left;">{{item.chinesename| tooltips:26}}</td>
                                 <td title="{{item.code}}" style="text-align: left;">{{item.code| tooltips:20 }}</td>
                                 <td title="{{item.statusname}} ">{{item.statusname}}</td>
                                 <td title="{{item.impdate|recordtime}} ">{{item.impdate |recordtime}}</td>
@@ -160,12 +160,12 @@
         </div>
 
         <!--法律标准管理-->
-        <div ng-show="clickValue=='add'" class="h100 posi_re">
+        <div ng-if="clickValue=='add'" class="h100 posi_re">
 
             <!--查询-->
             <div class="regluation_manage_searcharea">
                 <div class="fl">
-                    <select class="home-select" ng-model="ApproveStatus" style=" width: 100px;">
+                    <select class="home-select" ng-model="searchdata.ApproveStatus" style=" width: 100px;">
                           <option value="">全部</option>
                           <option value="1">草稿</option>
                           <option value="2">已提交待审核</option>
@@ -174,7 +174,7 @@
                 </div>
                 <div class="fl ml10">
                     <span>是否批量导入:</span>
-                    <select class="home-select" ng-model="IsBatch" style="margin-left: 5px;width: 100px;" >
+                    <select class="home-select" ng-model="searchdata.IsBatch" style="margin-left: 5px;width: 100px;" >
                           <option value="">全部</option>
                           <option value="1">是</option>
                           <option value="0">否</option>
@@ -182,18 +182,18 @@
                 </div>
                 <div class="fl ml10">
                     <span>录入人员:</span>
-                    <select class="home-select"  ng-model="selectInputUser" style="margin-left: 5px;width: 100px;" ng-options=" type.id as type.userrealname for type in userList">
+                    <select class="home-select"  ng-model="searchdata.selectInputUser" style="margin-left: 5px;width: 100px;" ng-options=" type.id as type.userrealname for type in userList">
                           <option value="">全部</option>
                   </select>
                 </div>
 
                 <div class="fl posi_re ml10">
                     <span class="fl">类别选择</span>
-                    <combo-tree-select style="width:170px;float:left" tree-data="treeData" is-normal="true" tree-width="300" tree-model="TreeValue"
-                        btn-show="false" img-color="2"></combo-tree-select>
+                    <combo-tree-select style="width:170px;float:left" tree-data="treeDataManage" is-normal="true" tree-width="300" tree-model="TreeValue"
+                        btn-show="false" img-color="2" is-disable="false"></combo-tree-select>
                 </div>
                 <div class="fl ml10">
-                    <input class="home-input w300" type="text" style="margin-left: 20px;" ng-model="KeyWords" maxlength="25" placeholder="请输入关键字"
+                    <input class="home-input w300" type="text" style="margin-left: 20px;" ng-model="searchdata.KeyWords" maxlength="25" placeholder="请输入关键字"
                     />
 
                     <input type="button" class="normalbtn mr10" value="查 询" ng-click="searchManage()" />
@@ -243,7 +243,7 @@
                                 <input type="checkbox" ng-checked="item.IsCheck" ng-click="clickSingle(item)" ng-show="item.approvestatus==1||isSup" />
                             </td>
                             <td>{{$index+1}}</td>
-                            <td title="{{item.chinesename}} " style="text-align: left;" class="w300 ">{{item.chinesename| tooltips:25}}</td>
+                            <td title="{{item.chinesename}} " style="text-align: left;" class="w400 ">{{item.chinesename| tooltips:26}}</td>
                             <td title="{{item.code}} " style="text-align: left;">{{item.code| tooltips:20 }}</td>
                             <td title="{{item.typename}} ">{{item.typename| tooltips:13 }}</td>
 

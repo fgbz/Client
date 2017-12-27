@@ -31,23 +31,23 @@
                                 <span class="ml10">编号</span>
                             </td>
                             <td>
-                                <input class="home-input" type="text" ng-model="Number" maxlength="25" />
+                                <input class="home-input" type="text" ng-model="searchdata.Number" maxlength="25" />
                             </td>
                             <td>
                                 <span class="ml10">标题</span>
                             </td>
                             <td>
-                                <input class="home-input" type="text" ng-model="Title" maxlength="25" />
+                                <input class="home-input" type="text" ng-model="searchdata.Title" maxlength="25" />
                             </td>
 
                             <td>
                                 <span class="ml10">发布日期</span>
                             </td>
                             <td colspan="2">
-                                <input type="text" id="FiledTimeStart" class="case_table_timepicker_input" ng-model="FiledTimeStart" je-date format="YYYY-MM-DD"
+                                <input type="text" id="FiledTimeStart" class="case_table_timepicker_input" ng-model="searchdata.FiledTimeStart" je-date format="YYYY-MM-DD"
                                     readonly />
                                 <span style="margin-left: 8px;">至</span>
-                                <input type="text" id="FiledTimeEnd" class="case_table_timepicker_input" ng-model="FiledTimeEnd" je-date format="YYYY-MM-DD"
+                                <input type="text" id="FiledTimeEnd" class="case_table_timepicker_input" ng-model="searchdata.FiledTimeEnd" je-date format="YYYY-MM-DD"
                                     readonly />
                             </td>
 
@@ -58,7 +58,7 @@
                                 <span class="ml10">关键字</span>
                             </td>
                             <td>
-                                <input class="home-input" type="text" ng-model="KeyWordsSingle" maxlength="25" />
+                                <input class="home-input" type="text" ng-model="searchdata.KeyWordsSingle" maxlength="25" />
                             </td>
 
                         </tr>
@@ -143,18 +143,24 @@
             <!--查询-->
             <div class="regluation_manage_searcharea">
 
-                <select class="home-select" ng-model="ApproveStatus">
+                <select class="home-select" ng-model="searchdata.ApproveStatus">
                           <option value="">全部</option>
                           <option value="1">草稿</option>
                           <option value="2">发布</option>
                   </select>
                 <span>是否批量导入:</span>
-                <select class="home-select" ng-model="IsBatch" style="margin-left: 5px;">
+                <select class="home-select" ng-model="searchdata.IsBatch" style="margin-left: 5px;">
                           <option value="">全部</option>
                           <option value="1">是</option>
                           <option value="0">否</option>
                   </select>
-                <input class="home-input w300" type="text" style="margin-left: 0px;" ng-model="KeyWords" maxlength="25" placeholder="请输入关键字"
+               
+                    <span>录入人员:</span>
+                    <select class="home-select" ng-model="searchdata.selectInputUser" style="margin-left: 5px;" ng-options=" type.id as type.userrealname for type in userList">
+                          <option value="">全部</option>
+                  </select>
+                
+                <input class="home-input w300" type="text" style="margin-left: 0px;" ng-model="searchdata.KeyWords" maxlength="25" placeholder="请输入关键字"
                 />
 
                 <input type="button" class="normalbtn mr10" value="查 询" ng-click="searchManage()" />
@@ -209,12 +215,12 @@
                             </td>
                         </tr>
                         <tr ng-if="itemManages.length==0 ">
-                            <td colspan="6 " class="text-center ">无数据</td>
+                            <td colspan="9 " class="text-center ">无数据</td>
                         </tr>
                     </tbody>
                     <tbody ng-if="!isLoaded ">
                         <tr>
-                            <td colspan="6" class="text-center ">
+                            <td colspan="9" class="text-center ">
                                 <img src="images/loading.gif " />
                             </td>
                         </tr>
