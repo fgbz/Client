@@ -33,6 +33,9 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                 }
             }
 
+            //登陆下组织和人员信息
+            var userdics = JSON.parse(localStorage.getItem('UserItems'));
+
             //变量
             var define_variable = function () {
 
@@ -78,8 +81,13 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
 
                 $scope.PublishList = dics.Pub;
                 $scope.StateList = dics.State;
-
                 $scope.PageSize = dics.PageSize;
+
+
+                $scope.userList = userdics.UserList;
+
+                $scope.selectInputUser = angular.copy(user.id);
+
                 //右侧树
                 regulationService.SelectLawstandardType(function (params) {
                     $scope.treeData = [];
@@ -141,8 +149,8 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                     var itemDeal = {};
                     itemDeal.type = "edit";
                     itemDeal.clickValue = $scope.clickValue;
-                   
-                    itemDeal.item = { id: itemdata.id };
+
+                    itemDeal.item = { id: itemdata.id, approvestatus: itemdata.approvestatus };
 
                     var data = JSON.stringify(itemDeal);
 
@@ -317,8 +325,17 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                     if ($scope.TreeValue) {
                         options.conditions.push({ key: 'TreeValue', value: $scope.TreeValue });
                     }
+                    //有没有选择当前登录人
+                    if ($scope.selectInputUser == user.id || !$scope.selectInputUser) {
+                        options.conditions.push({ key: 'LawInputuserid', value: user.id })
+                        var org  = {
+                            childsorg:userdics.OrgList
+                        }
+                        options.conditions.push({ key: 'OrgList', value: JSON.stringify(org) });
+                    } else {
+                        options.conditions.push({ key: 'selectInputUser', value: $scope.selectInputUser });
+                    }
 
-                    options.conditions.push({ key: 'LawInputuserid', value: user.id });
 
                     $scope.tableRow.selected = 0;
 

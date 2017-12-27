@@ -30,8 +30,17 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
             //加载
             var initialize = function () {
 
+                $scope.isSup = utils.getListItem('超级管理员', 'menuname', user.menus);
+                $scope.isLawMaintain = utils.getListItem('法规发布维护', 'menuname', user.menus);
+
                 if (postData) {
                     postData = JSON.parse(postData);
+                    //维护权限
+                    if ($scope.isSup || $scope.isLawMaintain || postData.item.approvestatus == 1) {
+                        $scope.canEdit = true;
+                    } else {
+                        $scope.canEdit = false;
+                    }
                 }
 
                 $scope.isSaving = false;
@@ -266,17 +275,19 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
 
                         $scope.isSaving = true;
 
-                        if (params == 'commit') {
-                            if (res == 0) {
-                                $scope.data.approvestatus = 3;
+                        //已发布不再修改状态
+                        if ($scope.data.approvestatus != 3) {
+                            if (params == 'commit') {
+                                if (res == 0) {
+                                    $scope.data.approvestatus = 3;
+                                } else {
+                                    $scope.data.approvestatus = 2;
+                                }
+
                             } else {
-                                $scope.data.approvestatus = 2;
+                                $scope.data.approvestatus = 1;
                             }
-
-                        } else {
-                            $scope.data.approvestatus = 1;
                         }
-
 
                         if (!$scope.data.lawtype) {
                             toaster.pop({ type: 'danger', body: '请选择类别!' });
@@ -353,7 +364,7 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                 }
 
                 $scope.downloadAccessory = function (fileId) {
-                    accessoryService.downloadAccessory(fileId);
+                    accessoryService.downloadAccessory(fileId, "Law");
                 };
 
                 //删除附件

@@ -80,7 +80,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/usercenter-ser
                     return res;
                 }
                 $scope.downloadAccessory = function (fileId) {
-                    accessoryService.downloadAccessory(fileId);
+                    accessoryService.downloadAccessory(fileId,"advice");
                 };
                 $scope.preview = function (fileId) {
 

@@ -212,7 +212,7 @@ define(['bootstrap/app', 'utils', 'services/technical-service', 'services/access
                 }
 
                 $scope.downloadAccessory = function (fileId) {
-                    accessoryService.downloadAccessory(fileId);
+                    accessoryService.downloadAccessory(fileId,"Tec");
                 };
 
                 //删除附件

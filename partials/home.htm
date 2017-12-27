@@ -26,7 +26,7 @@
 
             <div ng-repeat="item in LawItems" class="clear home_repeat" ng-click="goLawDetail(item)">
                 <div class="fl home_new_fk"></div>
-                <div class="fl color363636" title="{{item.chinesename}}">{{item.chinesename|tooltips:20}}</div>
+                <div class="fl color363636" title="{{item.chinesename}}">{{item.chinesename|tooltips:27}}</div>
 
                 <div class="fr date">{{item.releasedate|recordtime}}</div>
                 <div class="fr Organization" title="{{item.pubdepname}}">{{item.pubdepname|tooltips:13}}</div>
@@ -107,7 +107,7 @@
     <!--技术文档类别导航-->
     <div class="clear" style="height:540px;">
 
-        <div class="home_new_lbdh fr">
+        <div class="home_new_lbdh fr" style="margin-right: 20px;">
 
             <div class="tec_title">技术文档导航</div>
             <div ng-repeat="item in TecRegulationItem">
@@ -115,7 +115,7 @@
             </div>
         </div>
 
-        <div class="lbdh_detail">
+        <div class="lbdh_detail" style=" margin-left: 0px;">
             <!--ul-->
             <div class="home_new_menu">
                 <!--左移-->
@@ -124,7 +124,7 @@
                     <tr>
                         <td ng-repeat="item in TecLbdhChildMenus track by $index" style=" text-align: -webkit-center;">
                             <div ng-class="{true:'home_new_menu_select',false:'home_new_menu_normal'}[TecclickLbdhChildMenuValue==item.id]" ng-click="clickLbdhChildMenu(item,'Tec')"
-                                title="{{item.typename}}">{{item.typename|tooltips:10}}</div>
+                                title="{{item.typename}}" ng-style="{'background':TecclickLbdhChildMenuValue==item.id?'#3CB371':'#fff'}">{{item.typename|tooltips:10}}</div>
                         </td>
                     </tr>
                 </table>
@@ -136,13 +136,13 @@
             <table class="index_table">
                 <thead>
                     <tr>
-                        <th style="background-color: #2ea3dc;" class="home_lbdh_law">标题</th>
-                        <th style="background-color: #2ea3dc;" class="home_lbdh_law">标准编号</th>
-                        <th style="background-color: #2ea3dc;">发布日期</th>
+                        <th style="background-color: #3CB371;" class="home_lbdh_law">标题</th>
+                        <th style="background-color: #3CB371;" class="home_lbdh_law">标准编号</th>
+                        <th style="background-color: #3CB371;">发布日期</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="item in TecLbdhTableItems" style="height: 40px;cursor: pointer" ng-click="clickLbdhTable($index,'Tec',item);" ng-class="{true: 'tr_selected',false: ''}[TecLbdhSelected==$index] ">
+                    <tr ng-repeat="item in TecLbdhTableItems" style="height: 40px;cursor: pointer" ng-click="clickLbdhTable($index,'Tec',item);" ng-class="{true: 'tr_selected',false: ''}[TecLbdhSelected==$index]">
                         <td title="{{item.chinesename}} " class="home_lbdh_law">{{item.chinesename| tooltips:30}}</td>
                         <td title="{{item.code}} " class="home_lbdh_law">{{item.code| tooltips:20 }}</td>
                         <td title="{{item.releasedate|recordtime}} ">{{item.releasedate|recordtime}}</td>
@@ -209,11 +209,11 @@
                 </marquee>
 
                 <div class="mb10">
-                    标题:<input class="home-input " style="width: 90%;" type="text" ng-model="userSuggestion.title" name="code"
-                        maxlength="25" />
+                <input class="home-input " style="width: 99%;margin-left:0px; " type="text" ng-model="userSuggestion.title" name="code"
+                        maxlength="25" placeholder="请输入标题..." />
                 </div>
-                <textarea class="home-txtarea" style="background: rgb(242, 242, 242); height: 95px;" maxlength="800" ng-model="userSuggestion.details"
-                    placeholder="我的留言..."> </textarea>
+                <textarea class="home-txtarea" style="background: #fff; height: 95px;" maxlength="800" ng-model="userSuggestion.details"
+                    placeholder="请输入内容..."> </textarea>
 
                 <div style="height: 40px" class="mt10">
                     <span class="color666">{{userSuggestion.inputname}}</span>

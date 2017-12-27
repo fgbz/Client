@@ -57,7 +57,7 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                             sRouter = "main.userCenter";
                         } else if (postData.clickValue == 'solr') {
                             sRouter = "main.solr";
-                        } else if (postData.clickValue = 'home') {
+                        } else if (postData.clickValue == 'home') {
                              sRouter = "main.home";
                             $rootScope.$emit("menustateChange", { value: sRouter, HeadNew: true });
                             $state.go(sRouter);
@@ -95,7 +95,8 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                         resolve: {
                             values: function () {
                                 var data = {
-                                    id: postData.item.id
+                                    id: postData.item.id,
+                                    type:'law'
                                 }
                                 return data;
                             }
@@ -134,7 +135,7 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                 }
 
                 $scope.downloadAccessory = function (fileId) {
-                    accessoryService.downloadAccessory(fileId);
+                    accessoryService.downloadAccessory(fileId,"Law");
                 };
 
                 //预览

@@ -70,26 +70,28 @@
                                 <th>标题</th>
                                 <th>收藏夹名称</th>
                                 <th>收藏时间</th>
+                                <th>类型</th>
                                 <th>操作</th>
                             </tr>
                         </thead>
                         <tbody ng-if="isLoaded">
                             <tr ng-repeat="item in CollectItems" style="height: 40px;cursor: pointer" ng-click="clickTable($index);" ng-class="{true: 'tr_selected',false: ''}[tableRow.selected==$index] ">
-                                <td title="{{item.chinesename}} " class="w300 ">{{item.chinesename| tooltips:20}}</td>
+                                <td title="{{item.title}} " class="w300 ">{{item.title| tooltips:20}}</td>
                                 <td title="{{item.favname}}">{{item.favname| tooltips:10}}</td>
-                                <td title="{{item.inputdate|recordtime}} ">{{item.inputdate|recordtime}}</td>
+                                <td title="{{item.favoritetime|recordtime}} ">{{item.favoritetime|recordtime}}</td>
+                                <td title="{{item.type==0?'法规标准':'技术文件'}}">{{item.type==0?'法规标准':'技术文件'}}</td>   
                                 <td>
                                     <input type="button " class="normalcheckbtn" value="查 看 " ng-click="CheckByFav(item)" />
                                     <input type="button " class="collectbtn" value="取消收藏 " ng-click="dismissFav(item)" />
                                 </td>
                             </tr>
                             <tr ng-if="CollectItems.length==0 ">
-                                <td colspan="3" class="text-center ">无数据</td>
+                                <td colspan="5" class="text-center ">无数据</td>
                             </tr>
                         </tbody>
                         <tbody ng-if="!isLoaded ">
                             <tr>
-                                <td colspan="3 " class="text-center ">
+                                <td colspan="5" class="text-center ">
                                     <img src="images/loading.gif " />
                                 </td>
                             </tr>

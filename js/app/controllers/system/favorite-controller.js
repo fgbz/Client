@@ -100,15 +100,26 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/usercenter-ser
                     for (var i = 0; i < $scope.checkdata.length; i++) {
                         lawdata.favs.push({ id: $scope.checkdata[i].id });
                     }
-                    usercenterService.SaveFavoriteLawsLink(lawdata, function (params) {
-                        if (params == 200) {
-                            toaster.pop({ type: 'success', body: '收藏成功!' });
-                            var collect = $scope.checkdata.length > 0 ? true : false;
-                             $modalInstance.close(collect);
 
-                        }
-                    })
+                    if (values.type == 'law') {
+                        usercenterService.SaveFavoriteLawsLink(lawdata, function (params) {
+                            if (params == 200) {
+                                toaster.pop({ type: 'success', body: '收藏成功!' });
+                                var collect = $scope.checkdata.length > 0 ? true : false;
+                                $modalInstance.close(collect);
 
+                            }
+                        })
+                    } else {
+                        usercenterService.SaveFavoriteTecsLink(lawdata, function (params) {
+                            if (params == 200) {
+                                toaster.pop({ type: 'success', body: '收藏成功!' });
+                                var collect = $scope.checkdata.length > 0 ? true : false;
+                                $modalInstance.close(collect);
+
+                            }
+                        })
+                    }
 
                 }
 

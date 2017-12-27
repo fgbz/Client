@@ -85,13 +85,18 @@ define(['bootstrap/app', 'app/config-manager', 'services/http-service'], functio
         }
 
         //获取收藏夹对应的法规
-        this.getLawsByLinkID = function (data, callback) {
-            http.post('/UserCenter/getLawsByLinkID', data, callback);
+        this.getLawsAndTecByLinkID = function (data, callback) {
+            http.post('/UserCenter/getLawsAndTecByLinkID', data, callback);
         }
 
         //保存收藏夹与法规的关联
         this.SaveFavoriteLawsLink = function (data, callback) {
             http.post('/UserCenter/SaveFavoriteLawsLink', data, callback);
+        }
+
+        //保存收藏夹与技术文档的关联
+        this.SaveFavoriteTecsLink = function (data, callback) {
+            http.post('/UserCenter/SaveFavoriteTecsLink', data, callback);
         }
 
         //获取法规对应的收藏夹Favorite
@@ -100,8 +105,8 @@ define(['bootstrap/app', 'app/config-manager', 'services/http-service'], functio
             http.get(url, null, callback);
         }
         //取消收藏
-        this.DismissFavorite = function (favid, lawid, callback) {
-            var url = "/UserCenter/DismissFavorite?favid=" + favid + "&lawid=" + lawid;
+        this.DismissFavorite = function (favid, sid, callback) {
+            var url = "/UserCenter/DismissFavorite?favid=" + favid + "&sid=" + sid;
             http.get(url, null, callback);
         }
 

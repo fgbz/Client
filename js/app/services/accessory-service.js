@@ -24,8 +24,8 @@ define(['bootstrap/app', 'app/config-manager', 'services/http-service', 'utiliti
 		};
 
 		//下载
-		this.downloadAccessory = function (fileId) {
-			var url = baseUrl + '/Foundation/Attachment/Download?file=' + fileId;
+		this.downloadAccessory = function (fileId,modulename) {
+			var url = baseUrl + '/Foundation/Attachment/Download?file=' + fileId+"&module="+modulename;
 			location.href =  http.wrapUrl(url);
 		};
 

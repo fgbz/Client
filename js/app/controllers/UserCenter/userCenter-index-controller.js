@@ -119,7 +119,7 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
                         options.conditions.push({ key: 'TreeValue', value: $scope.clickFavValue });
                     }
 
-                    usercenterService.getLawsByLinkID(options, function (response) {
+                    usercenterService.getLawsAndTecByLinkID(options, function (response) {
                         $scope.isLoaded = true;
                         $scope.CollectItems = response.CurrentList;
                         $scope.pagerDeal.total = response.RecordCount;
@@ -259,7 +259,7 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
                         var itemDeal = {};
                         itemDeal.type = "check";
                         itemDeal.clickValue = 'approve';
-                        itemDeal.item = {id:item.id};
+                        itemDeal.item = { id: item.id };
 
                         var data = JSON.stringify(itemDeal);
 
@@ -270,18 +270,37 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
 
                 //收藏夹查看
                 $scope.CheckByFav = function (item) {
-                    regulationService.AddLawstandardCount(item, function () {
-                        var sRouter = "main.regulationsStandardsDetail";
+                    //法规
+                    if (item.type == 0) {
+                        var itemlaw = {
+                            id: item.id,
+                            clickcount: item.clickcount
+                        }
+                        regulationService.AddLawstandardCount(itemlaw, function () {
+                            var sRouter = "main.regulationsStandardsDetail";
+
+                            var itemDeal = {};
+                            itemDeal.type = "check";
+                            itemDeal.clickValue = 'fav';
+                            itemDeal.item = { id: item.id };
+
+                            var data = JSON.stringify(itemDeal);
+
+                            $state.go(sRouter, { "data": data });
+                        })
+                    } else {
+                        var sRouter = "main.technicalDocumentsDetail";
 
                         var itemDeal = {};
-                        itemDeal.type = "check";
-                        itemDeal.clickValue = 'fav';
-                       itemDeal.item = {id:item.id};
+                         itemDeal.type = "check";
+                         itemDeal.clickValue = 'fav';
+                        itemDeal.item = { id: item.id };
 
                         var data = JSON.stringify(itemDeal);
 
                         $state.go(sRouter, { "data": data });
-                    })
+                    }
+
                 }
 
                 $scope.clickTreeBtn = function (item, type) {

@@ -387,8 +387,8 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/regul
                             var sRouter = "main.regulationsStandardsDetail";
 
                             var itemDeal = {};
-                            itemDeal.type = "home";
-                            itemDeal.clickValue = $scope.clickValue;
+                            itemDeal.type = "check";
+                            itemDeal.clickValue = 'home';
                             itemDeal.item = { id: item.id };
                             $rootScope.$emit("menustateChange", { value: sRouter, HeadNew: false });
                             var data = JSON.stringify(itemDeal);
@@ -409,8 +409,8 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/regul
                         var sRouter = "main.technicalDocumentsDetail";
                         $rootScope.$emit("menustateChange", { value: sRouter, HeadNew: false });
                         var itemDeal = {};
-                        itemDeal.type = "home";
-                        itemDeal.clickValue = $scope.clickValue;
+                        itemDeal.type = "check";
+                        itemDeal.clickValue = 'home';
                         itemDeal.item = { id: item.id };
 
                         var data = JSON.stringify(itemDeal);

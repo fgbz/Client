@@ -50,6 +50,15 @@ define(['bootstrap/app', 'utils', 'services/technical-service', 'services/access
                         sRouter = "main.home";
                         $rootScope.$emit("menustateChange", { value: sRouter, HeadNew: true });
                         $state.go(sRouter);
+                    } else if (postData.clickValue == 'fav') {
+                        sRouter = "main.userCenter";
+                        var itemDeal = {};
+                        itemDeal.clickValue = postData.clickValue;
+
+                        var data = JSON.stringify(itemDeal);
+
+                        $state.go(sRouter, { "data": data });
+
                     } else {
                         sRouter = "main.technicalDocuments";
                         var itemDeal = {};
@@ -63,9 +72,34 @@ define(['bootstrap/app', 'utils', 'services/technical-service', 'services/access
 
                 }
 
+                //收藏
+                $scope.favorieTec = function () {
+                    var url = 'partials/system/modals/favorite.html';
+                    var modalInstance = $uibModal.open({
+
+                        templateUrl: url,
+                        controller: 'favorite-controller',
+
+                        size: 'sm',
+                        resolve: {
+                            values: function () {
+                                var data = {
+                                    id: postData.item.id,
+                                    type:'tec'
+                                }
+                                return data;
+                            }
+                        }
+                    });
+
+                    modalInstance.result.then(function (res) {
+                        $scope.DetaiData.iscollect = res;
+                    });
+                }
+
 
                 $scope.downloadAccessory = function (fileId) {
-                    accessoryService.downloadAccessory(fileId);
+                    accessoryService.downloadAccessory(fileId, "Tec");
                 };
 
                 //预览

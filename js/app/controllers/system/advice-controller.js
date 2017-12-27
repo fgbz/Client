@@ -141,7 +141,7 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/acces
                     return res;
                 }
                 $scope.downloadAccessory = function (fileId) {
-                    accessoryService.downloadAccessory(fileId);
+                    accessoryService.downloadAccessory(fileId,"advice");
                 };
 
                 //删除附件

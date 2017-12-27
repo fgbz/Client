@@ -95,10 +95,16 @@ define(['bootstrap/app', 'utilities/cryto', 'ctrls/system/modals/logout-controll
 
                 //初始化字典
                 dictionaryService.GetAllDic(function (res) {
-
                     localStorage.setItem('DicItems', JSON.stringify(res));
-                    // $rootScope.PageSize = res.PageSize;
                 })
+
+                if (user) {
+                    dictionaryService.grtUserListByOrgId(user.orgid, function (res) {
+                        localStorage.setItem('UserItems', JSON.stringify(res));
+                    })
+                }
+
+
             }
 
             init();
@@ -253,7 +259,7 @@ define(['bootstrap/app', 'utilities/cryto', 'ctrls/system/modals/logout-controll
 
             if ($scope.form.file.$valid && $scope.file) {
 
-                
+
                 // if ($scope.file.size > 10 * 1024 * 1024) {
                 //     $scope.warningMessage = '请上传小于10MB的文件。';
                 //     return;
@@ -274,7 +280,7 @@ define(['bootstrap/app', 'utilities/cryto', 'ctrls/system/modals/logout-controll
             } else {
                 if ($scope.type == 'Law') {
                     $scope.warningMessage = '请上传DOC,DOCX,PDF,txt格式文件。';
-                }else{
+                } else {
                     $scope.warningMessage = '请选择文件。';
                 }
 
@@ -297,7 +303,7 @@ define(['bootstrap/app', 'utilities/cryto', 'ctrls/system/modals/logout-controll
         // upload on file select or drop
         $scope.upload = function (file) {
 
-            var url = baseUrl + '/Foundation/Attachment/uploadWithNoThum?userid=' + values.userid+"&module="+values.type;
+            var url = baseUrl + '/Foundation/Attachment/uploadWithNoThum?userid=' + values.userid + "&module=" + values.type;
 
             Upload.upload({
                 url: http.wrapUrl(url),

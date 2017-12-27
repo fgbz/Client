@@ -9,7 +9,7 @@
             <span class="ml40">录入时间：{{DetaiData.inputdate}}</span>
             <span class="ml40">录入单位：{{DetaiData.inputorgname}}</span>
 
-          
+           <div ng-class="{true:'regluation_detail_collect',false:'regluation_detail_nocollect'}[DetaiData.iscollect]" ng-click="favorieTec()">收藏</div>
         </div>
 
         <div class="regluation_detail_chinesetitle">

@@ -165,7 +165,7 @@
             <!--查询-->
             <div class="regluation_manage_searcharea">
                 <div class="fl">
-                    <select class="home-select" ng-model="ApproveStatus">
+                    <select class="home-select" ng-model="ApproveStatus" style=" width: 100px;">
                           <option value="">全部</option>
                           <option value="1">草稿</option>
                           <option value="2">已提交待审核</option>
@@ -174,12 +174,19 @@
                 </div>
                 <div class="fl ml10">
                     <span>是否批量导入:</span>
-                    <select class="home-select" ng-model="IsBatch" style="margin-left: 5px;">
+                    <select class="home-select" ng-model="IsBatch" style="margin-left: 5px;width: 100px;" >
                           <option value="">全部</option>
                           <option value="1">是</option>
                           <option value="0">否</option>
                   </select>
                 </div>
+                <div class="fl ml10">
+                    <span>录入人员:</span>
+                    <select class="home-select"  ng-model="selectInputUser" style="margin-left: 5px;width: 100px;" ng-options=" type.id as type.userrealname for type in userList">
+                          <option value="">全部</option>
+                  </select>
+                </div>
+
                 <div class="fl posi_re ml10">
                     <span class="fl">类别选择</span>
                     <combo-tree-select style="width:170px;float:left" tree-data="treeData" is-normal="true" tree-width="300" tree-model="TreeValue"
@@ -209,7 +216,7 @@
 
                 <input type="button" class="deletebtn fr mr10" value="删 除" ng-click="deleteLaw()" ng-show="selectItem.approvestatus==1||isSup||isLawMaintain"
                 />
-                <input type="button" class="normalcheckbtn fr mr10" ng-click="Edit()" value="编 辑" ng-show="selectItem.approvestatus==1||isSup||isLawMaintain"
+                <input type="button" class="normalcheckbtn fr mr10" ng-click="Edit()" value="编 辑" ng-show="selectItem.approvestatus!=2"
                 />
                 <input type="button" class="normalbtn fr mr10" value="审核信息" ng-click="Exam()" ng-show="selectItem.isapprove" />
 
