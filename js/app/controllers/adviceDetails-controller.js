@@ -3,8 +3,8 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/usercenter-ser
 
     var config = require('app/config-manager');
     var baseUrl = config.baseUrl();
-    app.controller('adviceDetails-controller', ['$rootScope', '$scope', '$state', 'toaster', '$uibModal', 'usercenter-service', '$stateParams', 'accessory-service',
-        function ($rootScope, $scope, $state, toaster, $uibModal, usercenterService, $stateParams, accessoryService) {
+    app.controller('adviceDetails-controller', ['$rootScope', '$scope', '$state', 'toaster', '$uibModal', 'usercenter-service', '$stateParams', 'accessory-service','http-service',
+        function ($rootScope, $scope, $state, toaster, $uibModal, usercenterService, $stateParams, accessoryService,http) {
 
             var postData = $stateParams.data;
 

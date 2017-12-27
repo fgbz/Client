@@ -55,7 +55,10 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service'], function (app,
                         return;
 
                     }
-                    usercenterService.SaveOrUpdateSuggestion($scope.data, function (params) {
+                    var requestData = angular.copy($scope.data);
+                    //不传录入时间到服务端
+                    delete requestData.inputdate;
+                    usercenterService.SaveOrUpdateSuggestion(requestData, function (params) {
                         if (params == 200) {
                             toaster.pop({ type: 'success', body: $scope.title + '成功！' });
                             $modalInstance.close(params);

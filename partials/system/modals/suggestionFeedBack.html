@@ -41,7 +41,7 @@
         <!--历史反馈-->
         <div ng-repeat="item in data.feedBackLists" class="feedback_histroy">
             <div>
-                <span>{{item.feedbackdate|recordtime}}</span>
+                <span>{{item.feedbackdate|changeTime}}</span>
                 <span class="ml30">{{item.feedbackusername}}</span>
             </div>
             <div class="mt10">

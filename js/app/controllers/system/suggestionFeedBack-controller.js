@@ -24,7 +24,7 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service'], function (app,
                 if (values.suggData) {
                     //初始化
                     $scope.data = angular.copy(values.suggData); 
-                    $scope.data.inputdate = utils.parseTime(new Date($scope.data.inputdate), "YYYY-MM-DD");
+                    $scope.data.inputdate = utils.parseTime(new Date($scope.data.inputdate), "YYYY-MM-DD hh:mm:ss");
                     $scope.data.modifyuserid = user.id;
 
                     usercenterService.getFeedBackList($scope.data.id,function (res) {
