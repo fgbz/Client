@@ -462,8 +462,10 @@ body {
     color: #08589f;
     font-size: 30px;
     text-align: center;
-    height: 60px;
-    line-height: 60px;
+    /*height: 60px;*/
+    /*line-height: 60px;*/
+    min-height: 60px;
+    word-wrap: break-word;
 }
 .regluation_detail_englishtitle{
     color: #08589f;

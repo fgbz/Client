@@ -38,9 +38,9 @@
         <div class="home_new_regright">
 
             <div ng-repeat="item in LawRegulationItem" class="clear">
-                <div class="parentname" title="{{item.typename}}" ng-click="goLaws(item.id)">{{item.typename|tooltips:8}}</div>
+                <div class="parentname" title="{{item.typename}}" ng-click="goLaws(item.id)">{{item.typename|tooltips:8}}({{item.lawcount}})</div>
                 <div ng-repeat="childitem in item.childLists">
-                    <div class="childname" ng-click="goLaws(childitem.id)" title="{{childitem.typename}}">{{childitem.typename|tooltips:15}}</div>
+                    <div class="childname" ng-click="goLaws(childitem.id)" title="{{childitem.typename}}">{{childitem.typename|tooltips:15}}({{childitem.lawcount}})</div>
                 </div>
             </div>
 

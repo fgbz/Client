@@ -101,5 +101,10 @@ define(['bootstrap/app', 'app/config-manager', 'services/http-service'], functio
             http.get('/System/SaveOrUpdateApproveSetting?status=' + data, null, callback);
         }
 
+        //获取日志列表
+        this.getLogList = function (data, callbac) {
+            http.post('/System/getLogList', data, callback);
+        }
+
     }]);
 });

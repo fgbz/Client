@@ -81,7 +81,7 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                         $state.go(sRouter, { "data": data });
                     } else {
 
-                        regulationService.getLawstandardById({ id: histroyData[histroyData.length - 1] }, function (res) {
+                        regulationService.getLawstandardById( histroyData[histroyData.length - 1] , function (res) {
                             $scope.DetaiData = res;
                             histroyData.splice(histroyData.length - 1, 1);
                         });
@@ -121,7 +121,7 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                     //向历史扭转中添加数据
                     histroyData.push($scope.DetaiData.id);
 
-                    regulationService.getLawstandardById(params, function (res) {
+                    regulationService.getLawstandardById(params.id, function (res) {
                         $scope.DetaiData = res;
                         if ($scope.DetaiData.modifydate) {
                             $scope.DetaiData.modifydate = utils.parseTime(new Date($scope.DetaiData.modifydate), "YYYY-MM-DD");

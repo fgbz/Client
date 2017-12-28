@@ -23,8 +23,8 @@
                 <span>分页设置</span>
 
                 <div class="fr mt10">
-                    <input type="button" class="normalbtn fr" value="保 存"  ng-click="savePagesize()"  ng-disabled="!pagedata.pagesize"/>
-                    <input class="home-input fr mr10" type="text" only-num in-decimals="0" ng-model="pagedata.pagesize" maxlength="5"/>   
+                    <input type="button" class="normalbtn fr" value="保 存" ng-click="savePagesize()" ng-disabled="!pagedata.pagesize" />
+                    <input class="home-input fr mr10" type="text" only-num in-decimals="0" ng-model="pagedata.pagesize" maxlength="5" />
                 </div>
 
             </div>
@@ -332,6 +332,73 @@
         <div ng-if="clickTreeValue=='16'">
 
             <combo-tree tree-data="treeDataTec" tree-model="clickTecValue" btn-show="true" img-color="1" is-extend="true"></combo-tree>
+
+        </div>
+
+        <!--日志查看-->
+        <div ng-if="clickTreeValue=='18'" class="posi_re h100">
+
+            <div class="system_userconfig">
+                <div class="fl">
+
+                    <input class="home-input w300" type="text" style="margin-left: 0px;" ng-model="logdata.OperationName" maxlength="25" placeholder="请输入操作名称"
+                    />
+                    <span>操作人员:</span>
+                    <select class="home-select" ng-model="logdata.Userid" style="margin-left: 5px;width: 100px;" ng-options=" type.id as type.userrealname for type in userList">
+                          <option value="">全部</option>
+                  </select>
+                    <input type="text" id="FiledTimeStart" class="case_table_timepicker_input" ng-model="logdata.FiledTimeStart" je-date format="YYYY-MM-DD"
+                        readonly />
+                    <span style="margin-left: 0px;">至</span>
+                    <input type="text" id="FiledTimeEnd" class="case_table_timepicker_input" ng-model="logdata.FiledTimeEnd" je-date format="YYYY-MM-DD"
+                        readonly / <input type="button" class="normalbtn mr10" value="搜 索" ng-click="getLogs()" />
+                </div>
+            </div>
+
+            <div class="of" style="height: calc(100% - 100px);">
+                <table class="index_table">
+                    <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>用户名称</th>
+                            <th>组织名称</th>
+                            <th>操作名称</th>
+                            <th>操作时间</th>
+                        </tr>
+                    </thead>
+                    <tbody ng-if="isLoaded">
+                        <tr ng-repeat="item in LogItems" style="height: 40px;cursor: pointer" ng-click="clickTable($index);" ng-class="{true: 'tr_selected',false: ''}[tableRow.selected==$index] ">
+                            <td>{{$index+1}}</td>
+                            <td title="{{item.username}} ">{{item.username}}</td>
+                            <td title="{{item.organizationname}} ">{{item.organizationname}}</td>
+                            <td title="{{item.operationname}} ">{{item.operationname}}</td>
+                            <td title="{{item.operationtime|changeTime}} ">{{item.operationtime|changeTime}</td>
+                        </tr>
+                        <tr ng-if="LogItems.length==0 ">
+                            <td colspan="5" class="text-center ">无数据</td>
+                        </tr>
+                    </tbody>
+                    <tbody ng-if="!isLoaded ">
+                        <tr>
+                            <td colspan="5" class="text-center ">
+                                <img src="images/loading.gif " />
+                            </td>
+                        </tr>
+                    </tbody>
+
+                </table>
+            </div>
+            <div class="home_paging">
+                <div class="pagination-info " style="display: inline-block;margin-top: 12px; margin-left: 10px;">
+                    <span class="ng-binding ">共{{pagerLog.total}}条</span>
+                </div>
+                <div class="pull-right ">
+                    <uib uib-pagination rotate="true " boundary-link-numbers="true " boundary-links="false
+                                " total-items="pagerLog.total " ng-model="pagerLog.current " max-size="10 " ng-change="getLogs(true) "
+                        items-per-page="pagerLog.size " class="pagination-sm
+                                " previous-text="上页 " next-text="下页 " first-text="首页 " last-text="末页 "></uib>
+                </div>
+            </div>
 
         </div>
 

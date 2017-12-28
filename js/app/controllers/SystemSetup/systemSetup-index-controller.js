@@ -1,10 +1,10 @@
-define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-service', 'services/technical-service', 'services/system-service','services/dictionary-service'], function (app, utils) {
+define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-service', 'services/technical-service', 'services/system-service', 'services/dictionary-service'], function (app, utils) {
     'use strict';
 
     var config = require('app/config-manager');
     var baseUrl = config.baseUrl();
     app.controller('systemSetup-index-controller', ['$rootScope', '$scope', '$state', 'toaster', '$uibModal', 'regulation-service', 'technical-service', 'system-service', 'ngDialog', '$cookies', 'dictionary-service',
-        function ($rootScope, $scope, $state, toaster, $uibModal, regulationService, technicalService, systemService, ngDialog, $cookies,dictionaryService) {
+        function ($rootScope, $scope, $state, toaster, $uibModal, regulationService, technicalService, systemService, ngDialog, $cookies, dictionaryService) {
 
             var user = sessionStorage.getItem('loginUser');
 
@@ -38,8 +38,15 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                     size: 10,
                     current: 1
                 }
+
+                $scope.pagerLog = {
+                    size: 10,
+                    current: 1
+                }
+
                 $scope.userdata = {};
                 $scope.systemdata = {};
+                $scope.logdata = {};
 
                 $scope.pagedata = {};
                 $scope.pagedata.pagesize = dics.PageSize;
@@ -48,6 +55,10 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
 
             //加载
             var initialize = function () {
+
+                $scope.userList = user.userList;
+
+                $scope.logdata.Userid = angular.copy(user.id);
 
                 $scope.treeData = [
 
@@ -72,6 +83,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
 
                     { Id: '15', Name: '法规标准类别维护', ParentID: '01' },
                     { Id: '16', Name: '技术文档类别维护', ParentID: '01' },
+                    { Id: '18', Name: '日志查看', ParentID: '01' },
 
 
                 ];
@@ -125,6 +137,9 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                             break;
                         case '16':
                             $scope.initTec();
+                            break;
+                        case '18':
+                            $scope.getLogs();
                             break;
                         default:
                             break;
@@ -993,7 +1008,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
 
                     systemService.SaveOrUpdateSettingValue('PageSize', $scope.pagedata.pagesize, function (res) {
                         if (res == 200) {
-                              toaster.pop({ type: 'success', body:   '修改成功!' });
+                            toaster.pop({ type: 'success', body: '修改成功!' });
                             //重新初始化字典
                             dictionaryService.GetAllDic(function (res) {
 
@@ -1001,6 +1016,41 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                                 $scope.PageSize = res.PageSize;
                             })
                         }
+                    })
+                }
+
+                //日志
+                $scope.getLogs = function (isPaging) {
+                    $scope.isLoaded = false;
+
+                    if (!isPaging) {
+                        $scope.pagerLog.current = 1;
+                    }
+
+                    $scope.pagerLog.size = $scope.PageSize;
+
+                    var options = {
+                        pageNo: $scope.pagerLog.current,
+                        pageSize: $scope.pagerLog.size,
+                        conditions: []
+                    };
+                    if ($scope.logdata.OperationName) {
+                        options.conditions.push({ key: 'OperationName', value: $scope.logdata.OperationName });
+                    }
+                    if ($scope.logdata.Userid) {
+                        options.conditions.push({ key: 'Userid', value: logdata.Userid });
+                    }
+                    if ($scope.logdata.FiledTimeStart) {
+                        options.conditions.push({ key: 'FiledTimeStart', value: $logdata.userdata.FiledTimeStart });
+                    }
+                    if ($scope.logdata.FiledTimeEnd) {
+                        options.conditions.push({ key: 'FiledTimeEnd', value: $scope.logdata.FiledTimeEnd });
+                    }
+
+                    systemService.getLogList(options, function (response) {
+                        $scope.isLoaded = true;
+                        $scope.LogItems = response.CurrentList;
+                        $scope.pagerLog.total = response.RecordCount;
                     })
                 }
 
