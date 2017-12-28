@@ -58,6 +58,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                 $scope.data = [];
 
                 $scope.searchdata = {};
+                $scope.managetreedata = {};
             };
 
             //加载
@@ -101,10 +102,10 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
 
                         $scope.treeData.push(data);
                     }
-                    $scope.treeDataManage = angular.copy( $scope.treeData);
+                    $scope.treeDataManage = angular.copy($scope.treeData);
 
                     if (postData && postData.treemanageid) {
-                        $scope.TreeValue = postData.treemanageid;
+                        $scope.managetreedata.TreeValue = postData.treemanageid;
                     }
 
                     if (postData && postData.treevalueid) {
@@ -141,7 +142,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                     itemDeal.clickValue = $scope.clickValue;
                     itemDeal.selectData = $scope.searchdata;
                     itemDeal.treevalueid = $scope.clickTreeValue;
-                    itemDeal.treemanageid = $scope.TreeValue;
+                    itemDeal.treemanageid = $scope.managetreedata.TreeValue;
 
                     var data = JSON.stringify(itemDeal);
 
@@ -163,7 +164,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                     itemDeal.clickValue = $scope.clickValue;
                     itemDeal.selectData = $scope.searchdata;
                     itemDeal.treevalueid = $scope.clickTreeValue;
-                    itemDeal.treemanageid = $scope.TreeValue;
+                    itemDeal.treemanageid = $scope.managetreedata.TreeValue;
                     itemDeal.item = { id: itemdata.id, approvestatus: itemdata.approvestatus };
 
                     var data = JSON.stringify(itemDeal);
@@ -226,7 +227,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                         itemDeal.item = { id: item.id };
                         itemDeal.treevalueid = $scope.clickTreeValue;
                         itemDeal.selectData = $scope.searchdata;
-                        itemDeal.treemanageid = $scope.TreeValue;
+                        itemDeal.treemanageid = $scope.managetreedata.TreeValue;
                         var data = JSON.stringify(itemDeal);
 
                         $state.go(sRouter, { "data": data });
@@ -342,8 +343,8 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                     if ($scope.searchdata.IsBatch) {
                         options.conditions.push({ key: 'IsBatch', value: $scope.searchdata.IsBatch });
                     }
-                    if ($scope.TreeValue) {
-                        options.conditions.push({ key: 'TreeValue', value: $scope.TreeValue });
+                    if ($scope.managetreedata.TreeValue) {
+                        options.conditions.push({ key: 'TreeValue', value: $scope.managetreedata.TreeValue });
                     } else if (postData && postData.treemanageid) {
                         options.conditions.push({ key: 'TreeValue', value: postData.treemanageid });
                     }
@@ -450,7 +451,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                         organization: $scope.organization ? $scope.organization : null,
                         MaterialTmeStart: $scope.MaterialTmeStart ? $scope.MaterialTmeStart : null,
                         MaterialTmeEnd: $scope.MaterialTmeEnd ? $scope.MaterialTmeEnd : null,
-                        TreeValue: $scope.TreeValue ? $scope.TreeValue : null,
+                        TreeValue: $scope.managetreedata.TreeValue ? $scope.managetreedata.TreeValue : null,
                     }
                     var url = baseUrl + "/Lawstandard/ExportLaw?Number=" + data.Number + "&Title=" + data.Title + "&FiledTimeStart=" + data.FiledTimeStart
                         + "&FiledTimeEnd=" + data.FiledTimeEnd + "&State=" + data.State + "&organization=" + data.organization + "&MaterialTmeStart=" + data.MaterialTmeStart
