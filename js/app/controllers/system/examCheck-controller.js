@@ -3,11 +3,11 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/usercenter-ser
 
     var config = require('app/config-manager');
     var baseUrl = config.baseUrl();
-    app.controller('examCheck-controller', ['$rootScope', '$scope', '$state', 'toaster', '$uibModal', '$uibModalInstance', 'values', 'usercenter-service','$cookies',
-        function ($rootScope, $scope, $state, toaster, $uibModal, $modalInstance, values, usercenterService,$cookies) {
+    app.controller('examCheck-controller', ['$rootScope', '$scope', '$state', 'toaster', '$uibModal', '$uibModalInstance', 'values', 'usercenter-service', '$cookies',
+        function ($rootScope, $scope, $state, toaster, $uibModal, $modalInstance, values, usercenterService, $cookies) {
 
 
-          var user = sessionStorage.getItem('loginUser');
+            var user = sessionStorage.getItem('loginUser');
             if (user) {
                 user = JSON.parse(user);
             }
@@ -29,7 +29,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/usercenter-ser
             var initialize = function () {
 
 
-                usercenterService.getApproveHistroy( $scope.data.lawstandardID,function (params) {
+                usercenterService.getApproveHistroy($scope.data.lawstandardID, function (params) {
                     $scope.histroyItems = params;
                 })
 
@@ -48,13 +48,15 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/usercenter-ser
                         }
 
                     }
+                    $scope.isSaving = true;
                     usercenterService.SaveApprove($scope.data, function (params) {
                         if (params == 200) {
                             toaster.pop({ type: 'success', body: '审核成功！' });
-                           $modalInstance.close(params);
+                            $modalInstance.close(params);
                         } else {
                             toaster.pop({ type: 'waring', body: '审核失败！' });
                         }
+                        $scope.isSaving = false;
                     })
 
                 }

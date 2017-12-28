@@ -102,7 +102,7 @@ define(['bootstrap/app', 'app/config-manager', 'services/http-service'], functio
         }
 
         //获取日志列表
-        this.getLogList = function (data, callbac) {
+        this.getLogList = function (data, callback) {
             http.post('/System/getLogList', data, callback);
         }
 

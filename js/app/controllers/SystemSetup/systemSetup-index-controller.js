@@ -1038,10 +1038,10 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                         options.conditions.push({ key: 'OperationName', value: $scope.logdata.OperationName });
                     }
                     if ($scope.logdata.Userid) {
-                        options.conditions.push({ key: 'Userid', value: logdata.Userid });
+                        options.conditions.push({ key: 'Userid', value: $scope.logdata.Userid });
                     }
                     if ($scope.logdata.FiledTimeStart) {
-                        options.conditions.push({ key: 'FiledTimeStart', value: $logdata.userdata.FiledTimeStart });
+                        options.conditions.push({ key: 'FiledTimeStart', value: $scope.logdata.FiledTimeStart });
                     }
                     if ($scope.logdata.FiledTimeEnd) {
                         options.conditions.push({ key: 'FiledTimeEnd', value: $scope.logdata.FiledTimeEnd });

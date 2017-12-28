@@ -339,19 +339,21 @@
         <div ng-if="clickTreeValue=='18'" class="posi_re h100">
 
             <div class="system_userconfig">
-                <div class="fl">
+                <div class="fl" style=" width: 100%;">
 
-                    <input class="home-input w300" type="text" style="margin-left: 0px;" ng-model="logdata.OperationName" maxlength="25" placeholder="请输入操作名称"
+                    <input class="home-input " type="text" style="margin-left: 0px;" ng-model="logdata.OperationName" maxlength="25" placeholder="请输入操作名称"
                     />
                     <span>操作人员:</span>
                     <select class="home-select" ng-model="logdata.Userid" style="margin-left: 5px;width: 100px;" ng-options=" type.id as type.userrealname for type in userList">
                           <option value="">全部</option>
                   </select>
+                    <span>操作时间:</span>
                     <input type="text" id="FiledTimeStart" class="case_table_timepicker_input" ng-model="logdata.FiledTimeStart" je-date format="YYYY-MM-DD"
                         readonly />
                     <span style="margin-left: 0px;">至</span>
                     <input type="text" id="FiledTimeEnd" class="case_table_timepicker_input" ng-model="logdata.FiledTimeEnd" je-date format="YYYY-MM-DD"
-                        readonly / <input type="button" class="normalbtn mr10" value="搜 索" ng-click="getLogs()" />
+                        readonly />
+                    <input type="button" class="normalbtn fr mr10 mt10" value="搜 索" ng-click="getLogs()" />
                 </div>
             </div>
 
@@ -372,7 +374,7 @@
                             <td title="{{item.username}} ">{{item.username}}</td>
                             <td title="{{item.organizationname}} ">{{item.organizationname}}</td>
                             <td title="{{item.operationname}} ">{{item.operationname}}</td>
-                            <td title="{{item.operationtime|changeTime}} ">{{item.operationtime|changeTime}</td>
+                            <td title="{{item.operationtime|changeTime}} ">{{item.operationtime|changeTime}}</td>
                         </tr>
                         <tr ng-if="LogItems.length==0 ">
                             <td colspan="5" class="text-center ">无数据</td>
