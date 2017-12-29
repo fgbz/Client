@@ -1479,6 +1479,7 @@ body {
 }
 
 .home_new_bottom .yhlytitle{
+    float: left;
     height: 80px;
     line-height: 80px;
     font-size: 24px;
@@ -1490,9 +1491,9 @@ body {
 .home_new_bottom .lylytext{
      height: calc(100% - 110px);
     border-top: 1px solid #ccc;
-    border-bottom: 1px solid #ccc;
+    /*border-bottom: 1px solid #ccc;*/
     margin-bottom: 10px;
-    overflow-y: auto;
+    /*overflow-y: auto;*/
 }
 
 .home_lylymore{

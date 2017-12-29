@@ -78,7 +78,7 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/regul
                         pageSize: 10,
                         conditions: []
                     };
-                    options.conditions.push({ key: 'Type', value: 'uptodata10' });
+                    // options.conditions.push({ key: 'Type', value: 'uptodata10' });
                     options.conditions.push({ key: 'ApproveStatus', value: 3 });
                     if (flag) {
                         if ($scope.clickLbdhChildMenuValue) {

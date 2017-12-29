@@ -84,7 +84,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="item in LbdhTableItems" style="height: 40px;cursor: pointer" ng-click="clickLbdhTable($index,'Law',item);" ng-class="{true: 'tr_selected',false: ''}[LbdhSelected==$index] ">
+                    <tr ng-repeat="item in LbdhTableItems" style="height: 40px;cursor: pointer" ng-click="clickLbdhTable($index,'Law',item);"
+                        ng-class="{true: 'tr_selected',false: ''}[LbdhSelected==$index] ">
                         <td title="{{item.chinesename}} " class="home_lbdh_title">{{item.chinesename| tooltips:40}}</td>
                         <td title="{{item.code}} " class="home_lbdh_law">{{item.code| tooltips:20 }}</td>
                         <td title="{{item.impdate|recordtime}} ">{{item.impdate|recordtime}}</td>
@@ -142,7 +143,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="item in TecLbdhTableItems" style="height: 40px;cursor: pointer" ng-click="clickLbdhTable($index,'Tec',item);" ng-class="{true: 'tr_selected',false: ''}[TecLbdhSelected==$index]">
+                    <tr ng-repeat="item in TecLbdhTableItems" style="height: 40px;cursor: pointer" ng-click="clickLbdhTable($index,'Tec',item);"
+                        ng-class="{true: 'tr_selected',false: ''}[TecLbdhSelected==$index]">
                         <td title="{{item.chinesename}} " class="home_lbdh_title">{{item.chinesename| tooltips:40}}</td>
                         <td title="{{item.code}} " class="home_lbdh_law">{{item.code| tooltips:20 }}</td>
                         <td title="{{item.releasedate|recordtime}} ">{{item.releasedate|recordtime}}</td>
@@ -188,19 +190,21 @@
         </div>
 
         <div class="yhly">
-            <div class="yhlytitle">
-                用户留言
+            <div style="height: 80px;">
+                <div class="yhlytitle">
+                    用户留言
+
+                </div>
+                <div class="home_lylymore" ng-click="goSuggestion()" style="margin-top: 30px;">
+                    <span class="underline">查看更多</span>
+                    <span>></span>
+                </div>
             </div>
+
             <div class="lylytext">
-                <!--<div class="sugg_text">
-                    <div ng-repeat="item in SuggestionItems" class="clear">
-                        <div class="point fl">.</div>
-                        <div class="fl text">{{item.title}}</div>
-                    </div>
-                </div>-->
 
                 <marquee id="affiche" align="left" behavior="scroll" direction="up" height="50" width="400" hspace="30" class="sugg_text"
-                    style="height:160px;width:95%;margin: 0;margin-bottom: 10px;margin-left:10px" vspace="20" loop="-1" scrollamount="3"
+                    style="height:215px;width:99%;margin: 0;margin-bottom: 10px;margin-left:0px" vspace="20" loop="-1" scrollamount="3"
                     scrolldelay="100" onMouseOut="this.start()" onMouseOver="this.stop()">
                     <div ng-repeat="item in SuggestionItems" style="cursor: pointer;" class="clear" ng-click="goSuggestDetail(item)">
                         <div class="point fl">.</div>
@@ -209,26 +213,19 @@
                 </marquee>
 
                 <div class="mb10">
-                <input class="home-input " style="width: 99%;margin-left:0px; " type="text" ng-model="userSuggestion.title" name="code"
-                        maxlength="25" placeholder="请输入标题..." />
+                    <input class="home-input " style="width: 99%;margin-left:0px; " type="text" ng-model="userSuggestion.title" name="code" maxlength="25"
+                        placeholder="请输入标题..." />
                 </div>
                 <textarea class="home-txtarea" style="background: #fff; height: 95px;" maxlength="800" ng-model="userSuggestion.details"
                     placeholder="请输入内容..."> </textarea>
 
                 <div style="height: 40px" class="mt10">
-                    <span class="color666">{{userSuggestion.inputname}}</span>
-                    <span class="ml40 color666">{{userSuggestion.inputdate}}</span>
+                    <div class="fl" style="margin-top: 5px;">
+                        <span class="color666">{{userSuggestion.inputname}}</span>
+                        <span class="ml40 color666">{{userSuggestion.inputdate}}</span>
+                    </div>
                     <input type="button" class="pubilshbtn fr" value="发 布" ng-click="pubsuggest()" />
                 </div>
-            </div>
-
-
-
-
-
-            <div class="home_lylymore" ng-click="goSuggestion()">
-                <span class="underline">查看更多</span>
-                <span>></span>
             </div>
 
         </div>
