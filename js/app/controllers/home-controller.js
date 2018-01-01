@@ -89,9 +89,9 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/regul
                     }
                     regulationService.getUptodateLawstandardList(options, function (response) {
                         if (flag) {
-                            $scope.LbdhTableItems = response.CurrentList;
+                            $scope.LbdhTableItems = response;
                         } else {
-                            $scope.LawItems = response.CurrentList;
+                            $scope.LawItems = response;
                         }
 
                     })
