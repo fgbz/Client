@@ -3,8 +3,8 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/usercenter-ser
 
     var config = require('app/config-manager');
     var baseUrl = config.baseUrl();
-    app.controller('adviceDetails-controller', ['$rootScope', '$scope', '$state', 'toaster', '$uibModal', 'usercenter-service', '$stateParams', 'accessory-service','http-service',
-        function ($rootScope, $scope, $state, toaster, $uibModal, usercenterService, $stateParams, accessoryService,http) {
+    app.controller('adviceDetails-controller', ['$rootScope', '$scope', '$state', 'toaster', '$uibModal', 'usercenter-service', '$stateParams', 'accessory-service', 'http-service',
+        function ($rootScope, $scope, $state, toaster, $uibModal, usercenterService, $stateParams, accessoryService, http) {
 
             var postData = $stateParams.data;
 
@@ -56,7 +56,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/usercenter-ser
                     } else if (postData.type == "advice") {
 
                         sRouter = "main.userCenter";
-                      
+
                         var itemDeal = {};
                         itemDeal.clickValue = 'advice';
                         var data = JSON.stringify(itemDeal);
@@ -70,7 +70,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/usercenter-ser
                 $scope.canPreview = function (fileName) {
                     var pos = fileName.lastIndexOf('.');
                     var format = fileName.substring(pos + 1);
-                      var picType = ['pdf', 'doc', 'txt','docx'];
+                    var picType = ['pdf', 'doc', 'txt', 'docx'];
                     var res = false;
                     angular.forEach(picType, function (value, key) {
                         if (value == format.toLowerCase()) {
@@ -80,7 +80,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/usercenter-ser
                     return res;
                 }
                 $scope.downloadAccessory = function (fileId) {
-                    accessoryService.downloadAccessory(fileId,"advice");
+                    accessoryService.downloadAccessory(fileId, "advice");
                 };
                 $scope.preview = function (fileId) {
 

@@ -77,6 +77,8 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
 
                 $scope.clickValue = postData && postData.clickValue ? postData.clickValue : $scope.clickValue;
 
+                $scope.searchdata.Ordertype = postData && postData.selectData ? postData.selectData.Ordertype : '3';
+
                 $scope.isLoaded = true;
 
                 var dics = JSON.parse(localStorage.getItem('DicItems'));
@@ -88,7 +90,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
 
                 $scope.userList = user.userList;
 
-                $scope.searchdata.selectInputUser = angular.copy(user.id);
+                $scope.searchdata.selectInputUser = postData && postData.selectData ? postData.selectData.selectInputUser : angular.copy(user.id);
 
                 //右侧树
                 regulationService.SelectLawstandardType(function (params) {
@@ -359,6 +361,11 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                         options.conditions.push({ key: 'selectInputUser', value: $scope.searchdata.selectInputUser });
                     }
 
+                    //排序
+                    if ($scope.searchdata.Ordertype) {
+                        options.conditions.push({ key: 'Ordertype', value: $scope.searchdata.Ordertype });
+                    }
+
 
                     $scope.tableRow.selected = 0;
 
@@ -518,7 +525,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                                         toaster.pop({ type: 'success', body: '批量删除成功!' });
                                         $scope.searchManage();
                                     } else {
-                                        toaster.pop({ type: 'success', body: '批量删除失败!' });
+                                        toaster.pop({ type: 'danger', body: '批量删除失败!' });
                                     }
 
                                 })
@@ -596,6 +603,13 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                         }
                     }
 
+                }
+
+                //更新验证编号
+                $scope.updateLawCode = function () {
+                    regulationService.UpdateAllLawstandardCode(function (res) {
+                        toaster.pop({ type: 'success', body: '更新成功!' });
+                    })
                 }
 
 

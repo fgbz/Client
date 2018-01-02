@@ -71,6 +71,11 @@ define(['bootstrap/app', 'app/config-manager', 'services/http-service'], functio
             http.post('/Lawstandard/DeleteAllSelectLawstandard', data, callback);
         }
 
+        //更新验证编号重复的字段
+        this.UpdateAllLawstandardCode = function (callback) {
+            http.get('/Lawstandard/UpdateAllLawstandardCode', null, callback);
+        }
+
 
     }]);
 });

@@ -154,12 +154,12 @@
                           <option value="1">是</option>
                           <option value="0">否</option>
                   </select>
-               
-                    <span>录入人员:</span>
-                    <select class="home-select" ng-model="searchdata.selectInputUser" style="margin-left: 5px;" ng-options=" type.id as type.userrealname for type in userList">
+
+                <span>录入人员:</span>
+                <select class="home-select" ng-model="searchdata.selectInputUser" style="margin-left: 5px;" ng-options=" type.id as type.userrealname for type in userList">
                           <option value="">全部</option>
                   </select>
-                
+
                 <input class="home-input w300" type="text" style="margin-left: 0px;" ng-model="searchdata.KeyWords" maxlength="25" placeholder="请输入关键字"
                 />
 
@@ -176,6 +176,17 @@
                     <input id="uploader_input" type="file" class="attachment_upload_input" type="file" ngf-select ng-model="file" name="file"
                         ngf-pattern="'.xls'" ngf-accept="'.xls'" ngf-max-size="200MB" ng-change="defaultName(file)" />
                     <div class="reg_dr">批量导入</div>
+                </div>
+
+                <!--排序-->
+                <div class="fl ml10">
+                    <span>排序:</span>
+                    <select class="home-select" ng-model="searchdata.Ordertype" style="margin-left: 5px;">
+                          <option value="0">录入时间正序</option>
+                          <option value="1">录入时间倒序</option>
+                          <option value="2">修改时间正序</option>
+                          <option value="3">修改时间倒序</option>
+                  </select>
                 </div>
 
                 <input type="button" class="deletebtn fr mr10" value="删 除" ng-click="deleteLaw()" ng-show="selectItem.approvestatus==1||isSup||isTecMaintain"

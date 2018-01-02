@@ -214,6 +214,19 @@
 
                 <input type="button" class="deletebtn fl ml10" ng-click="DeleteAll()" value="批量删除" />
 
+                 <!--排序-->
+                <div class="fl ml10">
+                    <span>排序:</span>
+                    <select class="home-select" ng-model="searchdata.Ordertype" style="margin-left: 5px;">
+                          <option value="0">录入时间正序</option>
+                          <option value="1">录入时间倒序</option>
+                          <option value="2">修改时间正序</option>
+                          <option value="3">修改时间倒序</option>
+                  </select>
+                </div>
+
+                <!--<input type="button" class="normalbtn fl ml10" ng-click="updateLawCode()" value="更新编号" />-->
+
                 <input type="button" class="deletebtn fr mr10" value="删 除" ng-click="deleteLaw()" ng-show="selectItem.approvestatus==1||isSup||isLawMaintain"
                 />
                 <input type="button" class="normalcheckbtn fr mr10" ng-click="Edit()" value="编 辑" ng-show="selectItem.approvestatus!=2"

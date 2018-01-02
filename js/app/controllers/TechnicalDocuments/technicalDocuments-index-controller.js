@@ -75,9 +75,11 @@ define(['bootstrap/app', 'utils', 'services/technical-service'], function (app, 
 
                 $scope.clickValue = postData && postData.clickValue ? postData.clickValue : $scope.clickValue;
 
+                $scope.searchdata.Ordertype = postData && postData.selectData ? postData.selectData.Ordertype : '3';
+
                 $scope.userList = user.userList;
 
-                $scope.searchdata.selectInputUser = angular.copy(user.id);
+                $scope.searchdata.selectInputUser = postData && postData.selectData ? postData.selectData.selectInputUser : angular.copy(user.id);
 
                 //右侧树
                 technicalService.SelectTechnicalType(function (params) {
@@ -312,6 +314,11 @@ define(['bootstrap/app', 'utils', 'services/technical-service'], function (app, 
                         options.conditions.push({ key: 'OrgList', value: JSON.stringify(org) });
                     } else {
                         options.conditions.push({ key: 'selectInputUser', value: $scope.searchdata.selectInputUser });
+                    }
+
+                    //排序
+                    if ($scope.searchdata.Ordertype) {
+                        options.conditions.push({ key: 'Ordertype', value: $scope.searchdata.Ordertype });
                     }
 
                     $scope.tableRow.selected = 0;
