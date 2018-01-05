@@ -18,13 +18,13 @@
             <td style="padding-top: 10px;">
 
                 <input class="home-input w300" readonly ng-model="displayText" ng-click="expandTree()" title="{{displayText}}" />
-                <div name="combo_tree"  class="selecttreearea" ng-show="showTree"  style="    width: 300px;">
+                <div name="combo_treeRole"  class="selecttreearea" ng-show="showTree"  style="    width: 300px;">
                     <div ui-tree>
                         <ol ui-tree-nodes ng-model="source">
-                            <li ng-repeat="item in source" ui-tree-node ng-include="'childnodes.html'">
+                            <li ng-repeat="item in source" ui-tree-node ng-include="'childnodes1.html'">
                             </li>
                         </ol>
-                        <script type="text/ng-template" id="childnodes.html">
+                        <script type="text/ng-template" id="childnodes1.html">
             <div ui-tree-handle data-nodrag  ng-style="{'background-color':treeModel==item.id?'#d2eaff':'none','height':'30px','cursor': 'pointer'}">
             
                <!--图片-->
@@ -45,7 +45,7 @@
             <ol ui-tree-nodes="" ng-model="item.Nodes">  
                 
                  <div ng-show="item.Extend">
-                     <li ng-repeat="item in item.Nodes" ui-tree-node ng-include="'childnodes.html'" ></li>
+                     <li ng-repeat="item in item.Nodes" ui-tree-node ng-include="'childnodes1.html'" ></li>
                 </div>
                 
             </ol>

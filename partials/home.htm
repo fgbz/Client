@@ -7,11 +7,11 @@
 
     <div class="home_notice">
         <input type="button" class="noticebtn" value="系统通知" ng-click="goNotice()" />
-        <marquee id="affiche" align="left" behavior="scroll" direction="left" height="50" width="200" hspace="30" style="margin: 0;margin-left: 20px;width: calc(100% - 140px);float: right;"
-            vspace="20" loop="-1" scrollamount="5" scrolldelay="100" onMouseOut="this.start()" onMouseOver="this.stop()">
-            <div ng-repeat="item in activeItems" class="home_advice" ng-click="goNoticeDetails(item)">
-                <span style="color:#fff;">{{item.title}}({{item.inputdate|changeTime}})</span>
-            </div>
+        <marquee id="affiche" align="left" behavior="scroll" direction="left" height="50" hspace="0" style="margin: 0;width: calc(100% - 140px);float: right;"
+            vspace="0" loop="-1" scrollamount="5" scrolldelay="100" onMouseOut="this.start()" onMouseOver="this.stop()">
+            <ul style="height: 50px; width: 5000px;">
+                <li ng-repeat="item in activeItems" class="home_advice"  ng-click="goNoticeDetails(item)" style="color:#fff;">{{item.title|tooltips:20}}({{item.inputdate|changeTime}})</li>
+            </ul>
         </marquee>
     </div>
 
@@ -203,7 +203,7 @@
 
             <div class="lylytext">
 
-                <marquee id="affiche" align="left" behavior="scroll" direction="up" height="50" width="400" hspace="30" class="sugg_text"
+                <marquee id="affiche1" align="left" behavior="scroll" direction="up" height="185" width="400" hspace="30" class="sugg_text"
                     style="height:215px;width:99%;margin: 0;margin-bottom: 10px;margin-left:0px" vspace="20" loop="-1" scrollamount="3"
                     scrolldelay="100" onMouseOut="this.start()" onMouseOver="this.stop()">
                     <div ng-repeat="item in SuggestionItems" style="cursor: pointer;" class="clear" ng-click="goSuggestDetail(item)">

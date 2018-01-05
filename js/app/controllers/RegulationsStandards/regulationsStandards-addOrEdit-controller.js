@@ -300,6 +300,16 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                             }
                         }
 
+                         if (!$scope.data.chinesename) {
+                            toaster.pop({ type: 'danger', body: '请填写标题!' });
+                            $scope.isSaving = false;
+                            return;
+                        }
+                         if (!$scope.data.code) {
+                            toaster.pop({ type: 'danger', body: '请填写编号!' });
+                            $scope.isSaving = false;
+                            return;
+                        }
                         if (!$scope.data.lawtype) {
                             toaster.pop({ type: 'danger', body: '请选择类别!' });
                             $scope.isSaving = false;

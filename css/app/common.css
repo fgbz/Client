@@ -410,7 +410,10 @@ body {
     text-align: right;
     width: 230px;
 }
-
+.regluation_add_td_first{
+    vertical-align: middle;
+    text-align: right;
+}
 
 .regluation_add_textarea{
     width:99%; 
@@ -1917,6 +1920,9 @@ body {
 .w200{
     width: 200px!important;;
 }
+.w250{
+    width: 250px!important;;
+}
 .w847{
     width: 847px!important;
 }
@@ -2095,6 +2101,7 @@ body {
 .index_header .list-inline li{
     cursor:pointer;
     float: right;
+    width: 91px;
 }
 
 
