@@ -144,10 +144,18 @@ define(['bootstrap/app',
             });
 
 
+
             // 如果出现了没有存在的状态，则进入默认的 URL。 settings-controller
             // 这里的 URL 一定是上面的 state 定义中存在的 URL。
             // 如果上面的状态定义使用了 子状态，并且子状态 没有使用 绝对路由，这个地方的判断会出错。
             // 好像不会识别子状态的 url，然后就出现很多 url 找不到，被跳转到默认的地址。
             $urlRouterProvider.otherwise('/home');
+
+            // if (!$httpProvider.defaults.headers.get) {
+            //     $httpProvider.defaults.headers.get = {};
+            // }
+            // $httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
+            // $httpProvider.defaults.headers.get['Cache-Control'] = 'no-cache, must-revalidate';
+            // $httpProvider.defaults.headers.get['pragma'] = 'no-cache';
         });
     });
