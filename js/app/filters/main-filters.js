@@ -407,10 +407,10 @@ define(['angular', 'utils'], function (ng, utils) {
             switch (approvestatus) {
                 case 1:
                     res = '草稿';
-                     break;
+                    break;
                 case 2:
                     res = '已提交待审核';
-                     break;
+                    break;
                 case 3:
                     res = '发布';
                     break;
@@ -426,6 +426,25 @@ define(['angular', 'utils'], function (ng, utils) {
         return function (text) {
             return $sce.trustAsHtml(text);
         }
-    })
+    });
+    //搜索高亮显示
+    fm.filter("highlight", function ($sce) {
+        var fn = function (text, search) {
+            if (!search) {
+                return $sce.trustAsHtml(text);
+            }     
+            var searchList = search.split(' ');
+            var result = text;
+            for (var i = 0; i < searchList.length; i++) {
+                var regex = new RegExp(searchList[i], 'gi');
+                if (result) {
+                    result = result.replace(regex, '<span class="highlightedTextStyle">$&</span>');
+                }
+
+            }
+            return $sce.trustAsHtml(result);
+        };
+        return fn;
+    });
 
 });

@@ -2,9 +2,9 @@
 
     <div class="concent_center mt10 h200">
         <div class="solr_title"></div>
-        <input class="home_topsearch" type="text" ng-model="searchdata.solrText" maxlength="100" placeholder="请输入关键字进行检索"  ng-keypress="PressSolr($event)"
+        <input class="home_topsearch" type="text" ng-model="searchdata.solrText" maxlength="100" placeholder="请输入关键字进行检索" ng-keypress="PressSolr($event)"
         />
-        <span class="home_topsearch_icon" ng-click="searchinfo()">检索</span>
+        <span class="home_topsearch_icon" ng-click="searchinfo()">全文检索</span>
     </div>
 
     <!--详细-->
@@ -50,7 +50,8 @@
                             类别选择
                         </td>
                         <td>
-                            <combo-tree-select style="width:170px" is-disable="false" tree-data="treeData" is-normal="true" tree-width="180" tree-model="clickTreeValue" btn-show="false" img-color="2"></combo-tree-select>
+                            <combo-tree-select style="width:170px" is-disable="false" tree-data="treeData" is-normal="true" tree-width="180" tree-model="clickTreeValue"
+                                btn-show="false" img-color="2"></combo-tree-select>
                         </td>
                     </tr>
                     <tr height="40px;">
@@ -76,18 +77,18 @@
                             发布日期
                         </td>
                         <td>
-                            <input type="text" id="FiledTimeStart" class="case_table_timepicker_input" ng-model="searchdata.FiledTimeStart"
-                                je-date format="YYYY-MM-DD" readonly />
+                            <input type="text" id="FiledTimeStart" class="case_table_timepicker_input" ng-model="searchdata.FiledTimeStart" je-date format="YYYY-MM-DD"
+                                readonly />
                         </td>
                     </tr>
-                     <tr height="40px;">
+                    <tr height="40px;">
                         <td class="tr">
-                           至
+                            至
                         </td>
                         <td>
-                          
-                            <input type="text" id="FiledTimeEnd"  class="case_table_timepicker_input" ng-model="searchdata.FiledTimeEnd" je-date
-                                format="YYYY-MM-DD" readonly />
+
+                            <input type="text" id="FiledTimeEnd" class="case_table_timepicker_input" ng-model="searchdata.FiledTimeEnd" je-date format="YYYY-MM-DD"
+                                readonly />
                         </td>
                     </tr>
                 </table>
@@ -107,17 +108,21 @@
 
 
             <div ng-repeat="item in items" class="solr_repeat" ng-show="isLoaded" ng-click="Check(item)">
-                <div class="fl solr_chinsesename" >{{item.chinesename}}</div>
+                <div class="fl solr_chinsesename" ng-bind-html="item.chinesename|highlight:searchdata.solrText"></div>
                 <div class="fr solr_time" ng-style="{'margin-right':$first?'-50px':'0px'}">{{item.releasedate|recordtime}}</div>
-                <div class="clear">
-                    <div><label>关键字:</label>{{item.keywords}}</div>
+                <div class="clear" style="height: 30px;">
                     <div>
-                        <label class="fl">摘要:</label>
-                        <div ng-bind-html="item.summaryinfo|tooltips:100|parseHTML" title="{{item.summaryinfo|parseHTML}}"></div>
+                        <label class="fl">关键字:</label>
+                        <div ng-bind-html="item.keywords|tooltips:50|highlight:searchdata.solrText"></div>
                     </div>
                 </div>
+                <div>
+                    <label class="fl">摘要:</label>
+                    <div ng-bind-html="item.summaryinfo|tooltips:100|highlight:searchdata.solrText" title="{{item.summaryinfo|parseHTML}}"></div>
+                </div>
+
             </div>
-          
+
             <div class="text-center " ng-show="!isLoaded">
                 <img src="images/loading.gif " />
             </div>

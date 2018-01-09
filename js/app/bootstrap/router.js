@@ -158,4 +158,13 @@ define(['bootstrap/app',
             // $httpProvider.defaults.headers.get['Cache-Control'] = 'no-cache, must-revalidate';
             // $httpProvider.defaults.headers.get['pragma'] = 'no-cache';
         });
+
+        // 禁止模板缓存  
+        app.run(function ($rootScope, $templateCache) {
+            $rootScope.$on('$routeChangeStart', function (event, next, current) {
+                if (typeof (current) !== 'undefined') {
+                    $templateCache.remove(current.templateUrl);
+                }
+            });
+        });
     });

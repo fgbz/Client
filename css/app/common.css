@@ -172,19 +172,23 @@ body {
 
 /*系统选项*/
 .btn_help {
-    width: 20px;
+   width: 85px;
     height: 20px;
     float: left;
+    padding-left: 20px;
+    text-decoration: none;
     margin-right: 5px;
-    background: url('../../images/top_but_bz.png') no-repeat center;
+    background: url('../../images/top_but_bz.png') no-repeat left;
 }
 
 .btn_help_new {
-    width: 20px;
+    width: 85px;
     height: 20px;
     float: left;
+    padding-left: 20px;
+    text-decoration: none;
     margin-right: 5px;
-    background: url('../../images/top_but_bz_new.png') no-repeat center;
+    background: url('../../images/top_but_bz_new.png') no-repeat left;
 }
 
 .btn_people{
@@ -226,19 +230,23 @@ body {
 }
 
 .btn_download {
-    width: 20px;
+    width: 85px;
     height: 20px;
     float: left;
+    padding-left: 20px;
+    text-decoration: none;
     margin-right: 5px;
-    background: url('../../images/top_but_cjxz.png') no-repeat center;
+    background: url('../../images/top_but_cjxz.png') no-repeat left;
 }
 
 .btn_download_new {
-    width: 20px;
+    width: 85px;
     height: 20px;
     float: left;
+    padding-left: 20px;
+    text-decoration: none;
     margin-right: 5px;
-    background: url('../../images/top_but_cjxz_new.png') no-repeat center;
+    background: url(../../images/top_but_cjxz_new.png) no-repeat left;
 }
 
 .list-inline{
@@ -1257,8 +1265,8 @@ body {
   line-height: 50px;
   color: #ffffff;
   font-size: 16px;
-  padding-left: 50px;
-  background:#08589f url('../../images/but_qwjs.png') 20px no-repeat;
+  padding-left: 40px;
+  background:#08589f url('../../images/but_qwjs.png') 15px no-repeat;
 }
 
 .home_notice{
@@ -2021,7 +2029,9 @@ body {
     overflow-y: auto;
 }
 
-
+.highlightedTextStyle{
+    color: red;
+}
 
 
 
