@@ -79,6 +79,8 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
 
                 $scope.searchdata.Ordertype = postData && postData.selectData ? postData.selectData.Ordertype : '3';
 
+                $scope.searchdata.SearchOrdertype = postData && postData.SearchOrdertype ? postData.selectData.SearchOrdertype : '3';
+
                 $scope.isLoaded = true;
 
                 var dics = JSON.parse(localStorage.getItem('DicItems'));
@@ -303,7 +305,9 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                     } else if (postData && postData.treevalueid) {
                         options.conditions.push({ key: 'TreeValue', value: postData.treevalueid });
                     }
-
+                    if ($scope.searchdata.SearchOrdertype) {
+                        options.conditions.push({ key: 'SearchOrdertype', value: $scope.searchdata.SearchOrdertype });
+                    }
                     options.conditions.push({ key: 'ApproveStatus', value: 3 });
 
                     $scope.tableRowsearch.selected = 0;
@@ -410,6 +414,16 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
 
                     })
 
+                }
+
+                //排序变化
+                $scope.orderTypeChange = function () {
+                    $scope.searchManage();
+                }
+
+                //查询排序变化
+                $scope.SearchorderTypeChange = function () {
+                    $scope.searchinfo();
                 }
 
                 $scope.searchManage();

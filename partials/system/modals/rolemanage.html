@@ -18,7 +18,7 @@
             <td style="padding-top: 10px;">
 
                 <input class="home-input w300" readonly ng-model="displayText" ng-click="expandTree()" title="{{displayText}}" />
-                <div name="combo_treeRole"  class="selecttreearea" ng-show="showTree"  style="    width: 300px;">
+                <div name="combo_treeRole"  class="selecttreearea" ng-show="showTree"  style="width: 300px;overflow-x: hidden;">
                     <div ui-tree>
                         <ol ui-tree-nodes ng-model="source">
                             <li ng-repeat="item in source" ui-tree-node ng-include="'childnodes1.html'">

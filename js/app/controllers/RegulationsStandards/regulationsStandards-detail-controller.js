@@ -32,6 +32,8 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
 
                 $scope.isDownload = utils.getListItem('法规标准下载', 'menuname', user.menus);
 
+                $scope.isTop = utils.getListItem('法规标准置顶', 'menuname', user.menus);
+
                 //获取附件信息
                 accessoryService.getAccessoryByDirId(postData.item.id, function (res) {
                     $scope.Attachments = res;

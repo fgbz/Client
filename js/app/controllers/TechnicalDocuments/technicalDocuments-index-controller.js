@@ -77,6 +77,8 @@ define(['bootstrap/app', 'utils', 'services/technical-service'], function (app, 
 
                 $scope.searchdata.Ordertype = postData && postData.selectData ? postData.selectData.Ordertype : '3';
 
+                $scope.searchdata.SearchOrdertype = postData && postData.SearchOrdertype ? postData.selectData.SearchOrdertype : '3';
+
                 $scope.userList = user.userList;
 
                 $scope.searchdata.selectInputUser = postData && postData.selectData ? postData.selectData.selectInputUser : angular.copy(user.id);
@@ -264,6 +266,9 @@ define(['bootstrap/app', 'utils', 'services/technical-service'], function (app, 
                     } else if (postData && postData.treevalueid) {
                         options.conditions.push({ key: 'TreeValue', value: postData.treevalueid });
                     }
+                    if ($scope.searchdata.SearchOrdertype) {
+                        options.conditions.push({ key: 'SearchOrdertype', value: $scope.searchdata.SearchOrdertype });
+                    }
 
                     options.conditions.push({ key: 'ApproveStatus', value: 2 });
                     $scope.tableRowsearch.selected = 0;
@@ -338,6 +343,15 @@ define(['bootstrap/app', 'utils', 'services/technical-service'], function (app, 
 
                 $scope.searchManage();
 
+                //排序变化
+                $scope.orderTypeChange = function () {
+                    $scope.searchManage();
+                }
+
+                //查询排序变化
+                $scope.SearchorderTypeChange = function () {
+                    $scope.searchinfo();
+                }
 
                 //导出
                 $scope.exporeTec = function () {

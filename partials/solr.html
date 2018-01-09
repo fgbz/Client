@@ -107,8 +107,8 @@
             </div>
 
 
-            <div ng-repeat="item in items" class="solr_repeat" ng-show="isLoaded" ng-click="Check(item)">
-                <div class="fl solr_chinsesename" ng-bind-html="item.chinesename|highlight:searchdata.solrText"></div>
+            <div ng-repeat="item in items" class="solr_repeat" ng-show="isLoaded">
+                <div class="fl solr_chinsesename" ng-bind-html="item.chinesename|highlight:searchdata.solrText" style="cursor: pointer;" ng-click="Check(item)"></div>
                 <div class="fr solr_time" ng-style="{'margin-right':$first?'-50px':'0px'}">{{item.releasedate|recordtime}}</div>
                 <div class="clear" style="height: 30px;">
                     <div>

@@ -77,6 +77,17 @@
                 <div style="height:40px;">
                     <div class="regluation_search">检索结果</div>
                     <input type="button" class="normalbtn fr mb10 mr10" value="导 出" ng-click="exporeTec()" />
+
+                    <!--排序-->
+                    <div class="fl ml10" style="line-height: 40px;">
+                        <span>排序:</span>
+                        <select class="home-select" ng-model="searchdata.SearchOrdertype" style="margin-left: 5px;" ng-change="SearchorderTypeChange()">
+                          <option value="0">录入时间正序</option>
+                          <option value="1">录入时间倒序</option>
+                          <option value="2">发布日期正序</option>
+                          <option value="3">发布日期倒序</option>
+                  </select>
+                    </div>
                 </div>
                 <!--表格-->
                 <div style="overflow-y:auto;height: calc(100% - 206px);">
@@ -93,7 +104,7 @@
                             </tr>
                         </thead>
                         <tbody ng-if="isLoaded">
-                            <tr ng-repeat="item in items" style="height: 40px;cursor: pointer" ng-click="clickTable($index);" ng-class="{true: 'tr_selected',false: ''}[tableRowsearch.selected==$index] ">
+                            <tr ng-repeat="item in items" style="height: 40px;" ng-click="clickTable($index);" ng-class="{true: 'tr_selected',false: ''}[tableRowsearch.selected==$index] ">
                                 <td>{{$index+1}}</td>
                                 <td title="{{item.chinesename}} " style="text-align: left;" class="w300 ">{{item.chinesename| tooltips:25}}</td>
                                 <td title="{{item.code}} " style="text-align: left;">{{item.code| tooltips:13 }}</td>
@@ -181,7 +192,7 @@
                 <!--排序-->
                 <div class="fl ml10">
                     <span>排序:</span>
-                    <select class="home-select" ng-model="searchdata.Ordertype" style="margin-left: 5px;">
+                    <select class="home-select" ng-model="searchdata.Ordertype" style="margin-left: 5px;" ng-change="orderTypeChange()">
                           <option value="0">录入时间正序</option>
                           <option value="1">录入时间倒序</option>
                           <option value="2">修改时间正序</option>
@@ -212,7 +223,7 @@
                         </tr>
                     </thead>
                     <tbody ng-if="isLoaded">
-                        <tr ng-repeat="item in itemManages" style="height: 40px;cursor: pointer" ng-click="clickTable($index);" ng-class="{true: 'tr_selected',false: ''}[tableRow.selected==$index] ">
+                        <tr ng-repeat="item in itemManages" style="height: 40px;" ng-click="clickTable($index);" ng-class="{true: 'tr_selected',false: ''}[tableRow.selected==$index] ">
                             <td>{{$index+1}}</td>
                             <td title="{{item.chinesename}} " style="text-align: left;" class="w300 ">{{item.chinesename| tooltips:25}}</td>
                             <td title="{{item.code}} " style="text-align: left;">{{item.code| tooltips:20 }}</td>

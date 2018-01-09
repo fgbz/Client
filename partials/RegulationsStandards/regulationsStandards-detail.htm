@@ -13,10 +13,10 @@
             <span class="ml40">修改时间：{{DetaiData.modifyusername?DetaiData.modifydate:''}}</span>
 
 
-            <div ng-class="{true:'system_hk_yes',false:'system_hk_no'}[DetaiData.istop==1]">
+            <div ng-class="{true:'system_hk_yes',false:'system_hk_no'}[DetaiData.istop==1]" ng-if="isTop">
                 <div ng-class="{true:'system_hkb_right',false:'system_hkb_left'}[DetaiData.istop==1]" ng-click="clicksfzd(DetaiData)"></div>
             </div>
-            <div class="fr" style="width: 50px;">{{DetaiData.istop==1?'已置顶':'置顶'}}</div>
+            <div class="fr" style="width: 50px;" ng-if="isTop">{{DetaiData.istop==1?'已置顶':'置顶'}}</div>
 
             <div ng-class="{true:'regluation_detail_collect',false:'regluation_detail_nocollect'}[DetaiData.iscollect]" ng-click="favorieLaw()">收藏</div>
 
