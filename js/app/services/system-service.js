@@ -106,5 +106,10 @@ define(['bootstrap/app', 'app/config-manager', 'services/http-service'], functio
             http.post('/System/getLogList', data, callback);
         }
 
+        //处理历史数据
+        this.handleHistory = function (path, callback) {
+             http.post('/System/handleHistory', { "path": path }, callback);
+        }
+
     }]);
 });

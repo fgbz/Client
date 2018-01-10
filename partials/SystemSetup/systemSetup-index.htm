@@ -31,6 +31,19 @@
 
         </div>
 
+        <div ng-if="clickTreeValue=='19'">
+            <div class="system_hc">
+                <span>历史数据处理</span>
+
+                <div class="fr mt10">
+                    <input type="button" class="normalbtn fr" value="开 始" ng-click="saveHistory()"/>
+                    <input class="home-input fr mr10 w300" type="text" ng-model="systemdata.filepath" />
+                </div>
+
+            </div>
+
+        </div>
+
 
         <div ng-if="clickTreeValue=='12'" class="concent_center">
             <table>

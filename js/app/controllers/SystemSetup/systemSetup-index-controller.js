@@ -84,7 +84,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                     { Id: '15', Name: '法规标准类别维护', ParentID: '01' },
                     { Id: '16', Name: '技术文档类别维护', ParentID: '01' },
                     { Id: '18', Name: '日志查看', ParentID: '01' },
-
+                    { Id: '19', Name: '历史数据处理', ParentID: '01' },
 
                 ];
 
@@ -1052,6 +1052,12 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                         $scope.LogItems = response.CurrentList;
                         $scope.pagerLog.total = response.RecordCount;
                     })
+                }
+
+                $scope.saveHistory = function () {
+                   systemService.handleHistory($scope.systemdata.filepath,function (params) {
+                       
+                   })
                 }
 
             };
