@@ -1,13 +1,12 @@
 <div class="h100">
-    <form name="addLawForm"  class="h100">
+    <form name="addLawForm" class="h100">
         <div class="mt10_mb10" style="height:30px;">
 
             <input type="button" class="canclelbtn fr ml10 border1ccc" value="返 回" ng-click="goState()" />
-            <input type="button" class="normalbtn fr ml10" value="提 交"  ng-click="commit('commit')" ng-disabled="isSaving" ng-show="!isPublish"
+            <input type="button" class="normalbtn fr ml10" value="提 交" ng-click="commit('commit')" ng-disabled="isSaving" ng-show="!isPublish"
             />
-            <input type="button" class="normalbtn fr" value="保 存" ng-click="save('save')" ng-disabled="isSaving"
-            />
-            
+            <input type="button" class="normalbtn fr" value="保 存" ng-click="save('save')" ng-disabled="isSaving" />
+
         </div>
 
         <!--外围border-->
@@ -68,10 +67,12 @@
 
                     <tr height="50px">
                         <td class="regluation_add_td">发布部门</td>
-                        <td class="w250">
-                            <select class="home-input w250" type="text" ng-disabled="!canEdit" ng-model="data.organization" ng-options=" type.id as type.name for type in PublishList">
-                                  <option value="">--请选择--</option>
-                                </select>
+                        <td class="w250" style="padding-left: 10px;">
+                            <div isteven-multi-select input-model="PublishList" output-model="organization" button-label="name" item-label="name"
+                                tick-property="Selected" search-property='name' output-properties="id" translation="localLang"
+                                max-labels="8" max-height="280px" selection-mode="single" style="width: 250px;" is-disabled="!canEdit">
+                            </div>
+
                         </td>
 
                         <td class="regluation_add_td">状态</td>
@@ -100,7 +101,7 @@
                     <tr height="50px">
                         <td class="regluation_add_td va_top">摘要</td>
                         <td colspan="3" class="pl10" ng-show="canEdit">
-                            <div class="bgdfff"  style="width:849px;">
+                            <div class="bgdfff" style="width:849px;">
                                 <textarea nic-textarea text-content id="test-content" name="Content" ng-model="data.summaryinfo" class="home-txtarea regluation_add_textarea"
                                     style="width:849px;border: 0px;overflow:auto;border-radius: 0;" maxlength="800"></textarea>
                             </div>

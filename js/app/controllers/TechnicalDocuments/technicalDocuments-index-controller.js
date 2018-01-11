@@ -56,6 +56,14 @@ define(['bootstrap/app', 'utils', 'services/technical-service'], function (app, 
                     selected: 0
                 }
                 $scope.searchdata = {};
+
+                $scope.localLang = {
+                    selectAll: "全选",
+                    selectNone: "全不选",
+                    reset: "清空",
+                    search: "查找人员...",
+                    nothingSelected: "(无)"
+                };
             };
 
             //加载
@@ -79,9 +87,17 @@ define(['bootstrap/app', 'utils', 'services/technical-service'], function (app, 
 
                 $scope.searchdata.SearchOrdertype = postData && postData.SearchOrdertype ? postData.selectData.SearchOrdertype : '3';
 
-                $scope.userList = user.userList;
+                $scope.userList = angular.copy(user.userList);
 
-                $scope.searchdata.selectInputUser = postData && postData.selectData ? postData.selectData.selectInputUser : angular.copy(user.id);
+                $scope.searchdata.selectInputUser = postData && postData.selectData ? postData.selectData.selectInputUser : [{ id: user.id }];
+
+                for (var i = 0; i < $scope.userList.length; i++) {
+                    if ($scope.userList[i].id == $scope.searchdata.selectInputUser[0].id) {
+                        $scope.userList[i].Selected = true;
+                    } else {
+                        $scope.userList[i].Selected = false;
+                    }
+                }
 
                 //右侧树
                 technicalService.SelectTechnicalType(function (params) {
@@ -311,14 +327,14 @@ define(['bootstrap/app', 'utils', 'services/technical-service'], function (app, 
                         options.conditions.push({ key: 'IsBatch', value: $scope.searchdata.IsBatch });
                     }
                     //有没有选择当前登录人
-                    if ($scope.searchdata.selectInputUser == user.id || !$scope.searchdata.selectInputUser) {
+                    if (!$scope.searchdata.selectInputUser || $scope.searchdata.selectInputUser.length == 0 || $scope.searchdata.selectInputUser[0].id == user.id) {
                         options.conditions.push({ key: 'TecInputuserid', value: user.id })
                         var org = {
                             childsorg: user.orgList
                         }
                         options.conditions.push({ key: 'OrgList', value: JSON.stringify(org) });
                     } else {
-                        options.conditions.push({ key: 'selectInputUser', value: $scope.searchdata.selectInputUser });
+                        options.conditions.push({ key: 'selectInputUser', value: $scope.searchdata.selectInputUser[0].id });
                     }
 
                     //排序
@@ -363,9 +379,10 @@ define(['bootstrap/app', 'utils', 'services/technical-service'], function (app, 
                         FiledTimeEnd: $scope.FiledTimeEnd ? $scope.FiledTimeEnd : null,
                         KeyWordsSingle: $scope.KeyWordsSingle ? $scope.KeyWordsSingle : null,
                         TreeValue: $scope.TreeValue ? $scope.TreeValue : null,
+                        SearchOrdertype:$scope.searchdata.SearchOrdertype
                     }
                     var url = baseUrl + "/Technical/ExportTec?Number=" + data.Number + "&Title=" + data.Title + "&FiledTimeStart=" + data.FiledTimeStart
-                        + "&FiledTimeEnd=" + data.FiledTimeEnd + "&KeyWordsSingle=" + data.KeyWordsSingle + "&TreeValue=" + data.TreeValue + "&ApproveStatus=" + 2;
+                        + "&FiledTimeEnd=" + data.FiledTimeEnd + "&KeyWordsSingle=" + data.KeyWordsSingle + "&TreeValue=" + data.TreeValue + "&ApproveStatus=" + 2+"&SearchOrdertype="+data.SearchOrdertype;
 
                     url = http.wrapUrl(url);
                     var exportWindow = window.open(url, "_blank");

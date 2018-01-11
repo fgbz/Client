@@ -391,7 +391,8 @@ body {
 .regluation_manage_searcharea{
     height: 50px;
     background: #f0f0f0;
-    line-height: 50px;
+    /*line-height: 50px;*/
+    padding-top: 10px;
 }
 
 

@@ -38,7 +38,13 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                     postData = JSON.parse(postData);
                 }
 
-
+                $scope.localLang = {
+                    selectAll: "全选",
+                    selectNone: "全不选",
+                    reset: "清空",
+                    search: "查找发布部门...",
+                    nothingSelected: "(无)"
+                };
 
                 $scope.isSaving = false;
                 var dics = JSON.parse(localStorage.getItem('DicItems'));
@@ -88,7 +94,18 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                                 $scope.data.impdate = utils.parseTime(new Date($scope.data.impdate), "YYYY-MM-DD");
                             }
                             angular.element('.nicEdit-main')[0].innerHTML = $scope.data.summaryinfo;
+                            //发布部门
+                            if ($scope.data.organization) {
+                                $scope.organization = [{ id: $scope.data.organization }];
+                            }
 
+                            for (var i = 0; i < $scope.PublishList.length; i++) {
+                                if ($scope.organization && $scope.PublishList[i].id == $scope.organization[0].id) {
+                                    $scope.PublishList[i].Selected = true;
+                                } else {
+                                    $scope.PublishList[i].Selected = false;
+                                }
+                            }
 
                         })
                     } else {
@@ -300,12 +317,12 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                             }
                         }
 
-                         if (!$scope.data.chinesename) {
+                        if (!$scope.data.chinesename) {
                             toaster.pop({ type: 'danger', body: '请填写标题!' });
                             $scope.isSaving = false;
                             return;
                         }
-                         if (!$scope.data.code) {
+                        if (!$scope.data.code) {
                             toaster.pop({ type: 'danger', body: '请填写编号!' });
                             $scope.isSaving = false;
                             return;
@@ -341,6 +358,13 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                         $scope.data.fileids = fileids;
 
                         $scope.data.summaryinfo = $(".nicEdit-main").html();
+
+                        //发布部门
+                        if ($scope.organization && $scope.organization.length > 0) {
+                            $scope.data.organization = $scope.organization[0].id;
+                        } else {
+                            $scope.data.organization = "";
+                        }
 
                         regulationService.SaveOrUpdateLawstandard($scope.data, function (response) {
                             if (response == 200) {

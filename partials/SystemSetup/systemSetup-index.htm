@@ -36,7 +36,7 @@
                 <span>历史数据处理</span>
 
                 <div class="fr mt10">
-                    <input type="button" class="normalbtn fr" value="开 始" ng-click="saveHistory()"/>
+                    <input type="button" class="normalbtn fr" value="开 始" ng-click="saveHistory()" />
                     <input class="home-input fr mr10 w300" type="text" ng-model="systemdata.filepath" />
                 </div>
 
@@ -354,19 +354,26 @@
             <div class="system_userconfig">
                 <div class="fl" style=" width: 100%;">
 
-                    <input class="home-input " type="text" style="margin-left: 0px;" ng-model="logdata.OperationName" maxlength="25" placeholder="请输入操作名称"
+                    <input class="home-input fl" type="text" style="margin-left: 0px;margin-top: 10px;" ng-model="logdata.OperationName" maxlength="25" placeholder="请输入操作名称"
                     />
-                    <span>操作人员:</span>
-                    <select class="home-select" ng-model="logdata.Userid" style="margin-left: 5px;width: 100px;" ng-options=" type.id as type.userrealname for type in userList">
-                          <option value="">全部</option>
-                  </select>
-                    <span>操作时间:</span>
-                    <input type="text" id="FiledTimeStart" class="case_table_timepicker_input" ng-model="logdata.FiledTimeStart" je-date format="YYYY-MM-DD"
-                        readonly />
-                    <span style="margin-left: 0px;">至</span>
-                    <input type="text" id="FiledTimeEnd" class="case_table_timepicker_input" ng-model="logdata.FiledTimeEnd" je-date format="YYYY-MM-DD"
-                        readonly />
+                    <div class="fl ml10">
+                        <span>操作人员:</span>
+
+                        <div isteven-multi-select input-model="userList" output-model="logdata.Userid" button-label="userrealname" item-label="userrealname"
+                            tick-property="Selected" search-property='userrealname' output-properties="id" translation="logdata.localLang"
+                            max-labels="8" max-height="280px" selection-mode="single" style="width: 100px; float: right; margin-left: 10px;">
+                        </div>
+                    </div>
+                    <div class="fl m10">
+                        <span>操作时间:</span>
+                        <input type="text" id="FiledTimeStart" class="case_table_timepicker_input" ng-model="logdata.FiledTimeStart" je-date format="YYYY-MM-DD"
+                            readonly />
+                        <span style="margin-left: 0px;">至</span>
+                        <input type="text" id="FiledTimeEnd" class="case_table_timepicker_input" ng-model="logdata.FiledTimeEnd" je-date format="YYYY-MM-DD"
+                            readonly />
+                    </div>
                     <input type="button" class="normalbtn fr mr10 mt10" value="搜 索" ng-click="getLogs()" />
+
                 </div>
             </div>
 

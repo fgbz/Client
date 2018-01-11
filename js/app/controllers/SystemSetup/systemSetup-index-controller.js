@@ -51,14 +51,31 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                 $scope.pagedata = {};
                 $scope.pagedata.pagesize = dics.PageSize;
 
+
+                $scope.logdata.localLang = {
+                    selectAll: "全选",
+                    selectNone: "全不选",
+                    reset: "清空",
+                    search: "查找人员...",
+                    nothingSelected: "(无)"
+                };
+
             };
 
             //加载
             var initialize = function () {
 
-                $scope.userList = user.userList;
+                $scope.userList = angular.copy(user.userList);
 
-                $scope.logdata.Userid = angular.copy(user.id);
+                $scope.logdata.Userid = [{ id: user.id }];
+
+                for (var i = 0; i < $scope.userList.length; i++) {
+                    if ($scope.userList[i].id == $scope.logdata.Userid[0].id) {
+                        $scope.userList[i].Selected = true;
+                    } else {
+                        $scope.userList[i].Selected = false;
+                    }
+                }
 
                 $scope.treeData = [
 
@@ -1037,8 +1054,8 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                     if ($scope.logdata.OperationName) {
                         options.conditions.push({ key: 'OperationName', value: $scope.logdata.OperationName });
                     }
-                    if ($scope.logdata.Userid) {
-                        options.conditions.push({ key: 'Userid', value: $scope.logdata.Userid });
+                    if ($scope.logdata.Userid && $scope.logdata.Userid.length > 0) {
+                        options.conditions.push({ key: 'Userid', value: $scope.logdata.Userid[0].id });
                     }
                     if ($scope.logdata.FiledTimeStart) {
                         options.conditions.push({ key: 'FiledTimeStart', value: $scope.logdata.FiledTimeStart });
@@ -1055,9 +1072,12 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                 }
 
                 $scope.saveHistory = function () {
-                   systemService.handleHistory($scope.systemdata.filepath,function (params) {
-                       
-                   })
+
+                     toaster.pop({ type: 'success', body: '正在完善!' });
+                     return;
+                    // systemService.handleHistory($scope.systemdata.filepath, function (params) {
+
+                    // })
                 }
 
             };

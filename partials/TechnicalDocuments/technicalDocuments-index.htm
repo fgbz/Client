@@ -154,28 +154,35 @@
             <!--查询-->
             <div class="regluation_manage_searcharea">
 
-                <select class="home-select" ng-model="searchdata.ApproveStatus">
+                <div class="fl">
+                    <select class="home-select" ng-model="searchdata.ApproveStatus">
                           <option value="">全部</option>
                           <option value="1">草稿</option>
                           <option value="2">发布</option>
                   </select>
-                <span>是否批量导入:</span>
-                <select class="home-select" ng-model="searchdata.IsBatch" style="margin-left: 5px;">
+                </div>
+
+                <div class="fl ml10">
+                    <span>是否批量导入:</span>
+                    <select class="home-select" ng-model="searchdata.IsBatch" style="margin-left: 5px;">
                           <option value="">全部</option>
                           <option value="1">是</option>
                           <option value="0">否</option>
                   </select>
+                </div>
+                <div class="fl ml10">
+                    <span>录入人员:</span>
+                    <div isteven-multi-select input-model="userList" output-model="searchdata.selectInputUser" button-label="userrealname" item-label="userrealname"
+                        tick-property="Selected" search-property='userrealname' output-properties="id" translation="localLang"
+                        max-labels="8" max-height="280px" selection-mode="single" style="width: 100px; float: right; margin-left: 10px;">
+                    </div>
+                </div>
+                <div class="fl ml10">
+                    <input class="home-input w300" type="text" style="margin-left: 0px;" ng-model="searchdata.KeyWords" maxlength="25" placeholder="请输入关键字"
+                    />
 
-                <span>录入人员:</span>
-                <select class="home-select" ng-model="searchdata.selectInputUser" style="margin-left: 5px;" ng-options=" type.id as type.userrealname for type in userList">
-                          <option value="">全部</option>
-                  </select>
-
-                <input class="home-input w300" type="text" style="margin-left: 0px;" ng-model="searchdata.KeyWords" maxlength="25" placeholder="请输入关键字"
-                />
-
-                <input type="button" class="normalbtn mr10" value="查 询" ng-click="searchManage()" />
-
+                    <input type="button" class="normalbtn mr10" value="查 询" ng-click="searchManage()" />
+                </div>
             </div>
 
             <!--操作-->
