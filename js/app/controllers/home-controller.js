@@ -648,6 +648,8 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/regul
                     }
                 }
 
+  
+
                 //是否登陆
                 function isLogined() {
                     var url = 'partials/system/modals/login.html';

@@ -100,7 +100,7 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                             }
 
                             for (var i = 0; i < $scope.PublishList.length; i++) {
-                                if ($scope.organization && $scope.PublishList[i].id == $scope.organization[0].id) {
+                                if ($scope.organization && $scope.organization.length > 0 && $scope.PublishList[i].id == $scope.organization[0].id) {
                                     $scope.PublishList[i].Selected = true;
                                 } else {
                                     $scope.PublishList[i].Selected = false;

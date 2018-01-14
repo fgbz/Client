@@ -373,12 +373,12 @@ define(['bootstrap/app', 'utils', 'services/technical-service'], function (app, 
                 $scope.exporeTec = function () {
 
                     var data = {
-                        Number: $scope.Number ? $scope.Number : null,
-                        Title: $scope.Title ? $scope.Title : null,
-                        FiledTimeStart: $scope.FiledTimeStart ? $scope.FiledTimeStart : null,
-                        FiledTimeEnd: $scope.FiledTimeEnd ? $scope.FiledTimeEnd : null,
-                        KeyWordsSingle: $scope.KeyWordsSingle ? $scope.KeyWordsSingle : null,
-                        TreeValue: $scope.TreeValue ? $scope.TreeValue : null,
+                        Number: $scope.searchdata.Number ? $scope.searchdata.Number : null,
+                        Title: $scope.searchdata.Title ? $scope.searchdata.Title : null,
+                        FiledTimeStart: $scope.searchdata.FiledTimeStart ? $scope.searchdata.FiledTimeStart : null,
+                        FiledTimeEnd: $scope.searchdata.FiledTimeEnd ? $scope.searchdata.FiledTimeEnd : null,
+                        KeyWordsSingle: $scope.searchdata.KeyWordsSingle ? $scope.searchdata.KeyWordsSingle : null,
+                        TreeValue: $scope.clickTecValue ? $scope.clickTecValue : null,
                         SearchOrdertype:$scope.searchdata.SearchOrdertype
                     }
                     var url = baseUrl + "/Technical/ExportTec?Number=" + data.Number + "&Title=" + data.Title + "&FiledTimeStart=" + data.FiledTimeStart

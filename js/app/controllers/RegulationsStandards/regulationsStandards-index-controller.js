@@ -480,14 +480,14 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                 $scope.exporeLaw = function () {
 
                     var data = {
-                        Number: $scope.Number ? $scope.Number : null,
-                        Title: $scope.Title ? $scope.Title : null,
-                        FiledTimeStart: $scope.FiledTimeStart ? $scope.FiledTimeStart : null,
-                        FiledTimeEnd: $scope.FiledTimeEnd ? $scope.FiledTimeEnd : null,
-                        State: $scope.State ? $scope.State : null,
-                        organization: $scope.organization ? $scope.organization : null,
-                        MaterialTmeStart: $scope.MaterialTmeStart ? $scope.MaterialTmeStart : null,
-                        MaterialTmeEnd: $scope.MaterialTmeEnd ? $scope.MaterialTmeEnd : null,
+                        Number: $scope.searchdata.Number ? $scope.searchdata.Number : null,
+                        Title: $scope.searchdata.Title ? $scope.searchdata.Title : null,
+                        FiledTimeStart: $scope.searchdata.FiledTimeStart ? $scope.searchdata.FiledTimeStart : null,
+                        FiledTimeEnd: $scope.searchdata.FiledTimeEnd ? $scope.searchdata.FiledTimeEnd : null,
+                        State: $scope.searchdata.State ? $scope.searchdata.State : null,
+                        organization: $scope.searchdata.organization ? $scope.searchdata.organization : null,
+                        MaterialTmeStart: $scope.searchdata.MaterialTmeStart ? $scope.searchdata.MaterialTmeStart : null,
+                        MaterialTmeEnd: $scope.searchdata.MaterialTmeEnd ? $scope.searchdata.MaterialTmeEnd : null,
                         TreeValue: $scope.managetreedata.TreeValue ? $scope.managetreedata.TreeValue : null,
                         SearchOrdertype:$scope.searchdata.SearchOrdertype
                     }

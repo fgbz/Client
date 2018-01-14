@@ -179,6 +179,35 @@ define(['bootstrap/app', 'utilities/cryto', 'ctrls/system/modals/logout-controll
 
             };
 
+
+            $scope.ShowUser = function () {
+                var url = 'partials/system/modals/usermanage.html';
+                var modalInstance = $uibModal.open({
+
+                    templateUrl: url,
+                    controller: 'userManage-controller',
+                    size: 600,
+                    resolve: {
+                        values: function () {
+
+                            var dataUser = null;
+                            if (user != null) {
+                                dataUser = angular.copy(user);
+                                dataUser.lastmodifyuserid = user.id
+                            }
+                            var data = {
+                                dataUser: dataUser,
+                                Title: '查看',
+                                isCheck: true
+
+                            }
+                            return data;
+                        }
+                    }
+                });
+
+            }
+
             $scope.login = function () {
                 var url = 'partials/system/modals/login.html';
                 var modalInstance = $uibModal.open({

@@ -1073,11 +1073,35 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
 
                 $scope.saveHistory = function () {
 
-                     toaster.pop({ type: 'success', body: '正在完善!' });
-                     return;
-                    // systemService.handleHistory($scope.systemdata.filepath, function (params) {
+                    $scope.text = "此功能为同步历史数据,用户请不要点击！";
+                    var modalInstance = ngDialog.openConfirm({
+                        templateUrl: 'partials/_confirmModal.html',
+                        appendTo: 'body',
+                        className: 'ngdialog-theme-default',
+                        showClose: false,
+                        scope: $scope,
+                        size: 400,
+                        controller: function ($scope) {
+                            $scope.ok = function () {
 
-                    // })
+
+                                systemService.handleHistory($scope.systemdata.filepath, function (params) {
+                                    if (params == 412) {
+                                        toaster.pop({ type: 'danger', body: '该路径下没有附件!' });
+                                    } else if (params == 200) {
+                                        toaster.pop({ type: 'success', body: '同步成功!' });
+                                    } else {
+                                        toaster.pop({ type: 'danger', body: '同步失败!' });
+                                    }
+                                })
+                                $scope.closeThisDialog(); //关闭弹窗
+                            };
+                            $scope.cancel = function () {
+                                $scope.closeThisDialog(); //关闭弹窗
+                            }
+                        }
+                    });
+
                 }
 
             };

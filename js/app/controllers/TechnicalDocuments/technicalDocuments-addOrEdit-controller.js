@@ -42,7 +42,7 @@ define(['bootstrap/app', 'utils', 'services/technical-service', 'services/access
                             Id: params[i].id,
                             Name: params[i].typename,
                             ParentID: params[i].parentid
-                        }
+                        } 
                         $scope.treeData.push(data);
 
                     }
