@@ -50,6 +50,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/usercenter-ser
                         $rootScope.$emit("menustateChange", { value: null, HeadNew: false });
                         var itemDeal = {};
                         itemDeal.clickValue = postData.clickValue;
+                        itemDeal.selectData = postData.selectData;
                         var data = JSON.stringify(itemDeal);
 
                         $state.go(sRouter, { "data": data });

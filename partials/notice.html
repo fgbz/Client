@@ -1,7 +1,30 @@
 <div class="h100">
     <!--顶部-->
     <div class="mt10_mb10" style="height:30px;">
-      <input type="button" class="canclelbtn fr ml10 border1ccc" value="返 回" ng-click="goState()"/>
+
+        <div class="fl">
+            <span>通知名称:</span>
+            <input class="home-input" type="text" ng-model="searchdata.Title" maxlength="25" />
+        </div>
+
+        <div class="fl" >
+            <span class="fl">发布部门:</span>
+            <combo-tree-select tree-data="treeDataOrg" style="float:left;z-index: 100;" tree-model="searchdata.organization" btn-show="false" img-color="2" is-normal="250" tree-width="250"
+                                is-disable="false"></combo-tree-select>
+        </div>
+
+        <div class="fl">
+            <span class="ml10">发布日期:</span>
+            <input type="text" id="FiledTimeStart" class="case_table_timepicker_input" ng-model="searchdata.FiledTimeStart" je-date format="YYYY-MM-DD"
+                readonly />
+            <span style="margin-left: 0px;">至</span>
+            <input type="text" id="FiledTimeEnd" class="case_table_timepicker_input" ng-model="searchdata.FiledTimeEnd" je-date format="YYYY-MM-DD"
+                readonly />
+        </div>
+
+
+        <input type="button" class="canclelbtn fr ml10 border1ccc" value="返 回" ng-click="goState()" />
+        <input type="button" class="normalbtn fr mr10" ng-click="selectAdvice()" value="查 询" />
     </div>
 
     <!--内容-->

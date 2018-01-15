@@ -342,6 +342,10 @@ define(['bootstrap/app', 'utils', 'services/technical-service'], function (app, 
                         options.conditions.push({ key: 'Ordertype', value: $scope.searchdata.Ordertype });
                     }
 
+                    if (user.duty == 0) {
+                        options.conditions.push({ key: 'Duty', value: user.id });
+                    }
+
                     $scope.tableRow.selected = 0;
                     technicalService.getTechnicalList(options, function (response) {
                         $scope.isLoaded = true;
@@ -379,10 +383,10 @@ define(['bootstrap/app', 'utils', 'services/technical-service'], function (app, 
                         FiledTimeEnd: $scope.searchdata.FiledTimeEnd ? $scope.searchdata.FiledTimeEnd : null,
                         KeyWordsSingle: $scope.searchdata.KeyWordsSingle ? $scope.searchdata.KeyWordsSingle : null,
                         TreeValue: $scope.clickTecValue ? $scope.clickTecValue : null,
-                        SearchOrdertype:$scope.searchdata.SearchOrdertype
+                        SearchOrdertype: $scope.searchdata.SearchOrdertype
                     }
                     var url = baseUrl + "/Technical/ExportTec?Number=" + data.Number + "&Title=" + data.Title + "&FiledTimeStart=" + data.FiledTimeStart
-                        + "&FiledTimeEnd=" + data.FiledTimeEnd + "&KeyWordsSingle=" + data.KeyWordsSingle + "&TreeValue=" + data.TreeValue + "&ApproveStatus=" + 2+"&SearchOrdertype="+data.SearchOrdertype;
+                        + "&FiledTimeEnd=" + data.FiledTimeEnd + "&KeyWordsSingle=" + data.KeyWordsSingle + "&TreeValue=" + data.TreeValue + "&ApproveStatus=" + 2 + "&SearchOrdertype=" + data.SearchOrdertype;
 
                     url = http.wrapUrl(url);
                     var exportWindow = window.open(url, "_blank");
@@ -406,9 +410,9 @@ define(['bootstrap/app', 'utils', 'services/technical-service'], function (app, 
                             toaster.pop({ type: 'success', body: '导入成功!' });
                             $scope.searchManage();
                         } else if (resp.data.Result == 400) {
-                            toaster.pop({ type: 'danger', body: resp.data.Msg, timeout: 0 });
+                            toaster.pop({ type: 'danger', body: resp.data.Msg });
                         } else {
-                            toaster.pop({ type: 'danger', body: "时间格式有误", timeout: 0 });
+                            toaster.pop({ type: 'danger', body: "时间格式有误" });
                         }
 
                     });

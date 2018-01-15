@@ -629,11 +629,11 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
 
                 $scope.updatePassword = function () {
                     if ($scope.passworddata.NewPasswWord != $scope.passworddata.ComfirmPasswWord) {
-                        toaster.pop({ type: 'danger', body: '2次密码输入不一致!', timeout: 0 });
+                        toaster.pop({ type: 'danger', body: '2次密码输入不一致!'});
                         return;
                     }
                     if ($scope.passworddata.OldPasswWord == $scope.passworddata.NewPasswWord) {
-                        toaster.pop({ type: 'danger', body: '新密码不能与原密码一样!', timeout: 0 });
+                        toaster.pop({ type: 'danger', body: '新密码不能与原密码一样!' });
                         return;
                     }
 
@@ -643,7 +643,7 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
                         if (params == 200) {
                             toaster.pop({ type: 'success', body: '修改成功' });
                         } else if (params == 403) {
-                            toaster.pop({ type: 'danger', body: '原密码输入错误!', timeout: 0 });
+                            toaster.pop({ type: 'danger', body: '原密码输入错误!' });
                         } else {
                             toaster.pop({ type: 'danger', body: '修改失败' });
                         }

@@ -369,7 +369,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                                             $scope.systemdata.sfsh = 0;
                                             $scope.closeThisDialog(); //关闭弹窗
                                         } else {
-                                            toaster.pop({ type: 'danger', body: '尚有' + res.count + '份待审稿，请审批完成后再关闭审核功能!', timeout: 0 });
+                                            toaster.pop({ type: 'danger', body: '尚有' + res.count + '份待审稿，请审批完成后再关闭审核功能!' });
                                             $scope.closeThisDialog(); //关闭弹窗
                                         }
 
@@ -829,6 +829,37 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                     });
 
                 }
+                $scope.SaveUserStatus = function (item, txt, type) {
+
+                    $scope.text = "确定" + txt + "吗？";
+                    var modalInstance = ngDialog.openConfirm({
+                        templateUrl: 'partials/_confirmModal.html',
+                        appendTo: 'body',
+                        className: 'ngdialog-theme-default',
+                        showClose: false,
+                        scope: $scope,
+                        size: 400,
+                        controller: function ($scope) {
+                            $scope.ok = function () {
+
+                                systemService.SaveUserStatus(item.id, type, function (res) {
+                                    if (res == 200) {
+                                        toaster.pop({ type: 'success', body: txt + '成功!' });
+                                        $scope.getUsers();
+                                    } else {
+                                        toaster.pop({ type: 'danger', body: txt + '失败!' });
+                                    }
+
+                                })
+
+                                $scope.closeThisDialog(); //关闭弹窗
+                            };
+                            $scope.cancel = function () {
+                                $scope.closeThisDialog(); //关闭弹窗
+                            }
+                        }
+                    });
+                }
 
                 //新增，查看，用户
                 $scope.ShowUser = function (item, flag, txt) {
@@ -887,7 +918,6 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                             $scope.ok = function () {
 
                                 systemService.DeletePublishdepByID(item, function (res) {
-
                                     $scope.getpublishdep();
                                 })
 
@@ -935,7 +965,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                                     toaster.pop({ type: 'success', body: txt + '成功!' });
                                     $scope.getpublishdep();
                                 } else if (params == 461) {
-                                    toaster.pop({ type: 'danger', body: '用户名重复!', timeout: 0 });
+                                    toaster.pop({ type: 'danger', body: '用户名重复!' });
                                 } else {
                                     toaster.pop({ type: 'danger', body: txt + '失败!' });
                                 }
@@ -1009,7 +1039,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                                     toaster.pop({ type: 'success', body: txt + '成功!' });
                                     $scope.getStatus();
                                 } else if (params == 461) {
-                                    toaster.pop({ type: 'danger', body: '用户名重复!', timeout: 0 });
+                                    toaster.pop({ type: 'danger', body: '用户名重复!' });
                                 } else {
                                     toaster.pop({ type: 'danger', body: txt + '失败!' });
                                 }

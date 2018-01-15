@@ -553,7 +553,7 @@ angular.module('isteven-multi-select', ['ng']).directive('istevenMultiSelect', [
                         $scope.varButtonLabel += '(' + $scope.outputModel.length + ')';
                     }
                 }
-                $scope.varButtonLabel = $sce.trustAsHtml($scope.varButtonLabel + '<span class="caret"></span>');
+                $scope.varButtonLabel = $sce.trustAsHtml($scope.varButtonLabel + '<span></span>');
             }
 
             // Check if a checkbox is disabled or enabled. It will check the granular control (disableProperty) and global control (isDisabled)
@@ -1032,7 +1032,7 @@ angular.module('isteven-multi-select', ['ng']).directive('istevenMultiSelect', [
         '<button id="{{directiveId}}" type="button"' +
         'ng-click="toggleCheckboxes( $event ); refreshSelectedItems(); refreshButton(); prepareGrouping; prepareIndex();"' +
         'ng-bind-html="varButtonLabel"'+
-        'ng-disabled="isDisabled"' +
+        'ng-disabled="isDisabled" style="width:{{btnWidth}}'+'px'+'"' +
         '>' +
         '</button>' +
         // overlay layer

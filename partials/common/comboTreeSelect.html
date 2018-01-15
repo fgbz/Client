@@ -1,13 +1,13 @@
 <div name="combo_tree1" class="posi_re">
-    <input class="home-input" readonly ng-model="displayText" ng-click="expandTree()" ng-style="{'width':isNormal?'180px':'250px'}" ng-disabled="isDisable"/>
+    <input class="home-input" readonly ng-model="displayText" ng-click="expandTree()" ng-style="{'width':isNormal+'px'}" ng-disabled="isDisable"/>
 
     <div ui-tree ng-show="showTree" class="selecttreearea" ng-style="{'width':treeWidth+'px'}">
         <ol ui-tree-nodes ng-model="source">
-            <li ng-repeat="item in source" ui-tree-node ng-include="'childnodes.html'">
+            <li ng-repeat="item in source" ui-tree-node ng-include="'childnodesselect.html'">
             </li>
 
         </ol>
-        <script type="text/ng-template" id="childnodes.html">
+        <script type="text/ng-template" id="childnodesselect.html">
             <div ui-tree-handle data-nodrag class="posi_re">
                 <div class="tree_or_line1" ng-show="item.Type==1"></div>
 
@@ -27,7 +27,7 @@
                    
                  <div class="tree_vr_line_out1" ng-show="!$last"></div>
                  <div ng-show="item.Extend">
-                     <li ng-repeat="item in item.Nodes" ui-tree-node ng-include="'childnodes.html'" ></li>
+                     <li ng-repeat="item in item.Nodes" ui-tree-node ng-include="'childnodesselect.html'" ></li>
                 </div>
                 
             </ol>

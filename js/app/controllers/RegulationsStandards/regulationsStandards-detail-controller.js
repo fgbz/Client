@@ -83,10 +83,15 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                         $state.go(sRouter, { "data": data });
                     } else {
 
-                        regulationService.getLawstandardById( histroyData[histroyData.length - 1] , function (res) {
+                        regulationService.getLawstandardById(histroyData[histroyData.length - 1], function (res) {
                             $scope.DetaiData = res;
                             histroyData.splice(histroyData.length - 1, 1);
                         });
+
+                        //获取附件信息
+                        accessoryService.getAccessoryByDirId(histroyData[histroyData.length - 1], function (res) {
+                            $scope.Attachments = res;
+                        })
                     }
 
 
@@ -131,6 +136,11 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
 
                     });
 
+                    //获取附件信息
+                    accessoryService.getAccessoryByDirId(params.id, function (res) {
+                        $scope.Attachments = res;
+                    })
+
                 }
 
 
@@ -157,7 +167,7 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                 $scope.canPreview = function (fileName) {
                     var pos = fileName.lastIndexOf('.');
                     var format = fileName.substring(pos + 1);
-                    var picType = ['pdf', 'doc', 'txt','docx'];
+                    var picType = ['pdf', 'doc', 'txt', 'docx'];
                     var res = false;
                     angular.forEach(picType, function (value, key) {
                         if (value == format.toLowerCase()) {

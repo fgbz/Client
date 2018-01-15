@@ -111,5 +111,10 @@ define(['bootstrap/app', 'app/config-manager', 'services/http-service'], functio
              http.post('/System/handleHistory', { "path": path }, callback);
         }
 
+        //用户停用
+        this.SaveUserStatus = function (id,type,callback) {
+             http.get('/System/SaveUserStatus?id='+id+'&type=' + type, null, callback);
+        }
+
     }]);
 });

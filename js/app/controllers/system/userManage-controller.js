@@ -16,7 +16,10 @@ define(['bootstrap/app', 'utils', 'services/system-service', 'services/md5-servi
 
             //变量
             var define_variable = function () {
-
+                $scope.dutyList = [
+                    { code: 0, name: '普通员工' },
+                    { code: 1, name: '领导' },
+                ]
 
             };
 
@@ -24,34 +27,59 @@ define(['bootstrap/app', 'utils', 'services/system-service', 'services/md5-servi
             var initialize = function () {
 
                 $scope.title = values.Title;
-                $scope.data = angular.copy(values.dataUser);
 
-                $scope.data.inputuserid = user.id;
+                //初始化组织机构
+                $scope.initOrg = function () {
+                    systemService.getOrganizationList(function (params) {
+                        $scope.treeDataOrg = [];
 
-                $scope.checkPassword = angular.copy(values.dataUser);
+                        for (var i = 0; i < params.length; i++) {
+                            var data = {
+                                Id: params[i].id,
+                                Name: params[i].orgname,
+                                ParentID: params[i].parentid,
+                                CanDelete: params[i].candelete,
+                                itemlevel: params[i].itemlevel,
+                                itemlevelcode: params[i].itemlevelcode,
+                            }
+                            $scope.treeDataOrg.push(data);
 
-                $scope.passwordSure = $scope.checkPassword.password;
+                        }
+                        $scope.data = angular.copy(values.dataUser);
 
-                $scope.isCheck = values.isCheck;
+                        $scope.data.inputuserid = user.id;
 
-                systemService.getAllRoles(function (res) {
-                    $scope.roleItems = res;
-                    //绑定选中项
-                    if ($scope.data.roles != null && $scope.data.roles.length > 0) {
-                        for (var i = 0; i < $scope.roleItems.length; i++) {
-                            var flag = false;
-                            for (var j = 0; j < $scope.data.roles.length; j++) {
-                                if ($scope.roleItems[i].id == $scope.data.roles[j].id) {
-                                    flag = true;
-                                    break;
+                        if (!$scope.data.duty) {
+                            $scope.data.duty = 0;
+                        }
+
+                        $scope.checkPassword = angular.copy(values.dataUser);
+
+                        $scope.passwordSure = $scope.checkPassword.password;
+
+                        $scope.isCheck = values.isCheck;
+
+                        systemService.getAllRoles(function (res) {
+                            $scope.roleItems = res;
+                            //绑定选中项
+                            if ($scope.data.roles != null && $scope.data.roles.length > 0) {
+                                for (var i = 0; i < $scope.roleItems.length; i++) {
+                                    var flag = false;
+                                    for (var j = 0; j < $scope.data.roles.length; j++) {
+                                        if ($scope.roleItems[i].id == $scope.data.roles[j].id) {
+                                            flag = true;
+                                            break;
+                                        }
+                                    }
+                                    $scope.roleItems[i].ischeck = flag ? true : false;
                                 }
                             }
-                            $scope.roleItems[i].ischeck = flag ? true : false;
-                        }
-                    }
-                })
+                        })
 
+                    })
+                };
 
+                $scope.initOrg();
 
             };
 
@@ -72,7 +100,7 @@ define(['bootstrap/app', 'utils', 'services/system-service', 'services/md5-servi
 
                     //确认密码
                     if (postdata.password != $scope.passwordSure) {
-                        toaster.pop({ type: 'danger', body: '2次输入密码不一致!', timeout: 0 });
+                        toaster.pop({ type: 'danger', body: '2次输入密码不一致!' });
                         $scope.passwordSure = "";
                         return;
                     }
@@ -93,12 +121,12 @@ define(['bootstrap/app', 'utils', 'services/system-service', 'services/md5-servi
                         }
                     }
                     if (countChar == 0 || countNumber == 0) {
-                        toaster.pop({ type: 'danger', body: '密码必须包含数字与字符!', timeout: 0 });
+                        toaster.pop({ type: 'danger', body: '密码必须包含数字与字符!' });
                         return;
                     }
                     //验证密码格式
                     if (postdata.password.length < 6) {
-                        toaster.pop({ type: 'danger', body: '密码长度不能小于6位!', timeout: 0 });
+                        toaster.pop({ type: 'danger', body: '密码长度不能小于6位!' });
                         return;
                     }
                     postdata.roles = [];
@@ -120,7 +148,7 @@ define(['bootstrap/app', 'utils', 'services/system-service', 'services/md5-servi
                             toaster.pop({ type: 'success', body: $scope.title + '成功!' });
                             $modalInstance.close(params);
                         } else if (params == 461) {
-                            toaster.pop({ type: 'danger', body: '用户名重复!', timeout: 0 });
+                            toaster.pop({ type: 'danger', body: '用户名重复!' });
                         } else {
                             toaster.pop({ type: 'danger', body: $scope.title + '失败!' });
                         }

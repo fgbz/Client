@@ -59,7 +59,7 @@ define(['bootstrap/app', 'utils', 'services/system-service', 'services/md5-servi
                     var passwordjm = md5Service.mdsPassword($scope.password);
 
                     systemService.login($scope.account, passwordjm, function (res) {
-                        if (res && res.LoginState) {
+                        if (res && res.LoginState == 'Success') {
                             // userinfo
                             var loginUser = res.LoginResult;
                             // $cookies.put('loginUser', cryto.encrypt(JSON.stringify(loginUser)));
@@ -71,6 +71,9 @@ define(['bootstrap/app', 'utils', 'services/system-service', 'services/md5-servi
 
                             location.reload();
 
+                        } else if (res && res.LoginState == 'Disconnected') {
+                            $scope.password = "";
+                            $scope.loginMessage = '该用户已被停用';
                         } else {
                             $scope.password = "";
                             $scope.loginMessage = '帐号或密码错误。';

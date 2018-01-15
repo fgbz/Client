@@ -196,7 +196,7 @@ define(['bootstrap/app', 'utils', 'services/technical-service', 'services/access
                             toaster.pop({ type: 'success', body: '保存成功!' });
                             $scope.goState("second");
                         } else if (response == 461) {
-                            toaster.pop({ type: 'danger', body: '标题重复!', timeout: 0 });
+                            toaster.pop({ type: 'danger', body: '标题重复!' });
                         } else {
                             toaster.pop({ type: 'danger', body: '保存失败!' });
                         }

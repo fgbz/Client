@@ -9,7 +9,7 @@
         <table>
             <tr height="40px">
                 <td class="system_td ">
-                   <span class="div_required">*</span> 用户名</td>
+                    <span class="div_required">*</span> 用户名</td>
                 <td>
                     <div class="posi_re">
                         <input class="home-input mt10 " style="width: 425px; " type="text " ng-model="data.username" maxlength="50" name="username "
@@ -36,12 +36,32 @@
 
             <tr height="40px">
                 <td class="system_td ">
-                   <span class="div_required">*</span> 确认密码</td>
+                    <span class="div_required">*</span> 确认密码</td>
                 <td>
                     <div class="posi_re"><input class="home-input mt10 " style="width: 425px; " type="password" ng-model="passwordSure" maxlength="50"
                             name="password" ng-disabled="isCheck " validator="required" /></td>
                 </div>
             </tr>
+            <tr height="40px">
+                <td class="system_td ">
+                    职务</td>
+                <td>
+                    <select class="home-select mt10" ng-model="data.duty" style="width: 425px; " ng-options=" type.code as type.name for type in dutyList" ng-disabled="isCheck ">         
+                      </select>
+                </td>
+            </tr>
+
+            <tr height="40px">
+                <td class="system_td ">
+                    部门</td>
+                <td>
+                    <div class="posi_re mt10">
+                        <combo-tree-select tree-data="treeDataOrg" style="z-index: 100;" tree-model="data.orgid" btn-show="false" img-color="2" is-normal="425" tree-width="425"
+                            is-disable="isCheck"></combo-tree-select>
+                    </div>
+                </td>
+            </tr>
+
             <tr height="40px">
                 <td class="system_td ">
                     邮箱</td>
