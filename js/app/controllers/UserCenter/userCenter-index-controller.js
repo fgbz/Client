@@ -1,10 +1,10 @@
-define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-service', 'services/regulation-service', 'services/md5-service'], function (app, utils) {
+define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-service', 'services/regulation-service', 'services/md5-service', 'services/system-service'], function (app, utils) {
     'use strict';
 
     var config = require('app/config-manager');
     var baseUrl = config.baseUrl();
-    app.controller('userCenter-index-controller', ['$rootScope', '$scope', '$state', 'toaster', '$uibModal', 'usercenter-service', 'ngDialog', 'regulation-service', '$stateParams', 'md5-service', '$cookies',
-        function ($rootScope, $scope, $state, toaster, $uibModal, usercenterService, ngDialog, regulationService, $stateParams, md5Service, $cookies) {
+    app.controller('userCenter-index-controller', ['$rootScope', '$scope', '$state', 'toaster', '$uibModal', 'usercenter-service', 'ngDialog', 'regulation-service', '$stateParams', 'md5-service', '$cookies', 'system-service',
+        function ($rootScope, $scope, $state, toaster, $uibModal, usercenterService, ngDialog, regulationService, $stateParams, md5Service, $cookies, systemService) {
 
             var postData = $stateParams.data;
             var user = sessionStorage.getItem('loginUser');
@@ -43,6 +43,27 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
 
             //加载
             var initialize = function () {
+
+                //初始化组织机构
+                $scope.initOrg = function () {
+                    systemService.getOrganizationList(function (params) {
+                        $scope.treeDataOrg = [];
+
+                        for (var i = 0; i < params.length; i++) {
+                            var data = {
+                                Id: params[i].id,
+                                Name: params[i].orgname,
+                                ParentID: params[i].parentid,
+                                CanDelete: params[i].candelete,
+                                itemlevel: params[i].itemlevel,
+                                itemlevelcode: params[i].itemlevelcode,
+                            }
+                            $scope.treeDataOrg.push(data);
+
+                        }
+                    })
+                };
+                $scope.initOrg();
 
                 $scope.isLoaded = true;
 
@@ -212,6 +233,10 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
                     if ($scope.approvedata.KeyWordLaw) {
                         options.conditions.push({ key: 'KeyWords', value: $scope.approvedata.KeyWordLaw });
                     }
+
+                    if($scope.approvedata.organization){
+                        options.conditions.push({ key: 'ApproveOrg', value: $scope.approvedata.organization });
+                    }
                     options.conditions.push({ key: 'ApproveStatus', value: 2 });
                     options.conditions.push({ key: 'Userid', value: user.id });
                     regulationService.getLawstandardList(options, function (response) {
@@ -292,8 +317,8 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
                         var sRouter = "main.technicalDocumentsDetail";
 
                         var itemDeal = {};
-                         itemDeal.type = "check";
-                         itemDeal.clickValue = 'fav';
+                        itemDeal.type = "check";
+                        itemDeal.clickValue = 'fav';
                         itemDeal.item = { id: item.id };
 
                         var data = JSON.stringify(itemDeal);
@@ -629,7 +654,7 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
 
                 $scope.updatePassword = function () {
                     if ($scope.passworddata.NewPasswWord != $scope.passworddata.ComfirmPasswWord) {
-                        toaster.pop({ type: 'danger', body: '2次密码输入不一致!'});
+                        toaster.pop({ type: 'danger', body: '2次密码输入不一致!' });
                         return;
                     }
                     if ($scope.passworddata.OldPasswWord == $scope.passworddata.NewPasswWord) {

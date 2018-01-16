@@ -79,7 +79,7 @@
                                 <td title="{{item.title}} " class="w300 ">{{item.title| tooltips:20}}</td>
                                 <td title="{{item.favname}}">{{item.favname| tooltips:10}}</td>
                                 <td title="{{item.favoritetime|recordtime}} ">{{item.favoritetime|recordtime}}</td>
-                                <td title="{{item.type==0?'法规标准':'技术文件'}}">{{item.type==0?'法规标准':'技术文件'}}</td>   
+                                <td title="{{item.type==0?'法规标准':'技术文件'}}">{{item.type==0?'法规标准':'技术文件'}}</td>
                                 <td>
                                     <input type="button " class="normalcheckbtn" value="查 看 " ng-click="CheckByFav(item)" />
                                     <input type="button " class="collectbtn" value="取消收藏 " ng-click="dismissFav(item)" />
@@ -129,10 +129,16 @@
         <div ng-if="clickMenuValue=='待办箱'" class="h100">
 
             <div class="usercenter_deal_search">
-                <input class="home-input w300" type="text" style="margin-left: 0px;" ng-model="approvedata.KeyWordLaw" maxlength="25" placeholder="请输入关键字"
+                <input class="home-input w300 fl" type="text" style="margin-left: 0px;margin-top: 10px;" ng-model="approvedata.KeyWordLaw" maxlength="25" placeholder="请输入关键字"
                 />
 
-                <input type="button" class="normalbtn mr10" value="查 询" ng-click="searchLawstandards()" />
+                <div class="fl ml10">
+                    <span class="fl">发布部门:</span>
+                    <combo-tree-select tree-data="treeDataOrg" style="float:left;z-index: 100;" tree-model="approvedata.organization" btn-show="false"
+                        img-color="2" is-normal="250" tree-width="250" is-disable="false"></combo-tree-select>
+                </div>
+
+                <input type="button" class="normalbtn mr10 fr" style="margin-top: 10px;" value="查 询" ng-click="searchLawstandards()" />
             </div>
 
             <!--表格-->
