@@ -34,7 +34,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/usercenter-ser
             //加载
             var initialize = function () {
 
-                $scope.isSup = utils.getListItem('超级管理员', 'menuname', user.menus);
+                $scope.isSup = utils.getListItem('留言管理', 'menuname', user.menus);
 
                 //获取留言列表
                 $scope.selectSuggestion = function (isPaging) {

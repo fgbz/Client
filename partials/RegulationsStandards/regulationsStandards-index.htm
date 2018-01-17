@@ -240,7 +240,7 @@
 
                 <!--<input type="button" class="normalbtn fl ml10" ng-click="updateLawCode()" value="更新编号" />-->
 
-                <input type="button" class="deletebtn fr mr10" value="删 除" ng-click="deleteLaw()" ng-show="selectItem.approvestatus==1||isSup||isLawMaintain"
+                <input type="button" class="deletebtn fr mr10" value="删 除" ng-click="deleteLaw()" ng-show="selectItem.approvestatus==1||isLawMaintain"
                 />
                 <input type="button" class="normalcheckbtn fr mr10" ng-click="Edit()" value="编 辑" ng-show="selectItem.approvestatus!=2" />
                 <input type="button" class="normalbtn fr mr10" value="审核信息" ng-click="Exam()" ng-show="selectItem.isapprove" />
@@ -265,7 +265,7 @@
                     <tbody ng-if="isManageLoaded">
                         <tr ng-repeat="item in itemManages" style="height: 40px;" ng-click="clickTable($index);" ng-class="{true: 'tr_selected',false: ''}[tableRow.selected==$index] ">
                             <td>
-                                <input type="checkbox" ng-checked="item.IsCheck" ng-click="clickSingle(item)" ng-show="item.approvestatus==1||isSup" />
+                                <input type="checkbox" ng-checked="item.IsCheck" ng-click="clickSingle(item)" ng-show="item.approvestatus==1||isLawMaintain" />
                             </td>
                             <td>{{$index+1}}</td>
                             <td title="{{item.chinesename}} " style="text-align: left;" class="w400 ">{{item.chinesename| tooltips:26}}</td>

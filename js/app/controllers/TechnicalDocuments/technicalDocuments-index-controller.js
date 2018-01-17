@@ -16,7 +16,6 @@ define(['bootstrap/app', 'utils', 'services/technical-service'], function (app, 
                 var check = utils.getListItem('技术文档查看', 'menuname', user.menus);
                 var manage = utils.getListItem('技术文档管理', 'menuname', user.menus);
 
-                $scope.isSup = utils.getListItem('超级管理员', 'menuname', user.menus);
                 $scope.isTecMaintain = utils.getListItem('技术发布维护', 'menuname', user.menus);
 
                 if (check) {

@@ -17,7 +17,6 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                 var check = utils.getListItem('法规标准查看', 'menuname', user.menus);
                 var manage = utils.getListItem('法规标准管理', 'menuname', user.menus);
 
-                $scope.isSup = utils.getListItem('超级管理员', 'menuname', user.menus);
                 $scope.isLawMaintain = utils.getListItem('法规发布维护', 'menuname', user.menus);
 
 
@@ -407,7 +406,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                         var candeletecount = 0;
                         //标记checkbox
                         for (var i = 0; i < $scope.itemManages.length; i++) {
-                            if ($scope.itemManages[i].approvestatus == 1 || $scope.isSup) {
+                            if ($scope.itemManages[i].approvestatus == 1 ||  $scope.isLawMaintain) {
                                 candeletecount++;
                             }
                             for (var j = 0; j < $scope.data.length; j++) {
@@ -579,7 +578,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
 
                     if ($scope.selectAll) {
                         angular.forEach($scope.itemManages, function (value, key) {
-                            if (value.approvestatus == 1 || $scope.isSup) {
+                            if (value.approvestatus == 1 ||  $scope.isLawMaintain) {
                                 value.IsCheck = false;
                                 deleteData(value);
                             }
@@ -589,7 +588,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                     } else {
                         angular.forEach($scope.itemManages, function (value, key) {
 
-                            if (value.approvestatus == 1 || $scope.isSup) {
+                            if (value.approvestatus == 1 ||  $scope.isLawMaintain) {
                                 value.IsCheck = true;
                                 addData(value);
                             }

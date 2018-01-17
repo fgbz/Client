@@ -80,7 +80,6 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
                     //权限重置
                     var check = utils.getListItem('待办箱', 'menuname', user.menus);
                     var manage = utils.getListItem('通知管理', 'menuname', user.menus);
-                    $scope.isSup = utils.getListItem('超级管理员', 'menuname', user.menus);
                     $scope.user = user;
                     if (check) {
                         $scope.MenuItmes.push({ Name: "待办箱" });

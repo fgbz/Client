@@ -10,7 +10,7 @@
         <marquee id="affiche" align="left" behavior="scroll" direction="left" height="50" hspace="0" style="margin: 0;width: calc(100% - 140px);float: right;"
             vspace="0" loop="-1" scrollamount="5" scrolldelay="100" onMouseOut="this.start()" onMouseOver="this.stop()">
             <ul style="height: 50px; width: 5000px;">
-                <li ng-repeat="item in activeItems" class="home_advice"  ng-click="goNoticeDetails(item)" style="color:#fff;">{{item.title|tooltips:20}}({{item.inputdate|changeTime}})</li>
+                <li ng-repeat="item in activeItems" class="home_advice" ng-click="goNoticeDetails(item)" style="color:#fff;">{{item.title|tooltips:20}}({{item.inputdate|changeTime}})</li>
             </ul>
         </marquee>
     </div>
@@ -26,10 +26,11 @@
 
             <div ng-repeat="item in LawItems" class="clear home_repeat" ng-click="goLawDetail(item)">
                 <div class="fl home_new_fk"></div>
-                <div class="fl color363636" title="{{item.chinesename}}">{{item.chinesename|tooltips:27}}</div>
+                <div class="fl color363636" title="{{item.chinesename}}">{{item.chinesename|tooltips:20}}</div>
 
-                <div class="fr date">{{item.releasedate|recordtime}}</div>
-                <div class="fr Organization" title="{{item.pubdepname}}">{{item.pubdepname|tooltips:13}}</div>
+                <div class="fr date">{{item.inputdate|recordtime}}</div>
+                <div class="fr" style="width: 80px;" title="{{item.inputusername}}">{{item.inputusername|tooltips:10}}</div>
+                <div class="fr" style="width:210px;" title="{{item.code}}">{{item.code|tooltips:14}}</div>
 
             </div>
 

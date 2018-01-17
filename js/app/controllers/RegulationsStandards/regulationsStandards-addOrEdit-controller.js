@@ -31,7 +31,6 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
             //加载
             var initialize = function () {
 
-                $scope.isSup = utils.getListItem('超级管理员', 'menuname', user.menus);
                 $scope.isLawMaintain = utils.getListItem('法规发布维护', 'menuname', user.menus);
 
                 if (postData) {
@@ -71,7 +70,7 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                         $scope.isPublish = postData.item.approvestatus == 3 ? true : false;
 
                         //维护权限
-                        if ($scope.isSup || $scope.isLawMaintain || postData.item.approvestatus == 1) {
+                        if ($scope.isLawMaintain || postData.item.approvestatus == 1) {
                             $scope.canEdit = true;
                         } else {
                             $scope.canEdit = false;
