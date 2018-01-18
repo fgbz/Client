@@ -506,8 +506,6 @@ body {
 .regluation_detail_Reference{
     display: inline-block;
     margin-left: 30px;
-    text-decoration: underline;
-    cursor: pointer;
 }
 
 .regluation_detail_Attachments{

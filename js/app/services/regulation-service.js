@@ -31,6 +31,21 @@ define(['bootstrap/app', 'app/config-manager', 'services/http-service'], functio
             http.post('/Lawstandard/getUptodateLawstandardList', data, callback);
         }
 
+        //获取引用和替代
+        this.getReplaceLawstandardList = function (data, callback) {
+            http.post('/Lawstandard/getReplaceLawstandardList', data, callback);
+        }
+
+        //保存临时法规
+        this.SaveReplaceOrRefence = function (data, callback) {
+            http.post('/Lawstandard/SaveReplaceOrRefence', data, callback);
+        }
+
+        //删除临时引用
+        this.DeleteReplece = function (id, callback) {
+            http.get('/Lawstandard/DeleteReplece?id=' + id, null, callback);
+        }
+
         //新增或编辑法规标准
         this.SaveOrUpdateLawstandard = function (data, callback) {
             http.post('/Lawstandard/SaveOrUpdateLawstandard', data, callback);
@@ -38,7 +53,7 @@ define(['bootstrap/app', 'app/config-manager', 'services/http-service'], functio
 
         //获取法规详情
         this.getLawstandardById = function (id, callback) {
-            http.get('/Lawstandard/getLawstandardById?id='+id, null, callback);
+            http.get('/Lawstandard/getLawstandardById?id=' + id, null, callback);
         };
 
 

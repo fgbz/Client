@@ -42,7 +42,9 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                 regulationService.getLawstandardById(postData.item.id, function (params) {
                     $scope.DetaiData = params;
                     $scope.DetaiData.inputdate = utils.parseTime(new Date($scope.DetaiData.inputdate), "YYYY-MM-DD");
-                    $scope.DetaiData.modifydate = utils.parseTime(new Date($scope.DetaiData.modifydate), "YYYY-MM-DD");
+                    if ($scope.DetaiData.modifydate) {
+                        $scope.DetaiData.modifydate = utils.parseTime(new Date($scope.DetaiData.modifydate), "YYYY-MM-DD");
+                    }
                 })
 
             };
@@ -85,6 +87,10 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
 
                         regulationService.getLawstandardById(histroyData[histroyData.length - 1], function (res) {
                             $scope.DetaiData = res;
+                            $scope.DetaiData.inputdate = utils.parseTime(new Date($scope.DetaiData.inputdate), "YYYY-MM-DD");
+                            if ($scope.DetaiData.modifydate) {
+                                $scope.DetaiData.modifydate = utils.parseTime(new Date($scope.DetaiData.modifydate), "YYYY-MM-DD");
+                            }
                             histroyData.splice(histroyData.length - 1, 1);
                         });
 
@@ -133,6 +139,8 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                         if ($scope.DetaiData.modifydate) {
                             $scope.DetaiData.modifydate = utils.parseTime(new Date($scope.DetaiData.modifydate), "YYYY-MM-DD");
                         }
+                        $scope.DetaiData.inputdate = utils.parseTime(new Date($scope.DetaiData.inputdate), "YYYY-MM-DD");
+
 
                     });
 
