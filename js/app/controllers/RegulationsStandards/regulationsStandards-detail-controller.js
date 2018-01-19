@@ -39,7 +39,7 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                     $scope.Attachments = res;
                 })
 
-                regulationService.getLawstandardById(postData.item.id, function (params) {
+                regulationService.getDetailLawstandardById(postData.item.id, function (params) {
                     $scope.DetaiData = params;
                     $scope.DetaiData.inputdate = utils.parseTime(new Date($scope.DetaiData.inputdate), "YYYY-MM-DD");
                     if ($scope.DetaiData.modifydate) {
@@ -85,7 +85,7 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                         $state.go(sRouter, { "data": data });
                     } else {
 
-                        regulationService.getLawstandardById(histroyData[histroyData.length - 1], function (res) {
+                        regulationService.getDetailLawstandardById(histroyData[histroyData.length - 1], function (res) {
                             $scope.DetaiData = res;
                             $scope.DetaiData.inputdate = utils.parseTime(new Date($scope.DetaiData.inputdate), "YYYY-MM-DD");
                             if ($scope.DetaiData.modifydate) {
@@ -134,7 +134,7 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                     //向历史扭转中添加数据
                     histroyData.push($scope.DetaiData.id);
 
-                    regulationService.getLawstandardById(params.id, function (res) {
+                    regulationService.getDetailLawstandardById(params.id, function (res) {
                         $scope.DetaiData = res;
                         if ($scope.DetaiData.modifydate) {
                             $scope.DetaiData.modifydate = utils.parseTime(new Date($scope.DetaiData.modifydate), "YYYY-MM-DD");

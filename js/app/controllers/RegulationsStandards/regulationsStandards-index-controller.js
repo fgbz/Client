@@ -64,7 +64,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                     selectNone: "全不选",
                     reset: "清空",
                     search: "查找人员...",
-                    nothingSelected: "(无)"
+                    nothingSelected: "全部"
                 };
             };
 
@@ -86,7 +86,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
 
                 $scope.searchdata.Ordertype = postData && postData.selectData ? postData.selectData.Ordertype : '3';
 
-                $scope.searchdata.SearchOrdertype = postData && postData.SearchOrdertype ? postData.selectData.SearchOrdertype : '3';
+                $scope.searchdata.SearchOrdertype = postData && postData.selectData ? postData.selectData.SearchOrdertype : '3';
 
                 $scope.isLoaded = true;
 
@@ -102,7 +102,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                 $scope.searchdata.selectInputUser = postData && postData.selectData ? postData.selectData.selectInputUser : [{ id: user.id }];
 
                 for (var i = 0; i < $scope.userList.length; i++) {
-                    if ($scope.userList[i].id == $scope.searchdata.selectInputUser[0].id) {
+                    if ($scope.searchdata.selectInputUser.length > 0 && $scope.userList[i].id == $scope.searchdata.selectInputUser[0].id) {
                         $scope.userList[i].Selected = true;
                     } else {
                         $scope.userList[i].Selected = false;
@@ -406,7 +406,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                         var candeletecount = 0;
                         //标记checkbox
                         for (var i = 0; i < $scope.itemManages.length; i++) {
-                            if ($scope.itemManages[i].approvestatus == 1 ||  $scope.isLawMaintain) {
+                            if ($scope.itemManages[i].approvestatus == 1 || $scope.isLawMaintain) {
                                 candeletecount++;
                             }
                             for (var j = 0; j < $scope.data.length; j++) {
@@ -578,7 +578,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
 
                     if ($scope.selectAll) {
                         angular.forEach($scope.itemManages, function (value, key) {
-                            if (value.approvestatus == 1 ||  $scope.isLawMaintain) {
+                            if (value.approvestatus == 1 || $scope.isLawMaintain) {
                                 value.IsCheck = false;
                                 deleteData(value);
                             }
@@ -588,7 +588,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                     } else {
                         angular.forEach($scope.itemManages, function (value, key) {
 
-                            if (value.approvestatus == 1 ||  $scope.isLawMaintain) {
+                            if (value.approvestatus == 1 || $scope.isLawMaintain) {
                                 value.IsCheck = true;
                                 addData(value);
                             }

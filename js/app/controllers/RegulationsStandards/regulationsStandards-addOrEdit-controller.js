@@ -42,7 +42,7 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                     selectNone: "全不选",
                     reset: "清空",
                     search: "查找发布部门...",
-                    nothingSelected: "(无)"
+                    nothingSelected: "请选择"
                 };
 
                 $scope.isSaving = false;
@@ -94,16 +94,31 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                             }
                             angular.element('.nicEdit-main')[0].innerHTML = $scope.data.summaryinfo;
                             //发布部门
-                            if ($scope.data.organization) {
-                                $scope.organization = [{ id: $scope.data.organization }];
+                            if ($scope.data.organizationList) {
+
+                                for (var i = 0; i < $scope.data.organizationList.length; i++) {
+                                    $scope.organization.push({ id: $scope.data.organizationList[i] });
+                                }
+                            } else {
+                                $scope.organization = [];
                             }
 
                             for (var i = 0; i < $scope.PublishList.length; i++) {
-                                if ($scope.organization && $scope.organization.length > 0 && $scope.PublishList[i].id == $scope.organization[0].id) {
+
+                                var falg = false;
+                                for (var j = 0; j < $scope.organization.length; j++) {
+                                    if ($scope.PublishList[i].id == $scope.organization[j].id) {
+                                        falg = true;
+                                        break;
+
+                                    }
+                                }
+                                if (falg) {
                                     $scope.PublishList[i].Selected = true;
                                 } else {
                                     $scope.PublishList[i].Selected = false;
                                 }
+
                             }
 
                         })
@@ -358,9 +373,13 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
 
                         $scope.data.summaryinfo = $(".nicEdit-main").html();
 
+                        $scope.data.organizationList = [];
                         //发布部门
                         if ($scope.organization && $scope.organization.length > 0) {
-                            $scope.data.organization = $scope.organization[0].id;
+                            for (var i = 0; i < $scope.organization.length; i++) {
+                                $scope.data.organizationList.push($scope.organization[i].id);
+                            }
+
                         } else {
                             $scope.data.organization = "";
                         }

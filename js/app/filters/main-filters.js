@@ -132,8 +132,9 @@ define(['angular', 'utils'], function (ng, utils) {
         return function (time) {
             //return time;
             if (time && typeof (time) == 'number') {
-                var date = new Date(parseInt(time)).toISOString();
-                var newDate = date.split('T')[0];
+                // var date = new Date(parseInt(time)).toISOString();
+                // var newDate = date.split('T')[0];
+                var newDate = utils.parseTime(new Date(time), "YYYY-MM-DD")
                 return newDate;
             } else if (time == null || time == 0) {
                 return "-"

@@ -56,6 +56,9 @@ define(['bootstrap/app', 'app/config-manager', 'services/http-service'], functio
             http.get('/Lawstandard/getLawstandardById?id=' + id, null, callback);
         };
 
+        this.getDetailLawstandardById = function (id, callback) {
+            http.get('/Lawstandard/getDetailLawstandardById?id=' + id, null, callback);
+        }
 
         //点击次数加一
         this.AddLawstandardCount = function (data, callback) {

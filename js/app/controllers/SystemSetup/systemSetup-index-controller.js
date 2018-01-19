@@ -57,7 +57,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                     selectNone: "全不选",
                     reset: "清空",
                     search: "查找人员...",
-                    nothingSelected: "(无)"
+                    nothingSelected: "全部"
                 };
 
             };

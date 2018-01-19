@@ -539,7 +539,7 @@ angular.module('isteven-multi-select', ['ng']).directive('istevenMultiSelect', [
                     angular.forEach($scope.inputModel, function (value, key) {
                         if (typeof value !== 'undefined' && value[attrs.tickProperty] === true) {
                             if (ctr < tempMaxLabels) {
-                                $scope.varButtonLabel += ($scope.varButtonLabel.length > 0 ? '</div>, <div class="buttonLabel">' : '<div class="buttonLabel">') + $scope.writeLabel(value, 'buttonLabel');
+                                $scope.varButtonLabel += ($scope.varButtonLabel.length > 0 ? '</div> <div style="float:left;">,</div> <div class="buttonLabel">' : '<div class="buttonLabel">') + $scope.writeLabel(value, 'buttonLabel');
                             }
                             ctr++;
                         }

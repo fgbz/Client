@@ -61,7 +61,7 @@ define(['bootstrap/app', 'utils', 'services/technical-service'], function (app, 
                     selectNone: "全不选",
                     reset: "清空",
                     search: "查找人员...",
-                    nothingSelected: "(无)"
+                    nothingSelected: "全部"
                 };
             };
 
