@@ -42,6 +42,15 @@
 
             </div>
 
+            <div class="system_hc">
+                <span>历史数据类别处理</span>
+
+                <div class="fr mt10">
+                    <input type="button" class="normalbtn fr" value="开 始" ng-click="saveHistoryType()" />
+                </div>
+
+            </div>
+
         </div>
 
 
@@ -49,24 +58,26 @@
             <table>
                 <tr height="50px">
                     <td class="tr">邮件服务器地址</td>
-                    <td><input class="home-input w300" type="text" ng-model="OldPasswWord" maxlength="25" /></td>
+                    <td><input class="home-input w300" type="text" ng-model="MailData.MailServerAddress" maxlength="100" /></td>
                 </tr>
                 <tr height="50px">
                     <td class="tr">发件箱地址</td>
-                    <td><input class="home-input w300" type="text" ng-model="NewPasswWord" maxlength="25" /></td>
+                    <td><input class="home-input w300" type="text" ng-model="MailData.HairBoxAddress" maxlength="100" /></td>
                 </tr>
                 <tr height="50px">
-                    <td class="tr">发件箱密码</td>
-                    <td><input class="home-input w300" type="text" ng-model="ComfirmPasswWord" maxlength="25" /></td>
+                    <td class="tr">主题</td>
+                    <td><input class="home-input w300" type="text" ng-model="MailData.Theme" maxlength="500" /></td>
                 </tr>
                 <tr height="50px">
-                    <td class="tr">测试邮箱地址</td>
-                    <td><input class="home-input w300" type="text" ng-model="ComfirmPasswWord" maxlength="25" /></td>
+                    <td class="tr">正文</td>
+                    <td><input class="home-input" type="text" ng-model="MailData.Text" maxlength="500" style="    height: 200px;width:500px;"
+                        /></td>
                 </tr>
                 <tr height="50px">
                     <td colspan="2">
-                        <input type="button" class="canclelbtn border1ccc fr ml10" value="取 消" />
-                        <input type="button" class="normalbtn fr ml10" value="应 用" />
+                        <input type="button" class="canclelbtn border1ccc fr ml10" value="取 消" ng-click="resetMailSetting()" />
+                        <input type="button" class="normalbtn fr ml10" value="应 用" ng-click="SaveMailSetting()" ng-disabled="!(MailData.MailServerAddress&&MailData.HairBoxAddress&&MailData.Theme&&MailData.Text)"
+                        />
                         <input type="button" style="width:100px;" class="normalbtn fr ml10" value="发送测试邮件" />
                     </td>
                 </tr>
@@ -242,7 +253,7 @@
                                     <input type="button " class="checkbtn" ng-click="ShowUser(item,true,'查看') " value="查 看" />
                                     <input type="button " class="normalcheckbtn" ng-click="ShowUser(item,false,'编辑') " value="编 辑" />
                                     <input type="button " class="deletebtn" ng-click="SaveUserStatus(item,'停用',1)" value="停 用" />
-                                     <input type="button " class="deletebtn" ng-click="DeleteUser(item)" value="删 除" />
+                                    <input type="button " class="deletebtn" ng-click="DeleteUser(item)" value="删 除" />
                                 </td>
                                 <td ng-if="item.status==1">
                                     <input type="button " class="checkbtn" ng-click="ShowUser(item,true,'查看') " value="查 看" />

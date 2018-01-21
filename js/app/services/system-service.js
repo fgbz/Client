@@ -9,6 +9,14 @@ define(['bootstrap/app', 'app/config-manager', 'services/http-service'], functio
             http.post('/System/Login', { "account": account, "password": password }, callback);
         }
 
+        //邮件设置
+        this.MailSetting = function (data, callback) {
+            http.post('/System/MailSetting', { "MailServerAddress": data.MailServerAddress, "HairBoxAddress": data.HairBoxAddress, "Theme": data.Theme, "Text": data.Text }, callback);
+        }
+
+        this.getMailSetting = function (callback) {
+            http.post('/System/getMailSetting', null, callback);
+        }
         //保存审核
         this.SaveOrUpdateSettingValue = function (key, value, callback) {
             http.post('/System/SaveOrUpdateSettingValue', { "key": key, "value": value }, callback);
@@ -108,12 +116,17 @@ define(['bootstrap/app', 'app/config-manager', 'services/http-service'], functio
 
         //处理历史数据
         this.handleHistory = function (path, callback) {
-             http.post('/System/handleHistory', { "path": path }, callback);
+            http.post('/System/handleHistory', { "path": path }, callback);
+        }
+
+        //处理历史数据type
+        this.hangldHistroyType = function (callback) {
+            http.get('/Lawstandard/hangldHistroyType', null, callback);
         }
 
         //用户停用
-        this.SaveUserStatus = function (id,type,callback) {
-             http.get('/System/SaveUserStatus?id='+id+'&type=' + type, null, callback);
+        this.SaveUserStatus = function (id, type, callback) {
+            http.get('/System/SaveUserStatus?id=' + id + '&type=' + type, null, callback);
         }
 
     }]);

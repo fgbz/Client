@@ -51,6 +51,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                 $scope.pagedata = {};
                 $scope.pagedata.pagesize = dics.PageSize;
 
+                $scope.MailData = {};
 
                 $scope.logdata.localLang = {
                     selectAll: "全选",
@@ -129,6 +130,9 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
 
                         case '11':
                             $scope.getApproveSetting()
+                            break;
+                        case '12':
+                            $scope.getMailSetting();
                             break;
                         case '131':
                             $scope.getpublishdep();
@@ -347,6 +351,17 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                     })
                 }
 
+                //初始化
+                $scope.getMailSetting = function () {
+                    systemService.getMailSetting(function (res) {
+                        $scope.MailData = {
+                            MailServerAddress: res.MailServerAddress,
+                            HairBoxAddress: res.HairBoxAddress,
+                            Theme: res.Theme,
+                            Text: res.Text
+                        }
+                    })
+                }
 
 
                 //是否审核
@@ -1133,6 +1148,75 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                     });
 
                 }
+
+                $scope.saveHistoryType = function () {
+
+                    $scope.text = "此功能为同步历史数据类别,用户请不要点击！";
+                    var modalInstance = ngDialog.openConfirm({
+                        templateUrl: 'partials/_confirmModal.html',
+                        appendTo: 'body',
+                        className: 'ngdialog-theme-default',
+                        showClose: false,
+                        scope: $scope,
+                        size: 400,
+                        controller: function ($scope) {
+                            $scope.ok = function () {
+
+
+                                systemService.hangldHistroyType(function (params) {
+                                    if (params == 200) {
+                                        toaster.pop({ type: 'success', body: '同步成功!' });
+                                    } else {
+                                        toaster.pop({ type: 'danger', body: '同步失败!' });
+                                    }
+                                })
+                                $scope.closeThisDialog(); //关闭弹窗
+                            };
+                            $scope.cancel = function () {
+                                $scope.closeThisDialog(); //关闭弹窗
+                            }
+                        }
+                    });
+                }
+
+                /*************************邮件************************* */
+                $scope.resetMailSetting = function () {
+                    $scope.MailData.MailServerAddress = "";
+                    $scope.MailData.HairBoxAddress = "";
+                    $scope.MailData.Theme = "";
+                    $scope.MailData.Text = "";
+                }
+
+                $scope.SaveMailSetting = function () {
+
+                    var rex = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+                    if (!rex.test($scope.MailData.HairBoxAddress)) {
+                        toaster.pop({ type: 'danger', body: '发件箱地址格式不正确!' });
+                        return;
+                    }
+
+                    var data = {
+                        MailServerAddress: $scope.MailData.MailServerAddress ? $scope.MailData.MailServerAddress : "",
+                        HairBoxAddress: $scope.MailData.HairBoxAddress ? $scope.MailData.HairBoxAddress : "",
+                        Theme: $scope.MailData.Theme ? $scope.MailData.Theme : "",
+                        Text: $scope.MailData.Text ? $scope.MailData.Text : ""
+                    }
+                    systemService.MailSetting(data, function (res) {
+                        if (res == 200) {
+                            toaster.pop({ type: 'success', body: '应用成功!' });
+                        } else {
+                            toaster.pop({ type: 'danger', body: '应用失败!' });
+                        }
+                    })
+
+
+
+
+                }
+
+
+
+
 
             };
 
