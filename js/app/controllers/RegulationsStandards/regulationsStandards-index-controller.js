@@ -187,7 +187,8 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                     itemDeal.item = { id: itemdata.id, approvestatus: itemdata.approvestatus };
 
                     var data = JSON.stringify(itemDeal);
-
+                    // var url = $state.href('main.regulationsStandardsAddOrEdit', { "data": data });
+                    // window.open(url, '_blank');
                     $state.go(sRouter, { "data": data });
                 }
 
@@ -249,7 +250,10 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                         itemDeal.treemanageid = $scope.managetreedata.TreeValue;
                         var data = JSON.stringify(itemDeal);
 
-                        $state.go(sRouter, { "data": data });
+                        var url = $state.href(sRouter, { "data": data });
+                        window.open(url, '_blank');
+
+                        // $state.go(sRouter, { "data": data });
                     })
 
                 }

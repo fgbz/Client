@@ -233,7 +233,7 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
                         options.conditions.push({ key: 'KeyWords', value: $scope.approvedata.KeyWordLaw });
                     }
 
-                    if($scope.approvedata.organization){
+                    if ($scope.approvedata.organization) {
                         options.conditions.push({ key: 'ApproveOrg', value: $scope.approvedata.organization });
                     }
                     options.conditions.push({ key: 'ApproveStatus', value: 2 });
@@ -287,7 +287,9 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
 
                         var data = JSON.stringify(itemDeal);
 
-                        $state.go(sRouter, { "data": data });
+                        // $state.go(sRouter, { "data": data });
+                        var url = $state.href(sRouter, { "data": data });
+                        window.open(url, '_blank');
                     })
 
                 }
@@ -310,7 +312,9 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
 
                             var data = JSON.stringify(itemDeal);
 
-                            $state.go(sRouter, { "data": data });
+                            // $state.go(sRouter, { "data": data });
+                            var url = $state.href(sRouter, { "data": data });
+                            window.open(url, '_blank');
                         })
                     } else {
                         var sRouter = "main.technicalDocumentsDetail";
@@ -322,7 +326,9 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
 
                         var data = JSON.stringify(itemDeal);
 
-                        $state.go(sRouter, { "data": data });
+                        // $state.go(sRouter, { "data": data });
+                        var url = $state.href(sRouter, { "data": data });
+                        window.open(url, '_blank');
                     }
 
                 }

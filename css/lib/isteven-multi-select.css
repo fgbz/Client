@@ -63,9 +63,10 @@
 
 /* button: disabled */
 .multiSelect > button:disabled {
-    background-image: linear-gradient(#fff, #fff);      
+    /*background-image: linear-gradient(#fff, #fff);      */
     border: 1px solid #ddd;    
-    color: #999;
+    /*color: #999;*/
+    background-color: #d7d7d7;
 }
 
 /* button: clicked */

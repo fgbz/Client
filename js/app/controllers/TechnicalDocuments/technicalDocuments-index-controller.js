@@ -222,7 +222,9 @@ define(['bootstrap/app', 'utils', 'services/technical-service'], function (app, 
                     itemDeal.treevalueid = $scope.clickTecValue;
                     var data = JSON.stringify(itemDeal);
 
-                    $state.go(sRouter, { "data": data });
+                    // $state.go(sRouter, { "data": data });
+                    var url = $state.href(sRouter, { "data": data });
+                    window.open(url, '_blank');
 
                 }
 

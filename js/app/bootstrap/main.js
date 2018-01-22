@@ -2,5 +2,5 @@
         deps: ['js/app/bootstrap/requireConfig'],
          packages: [
          ],
-         urlArgs: 'z=2018012001'
+         urlArgs: 'z=20180122'
       };

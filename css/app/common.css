@@ -1285,7 +1285,7 @@ body {
 
 
 .home_new_reg{
-    height: 400px;
+    height: 410px;
     width: 760px;
     background: #fff;
     border: 1px solid #cccccc;
@@ -1332,7 +1332,7 @@ body {
 
 
 .home_new_regright{
-    height: 400px;
+    height: 410px;
     width: calc(100% - 820px);
     background: #fff;
     border: 1px solid #cccccc;

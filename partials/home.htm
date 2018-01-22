@@ -23,7 +23,12 @@
                 <span>></span>
             </div>
             <div class="splicline"></div>
-
+            <div class="clear home_repeat">
+                <div class="fl color363636" style="margin-left: 40px;">标题</div>
+                <div class="fr date">录入日期</div>
+                <div class="fr" style="width: 80px;">录入人</div>
+                <div class="fr" style="width:210px;">编号</div>
+            </div>
             <div ng-repeat="item in LawItems" class="clear home_repeat" ng-click="goLawDetail(item)">
                 <div class="fl home_new_fk"></div>
                 <div class="fl color363636" title="{{item.chinesename}}">{{item.chinesename|tooltips:20}}</div>

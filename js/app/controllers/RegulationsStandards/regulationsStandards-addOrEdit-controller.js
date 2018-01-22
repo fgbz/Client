@@ -388,13 +388,55 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                             if (response == 200) {
                                 toaster.pop({ type: 'success', body: '保存成功!' });
 
-                                $scope.goState("second");
+                                //提交待审核
+                                if ($scope.data.approvestatus == 2) {
+
+                                    systemService.getMailSetting(function (res) {
+                                        var MailData = {
+                                            MailServerAddress: res.MailServerAddress,
+                                            HairBoxAddress: res.HairBoxAddress,
+                                            Theme: res.Theme,
+                                            Text: res.Text,
+                                            Email: res.Email
+                                        }
+                                        var url = MailData.MailServerAddress;
+                                        $.ajax({
+                                            type: "Get",
+                                            url: url,
+                                            data: { 'mfrom': MailData.HairBoxAddress, 'mto': MailData.Email, 'subj': MailData.Theme, 'body': MailData.Text },
+                                            dataType: "jsonp",
+                                            contentType: "application/json;charset=utf-8",
+                                            success: function (result) {
+                                                if (result == 'OK') {
+                                                    $scope.isSaving = false;
+                                                    toaster.pop({ type: 'success', body: '邮件发送成功!' });
+                                                    $scope.goState("second");
+                                                }
+
+                                            },
+                                            error: function (err) {
+                                                toaster.pop({ type: 'danger', body: '邮件发送失败!' });
+                                                $scope.isSaving = false;
+                                                $scope.goState("second");
+
+                                            }
+                                        })
+
+                                    })
+
+                                } else {
+                                    $scope.isSaving = false;
+                                    $scope.goState("second");
+                                }
+
                             } else if (response == 461) {
                                 toaster.pop({ type: 'danger', body: '编号重复!' });
+                                $scope.isSaving = false;
                             } else {
                                 toaster.pop({ type: 'danger', body: '保存失败!' });
+                                $scope.isSaving = false;
                             }
-                            $scope.isSaving = false;
+
 
                         })
                     })
