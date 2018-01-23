@@ -1748,8 +1748,8 @@ body {
     background: #f2f2f2;
 }
 .exam_content{
-    height: 400px;
-    overflow-y: auto;
+    height: 250px;
+    /*overflow-y: auto;*/
 }
 
 .exam_item{

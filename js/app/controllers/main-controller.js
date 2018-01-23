@@ -131,6 +131,11 @@ define(['bootstrap/app', 'utilities/cryto', 'ctrls/system/modals/logout-controll
                 $scope.HeadNew = value.HeadNew;
             });
 
+
+            $rootScope.$on('detailCheck', function (params, value) {
+                $scope.detailCheck = value;
+            });
+
             var setMenuName = function (params) {
                 $scope.menustate = params;
             }

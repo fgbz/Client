@@ -94,6 +94,10 @@ define(['bootstrap/app', 'app/config-manager', 'services/http-service'], functio
             http.get('/Lawstandard/UpdateAllLawstandardCode', null, callback);
         }
 
+        this.initSolr = function (callback) {
+            http.get('/Lawstandard/initSolr', null, callback);
+        }
+
 
     }]);
 });

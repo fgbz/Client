@@ -14,7 +14,9 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                 user = JSON.parse(user);
             }
 
-            var histroyData = [];
+            $scope.histroyData = [];
+
+            $rootScope.$emit("detailCheck", true);
 
             //变量
             var define_variable = function () {
@@ -28,7 +30,7 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                     postData = JSON.parse(postData);
                 }
                 //向历史扭转中添加数据
-                histroyData.push(postData.clickValue)
+                $scope.histroyData.push(postData.clickValue)
 
                 $scope.isDownload = utils.getListItem('法规标准下载', 'menuname', user.menus);
 
@@ -55,7 +57,7 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                 $scope.goState = function () {
 
                     //返回点击查看的界面
-                    if (histroyData.length == 1) {
+                    if ($scope.histroyData.length == 1) {
                         var sRouter = "";
                         var itemDeal = {};
 
@@ -85,17 +87,17 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                         $state.go(sRouter, { "data": data });
                     } else {
 
-                        regulationService.getDetailLawstandardById(histroyData[histroyData.length - 1], function (res) {
+                        regulationService.getDetailLawstandardById($scope.histroyData[$scope.histroyData.length - 1], function (res) {
                             $scope.DetaiData = res;
                             $scope.DetaiData.inputdate = utils.parseTime(new Date($scope.DetaiData.inputdate), "YYYY-MM-DD");
                             if ($scope.DetaiData.modifydate) {
                                 $scope.DetaiData.modifydate = utils.parseTime(new Date($scope.DetaiData.modifydate), "YYYY-MM-DD");
                             }
-                            histroyData.splice(histroyData.length - 1, 1);
+                            $scope.histroyData.splice($scope.histroyData.length - 1, 1);
                         });
 
                         //获取附件信息
-                        accessoryService.getAccessoryByDirId(histroyData[histroyData.length - 1], function (res) {
+                        accessoryService.getAccessoryByDirId($scope.histroyData[$scope.histroyData.length - 1], function (res) {
                             $scope.Attachments = res;
                         })
                     }
@@ -132,7 +134,7 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                 $scope.checkRepalceOrRefence = function (params) {
 
                     //向历史扭转中添加数据
-                    histroyData.push($scope.DetaiData.id);
+                    $scope.histroyData.push($scope.DetaiData.id);
 
                     regulationService.getDetailLawstandardById(params.id, function (res) {
                         $scope.DetaiData = res;

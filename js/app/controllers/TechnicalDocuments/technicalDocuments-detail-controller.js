@@ -13,6 +13,7 @@ define(['bootstrap/app', 'utils', 'services/technical-service', 'services/access
             if (user) {
                 user = JSON.parse(user);
             }
+             $rootScope.$emit("detailCheck", true);
             //变量
             var define_variable = function () {
                 $scope.Attachments = [];

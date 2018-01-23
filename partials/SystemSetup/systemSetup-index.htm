@@ -50,6 +50,14 @@
                 </div>
 
             </div>
+            <div class="system_hc">
+                <span>更新索引</span>
+
+                <div class="fr mt10">
+                    <input type="button" class="normalbtn fr" value="开 始" ng-click="initSolr()" />
+                </div>
+
+            </div>
 
         </div>
 
@@ -57,28 +65,28 @@
         <div ng-if="clickTreeValue=='12'" class="concent_center">
             <table>
                 <tr height="50px">
-                    <td class="tr">邮件服务器地址</td>
+                    <td class="tr">邮件请求地址</td>
                     <td><input class="home-input w300" type="text" ng-model="MailData.MailServerAddress" maxlength="100" /></td>
                 </tr>
                 <tr height="50px">
-                    <td class="tr">发件箱地址</td>
+                    <td class="tr">发件箱</td>
                     <td><input class="home-input w300" type="text" ng-model="MailData.HairBoxAddress" maxlength="100" /></td>
                 </tr>
                 <tr height="50px">
-                    <td class="tr">主题</td>
+                    <td class="tr">邮件主题</td>
                     <td><input class="home-input w300" type="text" ng-model="MailData.Theme" maxlength="500" /></td>
                 </tr>
                 <tr height="50px">
-                    <td class="tr">正文</td>
-                    <td><input class="home-input" type="text" ng-model="MailData.Text" maxlength="500" style="    height: 200px;width:500px;"
+                    <td class="tr">邮件正文</td>
+                    <td><textarea class="home-input" type="text" ng-model="MailData.Text" maxlength="500" style="height: 200px;width:500px;"
                         /></td>
                 </tr>
                 <tr height="50px">
                     <td colspan="2">
-                        <input type="button" class="canclelbtn border1ccc fr ml10" value="取 消" ng-click="resetMailSetting()" />
-                        <input type="button" class="normalbtn fr ml10" value="应 用" ng-click="SaveMailSetting()" ng-disabled="!(MailData.MailServerAddress&&MailData.HairBoxAddress&&MailData.Theme&&MailData.Text)"
+                        <!--<input type="button" class="canclelbtn border1ccc fr ml10" value="取 消" ng-click="resetMailSetting()" />-->
+                        <input type="button" class="normalbtn fr ml10" value="保 存" ng-click="SaveMailSetting()" ng-disabled="!(MailData.MailServerAddress&&MailData.HairBoxAddress&&MailData.Theme&&MailData.Text)"
                         />
-                        <input type="button" style="width:100px;" class="normalbtn fr ml10" value="发送测试邮件" />
+                        <input type="button" style="width:100px;" class="normalbtn fr ml10" value="发送测试邮件" ng-click="sendTestMail()" />
                     </td>
                 </tr>
             </table>

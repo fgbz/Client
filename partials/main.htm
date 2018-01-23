@@ -1,7 +1,7 @@
 <div class="index_header" ng-if="!HeadNew">
     <!--图标-->
     <div class="index_titlepic"></div>
-    <div class="index_menu_content">
+    <div class="index_menu_content"  ng-show="!detailCheck">
         <ul class="list-inline">
 
             <li ng-click="logout()" ng-show="loginUser" style="width: 65px;">

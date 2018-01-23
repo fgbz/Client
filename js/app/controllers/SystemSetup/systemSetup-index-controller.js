@@ -1203,9 +1203,9 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                     }
                     systemService.MailSetting(data, function (res) {
                         if (res == 200) {
-                            toaster.pop({ type: 'success', body: '应用成功!' });
+                            toaster.pop({ type: 'success', body: '保存成功!' });
                         } else {
-                            toaster.pop({ type: 'danger', body: '应用失败!' });
+                            toaster.pop({ type: 'danger', body: '保存失败!' });
                         }
                     })
 
@@ -1214,8 +1214,69 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
 
                 }
 
+                //发送测试邮件
+                $scope.sendTestMail = function () {
+                    toaster.pop({ type: 'success', body: '开始发送测试邮件!' });
+                    try {
 
 
+                        $.ajax({
+                            type: "Get",
+                            url: $scope.MailData.MailServerAddress,
+                            data: { 'mfrom': $scope.MailData.HairBoxAddress, 'mto': $scope.MailData.HairBoxAddress, 'subj': $scope.MailData.Theme, 'body': $scope.MailData.Text },
+                            dataType: "jsonp",
+                            // timeout: 10000,
+                            contentType: "application/json;charset=utf-8",
+                            success: function (result) {
+                                if (result == 'OK') {
+                                    toaster.pop({ type: 'success', body: '测试邮件发送成功!' });
+                                    $scope.$apply();
+                                }
+
+                            },
+                            error: function (err, textStatus) {
+                                toaster.pop({ type: 'danger', body: '测试邮件发送失败!' });
+                                $scope.$apply();
+                            }
+                        })
+
+                        var head = document.head || $('head')[0] || document.documentElement; // code from jquery
+                        var script = $(head).find('script')[0];
+                        script.onerror = function (evt) {
+                            toaster.pop({ type: 'danger', body: '测试邮件发送失败!' });
+                            $scope.$apply();
+
+                            // do some clean
+
+                            // delete script node
+                            if (script.parentNode) {
+                                script.parentNode.removeChild(script);
+                            }
+                            // delete jsonCallback global function
+                            var src = script.src || '';
+                            var idx = src.indexOf('jsoncallback=');
+                            if (idx != -1) {
+                                var idx2 = src.indexOf('&');
+                                if (idx2 == -1) {
+                                    idx2 = src.length;
+                                }
+                                var jsonCallback = src.substring(idx + 13, idx2);
+                                delete window[jsonCallback];
+                            }
+                        };
+
+
+                    } catch (error) {
+                        toaster.pop({ type: 'danger', body: '测试邮件发送失败!' });
+                    }
+
+                }
+
+                $scope.initSolr = function(){
+                    regulationService.initSolr(function(res){
+                        
+                    })
+                }
 
 
             };

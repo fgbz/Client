@@ -132,7 +132,7 @@
                             <tr ng-repeat="item in items" style="height: 40px;" ng-click="clicksearchTable($index);" ng-class="{true: 'tr_selected',false: ''}[tableRowsearch.selected==$index] ">
                                 <td>{{$index+1}}</td>
                                 <td title="{{item.chinesename}} " class="w400 " style="text-align: left;">{{item.chinesename| tooltips:26}}</td>
-                                <td title="{{item.code}}" style="text-align: left;">{{item.code| tooltips:20 }}</td>
+                                <td title="{{item.code}}" style="text-align: left;">{{item.code| tooltips:34 }}</td>
                                 <td title="{{item.statusname}} ">{{item.statusname}}</td>
                                 <td title="{{item.impdate|recordtime}} ">{{item.impdate |recordtime}}</td>
                                 <td title="{{item.inputdate|recordtime}} ">{{item.inputdate |recordtime}}</td>
@@ -268,8 +268,8 @@
                                 <input type="checkbox" ng-checked="item.IsCheck" ng-click="clickSingle(item)" ng-show="item.approvestatus==1||isLawMaintain" />
                             </td>
                             <td>{{$index+1}}</td>
-                            <td title="{{item.chinesename}} " style="text-align: left;" class="w400 ">{{item.chinesename| tooltips:26}}</td>
-                            <td title="{{item.code}} " style="text-align: left;">{{item.code| tooltips:20 }}</td>
+                            <td title="{{item.chinesename}} " style="text-align: left;" class="w400 ">{{item.chinesename| tooltips:30}}</td>
+                            <td title="{{item.code}} " style="text-align: left;">{{item.code| tooltips:26 }}</td>
                             <td title="{{item.typename}} ">{{item.typename| tooltips:13 }}</td>
 
                             <td title="{{item.isbatch&&item.isbatch==1?'是':'否'}} ">{{item.isbatch&&item.isbatch==1?'是':'否'}}</td>

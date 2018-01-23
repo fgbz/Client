@@ -400,11 +400,15 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                                             Email: res.Email
                                         }
                                         var url = MailData.MailServerAddress;
+
+                                        toaster.pop({ type: 'success', body: '开始发送邮件!' });
+
                                         $.ajax({
                                             type: "Get",
                                             url: url,
                                             data: { 'mfrom': MailData.HairBoxAddress, 'mto': MailData.Email, 'subj': MailData.Theme, 'body': MailData.Text },
                                             dataType: "jsonp",
+                                            // timeout: 10000,
                                             contentType: "application/json;charset=utf-8",
                                             success: function (result) {
                                                 if (result == 'OK') {
@@ -414,13 +418,38 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                                                 }
 
                                             },
-                                            error: function (err) {
+                                            error: function (err, textStatus) {
                                                 toaster.pop({ type: 'danger', body: '邮件发送失败!' });
                                                 $scope.isSaving = false;
                                                 $scope.goState("second");
 
                                             }
                                         })
+
+                                        var head = document.head || $('head')[0] || document.documentElement; // code from jquery
+                                        var script = $(head).find('script')[0];
+                                        script.onerror = function (evt) {
+                                            toaster.pop({ type: 'danger', body: '邮件发送失败!' });
+                                            $scope.isSaving = false;
+                                            $scope.goState("second");
+                                            // do some clean
+
+                                            // delete script node
+                                            if (script.parentNode) {
+                                                script.parentNode.removeChild(script);
+                                            }
+                                            // delete jsonCallback global function
+                                            var src = script.src || '';
+                                            var idx = src.indexOf('jsoncallback=');
+                                            if (idx != -1) {
+                                                var idx2 = src.indexOf('&');
+                                                if (idx2 == -1) {
+                                                    idx2 = src.length;
+                                                }
+                                                var jsonCallback = src.substring(idx + 13, idx2);
+                                                delete window[jsonCallback];
+                                            }
+                                        };
 
                                     })
 
