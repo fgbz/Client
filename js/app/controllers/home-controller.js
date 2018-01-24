@@ -276,6 +276,7 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/regul
                         },
                         yAxis: {
                             min: 0,
+                            minPadding: 0.2,   
                             title: {
                                 text: ''
                             }
@@ -390,10 +391,12 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/regul
                             itemDeal.type = "check";
                             itemDeal.clickValue = 'home';
                             itemDeal.item = { id: item.id };
-                            $rootScope.$emit("menustateChange", { value: sRouter, HeadNew: false });
+                            // $rootScope.$emit("menustateChange", { value: sRouter, HeadNew: false });
                             var data = JSON.stringify(itemDeal);
 
-                            $state.go(sRouter, { "data": data });
+                            // $state.go(sRouter, { "data": data });
+                            var url = $state.href(sRouter, { "data": data });
+                            window.open(url, '_blank');
                         })
                     }
 
@@ -648,7 +651,7 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/regul
                     }
                 }
 
-  
+
 
                 //是否登陆
                 function isLogined() {

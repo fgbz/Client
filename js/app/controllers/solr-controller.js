@@ -179,7 +179,9 @@ define(['bootstrap/app', 'utils', 'services/regulation-service'], function (app,
                         itemDeal.treevalueid = $scope.clickTreeValue;
                         var data = JSON.stringify(itemDeal);
 
-                        $state.go(sRouter, { "data": data });
+                        // $state.go(sRouter, { "data": data });
+                        var url = $state.href(sRouter, { "data": data });
+                        window.open(url, '_blank');
                     })
 
                 }

@@ -86,12 +86,13 @@
                     <td class="color_blue first_td">附 件 : </td>
                     <td class="va_topnormal" style="overflow-y: auto;">
                         <ul>
-                            <li ng-repeat="accitem in Attachments" class="regluation_detail_Attachments">
+                            <li ng-repeat="accitem in Attachments" style="height: 40px;">
 
-                                <div title="{{accitem.FileName}}"> {{accitem.FileName|tooltips:15}}
-                                    <input type="button" class="checkbtn ml20" value="查 看" title="查看" ng-show="canPreview(accitem.FileName)" ng-click="preview(accitem.ID)"
+                                <div title="{{accitem.FileName}}"> {{accitem.FileName|tooltips:100}}
+                                      <input class="downloadbtn ml10 fr" value="下 载" title="下载" ng-click="downloadAccessory(accitem.ID)" ng-show="isDownload" />
+                                    <input type="button" class="checkbtn ml20 fr" value="查 看" title="查看" ng-show="canPreview(accitem.FileName)" ng-click="preview(accitem.ID)"
                                     />
-                                    <input class="downloadbtn ml10" value="下 载" title="下载" ng-click="downloadAccessory(accitem.ID)" ng-show="isDownload" />
+                                  
                                 </div>
 
                             </li>

@@ -23,9 +23,9 @@
                 <span>></span>
             </div>
             <div class="splicline"></div>
-            <div class="clear home_repeat" style="background: #97c4ec;">
-                <div class="fl color363636" style="margin-left: 40px;">标题</div>
-                <div class="fr date">录入日期</div>
+            <div class="clear home_repeat" style="background-color: #2ea3dc;color: #fff;">
+                <div class="fl" style="margin-left: 40px;">标题</div>
+                <div class="fr" style="margin-right: 10px;">录入日期</div>
                 <div class="fr" style="width: 80px;">录入人</div>
                 <div class="fr" style="width:210px;">编号</div>
             </div>
@@ -93,7 +93,7 @@
                     <tr ng-repeat="item in LbdhTableItems" style="height: 40px;cursor: pointer" ng-click="clickLbdhTable($index,'Law',item);"
                         ng-class="{true: 'tr_selected',false: ''}[LbdhSelected==$index] ">
                         <td title="{{item.chinesename}} " class="home_lbdh_title">{{item.chinesename| tooltips:40}}</td>
-                        <td title="{{item.code}} " class="home_lbdh_law">{{item.code| tooltips:20 }}</td>
+                        <td title="{{item.code}} " class="home_lbdh_law">{{item.code| tooltips:16}}</td>
                         <td title="{{item.impdate|recordtime}} ">{{item.impdate|recordtime}}</td>
                     </tr>
                     <tr ng-if="LbdhTableItems.length==0 ">
