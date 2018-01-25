@@ -167,7 +167,11 @@ define(['bootstrap/app', 'utils', 'services/regulation-service'], function (app,
                 //查看
                 $scope.Check = function (item) {
 
-                    var itemdata = angular.copy(item);
+                    var itemdata = {
+                        id:item.id,
+                        clickcount:item.clickcount
+                    }
+
                     regulationService.AddLawstandardCount(itemdata, function () {
                         var sRouter = "main.regulationsStandardsDetail";
 

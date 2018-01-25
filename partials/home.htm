@@ -25,13 +25,13 @@
             <div class="splicline"></div>
             <div class="clear home_repeat" style="background-color: #2ea3dc;color: #fff;">
                 <div class="fl" style="margin-left: 40px;">标题</div>
-                <div class="fr" style="margin-right: 10px;">录入日期</div>
-                <div class="fr" style="width: 80px;">录入人</div>
+                <div class="fr" style="margin-right: 20px;">录入日期</div>
+                <div class="fr" style="width: 80px;margin-right: 10px;">录入人</div>
                 <div class="fr" style="width:210px;">编号</div>
             </div>
             <div ng-repeat="item in LawItems" class="clear home_repeat" ng-click="goLawDetail(item)">
                 <div class="fl home_new_fk"></div>
-                <div class="fl color363636" title="{{item.chinesename}}">{{item.chinesename|tooltips:20}}</div>
+                <div class="fl color363636" title="{{item.chinesename}}">{{item.chinesename|tooltips:18}}</div>
 
                 <div class="fr date">{{item.inputdate|recordtime}}</div>
                 <div class="fr" style="width: 80px;" title="{{item.inputusername}}">{{item.inputusername|tooltips:10}}</div>

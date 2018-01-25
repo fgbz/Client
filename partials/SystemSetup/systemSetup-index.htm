@@ -73,12 +73,40 @@
                     <td><input class="home-input w300" type="text" ng-model="MailData.HairBoxAddress" maxlength="100" /></td>
                 </tr>
                 <tr height="50px">
-                    <td class="tr">邮件主题</td>
+                    <td class="tr">审核邮件主题</td>
                     <td><input class="home-input w300" type="text" ng-model="MailData.Theme" maxlength="500" /></td>
                 </tr>
                 <tr height="50px">
-                    <td class="tr">邮件正文</td>
+                    <td class="tr">审核邮件正文</td>
                     <td><textarea class="home-input" type="text" ng-model="MailData.Text" maxlength="500" style="height: 200px;width:500px;"
+                        /></td>
+                </tr>
+                <tr height="30px">
+                    <td colspan="2">
+                        <div style="height: 1px; border: 1px dashed #666666;"></div>
+                    </td>
+                </tr>
+                <tr height="50px">
+                    <td class="tr">审核不通过邮件主题</td>
+                    <td><input class="home-input w300" type="text" ng-model="MailData.NoPassTheme" maxlength="500" /></td>
+                </tr>
+                <tr height="50px">
+                    <td class="tr">审核不通过邮件正文</td>
+                    <td><textarea class="home-input" type="text" ng-model="MailData.NoPassText" maxlength="500" style="height: 200px;width:500px;"
+                        /></td>
+                </tr>
+                <tr height="30px">
+                    <td colspan="2">
+                        <div style="height: 1px; border: 1px dashed #666666;"></div>
+                    </td>
+                </tr>
+                <tr height="50px">
+                    <td class="tr">发布邮件主题</td>
+                    <td><input class="home-input w300" type="text" ng-model="MailData.PublishTheme" maxlength="500" /></td>
+                </tr>
+                <tr height="50px">
+                    <td class="tr">发布邮件邮件正文</td>
+                    <td><textarea class="home-input" type="text" ng-model="MailData.PublishText" maxlength="500" style="height: 200px;width:500px;"
                         /></td>
                 </tr>
                 <tr height="50px">

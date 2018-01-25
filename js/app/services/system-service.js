@@ -11,7 +11,16 @@ define(['bootstrap/app', 'app/config-manager', 'services/http-service'], functio
 
         //邮件设置
         this.MailSetting = function (data, callback) {
-            http.post('/System/MailSetting', { "MailServerAddress": data.MailServerAddress, "HairBoxAddress": data.HairBoxAddress, "Theme": data.Theme, "Text": data.Text }, callback);
+            http.post('/System/MailSetting', {
+                "MailServerAddress": data.MailServerAddress,
+                "HairBoxAddress": data.HairBoxAddress,
+                "Theme": data.Theme,
+                "Text": data.Text,
+                "NoPassTheme": data.NoPassTheme,
+                "NoPassText": data.NoPassText,
+                "PublishTheme": data.PublishTheme,
+                "PublishText": data.PublishText
+            }, callback);
         }
 
         this.getMailSetting = function (callback) {
@@ -127,6 +136,10 @@ define(['bootstrap/app', 'app/config-manager', 'services/http-service'], functio
         //用户停用
         this.SaveUserStatus = function (id, type, callback) {
             http.get('/System/SaveUserStatus?id=' + id + '&type=' + type, null, callback);
+        }
+
+        this.getUserMailById = function (id, callback) {
+            http.get('/System/getUserMailById?id=' + id, null, callback);
         }
 
     }]);

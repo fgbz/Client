@@ -25,14 +25,14 @@ body {
 .index_titlepic{
     height: 150px;
     width: 400px;
-    margin-left: 120px;
+    margin-left: 2%;
     float: left;
     background: url(../../images/top_title.png) no-repeat center;
 }
 .index_titlepic_new{
     height: 150px;
     width: 400px;
-    margin-left: 120px;
+    margin-left: 2%;
     float: left;
     background: url(../../images/top_title_new.png) no-repeat center;
 }
@@ -40,7 +40,7 @@ body {
 .index_menu_content{
     width: 500px;
     float: right;
-    margin-right: 120px;
+    margin-right: 2%;
 }
 .index_menu{
     text-align: center;
@@ -282,8 +282,8 @@ body {
     min-height: 580px;
     min-width: 508px;
     margin: 0;
-    margin-left: 120px;
-    margin-right: 120px;
+    margin-left: 2%;
+    margin-right: 2%;
 }
 
 .sugg_text{
@@ -1055,7 +1055,7 @@ body {
 
 .tree_or_line1{
     width: 20px;
-    /*height: 1px;*/
+    height: 2px;
     float: left;
     /*background: #08589f;*/
     border-bottom: 1px solid #08589f;
@@ -1074,7 +1074,7 @@ body {
 
 /*最外层竖线*/
 .tree_vr_line_out1{
-    /*width: 1px;*/
+    width: 2px;
      border-left: 1px solid #08589f;
     height: calc(100% + 50px);
     position: absolute;
@@ -1196,7 +1196,7 @@ body {
 
 .home_repeat .date{
      color: #363636;
-    width: 80px;
+    width: 90px;
 }
 
 .home_repeat .Organization{
@@ -2069,7 +2069,7 @@ body {
     color: #363636;
     height: 100%;
     margin: 0;
-    min-width: 1440px;
+    min-width: 1024px;
     min-height: 730px;
     overflow-x: hidden;
     overflow-y: hidden;

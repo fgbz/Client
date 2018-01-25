@@ -276,7 +276,7 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/regul
                         },
                         yAxis: {
                             min: 0,
-                            minPadding: 0.2,   
+                            minPadding: 0.2,
                             title: {
                                 text: ''
                             }
@@ -410,7 +410,7 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/regul
                     } else {
                         var itemdata = angular.copy(item);
                         var sRouter = "main.technicalDocumentsDetail";
-                        $rootScope.$emit("menustateChange", { value: sRouter, HeadNew: false });
+                        // $rootScope.$emit("menustateChange", { value: sRouter, HeadNew: false });
                         var itemDeal = {};
                         itemDeal.type = "check";
                         itemDeal.clickValue = 'home';
@@ -418,7 +418,9 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/regul
 
                         var data = JSON.stringify(itemDeal);
 
-                        $state.go(sRouter, { "data": data });
+                        // $state.go(sRouter, { "data": data });
+                        var url = $state.href(sRouter, { "data": data });
+                        window.open(url, '_blank');
 
                     }
 

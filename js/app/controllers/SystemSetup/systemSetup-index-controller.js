@@ -358,7 +358,11 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                             MailServerAddress: res.MailServerAddress,
                             HairBoxAddress: res.HairBoxAddress,
                             Theme: res.Theme,
-                            Text: res.Text
+                            Text: res.Text,
+                            NoPassTheme: res.NoPassTheme,
+                            NoPassText: res.NoPassText,
+                            PublishTheme: res.PublishTheme,
+                            PublishText: res.PublishText
                         }
                     })
                 }
@@ -1199,7 +1203,12 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                         MailServerAddress: $scope.MailData.MailServerAddress ? $scope.MailData.MailServerAddress : "",
                         HairBoxAddress: $scope.MailData.HairBoxAddress ? $scope.MailData.HairBoxAddress : "",
                         Theme: $scope.MailData.Theme ? $scope.MailData.Theme : "",
-                        Text: $scope.MailData.Text ? $scope.MailData.Text : ""
+                        Text: $scope.MailData.Text ? $scope.MailData.Text : "",
+                        NoPassTheme: $scope.MailData.NoPassTheme ? $scope.MailData.NoPassTheme : "",
+                        NoPassText: $scope.MailData.NoPassText ? $scope.MailData.NoPassText : "",
+                        PublishTheme: $scope.MailData.PublishTheme ? $scope.MailData.PublishTheme : "",
+                        PublishText: $scope.MailData.Text ? $scope.MailData.PublishText : ""
+
                     }
                     systemService.MailSetting(data, function (res) {
                         if (res == 200) {
@@ -1272,9 +1281,11 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
 
                 }
 
-                $scope.initSolr = function(){
-                    regulationService.initSolr(function(res){
-                        
+                $scope.initSolr = function () {
+                    regulationService.initSolr(function (res) {
+                        if (res == 200) {
+                            toaster.pop({ type: 'success', body: '更新索引成功!' });
+                        }
                     })
                 }
 
