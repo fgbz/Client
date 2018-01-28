@@ -396,30 +396,37 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                                 //提交待审核
                                 if ($scope.data.approvestatus == 2 || ($scope.data.approvestatus == 3 && statusBegin != 3)) {
 
-                                    systemService.getMailSetting(function (res) {
-                                        var MailData = {
-                                            MailServerAddress: res.MailServerAddress,
-                                            HairBoxAddress: res.HairBoxAddress,
-                                            Theme: res.Theme + "(" + $scope.data.code + ")",
-                                            Text: res.Text,
-                                            Email: res.Email,
-                                            NoPassTheme: res.NoPassTheme,
-                                            NoPassText: res.NoPassText,
-                                            PublishTheme: res.PublishTheme,
-                                            PublishText: res.PublishText,
-                                            AllEmail: res.AllEmail
-                                        }
-                                        var url = MailData.MailServerAddress;
+                                    systemService.getSendMailSetting(function (mailres) {
+                                        //发送
+                                        if (mailres == 1) {
+                                            systemService.getMailSetting(function (res) {
+                                                var MailData = {
+                                                    MailServerAddress: res.MailServerAddress,
+                                                    HairBoxAddress: res.HairBoxAddress,
+                                                    Theme: res.Theme + "(" + $scope.data.code + ")",
+                                                    Text: res.Text,
+                                                    Email: res.Email,
+                                                    NoPassTheme: res.NoPassTheme,
+                                                    NoPassText: res.NoPassText,
+                                                    PublishTheme: res.PublishTheme,
+                                                    PublishText: res.PublishText,
+                                                    AllEmail: res.AllEmail,
+                                                    type: $scope.data.approvestatus
+                                                }
+                                                $rootScope.$emit("SendMail", MailData);
 
-                                        toaster.pop({ type: 'success', body: '开始发送邮件!' });
-                                        if ($scope.data.approvestatus == 2) {
-                                            sendMail(url, MailData.HairBoxAddress, MailData.Email, MailData.Theme, MailData.Text);
+                                                $scope.isSaving = false;
+                                                $scope.goState("second");
+
+
+                                            })
                                         } else {
-                                            sendMail(url, MailData.HairBoxAddress, MailData.AllEmail, MailData.PublishTheme, MailData.PublishText);
+                                            $scope.isSaving = false;
+                                            $scope.goState("second");
                                         }
-
-
                                     })
+
+
 
                                 } else {
                                     $scope.isSaving = false;
@@ -439,59 +446,6 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                     })
 
 
-                }
-
-
-
-
-                var sendMail = function (url, HairBoxAddress, Email, Theme, Text) {
-                    $.ajax({
-                        type: "Get",
-                        url: url,
-                        data: { 'mfrom': HairBoxAddress, 'mto': Email, 'subj': Theme, 'body': Text },
-                        dataType: "jsonp",
-                        // timeout: 10000,
-                        contentType: "application/json;charset=utf-8",
-                        success: function (result) {
-                            if (result == 'OK') {
-                                $scope.isSaving = false;
-                                toaster.pop({ type: 'success', body: '邮件发送成功!' });
-                                $scope.goState("second");
-                            }
-
-                        },
-                        error: function (err, textStatus) {
-                            toaster.pop({ type: 'danger', body: '邮件发送失败!' });
-                            $scope.isSaving = false;
-                            $scope.goState("second");
-                        }
-                    })
-
-                    var head = document.head || $('head')[0] || document.documentElement; // code from jquery
-                    var script = $(head).find('script')[0];
-                    script.onerror = function (evt) {
-                        toaster.pop({ type: 'danger', body: '邮件发送失败!' });
-                        $scope.isSaving = false;
-                        $scope.goState("second");
-
-                        // do some clean
-
-                        // delete script node
-                        if (script.parentNode) {
-                            script.parentNode.removeChild(script);
-                        }
-                        // delete jsonCallback global function
-                        var src = script.src || '';
-                        var idx = src.indexOf('jsoncallback=');
-                        if (idx != -1) {
-                            var idx2 = src.indexOf('&');
-                            if (idx2 == -1) {
-                                idx2 = src.length;
-                            }
-                            var jsonCallback = src.substring(idx + 13, idx2);
-                            delete window[jsonCallback];
-                        }
-                    };
                 }
 
                 //提交

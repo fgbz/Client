@@ -113,6 +113,10 @@ define(['bootstrap/app', 'app/config-manager', 'services/http-service'], functio
             http.get('/System/getApproveSetting?', null, callback);
         }
 
+        this.getSendMailSetting = function (callback) {
+             http.get('/System/getSendMailSetting?', null, callback);
+        }
+
         //保存审核配置
         this.SaveOrUpdateApproveSetting = function (data, callback) {
             http.get('/System/SaveOrUpdateApproveSetting?status=' + data, null, callback);
@@ -140,6 +144,11 @@ define(['bootstrap/app', 'app/config-manager', 'services/http-service'], functio
 
         this.getUserMailById = function (id, callback) {
             http.get('/System/getUserMailById?id=' + id, null, callback);
+        }
+
+        //发送邮件配置
+        this.SaveOrUpdateMailSetting = function (data, callback) {
+            http.get('/System/SaveOrUpdateMailSetting?status=' + data, null, callback);
         }
 
     }]);

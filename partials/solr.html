@@ -8,7 +8,7 @@
     </div>
 
     <!--详细-->
-    <div style="height: calc(100% - 210px);overflow: auto;">
+    <div style="height: calc(100% - 220px);">
         <div class="solr_left">
             <div class="solr_searchdiv">
                 <div class="doublesolr">二次检索</div>
@@ -106,27 +106,28 @@
                 <div class=" fr mb10 mr10">耗时:{{time}}秒</div>
             </div>
 
-
-            <div ng-repeat="item in items" class="solr_repeat" ng-show="isLoaded">
-                <div class="fl solr_chinsesename" ng-bind-html="item.chinesename|highlight:searchdata.solrText" style="cursor: pointer;" ng-click="Check(item)"></div>
-                <div class="fr solr_time" ng-style="{'margin-right':$first?'-50px':'0px'}">{{item.releasedate|recordtime}}</div>
-                <div class="clear" style="height: 30px;">
-                    <div>
-                        <label class="fl">关键字:</label>
-                        <div ng-bind-html="item.keywords|tooltips:50|highlight:searchdata.solrText"></div>
+            <div style="    overflow-y: auto;width: 100%;height: calc(100% - 120px);overflow-x: hidden;">
+                <div ng-repeat="item in items" class="solr_repeat" ng-show="isLoaded">
+                    <div class="fl solr_chinsesename" ng-bind-html="item.chinesename|highlight:searchdata.solrText" style="cursor: pointer;"
+                        ng-click="Check(item)"></div>
+                    <div class="fr solr_time" >{{item.releasedate|recordtime}}</div>
+                    <div class="clear" style="height: 30px;">
+                        <div>
+                            <label class="fl">关键字:</label>
+                            <div ng-bind-html="item.keywords|tooltips:50|highlight:searchdata.solrText"></div>
+                        </div>
                     </div>
+                    <div>
+                        <label class="fl">摘要:</label>
+                        <div ng-bind-html="item.summaryinfo|tooltips:100|highlight:searchdata.solrText" title="{{item.summaryinfo|parseHTML}}"></div>
+                    </div>
+
                 </div>
-                <div>
-                    <label class="fl">摘要:</label>
-                    <div ng-bind-html="item.summaryinfo|tooltips:100|highlight:searchdata.solrText" title="{{item.summaryinfo|parseHTML}}"></div>
+
+                <div class="text-center " ng-show="!isLoaded">
+                    <img src="images/loading.gif " />
                 </div>
-
             </div>
-
-            <div class="text-center " ng-show="!isLoaded">
-                <img src="images/loading.gif " />
-            </div>
-
             <div class="home_paging">
                 <div class="pagination-info " style="display: inline-block;margin-top: 12px; margin-left: 10px;">
                     <span class="ng-binding ">共{{pager.total}}条</span>

@@ -3,14 +3,16 @@ define(['bootstrap/app', 'utils', 'services/regulation-service'], function (app,
 
     var config = require('app/config-manager');
     var baseUrl = config.baseUrl();
-    app.controller('reference-controller', ['$rootScope', '$scope', '$state', 'toaster', '$uibModal', '$uibModalInstance', 'regulation-service', 'values','ngDialog',
-        function ($rootScope, $scope, $state, toaster, $uibModal, $modalInstance, regulationService, values,ngDialog) {
+    app.controller('reference-controller', ['$rootScope', '$scope', '$state', 'toaster', '$uibModal', '$uibModalInstance', 'regulation-service', 'values', 'ngDialog',
+        function ($rootScope, $scope, $state, toaster, $uibModal, $modalInstance, regulationService, values, ngDialog) {
 
             var user = sessionStorage.getItem('loginUser');
             if (user) {
                 user = JSON.parse(user);
                 $scope.user = user;
             }
+
+            $scope.isLawMaintain = utils.getListItem('法规发布维护', 'menuname', user.menus);
 
             var dics = JSON.parse(localStorage.getItem('DicItems'));
 
@@ -144,11 +146,11 @@ define(['bootstrap/app', 'utils', 'services/regulation-service'], function (app,
                 $scope.okref = function () {
                     if ($scope.title == "代替关系") {
                         if ($scope.data.length > 0) {
-                            var code="";
+                            var code = "";
                             for (var i = 0; i < $scope.data.length; i++) {
-                                code += $scope.data[i].code+",";
+                                code += $scope.data[i].code + ",";
                             }
-                            $scope.text = "本条标准将代替"+code+"被代替标准状态将将改为“作废”，是否确认？";
+                            $scope.text = "本条标准将代替" + code + "被代替标准状态将将改为“作废”，是否确认？";
                             var modalInstance = ngDialog.openConfirm({
                                 templateUrl: 'partials/_confirmModal.html',
                                 appendTo: 'body',
@@ -167,8 +169,8 @@ define(['bootstrap/app', 'utils', 'services/regulation-service'], function (app,
                                 }
                             });
                         }
-                    }else{
-                         $modalInstance.close($scope.data);
+                    } else {
+                        $modalInstance.close($scope.data);
                     }
 
                 }

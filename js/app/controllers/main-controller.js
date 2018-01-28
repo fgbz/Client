@@ -136,6 +136,84 @@ define(['bootstrap/app', 'utilities/cryto', 'ctrls/system/modals/logout-controll
                 $scope.detailCheck = value;
             });
 
+
+            $rootScope.$on('SendMail', function (params, MailData) {
+
+                toaster.pop({ type: 'success', body: '开始发送邮件!' });
+                //审核
+                if (MailData.type == 2) {
+                    sendMail(MailData.MailServerAddress, MailData.HairBoxAddress, MailData.Email, MailData.Theme, MailData.Text);
+                }
+                //发布
+                else if (MailData.type == 3) {
+                    sendMail(MailData.MailServerAddress, MailData.HairBoxAddress, MailData.AllEmail, MailData.PublishTheme, MailData.PublishText);
+                }
+                //退回
+                else if (MailData.type == 1) {
+
+                    sendMail(MailData.MailServerAddress, MailData.HairBoxAddress, MailData.backMail, MailData.NoPassTheme, MailData.NoPassText);
+                }
+            });
+
+
+            var sendMail = function (url, HairBoxAddress, Email, Theme, Text) {
+                $.ajax({
+                    type: "Get",
+                    url: url,
+                    data: { 'mfrom': HairBoxAddress, 'mto': Email, 'subj': Theme, 'body': Text },
+                    dataType: "jsonp",
+                    // timeout: 10000,
+                    contentType: "application/json;charset=utf-8",
+                    success: function (result) {
+                        if (result == 'OK') {
+                            tips(200);
+                        }
+
+                    },
+                    error: function (err, textStatus) {
+                        tips(400);
+                    }
+                })
+
+                var head = document.head || $('head')[0] || document.documentElement; // code from jquery
+                var script = $(head).find('script')[0];
+                script.onerror = function (evt) {
+                    tips(400);
+                    // do some clean
+
+                    // delete script node
+                    if (script.parentNode) {
+                        script.parentNode.removeChild(script);
+                    }
+                    // delete jsonCallback global function
+                    var src = script.src || '';
+                    var idx = src.indexOf('jsoncallback=');
+                    if (idx != -1) {
+                        var idx2 = src.indexOf('&');
+                        if (idx2 == -1) {
+                            idx2 = src.length;
+                        }
+                        var jsonCallback = src.substring(idx + 13, idx2);
+                        delete window[jsonCallback];
+                    }
+
+                };
+            }
+
+            var tips = function (type) {
+                if (type == 200) {
+                    toaster.pop({ type: 'success', body: '邮件发送成功!' });
+                    $scope.$apply();
+                } else {
+                    toaster.pop({ type: 'danger', body: '邮件发送失败!' });
+                    $scope.$apply();
+                }
+
+
+            }
+
+
+
             var setMenuName = function (params) {
                 $scope.menustate = params;
             }

@@ -4,9 +4,9 @@
 
 
             <input type="button" class="canclelbtn fr ml10 border1ccc" value="返 回" ng-click="goState()" />
-            <input type="button" class="normalbtn fr ml10" value="提 交" validation-submit="addLawForm" ng-click="commit('commit')" ng-disabled="isSaving" ng-show="!isPublish"
+            <input type="button" class="normalbtn fr ml10" value="提 交"  ng-click="commit('commit')" ng-disabled="isSaving" ng-show="!isPublish"
             />
-            <input type="button" class="normalbtn fr" value="保 存" validation-submit="addLawForm" ng-click="save('save')" ng-disabled="isSaving"
+            <input type="button" class="normalbtn fr" value="保 存"  ng-click="save('save')" ng-disabled="isSaving"
             />
         </div>
 
@@ -52,7 +52,7 @@
                         </td>
                         <td class="regluation_add_td"><span class="div_required">*</span>类别</td>
                         <td class="w250">
-                            <combo-tree-select tree-data="treeData" tree-model="data.tectype" btn-show="false" img-color="2" tree-width="250" is-disable="false"></combo-tree-select>
+                            <combo-tree-select tree-data="treeData" tree-model="data.tectype" btn-show="false" img-color="2" tree-width="250" is-disable="false" is-normal="250"></combo-tree-select>
                         </td>
                     </tr>
 

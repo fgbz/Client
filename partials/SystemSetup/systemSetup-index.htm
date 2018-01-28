@@ -15,6 +15,15 @@
                 <div class="fr">{{systemdata.sfsh==1?'审核':'不审核'}}</div>
 
             </div>
+            <div class="system_hc">
+                <span>是否发送邮件</span>
+
+                <div ng-class="{true:'system_hk_yes',false:'system_hk_no'}[systemdata.fsyj==1]" ng-style="{'background-color':systemdata.fsyj==1?'#07ac22':'#363636'}">
+                    <div ng-class="{true:'system_hkb_right',false:'system_hkb_left'}[systemdata.fsyj==1]" ng-click="clickfsyj()"></div>
+                </div>
+                <div class="fr">{{systemdata.fsyj==1?'发送':'不发送'}}</div>
+
+            </div>
 
         </div>
 
@@ -32,7 +41,7 @@
         </div>
 
         <div ng-if="clickTreeValue=='19'">
-            <div class="system_hc">
+            <div class="system_hc" ng-show="false">
                 <span>历史数据处理</span>
 
                 <div class="fr mt10">
@@ -42,7 +51,7 @@
 
             </div>
 
-            <div class="system_hc">
+            <div class="system_hc" ng-show="false">
                 <span>历史数据类别处理</span>
 
                 <div class="fr mt10">

@@ -111,12 +111,18 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
 
                         $scope.systemdata.sfsh = res;
 
-                    })
+                    });
+                    systemService.getSendMailSetting(function (res) {
+
+                        $scope.systemdata.fsyj = res;
+
+                    });
                 }
 
 
                 $scope.clickTreeValue = "11";
                 $scope.getApproveSetting()
+
             };
 
 
@@ -406,6 +412,44 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                         systemService.SaveOrUpdateApproveSetting(1, function (res) {
 
                             $scope.systemdata.sfsh = 1;
+                        })
+                    }
+                }
+
+                //是否发送邮件
+                $scope.clickfsyj = function () {
+
+                    if ($scope.systemdata.fsyj == 1) {
+                        $scope.text = "确定不需要发送邮件吗？";
+                        var modalInstance = ngDialog.openConfirm({
+                            templateUrl: 'partials/_confirmModal.html',
+                            appendTo: 'body',
+                            className: 'ngdialog-theme-default',
+                            showClose: false,
+                            scope: $scope,
+                            size: 400,
+                            controller: function ($scope) {
+                                $scope.ok = function () {
+
+                                    systemService.SaveOrUpdateMailSetting(0, function (res) {
+                                        if (res == 200) {
+                                            $scope.systemdata.fsyj = 0;
+                                            $scope.closeThisDialog(); //关闭弹窗
+                                        }
+                                    })
+
+
+                                };
+                                $scope.cancel = function () {
+                                    $scope.closeThisDialog(); //关闭弹窗
+                                }
+                            }
+                        });
+
+                    } else {
+                        systemService.SaveOrUpdateMailSetting(1, function (res) {
+
+                            $scope.systemdata.fsyj = 1;
                         })
                     }
                 }
@@ -1282,11 +1326,31 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                 }
 
                 $scope.initSolr = function () {
-                    regulationService.initSolr(function (res) {
-                        if (res == 200) {
-                            toaster.pop({ type: 'success', body: '更新索引成功!' });
+
+                    $scope.text = "更新索引会删除原索引文件，重新生成，是否确定！";
+                    var modalInstance = ngDialog.openConfirm({
+                        templateUrl: 'partials/_confirmModal.html',
+                        appendTo: 'body',
+                        className: 'ngdialog-theme-default',
+                        showClose: false,
+                        scope: $scope,
+                        size: 400,
+                        controller: function ($scope) {
+                            $scope.ok = function () {
+
+                                regulationService.initSolr(function (res) {
+                                    if (res == 200) {
+                                        toaster.pop({ type: 'success', body: '更新索引成功!' });
+                                    }
+                                })
+                                $scope.closeThisDialog(); //关闭弹窗
+                            };
+                            $scope.cancel = function () {
+                                $scope.closeThisDialog(); //关闭弹窗
+                            }
                         }
-                    })
+                    });
+
                 }
 
 

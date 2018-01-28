@@ -42,7 +42,7 @@ define(['bootstrap/app', 'utils', 'services/technical-service', 'services/access
                             Id: params[i].id,
                             Name: params[i].typename,
                             ParentID: params[i].parentid
-                        } 
+                        }
                         $scope.treeData.push(data);
 
                     }
@@ -135,7 +135,7 @@ define(['bootstrap/app', 'utils', 'services/technical-service', 'services/access
                 $scope.canPreview = function (fileName) {
                     var pos = fileName.lastIndexOf('.');
                     var format = fileName.substring(pos + 1);
-                     var picType = ['pdf', 'doc', 'txt', 'docx'];
+                    var picType = ['pdf', 'doc', 'txt', 'docx'];
                     var res = false;
                     angular.forEach(picType, function (value, key) {
                         if (value == format.toLowerCase()) {
@@ -162,6 +162,12 @@ define(['bootstrap/app', 'utils', 'services/technical-service', 'services/access
                         } else {
                             $scope.data.approvestatus = 1;
                         }
+                    }
+
+                    if (!$scope.data.chinesename) {
+                        toaster.pop({ type: 'danger', body: '请填写标题!' });
+                        $scope.isSaving = false;
+                        return;
                     }
 
                     if (!$scope.data.tectype) {

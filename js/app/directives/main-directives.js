@@ -1003,14 +1003,14 @@ define(['angular', 'nicEdit', 'jquery', 'utils'], function (ng, nicEditObj, jque
                     }
                 }
 
-                 //外部改变treeModel值时，选中对应的项
+                //外部改变treeModel值时，选中对应的项
                 scope.$watch('treeModel', function (newValue, oldValue) {
                     if (!(oldValue == undefined && newValue == undefined)) {
                         // scope.selectnode = null;
                         getNodeByid(scope.treeModel);
                         if (scope.selectnode) {
                             ExpendParent(scope.selectnode);
-                        } 
+                        }
 
                     }
                 })
@@ -1020,7 +1020,7 @@ define(['angular', 'nicEdit', 'jquery', 'utils'], function (ng, nicEditObj, jque
 
                     for (var v in dataList) {
                         if (dataList[v].Id == id) {
-                            scope.selectnode =angular.copy(dataList[v]);
+                            scope.selectnode = angular.copy(dataList[v]);
                             break;
                         }
                     }
@@ -1148,11 +1148,16 @@ define(['angular', 'nicEdit', 'jquery', 'utils'], function (ng, nicEditObj, jque
                     if (!(oldValue == undefined && newValue == undefined)) {
                         scope.treeModel = newValue;
 
+                        var flag = false;
                         for (var i = 0; i < scope.treeData.length; i++) {
                             if (scope.treeModel == scope.treeData[i].Id) {
                                 scope.displayText = scope.treeData[i].Name;
+                                flag = true;
                                 break;
                             }
+                        }
+                        if (!flag) {
+                            scope.displayText = "";
                         }
 
                     }
