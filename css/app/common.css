@@ -417,7 +417,7 @@ body {
 .regluation_add_td{
     vertical-align: middle;
     text-align: right;
-    width: 230px;
+    /*width: 230px;*/
 }
 .regluation_add_td_first{
     vertical-align: middle;
@@ -2069,7 +2069,7 @@ body {
     color: #363636;
     height: 100%;
     margin: 0;
-    min-width: 1024px;
+    min-width: 1435px;
     min-height: 715px;
     overflow-x: hidden;
     overflow-y: hidden;

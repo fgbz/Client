@@ -22,7 +22,7 @@
 
                         <td class="regluation_add_td tl">录入部门:{{data.inputorgname}}</td>
 
-                        <td  style="padding-left:120px;">录入时间:{{data.inputdate}}</td>
+                        <td class="w300 tr">录入时间:{{data.inputdate}}</td>
                     </tr>
 
 
@@ -45,14 +45,14 @@
 
                     <tr height="50px">
                         <td class="regluation_add_td">编号</td>
-                        <td class="w250">
+                        <td class="w300">
                             <div class="posi_re">
-                                <input class="home-input w250" type="text" ng-model="data.code" name="code" maxlength="200" />
+                                <input class="home-input w300" type="text" ng-model="data.code" name="code" maxlength="200" />
                             </div>
                         </td>
                         <td class="regluation_add_td"><span class="div_required">*</span>类别</td>
-                        <td class="w250">
-                            <combo-tree-select tree-data="treeData" tree-model="data.tectype" btn-show="false" img-color="2" tree-width="250" is-disable="false" is-normal="250"></combo-tree-select>
+                        <td class="w300">
+                            <combo-tree-select tree-data="treeData" tree-model="data.tectype" btn-show="false" img-color="2" tree-width="300" is-disable="false" is-normal="300"></combo-tree-select>
                         </td>
                     </tr>
 
@@ -60,14 +60,14 @@
 
                     <tr height="50px">
                         <td class="regluation_add_td">发布日期</td>
-                        <td class="w250">
-                            <input type="text" id="FiledTime" class="case_table_timepicker_input w250" ng-model="data.releasedate" je-date format="YYYY-MM-DD"
+                        <td class="w300">
+                            <input type="text" id="FiledTime" class="case_table_timepicker_input w300" ng-model="data.releasedate" je-date format="YYYY-MM-DD"
                                 readonly />
                         </td>
 
                         <td class="regluation_add_td">关键字</td>
-                        <td class="w250">
-                            <input class="home-input w250" type="text" ng-model="data.keywords" maxlength="200" />
+                        <td class="w300">
+                            <input class="home-input w300" type="text" ng-model="data.keywords" maxlength="200" />
                         </td>
 
 
@@ -78,7 +78,7 @@
                         <td colspan="3" class="pl10"  >
                             <div class="bgdfff" style="width:849px;">
                                 <textarea nic-textarea text-content id="test-content" name="Content" ng-model="data.summaryinfo" class="home-txtarea regluation_add_textarea"
-                                    style="width:100%;border: 0px;overflow:auto;border-radius: 0;width:849px;" maxlength="800"></textarea>
+                                    style="width:100%;border: 0px;overflow:auto;border-radius: 0;width:849px;height:87px;" maxlength="800"></textarea>
                             </div>
                         </td>
                     </tr>
