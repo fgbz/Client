@@ -20,6 +20,14 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
                     selected: 0
                 }
 
+                $scope.tableRowFav = {
+                    selected: 0
+                }
+                $scope.tableRowLaw = {
+                    selected: 0
+                };
+
+
                 $scope.pagerDeal = {
                     size: 10,
                     current: 1
@@ -139,6 +147,8 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
                         options.conditions.push({ key: 'TreeValue', value: $scope.clickFavValue });
                     }
 
+                    $scope.tableRowFav.selected = 0;
+
                     usercenterService.getLawsAndTecByLinkID(options, function (response) {
                         $scope.isLoaded = true;
                         $scope.CollectItems = response.CurrentList;
@@ -158,7 +168,7 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
 
                         case '收藏夹':
                             if ($scope.treeFavoriteData) {
-                                $scope.getLawsByLinkID
+                                $scope.getLawsByLinkID();
                             } else {
                                 $scope.initFavor();
                             }
@@ -205,6 +215,8 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
                         options.conditions.push({ key: 'keyWords', value: $scope.adviceData.Title });
                     }
 
+                    $scope.tableRow.selected = 0;
+
                     usercenterService.getAdviceList(options, function (response) {
                         $scope.isLoaded = true;
                         $scope.adviceItems = response.CurrentList;
@@ -238,6 +250,8 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
                     }
                     options.conditions.push({ key: 'ApproveStatus', value: 2 });
                     options.conditions.push({ key: 'Userid', value: user.id });
+
+                    $scope.tableRowLaw.selected = 0;
                     regulationService.getLawstandardList(options, function (response) {
                         $scope.isLoaded = true;
                         $scope.LawstandardItems = response.CurrentList;
@@ -565,6 +579,14 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
 
                 $scope.clickTable = function (params) {
                     $scope.tableRow.selected = params;
+                }
+                //点击收藏夹
+                $scope.clickTableFav = function (params) {
+                    $scope.tableRowFav.selected = params;
+                }
+                //点击待办
+                $scope.clickTableLaw = function (params) {
+                    $scope.tableRowLaw.selected = params;
                 }
 
                 $scope.clickTree = function (params) {

@@ -495,7 +495,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                         organization: $scope.searchdata.organization ? $scope.searchdata.organization : null,
                         MaterialTmeStart: $scope.searchdata.MaterialTmeStart ? $scope.searchdata.MaterialTmeStart : null,
                         MaterialTmeEnd: $scope.searchdata.MaterialTmeEnd ? $scope.searchdata.MaterialTmeEnd : null,
-                        TreeValue: $scope.managetreedata.TreeValue ? $scope.managetreedata.TreeValue : null,
+                        TreeValue: $scope.clickTreeValue? $scope.clickTreeValue : null,
                         SearchOrdertype: $scope.searchdata.SearchOrdertype
                     }
                     var url = baseUrl + "/Lawstandard/ExportLaw?Number=" + data.Number + "&Title=" + data.Title + "&FiledTimeStart=" + data.FiledTimeStart

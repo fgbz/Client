@@ -104,7 +104,7 @@
                             </tr>
                         </thead>
                         <tbody ng-if="isLoaded">
-                            <tr ng-repeat="item in items" style="height: 40px;" ng-click="clickTable($index);" ng-class="{true: 'tr_selected',false: ''}[tableRowsearch.selected==$index] ">
+                            <tr ng-repeat="item in items" style="height: 40px;" ng-click="clicksearchTable($index);" ng-class="{true: 'tr_selected',false: ''}[tableRowsearch.selected==$index] ">
                                 <td>{{$index+1}}</td>
                                 <td title="{{item.chinesename}} " style="text-align: left;" class="w300 ">{{item.chinesename| tooltips:25}}</td>
                                 <td title="{{item.code}} " style="text-align: left;">{{item.code| tooltips:13 }}</td>

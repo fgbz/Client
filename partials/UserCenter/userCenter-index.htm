@@ -75,7 +75,7 @@
                             </tr>
                         </thead>
                         <tbody ng-if="isLoaded">
-                            <tr ng-repeat="item in CollectItems" style="height: 40px;cursor: pointer" ng-click="clickTable($index);" ng-class="{true: 'tr_selected',false: ''}[tableRow.selected==$index] ">
+                            <tr ng-repeat="item in CollectItems" style="height: 40px;cursor: pointer" ng-click="clickTableFav($index);" ng-class="{true: 'tr_selected',false: ''}[tableRowFav.selected==$index] ">
                                 <td title="{{item.title}} " class="w300 ">{{item.title| tooltips:20}}</td>
                                 <td title="{{item.favname}}">{{item.favname| tooltips:10}}</td>
                                 <td title="{{item.favoritetime|recordtime}} ">{{item.favoritetime|recordtime}}</td>
@@ -155,7 +155,7 @@
                             </tr>
                         </thead>
                         <tbody ng-if="isLoaded">
-                            <tr ng-repeat="item in LawstandardItems" style="height: 40px;cursor: pointer" ng-click="clickTable($index);" ng-class="{true: 'tr_selected',false: ''}[tableRow.selected==$index] ">
+                            <tr ng-repeat="item in LawstandardItems" style="height: 40px;cursor: pointer" ng-click="clickTableLaw($index);" ng-class="{true: 'tr_selected',false: ''}[tableRowLaw.selected==$index] ">
                                 <td>{{$index+1}}</td>
                                 <td title="{{item.chinesename}} " class="w300 ">{{item.chinesename| tooltips:20}}</td>
                                 <td title="{{item.code}} ">{{item.code}}</td>
