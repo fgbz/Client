@@ -24,6 +24,7 @@ define(['bootstrap/app',
     'ctrls/TechnicalDocuments/technicalDocuments-detail-controller',
     'ctrls/UserCenter/userCenter-index-controller',
     'ctrls/SystemSetup/systemSetup-index-controller',
+    'ctrls/Statistic/statistic-controller',
 
     'ctrls/error-controller'], function (app) {
         'use strict';
@@ -44,6 +45,13 @@ define(['bootstrap/app',
                 templateUrl: 'partials/main.htm',
                 controller: 'main-controller'
             });
+
+            $stateProvider.state('permission', {
+                url: '/permission',
+                templateUrl: 'partials/permission.html',
+                controller: 'permission-controller'
+            });
+
 
             // url 前面加上 ^ 表示 绝对路由，虽然是子状态，但是 url 不会跟随在父状态后面。
 
@@ -143,7 +151,12 @@ define(['bootstrap/app',
                 templateUrl: 'partials/SystemSetup/systemSetup-index.htm',
                 controller: 'systemSetup-index-controller'
             });
-
+            //统计分析
+            $stateProvider.state('main.statistic', {
+                url: 'statistic',
+                templateUrl: 'partials/Statistic/statistic.html',
+                controller: 'statistic-controller'
+            });
 
 
             // 如果出现了没有存在的状态，则进入默认的 URL。 settings-controller

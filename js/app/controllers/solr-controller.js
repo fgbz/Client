@@ -168,8 +168,8 @@ define(['bootstrap/app', 'utils', 'services/regulation-service'], function (app,
                 $scope.Check = function (item) {
 
                     var itemdata = {
-                        id:item.id,
-                        clickcount:item.clickcount
+                        id: item.id,
+                        clickcount: item.clickcount
                     }
 
                     regulationService.AddLawstandardCount(itemdata, function () {
@@ -188,7 +188,26 @@ define(['bootstrap/app', 'utils', 'services/regulation-service'], function (app,
                         window.open(url, '_blank');
                     })
 
-                }
+                };
+
+
+                //时间监听
+                $scope.$watch('searchdata.FiledTimeStart', function (newValue, oldValue) {
+                    if (newValue) {
+                        if ($scope.searchdata.FiledTimeStart > $scope.searchdata.FiledTimeEnd) {
+                            toaster.pop({ type: 'danger', body: '开始时间不能大于结束时间!' });
+                            $scope.searchdata.FiledTimeStart = oldValue;
+                        }
+                    }
+                });
+                $scope.$watch('searchdata.FiledTimeEnd', function (newValue, oldValue) {
+                    if (newValue) {
+                        if ($scope.searchdata.FiledTimeStart > $scope.searchdata.FiledTimeEnd) {
+                            toaster.pop({ type: 'danger', body: '开始时间不能大于结束时间!' });
+                            $scope.searchdata.FiledTimeEnd = oldValue;
+                        }
+                    }
+                });
 
 
 

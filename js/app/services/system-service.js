@@ -114,7 +114,7 @@ define(['bootstrap/app', 'app/config-manager', 'services/http-service'], functio
         }
 
         this.getSendMailSetting = function (callback) {
-             http.get('/System/getSendMailSetting?', null, callback);
+            http.get('/System/getSendMailSetting?', null, callback);
         }
 
         //保存审核配置
@@ -149,6 +149,10 @@ define(['bootstrap/app', 'app/config-manager', 'services/http-service'], functio
         //发送邮件配置
         this.SaveOrUpdateMailSetting = function (data, callback) {
             http.get('/System/SaveOrUpdateMailSetting?status=' + data, null, callback);
+        }
+
+        this.grtUserListByOrgId = function (params, callback) {
+            http.get('/System/grtUserListByOrgId?orgid=' + params, null, callback);
         }
 
     }]);

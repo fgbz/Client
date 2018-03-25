@@ -1,55 +1,7 @@
-<div class="index_header" ng-if="!HeadNew">
-    <!--图标-->
-    <div class="index_titlepic"></div>
-    <div class="index_menu_content"  ng-show="!detailCheck">
-        <ul class="list-inline">
+<div ng-class="{true:'HeadNew',false:''}[HeadNew]">
+    <div ng-class="{true:'index_header_new',false:''}[HeadNew]">
 
-            <li ng-click="logout()" ng-show="loginUser" style="width: 65px;">
-                <span class="color_blue">退出</span>
-                <a class="btn_logout" title="退出"></a>
-            </li>
-
-            <li ng-click="login()" ng-show="!loginUser" style="width: 65px;">
-                <span class="color_blue">登录</span>
-                <a class="btn_logout" title="登录"></a>
-            </li>
-
-            <li >
-                <a class="btn_help color_blue" href="/download/法规标准系统说明.docx"  target="_blank" title="帮助">系统帮助 </a>
-            </li>
-
-            <li>
-                <a class="btn_download color_blue" href="/download/ChromeV42.exe" target="_blank" title="插件下载">插件下载 </a>
-            </li>
-
-            <li style="width:20px;">
-                <div class="topright_vline"></div>
-            </li>
-
-            <li class="userInfo" style="    width: auto;" ng-if="loginUser" ng-click="ShowUser()">
-                <a class="btn_people"></a>
-                <span>{{loginUser.userrealname}}</span>
-            </li>
-
-
-        </ul>
-
-        <!--菜单-->
-        <div ng-include src="'partials/main_menu.htm'" class="clear index_menu_pad"></div>
-    </div>
-</div>
-<!--分隔线-->
-<div class="index_splice_line" ng-if="!HeadNew"></div>
-
-<div ng-if="!HeadNew">
-    <toaster-container toaster-options="{'limit':1,'time-out': 3000,'close-button': true}" class="toast-center"></toaster-container>
-    <div class="index_content" ui-view ng-animate="{enter: 'animate-enter', leave: 'animate-leave'}" resize-index-content ng-style="setIndexContentStyle()"></div>
-</div>
-
-<div ng-if="HeadNew" style="overflow-y: auto;height: 100%;">
-    <div class="index_header_new">
-
-        <div class="index_header">
+        <div class="index_header" ng-if="HeadNew">
             <!--图标-->
             <div class="index_titlepic_new"></div>
             <div class="index_menu_content">
@@ -87,6 +39,51 @@
                 <div ng-include src="'partials/main_menu.htm'" class="clear index_menu_pad"></div>
             </div>
         </div>
+
+
+        <div class="index_header" ng-if="!HeadNew">
+            <!--图标-->
+            <div class="index_titlepic"></div>
+            <div class="index_menu_content" ng-show="!detailCheck">
+                <ul class="list-inline">
+
+                    <li ng-click="logout()" ng-show="loginUser" style="width: 65px;">
+                        <span class="color_blue">退出</span>
+                        <a class="btn_logout" title="退出"></a>
+                    </li>
+
+                    <li ng-click="login()" ng-show="!loginUser" style="width: 65px;">
+                        <span class="color_blue">登录</span>
+                        <a class="btn_logout" title="登录"></a>
+                    </li>
+
+                    <li>
+                        <a class="btn_help color_blue" href="/download/法规标准系统说明.docx" target="_blank" title="帮助">系统帮助 </a>
+                    </li>
+
+                    <li>
+                        <a class="btn_download color_blue" href="/download/ChromeV42.exe" target="_blank" title="插件下载">插件下载 </a>
+                    </li>
+
+                    <li style="width:20px;">
+                        <div class="topright_vline"></div>
+                    </li>
+
+                    <li class="userInfo" style="    width: auto;" ng-if="loginUser" ng-click="ShowUser()">
+                        <a class="btn_people"></a>
+                        <span>{{loginUser.userrealname}}</span>
+                    </li>
+
+
+                </ul>
+
+                <!--菜单-->
+                <div ng-include src="'partials/main_menu.htm'" class="clear index_menu_pad"></div>
+            </div>
+        </div>
+        <!--分隔线-->
+        <div class="index_splice_line" ng-if="!HeadNew"></div>
+
 
         <div>
             <toaster-container toaster-options="{'limit':1,'time-out': 3000,'close-button': true}" class="toast-center"></toaster-container>

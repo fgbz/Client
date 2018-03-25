@@ -84,6 +84,10 @@ define(['bootstrap/app', 'app/config-manager', 'services/http-service'], functio
             http.get('/Lawstandard/getHomePageLawsType', null, callback);
         }
 
+        this.getHomeLawsCount = function (callback) {
+             http.get('/Lawstandard/getHomeLawsCount', null, callback);
+        }
+
         //批量删除
         this.DeleteAllSelectLawstandard = function (data, callback) {
             http.post('/Lawstandard/DeleteAllSelectLawstandard', data, callback);
@@ -96,6 +100,11 @@ define(['bootstrap/app', 'app/config-manager', 'services/http-service'], functio
 
         this.initSolr = function (callback) {
             http.get('/Lawstandard/initSolr', null, callback);
+        }
+
+        //统计分析
+        this.getChartStatistic = function (data,type,clickvalue,callback) {
+             http.post('/Lawstandard/getChartStatistic?type='+type+"&clickvalue="+clickvalue, data, callback);
         }
 
 

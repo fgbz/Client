@@ -23,13 +23,13 @@
                 <span>></span>
             </div>
             <div class="splicline"></div>
-            <div class="clear home_repeat" style="background-color: #2ea3dc;color: #fff;">
-                <div class="fl" style="margin-left: 40px;">标题</div>
-                <div class="fr" style="margin-right: 20px;">录入日期</div>
-                <div class="fr" style="width: 80px;margin-right: 10px;">录入人</div>
-                <div class="fr" style="width:210px;">编号</div>
+            <div class="clear home_repeat curdef" style="background-color: #2ea3dc;color: #fff;">
+                <div class="fl" style="margin-left: 40px;font-weight: bold;">标题</div>
+                <div class="fr" style="margin-right: 20px;font-weight: bold;">录入日期</div>
+                <div class="fr" style="width: 80px;margin-right: 10px;font-weight: bold;">录入人</div>
+                <div class="fr" style="width:210px;font-weight: bold;">编号</div>
             </div>
-            <div ng-repeat="item in LawItems" class="clear home_repeat" ng-click="goLawDetail(item)">
+            <div ng-repeat="item in LawItems" style="cursor:poiner;" class="clear home_repeat" ng-click="goLawDetail(item)">
                 <div class="fl home_new_fk"></div>
                 <div class="fl color363636" title="{{item.chinesename}}">{{item.chinesename|tooltips:18}}</div>
 
@@ -43,7 +43,16 @@
 
         <div class="home_new_regright">
 
-            <div ng-repeat="item in LawRegulationItem" class="clear">
+            <div class="kcpic">法规标准库存数量</div>
+
+            <div ng-repeat="item in LawRegulationItem" class="clear" ng-if="!countshow">
+                <div class="parentname" title="{{item.typename}}" ng-click="goLaws(item.id)">{{item.typename|tooltips:8}}</div>
+                <div ng-repeat="childitem in item.childLists">
+                    <div class="childname" ng-click="goLaws(childitem.id)" title="{{childitem.typename}}">{{childitem.typename|tooltips:15}}</div>
+                </div>
+            </div>
+
+            <div ng-repeat="item in LawRegulationItem" class="clear" ng-if="countshow">
                 <div class="parentname" title="{{item.typename}}" ng-click="goLaws(item.id)">{{item.typename|tooltips:8}}({{item.lawcount}})</div>
                 <div ng-repeat="childitem in item.childLists">
                     <div class="childname" ng-click="goLaws(childitem.id)" title="{{childitem.typename}}">{{childitem.typename|tooltips:15}}({{childitem.lawcount}})</div>
@@ -114,7 +123,7 @@
     <!--技术文档类别导航-->
     <div class="clear" style="height:540px;">
 
-        <div class="home_new_lbdh fr" style="margin-right: 20px;">
+        <div class="home_new_lbdh fr">
 
             <div class="tec_title">技术文档导航</div>
             <div ng-repeat="item in TecRegulationItem">

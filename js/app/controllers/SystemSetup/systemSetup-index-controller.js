@@ -3,8 +3,8 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
 
     var config = require('app/config-manager');
     var baseUrl = config.baseUrl();
-    app.controller('systemSetup-index-controller', ['$rootScope', '$scope', '$state', 'toaster', '$uibModal', 'regulation-service', 'technical-service', 'system-service', 'ngDialog', '$cookies', 'dictionary-service',
-        function ($rootScope, $scope, $state, toaster, $uibModal, regulationService, technicalService, systemService, ngDialog, $cookies, dictionaryService) {
+    app.controller('systemSetup-index-controller', ['$rootScope', '$scope', '$state', 'toaster', '$uibModal', 'regulation-service', 'technical-service', 'system-service', 'ngDialog', '$cookies', 'dictionary-service','http-service',
+        function ($rootScope, $scope, $state, toaster, $uibModal, regulationService, technicalService, systemService, ngDialog, $cookies, dictionaryService,http) {
 
             var user = sessionStorage.getItem('loginUser');
 
@@ -60,6 +60,8 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                     search: "查找人员...",
                     nothingSelected: "全部"
                 };
+
+                $scope.Licensedata = {};
 
             };
 
@@ -1351,6 +1353,35 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                         }
                     });
 
+                };
+
+
+                //时间监听
+                $scope.$watch('logdata.FiledTimeStart', function (newValue, oldValue) {
+                    if (newValue) {
+                        if ($scope.logdata.FiledTimeStart > $scope.logdata.FiledTimeEnd) {
+                            toaster.pop({ type: 'danger', body: '开始时间不能大于结束时间!' });
+                            $scope.logdata.FiledTimeStart = oldValue;
+                        }
+                    }
+                });
+                $scope.$watch('logdata.FiledTimeEnd', function (newValue, oldValue) {
+                    if (newValue) {
+                        if ($scope.logdata.FiledTimeStart > $scope.logdata.FiledTimeEnd) {
+                            toaster.pop({ type: 'danger', body: '开始时间不能大于结束时间!' });
+                            $scope.logdata.FiledTimeEnd = oldValue;
+                        }
+                    }
+                });
+
+                //生成授权文件
+                $scope.makeLicense = function () {
+                     
+                    var url = baseUrl + "/System/makeLicense?FiledTimeStartLicense=" + $scope.Licensedata.FiledTimeStartLicense+"&FiledTimeEndLicense="+$scope.Licensedata.FiledTimeEndLicense;
+
+                    url = http.wrapUrl(url);
+                    var exportWindow = window.open(url, "_blank");
+                    exportWindow.document.title = "生成授权文件";
                 }
 
 

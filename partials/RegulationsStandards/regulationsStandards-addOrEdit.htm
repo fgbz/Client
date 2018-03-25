@@ -132,7 +132,7 @@
                                     <li ng-repeat="accitem in Attachments">
 
                                         <div title="{{accitem.FileName}}" style="height:40px;">
-                                            <div class="regluation_file_wrap">{{accitem.FileName|tooltips:30}}</div>
+                                            <div class="regluation_file_wrap">{{accitem.FileName|tooltips:45}}</div>
                                             <input type="button" class="attachment_view" title="查看" ng-show="canPreview(accitem.FileName)" ng-click="preview(accitem.ID)"
                                             />
                                             <input class="attachment_download" title="下载" ng-click="downloadAccessory(accitem.ID)" />

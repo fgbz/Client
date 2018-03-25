@@ -47,7 +47,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/usercenter-ser
                         $scope.pager.current = 1;
                     }
 
-                    $scope.pager.size =   $scope.PageSize;
+                    $scope.pager.size = $scope.PageSize;
 
                     var options = {
                         pageNo: $scope.pager.current,
@@ -183,7 +183,26 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/usercenter-ser
                             }
                         }
                     });
-                }
+                };
+
+
+                //时间监听
+                $scope.$watch('FiledTimeStart', function (newValue, oldValue) {
+                    if (newValue) {
+                        if ($scope.FiledTimeStart > $scope.FiledTimeEnd) {
+                            toaster.pop({ type: 'danger', body: '开始时间不能大于结束时间!' });
+                            $scope.FiledTimeStart = oldValue;
+                        }
+                    }
+                });
+                $scope.$watch('FiledTimeEnd', function (newValue, oldValue) {
+                    if (newValue) {
+                        if ($scope.FiledTimeStart > $scope.FiledTimeEnd) {
+                            toaster.pop({ type: 'danger', body: '开始时间不能大于结束时间!' });
+                            $scope.FiledTimeEnd = oldValue;
+                        }
+                    }
+                });
 
             };
 

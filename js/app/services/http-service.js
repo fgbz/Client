@@ -30,6 +30,9 @@ define(['bootstrap/app', 'utilities/cryto', 'app/config-manager'], function (app
             else if (statusCode == 500) {
                 //请求出错
                 alert('请求出现错误！');
+            } else if (statusCode == 405) {
+                var sRouter = "permission";
+                $state.go(sRouter);
             }
         }
 

@@ -495,7 +495,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                         organization: $scope.searchdata.organization ? $scope.searchdata.organization : null,
                         MaterialTmeStart: $scope.searchdata.MaterialTmeStart ? $scope.searchdata.MaterialTmeStart : null,
                         MaterialTmeEnd: $scope.searchdata.MaterialTmeEnd ? $scope.searchdata.MaterialTmeEnd : null,
-                        TreeValue: $scope.clickTreeValue? $scope.clickTreeValue : null,
+                        TreeValue: $scope.clickTreeValue ? $scope.clickTreeValue : null,
                         SearchOrdertype: $scope.searchdata.SearchOrdertype
                     }
                     var url = baseUrl + "/Lawstandard/ExportLaw?Number=" + data.Number + "&Title=" + data.Title + "&FiledTimeStart=" + data.FiledTimeStart
@@ -649,6 +649,40 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                         toaster.pop({ type: 'success', body: '更新成功!' });
                     })
                 }
+
+                //时间监听
+                $scope.$watch('searchdata.FiledTimeStart', function (newValue, oldValue) {
+                    if (newValue) {
+                        if ($scope.searchdata.FiledTimeStart > $scope.searchdata.FiledTimeEnd) {
+                            toaster.pop({ type: 'danger', body: '开始时间不能大于结束时间!' });
+                            $scope.searchdata.FiledTimeStart = oldValue;
+                        }
+                    }
+                });
+                $scope.$watch('searchdata.FiledTimeEnd', function (newValue, oldValue) {
+                    if (newValue) {
+                        if ($scope.searchdata.FiledTimeStart > $scope.searchdata.FiledTimeEnd) {
+                            toaster.pop({ type: 'danger', body: '开始时间不能大于结束时间!' });
+                            $scope.searchdata.FiledTimeEnd = oldValue;
+                        }
+                    }
+                });
+                $scope.$watch('searchdata.MaterialTmeStart', function (newValue, oldValue) {
+                    if (newValue) {
+                        if ($scope.searchdata.MaterialTmeStart > $scope.searchdata.MaterialTmeEnd) {
+                            toaster.pop({ type: 'danger', body: '开始时间不能大于结束时间!' });
+                            $scope.searchdata.MaterialTmeStart = oldValue;
+                        }
+                    }
+                });
+                $scope.$watch('searchdata.MaterialTmeEnd', function (newValue, oldValue) {
+                    if (newValue) {
+                        if ($scope.searchdata.MaterialTmeStart > $scope.searchdata.MaterialTmeEnd) {
+                            toaster.pop({ type: 'danger', body: '开始时间不能大于结束时间!' });
+                            $scope.searchdata.MaterialTmeEnd = oldValue;
+                        }
+                    }
+                });
 
 
             };

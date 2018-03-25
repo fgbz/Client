@@ -39,6 +39,7 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/regul
                     $scope.userSuggestion.inputname = user.userrealname;
                     $scope.userSuggestion.inputdate = utils.format(new Date(), "yyyy-MM-dd HH:mm:ss");
                 }
+                $scope.countshow = false;
 
 
                 //获取通知列表
@@ -126,6 +127,12 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/regul
                             $scope.clickLbdhChildMenuValue = "";
                         }
                     }
+
+                    //获取数量
+                    regulationService.getHomeLawsCount(function (params) {
+                        $scope.countshow = true;
+                        $scope.LawRegulationItem = params;
+                    })
                 });
 
                 //法规导航左移

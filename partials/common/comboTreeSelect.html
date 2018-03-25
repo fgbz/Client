@@ -1,7 +1,7 @@
 <div name="combo_tree1" class="posi_re">
     <input class="home-input" readonly ng-model="displayText" ng-click="expandTree()" ng-style="{'width':isNormal+'px'}" ng-disabled="isDisable"/>
 
-    <div ui-tree ng-show="showTree" class="selecttreearea" ng-style="{'width':treeWidth+'px'}">
+    <div ui-tree ng-show="showTree" class="selecttreearea" ng-style="{'width':treeWidth+'px','z-index': '1000'}">
         <ol ui-tree-nodes ng-model="source">
             <li ng-repeat="item in source" ui-tree-node ng-include="'childnodesselect.html'">
             </li>

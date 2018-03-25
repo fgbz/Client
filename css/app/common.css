@@ -38,7 +38,7 @@ body {
 }
 
 .index_menu_content{
-    width: 500px;
+    width: 600px;
     float: right;
     margin-right: 2%;
 }
@@ -617,7 +617,7 @@ body {
 }
 
 .regluation_file_wrap{
-    width: 350px;
+    /*width: 350px;*/
     float: left;
     line-height: 30px;
     text-align: right;
@@ -796,8 +796,32 @@ body {
     margin-bottom: 10px;
 }
 
+.HeadNew{
+    overflow-y: auto;
+    height: 100%;
+}
 
+/*******************************************统计样式******************************************/
+.statistic_right{
+    width: calc(100% - 270px);
+    float: right;
+    height: 100%;
+    margin-left: 10px;
+}
 
+.statistic_table{
+
+}
+.statistic_table tr{
+    background-color: #ffffff;
+    border: 1px solid #333333;
+}
+.statistic_table td{
+    width: 140px;
+    text-align: center;
+    background-color: #ffffff;
+    border: 1px solid #333333;
+}
 
 /****************************************btn样式******************************************/
 
@@ -1285,7 +1309,7 @@ body {
 
 
 .home_new_reg{
-    height: 410px;
+    height: 440px;
     width: 760px;
     background: #fff;
     border: 1px solid #cccccc;
@@ -1303,6 +1327,16 @@ body {
     font-weight: bold;
     float: left;   
     background: url('../../images/icon_zxbz.png') 10px no-repeat;
+}
+
+.kcpic{
+    height: 60px;
+    line-height: 60px;
+    padding-left: 50px;
+    font-size: 20px;
+    font-weight: bold;
+    float: left;   
+    background: url('../../images/icon_gjxzwj.png') 10px no-repeat;
 }
 
 .home_new_reg .morecheck{
@@ -1332,7 +1366,7 @@ body {
 
 
 .home_new_regright{
-    height: 410px;
+    height: 440px;
     width: calc(100% - 820px);
     background: #fff;
     border: 1px solid #cccccc;
@@ -1414,7 +1448,7 @@ body {
     float: left;
     margin-top: 40px;
     height: 500px;
-    width: calc(100% - 340px);
+    width: calc(100% - 320px);
     margin-left: 20px;
 }
 .home_new_menu{
@@ -1480,7 +1514,7 @@ body {
 
 .home_new_bottom .yhly{
     float: left;
-    width: calc(100% - 820px);
+    width: calc(100% - 800px);
     height: 99%;
     margin-left: 40px;
     border: 1px solid #ccc;
@@ -2031,8 +2065,9 @@ body {
 .highlightedTextStyle{
     color: red;
 }
-
-
+.curdef{
+    cursor: default;
+}
 
 
 

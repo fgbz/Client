@@ -59,11 +59,30 @@
                 </div>
 
             </div>
+
             <div class="system_hc">
                 <span>更新索引</span>
 
                 <div class="fr mt10">
                     <input type="button" class="normalbtn fr" value="开 始" ng-click="initSolr()" />
+                </div>
+
+            </div>
+
+            <div class="system_hc" ng-if="false" style="line-height: normal;">
+                <div style="    float: left;
+    margin-top: 15px;">授权文件</div>
+
+                <div class="fr mt10">
+                    <span>开始时间:</span>
+                    <input type="text" id="FiledTimeStartLicense" class="case_table_timepicker_input" ng-model="Licensedata.FiledTimeStartLicense" je-date format="YYYY-MM-DD"
+                        readonly />
+                    <span >结束时间</span>
+                    <input type="text" id="FiledTimeEndLicense" class="case_table_timepicker_input" ng-model="Licensedata.FiledTimeEndLicense" je-date format="YYYY-MM-DD"
+                        readonly style="    margin-right: 10px;" />
+
+                    <input type="button" class="normalbtn fr" value="生 成" ng-disabled="!Licensedata.FiledTimeStartLicense||!Licensedata.FiledTimeEndLicense" ng-click="makeLicense()" />
+
                 </div>
 
             </div>

@@ -154,6 +154,15 @@ define(['angular', 'nicEdit', 'jquery', 'utils'], function (ng, nicEditObj, jque
 
                 };
 
+                scope.setStatisticHeightStyle = function () {
+
+                    return {
+                        'height': (newValue.h - 160 ) + 'px',
+                    };
+
+
+                };
+
             }, true);
 
             w.bind('resize', function () { scope.$apply(); });

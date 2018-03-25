@@ -40,6 +40,11 @@ define(['bootstrap/app', 'utilities/cryto', 'ctrls/system/modals/logout-controll
                         show: false
                     },
                     {
+                        name: '统计分析',
+                        state: 'main.statistic',
+                        show: false
+                    },
+                    {
                         name: '技术文档',
                         state: 'main.technicalDocuments',
                         show: false
@@ -372,10 +377,10 @@ define(['bootstrap/app', 'utilities/cryto', 'ctrls/system/modals/logout-controll
             if ($scope.form.file.$valid && $scope.file) {
 
 
-                // if ($scope.file.size > 10 * 1024 * 1024) {
-                //     $scope.warningMessage = '请上传小于10MB的文件。';
-                //     return;
-                // }
+                if ($scope.file.size > 100 * 1024 * 1024) {
+                    $scope.warningMessage = '请上传小于100MB的文件。';
+                    return;
+                }
                 if (!$scope.displayName) {
                     $scope.warningMessage = '请填写附件显示名称';
                     return;
