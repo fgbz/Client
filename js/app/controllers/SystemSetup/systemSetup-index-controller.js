@@ -434,6 +434,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                             className: 'ngdialog-theme-default',
                             showClose: false,
                             scope: $scope,
+                            closeByDocument: false,
                             size: 400,
                             controller: function ($scope) {
                                 $scope.ok = function () {
@@ -443,7 +444,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                                             $scope.systemdata.sfsh = 0;
                                             $scope.closeThisDialog(); //关闭弹窗
                                         } else {
-                                            toaster.pop({ type: 'danger', body: '尚有' + res.count + '份待审稿，请审批完成后再关闭审核功能!' });
+                                            toaster.pop({ type: 'danger', body: '尚有' + res.count + '份待审稿，请审批完成后再关闭审核功能!',timeout:0 });
                                             $scope.closeThisDialog(); //关闭弹窗
                                         }
 
@@ -476,6 +477,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                             className: 'ngdialog-theme-default',
                             showClose: false,
                             scope: $scope,
+                            closeByDocument: false,
                             size: 400,
                             controller: function ($scope) {
                                 $scope.ok = function () {
@@ -531,6 +533,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                                 className: 'ngdialog-theme-default',
                                 showClose: false,
                                 scope: $scope,
+                                closeByDocument: false,
                                 size: 400,
                                 controller: function ($scope) {
                                     $scope.ok = function () {
@@ -539,20 +542,20 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                                             case '15':
                                                 regulationService.DeleteLawstandardType(data, function (params) {
                                                     if (params == 200) {
-                                                        toaster.pop({ type: 'success', body: '删除成功!' });
+                                                        toaster.pop({ type: 'success', body: '删除成功!',timeout:0 });
                                                         $scope.initReg();
                                                     } else {
-                                                        toaster.pop({ type: 'danger', body: '删除失败!' });
+                                                        toaster.pop({ type: 'danger', body: '删除失败!',timeout:0 });
                                                     }
                                                 })
                                                 break;
                                             case '16':
                                                 technicalService.DeleteTechnicalType(data, function (params) {
                                                     if (params == 200) {
-                                                        toaster.pop({ type: 'success', body: '删除成功!' });
+                                                        toaster.pop({ type: 'success', body: '删除成功!' ,timeout:0});
                                                         $scope.initTec();
                                                     } else {
-                                                        toaster.pop({ type: 'danger', body: '删除失败!' });
+                                                        toaster.pop({ type: 'danger', body: '删除失败!',timeout:0 });
                                                     }
                                                 })
                                                 break;
@@ -569,10 +572,10 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                                                 }
                                                 systemService.DeleteOrganization(orgdata, function (params) {
                                                     if (params == 200) {
-                                                        toaster.pop({ type: 'success', body: '删除成功!' });
+                                                        toaster.pop({ type: 'success', body: '删除成功!' ,timeout:0});
                                                         $scope.initOrg();
                                                     } else {
-                                                        toaster.pop({ type: 'danger', body: '删除失败!' });
+                                                        toaster.pop({ type: 'danger', body: '删除失败!' ,timeout:0});
                                                     }
                                                 })
 
@@ -675,6 +678,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                         templateUrl: url,
                         controller: 'treeEdit-controller',
                         size: 600,
+                        backdrop: 'static',
                         resolve: {
                             values: function () {
                                 var data = {
@@ -802,10 +806,10 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                 function addReg(data, txt) {
                     regulationService.AddOrUpdateLawstandardType(data, function (params) {
                         if (params == 200) {
-                            toaster.pop({ type: 'success', body: txt + '成功!' });
+                            toaster.pop({ type: 'success', body: txt + '成功!' ,timeout:0});
                             $scope.initReg();
                         } else {
-                            toaster.pop({ type: 'danger', body: txt + '失败!' });
+                            toaster.pop({ type: 'danger', body: txt + '失败!' ,timeout:0});
                         }
                     })
                 }
@@ -814,10 +818,10 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                 function addTec(data, txt) {
                     technicalService.AddOrUpdateTechnicalType(data, function (params) {
                         if (params == 200) {
-                            toaster.pop({ type: 'success', body: txt + '成功!' });
+                            toaster.pop({ type: 'success', body: txt + '成功!' ,timeout:0});
                             $scope.initTec();
                         } else {
-                            toaster.pop({ type: 'danger', body: txt + '失败!' });
+                            toaster.pop({ type: 'danger', body: txt + '失败!' ,timeout:0});
                         }
                     })
                 }
@@ -826,10 +830,10 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                 function addOrg(data, txt) {
                     systemService.AddOrUpdateOrganizationType(data, function (params) {
                         if (params == 200) {
-                            toaster.pop({ type: 'success', body: txt + '成功!' });
+                            toaster.pop({ type: 'success', body: txt + '成功!' ,timeout:0});
                             $scope.initOrg();
                         } else {
-                            toaster.pop({ type: 'danger', body: txt + '失败!' });
+                            toaster.pop({ type: 'danger', body: txt + '失败!' ,timeout:0});
                         }
                     })
                 }
@@ -845,6 +849,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                         className: 'ngdialog-theme-default',
                         showClose: false,
                         scope: $scope,
+                        closeByDocument: false,
                         size: 400,
                         controller: function ($scope) {
                             $scope.ok = function () {
@@ -872,6 +877,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                         templateUrl: url,
                         controller: 'roleManage-controller',
                         size: 600,
+                        backdrop: 'static',
                         resolve: {
                             values: function () {
 
@@ -900,10 +906,10 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                         if (res) {
                             systemService.SaveOrEditRole(res, function (params) {
                                 if (params == 1) {
-                                    toaster.pop({ type: 'success', body: txt + '成功!' });
+                                    toaster.pop({ type: 'success', body: txt + '成功!' ,timeout:0});
                                     $scope.getRoles();
                                 } else {
-                                    toaster.pop({ type: 'danger', body: txt + '失败!' });
+                                    toaster.pop({ type: 'danger', body: txt + '失败!' ,timeout:0});
                                 }
                             })
 
@@ -923,6 +929,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                         className: 'ngdialog-theme-default',
                         showClose: false,
                         scope: $scope,
+                        closeByDocument: false,
                         size: 400,
                         controller: function ($scope) {
                             $scope.ok = function () {
@@ -949,6 +956,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                         appendTo: 'body',
                         className: 'ngdialog-theme-default',
                         showClose: false,
+                        closeByDocument: false,
                         scope: $scope,
                         size: 400,
                         controller: function ($scope) {
@@ -956,10 +964,10 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
 
                                 systemService.SaveUserStatus(item.id, type, function (res) {
                                     if (res == 200) {
-                                        toaster.pop({ type: 'success', body: txt + '成功!' });
+                                        toaster.pop({ type: 'success', body: txt + '成功!',timeout:0 });
                                         $scope.getUsers();
                                     } else {
-                                        toaster.pop({ type: 'danger', body: txt + '失败!' });
+                                        toaster.pop({ type: 'danger', body: txt + '失败!' ,timeout:0});
                                     }
 
                                 })
@@ -981,6 +989,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                         templateUrl: url,
                         controller: 'userManage-controller',
                         size: 600,
+                        backdrop: 'static',
                         resolve: {
                             values: function () {
 
@@ -1025,6 +1034,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                         className: 'ngdialog-theme-default',
                         showClose: false,
                         scope: $scope,
+                        closeByDocument: false,
                         size: 400,
                         controller: function ($scope) {
                             $scope.ok = function () {
@@ -1047,7 +1057,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                 $scope.HandlePublish = function (type) {
 
                     if ($scope.publishdepItems == null || $scope.publishdepItems.length == 0) {
-                        toaster.pop({ type: 'danger', body: '请选择一行!' });
+                        toaster.pop({ type: 'danger', body: '请选择一行!',timeout:0 });
                         return;
                     }
 
@@ -1057,7 +1067,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
 
                     systemService.HandlePublish($scope.pubdata.data, function (res) {
 
-                        toaster.pop({ type: 'success', body: '移动成功!' });
+                        toaster.pop({ type: 'success', body: '移动成功!' ,timeout:0});
                         $scope.pubdata.data = res;
                         $scope.getpublishdep();
                     });
@@ -1095,6 +1105,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                         templateUrl: url,
                         controller: 'treeEdit-controller',
                         size: 600,
+                        backdrop: 'static',
                         resolve: {
                             values: function () {
                                 var data = {
@@ -1122,12 +1133,12 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                             }
                             systemService.SaveOrUpdatePublishdep(dataPublishdep, function (params) {
                                 if (params == 200) {
-                                    toaster.pop({ type: 'success', body: txt + '成功!' });
+                                    toaster.pop({ type: 'success', body: txt + '成功!',timeout:0 });
                                     $scope.getpublishdep();
                                 } else if (params == 461) {
-                                    toaster.pop({ type: 'danger', body: '用户名重复!' });
+                                    toaster.pop({ type: 'danger', body: '用户名重复!' ,timeout:0});
                                 } else {
-                                    toaster.pop({ type: 'danger', body: txt + '失败!' });
+                                    toaster.pop({ type: 'danger', body: txt + '失败!',timeout:0 });
                                 }
                             })
 
@@ -1146,6 +1157,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                         className: 'ngdialog-theme-default',
                         showClose: false,
                         scope: $scope,
+                        closeByDocument: false,
                         size: 400,
                         controller: function ($scope) {
                             $scope.ok = function () {
@@ -1173,6 +1185,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                         templateUrl: url,
                         controller: 'treeEdit-controller',
                         size: 600,
+                        backdrop: 'static',
                         resolve: {
                             values: function () {
                                 var data = {
@@ -1196,12 +1209,12 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                             }
                             systemService.SaveOrUpdateLawstandardStatus(dataStatus, function (params) {
                                 if (params == 200) {
-                                    toaster.pop({ type: 'success', body: txt + '成功!' });
+                                    toaster.pop({ type: 'success', body: txt + '成功!' ,timeout:0});
                                     $scope.getStatus();
                                 } else if (params == 461) {
-                                    toaster.pop({ type: 'danger', body: '用户名重复!' });
+                                    toaster.pop({ type: 'danger', body: '用户名重复!' ,timeout:0});
                                 } else {
-                                    toaster.pop({ type: 'danger', body: txt + '失败!' });
+                                    toaster.pop({ type: 'danger', body: txt + '失败!',timeout:0 });
                                 }
                             })
 
@@ -1215,7 +1228,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
 
                     systemService.SaveOrUpdateSettingValue('PageSize', $scope.pagedata.pagesize, function (res) {
                         if (res == 200) {
-                            toaster.pop({ type: 'success', body: '修改成功!' });
+                            toaster.pop({ type: 'success', body: '修改成功!' ,timeout:0});
                             //重新初始化字典
                             dictionaryService.GetAllDic(function (res) {
 
@@ -1274,6 +1287,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                         className: 'ngdialog-theme-default',
                         showClose: false,
                         scope: $scope,
+                        closeByDocument: false,
                         size: 400,
                         controller: function ($scope) {
                             $scope.ok = function () {
@@ -1281,11 +1295,11 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
 
                                 systemService.handleHistory($scope.systemdata.filepath, function (params) {
                                     if (params == 412) {
-                                        toaster.pop({ type: 'danger', body: '该路径下没有附件!' });
+                                        toaster.pop({ type: 'danger', body: '该路径下没有附件!',timeout:0 });
                                     } else if (params == 200) {
-                                        toaster.pop({ type: 'success', body: '同步成功!' });
+                                        toaster.pop({ type: 'success', body: '同步成功!' ,timeout:0});
                                     } else {
-                                        toaster.pop({ type: 'danger', body: '同步失败!' });
+                                        toaster.pop({ type: 'danger', body: '同步失败!',timeout:0 });
                                     }
                                 })
                                 $scope.closeThisDialog(); //关闭弹窗
@@ -1307,6 +1321,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                         className: 'ngdialog-theme-default',
                         showClose: false,
                         scope: $scope,
+                        closeByDocument: false,
                         size: 400,
                         controller: function ($scope) {
                             $scope.ok = function () {
@@ -1314,9 +1329,9 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
 
                                 systemService.hangldHistroyType(function (params) {
                                     if (params == 200) {
-                                        toaster.pop({ type: 'success', body: '同步成功!' });
+                                        toaster.pop({ type: 'success', body: '同步成功!',timeout:0 });
                                     } else {
-                                        toaster.pop({ type: 'danger', body: '同步失败!' });
+                                        toaster.pop({ type: 'danger', body: '同步失败!',timeout:0 });
                                     }
                                 })
                                 $scope.closeThisDialog(); //关闭弹窗
@@ -1340,7 +1355,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
 
                     var rex = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
                     if (!rex.test($scope.MailData.HairBoxAddress)) {
-                        toaster.pop({ type: 'danger', body: '发件箱地址格式不正确!' });
+                        toaster.pop({ type: 'danger', body: '发件箱地址格式不正确!' ,timeout:0});
                         return;
                     }
 
@@ -1357,9 +1372,9 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                     }
                     systemService.MailSetting(data, function (res) {
                         if (res == 200) {
-                            toaster.pop({ type: 'success', body: '保存成功!' });
+                            toaster.pop({ type: 'success', body: '保存成功!' ,timeout:0});
                         } else {
-                            toaster.pop({ type: 'danger', body: '保存失败!' });
+                            toaster.pop({ type: 'danger', body: '保存失败!' ,timeout:0});
                         }
                     })
 
@@ -1383,13 +1398,13 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                             contentType: "application/json;charset=utf-8",
                             success: function (result) {
                                 if (result == 'OK') {
-                                    toaster.pop({ type: 'success', body: '测试邮件发送成功!' });
+                                    toaster.pop({ type: 'success', body: '测试邮件发送成功!',timeout:0 });
                                     $scope.$apply();
                                 }
 
                             },
                             error: function (err, textStatus) {
-                                toaster.pop({ type: 'danger', body: '测试邮件发送失败!' });
+                                toaster.pop({ type: 'danger', body: '测试邮件发送失败!',timeout:0 });
                                 $scope.$apply();
                             }
                         })
@@ -1397,7 +1412,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                         var head = document.head || $('head')[0] || document.documentElement; // code from jquery
                         var script = $(head).find('script')[0];
                         script.onerror = function (evt) {
-                            toaster.pop({ type: 'danger', body: '测试邮件发送失败!' });
+                            toaster.pop({ type: 'danger', body: '测试邮件发送失败!',timeout:0 });
                             $scope.$apply();
 
                             // do some clean
@@ -1421,7 +1436,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
 
 
                     } catch (error) {
-                        toaster.pop({ type: 'danger', body: '测试邮件发送失败!' });
+                        toaster.pop({ type: 'danger', body: '测试邮件发送失败!' ,timeout:0});
                     }
 
                 }
@@ -1436,12 +1451,13 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                         showClose: false,
                         scope: $scope,
                         size: 400,
+                        closeByDocument: false,
                         controller: function ($scope) {
                             $scope.ok = function () {
 
                                 regulationService.initSolr(function (res) {
                                     if (res == 200) {
-                                        toaster.pop({ type: 'success', body: '更新索引成功!' });
+                                        toaster.pop({ type: 'success', body: '更新索引成功!' ,timeout:0});
                                     }
                                 })
                                 $scope.closeThisDialog(); //关闭弹窗
@@ -1459,7 +1475,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                 $scope.$watch('logdata.FiledTimeStart', function (newValue, oldValue) {
                     if (newValue) {
                         if ($scope.logdata.FiledTimeStart > $scope.logdata.FiledTimeEnd && $scope.logdata.FiledTimeEnd) {
-                            toaster.pop({ type: 'danger', body: '结束时间不能早于开始时间！' });
+                            toaster.pop({ type: 'danger', body: '结束时间不能早于开始时间！',timeout:0 });
                             $scope.logdata.FiledTimeStart = oldValue;
                         }
                     }
@@ -1467,7 +1483,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                 $scope.$watch('logdata.FiledTimeEnd', function (newValue, oldValue) {
                     if (newValue) {
                         if ($scope.logdata.FiledTimeStart > $scope.logdata.FiledTimeEnd) {
-                            toaster.pop({ type: 'danger', body: '结束时间不能早于开始时间！' });
+                            toaster.pop({ type: 'danger', body: '结束时间不能早于开始时间！',timeout:0 });
                             $scope.logdata.FiledTimeEnd = oldValue;
                         }
                     }

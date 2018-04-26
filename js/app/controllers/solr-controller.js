@@ -207,7 +207,7 @@ define(['bootstrap/app', 'utils', 'services/regulation-service'], function (app,
                 $scope.$watch('searchdata.FiledTimeStart', function (newValue, oldValue) {
                     if (newValue) {
                         if ($scope.searchdata.FiledTimeStart > $scope.searchdata.FiledTimeEnd && $scope.searchdata.FiledTimeEnd) {
-                            toaster.pop({ type: 'danger', body: '结束时间不能早于开始时间！' });
+                            toaster.pop({ type: 'danger', body: '结束时间不能早于开始时间！' ,timeout:0});
                             $scope.searchdata.FiledTimeStart = oldValue;
                         }
                     }
@@ -215,7 +215,7 @@ define(['bootstrap/app', 'utils', 'services/regulation-service'], function (app,
                 $scope.$watch('searchdata.FiledTimeEnd', function (newValue, oldValue) {
                     if (newValue) {
                         if ($scope.searchdata.FiledTimeStart > $scope.searchdata.FiledTimeEnd) {
-                            toaster.pop({ type: 'danger', body: '结束时间不能早于开始时间！' });
+                            toaster.pop({ type: 'danger', body: '结束时间不能早于开始时间！' ,timeout:0});
                             $scope.searchdata.FiledTimeEnd = oldValue;
                         }
                     }

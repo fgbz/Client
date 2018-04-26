@@ -114,6 +114,7 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                         controller: 'favorite-controller',
 
                         size: 'sm',
+                        backdrop: 'static',
                         resolve: {
                             values: function () {
                                 var data = {

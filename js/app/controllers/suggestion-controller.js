@@ -103,6 +103,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/usercenter-ser
                         templateUrl: url,
                         controller: 'addsuggestion-controller',
                         size: 600,
+                        backdrop: 'static',
                         resolve: {
                             values: function () {
                                 var data = {
@@ -131,6 +132,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/usercenter-ser
                         templateUrl: url,
                         controller: 'suggestionFeedBack-controller',
                         size: 600,
+                        backdrop: 'static',
                         resolve: {
                             values: function () {
                                 var data = {
@@ -156,7 +158,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/usercenter-ser
                 $scope.DeleteSuggestion = function () {
 
                     if (!$scope.clickvalue) {
-                        toaster.pop({ type: 'danger', body: '请选择删除对象!' });
+                        toaster.pop({ type: 'danger', body: '请选择删除对象!',timeout:0 });
                         return;
                     }
 
@@ -167,6 +169,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/usercenter-ser
                         className: 'ngdialog-theme-default',
                         showClose: false,
                         scope: $scope,
+                        closeByDocument: false,
                         size: 400,
                         controller: function ($scope) {
                             $scope.ok = function () {
@@ -190,7 +193,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/usercenter-ser
                 $scope.$watch('FiledTimeStart', function (newValue, oldValue) {
                     if (newValue) {
                         if ($scope.FiledTimeStart > $scope.FiledTimeEnd && $scope.FiledTimeEnd) {
-                            toaster.pop({ type: 'danger', body: '结束时间不能早于开始时间！' });
+                            toaster.pop({ type: 'danger', body: '结束时间不能早于开始时间！',timeout:0 });
                             $scope.FiledTimeStart = oldValue;
                         }
                     }
@@ -198,7 +201,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/usercenter-ser
                 $scope.$watch('FiledTimeEnd', function (newValue, oldValue) {
                     if (newValue) {
                         if ($scope.FiledTimeStart > $scope.FiledTimeEnd) {
-                            toaster.pop({ type: 'danger', body: '结束时间不能早于开始时间！' });
+                            toaster.pop({ type: 'danger', body: '结束时间不能早于开始时间！' ,timeout:0});
                             $scope.FiledTimeEnd = oldValue;
                         }
                     }

@@ -47,7 +47,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/usercenter-ser
                 $scope.ok = function () {
                     if ($scope.data.status == 0) {
                         if (!$scope.data.content) {
-                            toaster.pop({ type: 'danger', body: '审核不通过必须填写说明！' });
+                            toaster.pop({ type: 'danger', body: '审核不通过必须填写说明！' ,timeout:0});
                             return;
                         }
 
@@ -55,7 +55,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/usercenter-ser
                     $scope.isSaving = true;
                     usercenterService.SaveApprove($scope.data, function (params) {
                         if (params == 200) {
-                            toaster.pop({ type: 'success', body: '审核成功！' });
+                            toaster.pop({ type: 'success', body: '审核成功！',timeout:0 });
 
                             systemService.getSendMailSetting(function (mailres) {
                                 if (mailres == 1) {
@@ -99,7 +99,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/usercenter-ser
 
                         } else {
                             $scope.isSaving = false;
-                            toaster.pop({ type: 'waring', body: '审核失败！' });
+                            toaster.pop({ type: 'waring', body: '审核失败！',timeout:0 });
                         }
 
                     })

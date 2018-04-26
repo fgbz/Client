@@ -29,6 +29,11 @@ define(['bootstrap/app', 'utils', 'services/regulation-service'], function (app,
 
                 $scope.title = values.title;
 
+                if (values.redata && values.redata.length > 0) {
+                    $scope.data = values.redata;
+                }
+
+
             };
 
             //加载
@@ -71,7 +76,22 @@ define(['bootstrap/app', 'utils', 'services/regulation-service'], function (app,
                         $scope.items = response.CurrentList;
 
                         angular.forEach($scope.items, function (value, key) {
-                            angular.extend($scope.items[key], { IsCheck: false });
+
+                            var flag = false;
+                            for (var i = 0; i < $scope.data.length; i++) {
+                                if ($scope.data[i].id == value.id) {
+                                    flag = true;
+                                    break;
+                                }
+
+                            }
+                            if (flag) {
+                                angular.extend($scope.items[key], { IsCheck: true });
+                            } else {
+                                angular.extend($scope.items[key], { IsCheck: false });
+                            }
+
+
                         });
                         $scope.pager.total = response.RecordCount;
                     })
@@ -157,6 +177,7 @@ define(['bootstrap/app', 'utils', 'services/regulation-service'], function (app,
                                 className: 'ngdialog-theme-default',
                                 showClose: false,
                                 scope: $scope,
+                                closeByDocument: false,
                                 size: 400,
                                 controller: function ($scope) {
                                     $scope.ok = function () {
@@ -168,6 +189,8 @@ define(['bootstrap/app', 'utils', 'services/regulation-service'], function (app,
                                     }
                                 }
                             });
+                        } else {
+                            $modalInstance.close($scope.data);
                         }
                     } else {
                         $modalInstance.close($scope.data);
@@ -189,6 +212,7 @@ define(['bootstrap/app', 'utils', 'services/regulation-service'], function (app,
                         templateUrl: url,
                         controller: 'addReplaceOrReference-controller',
                         size: 600,
+                        backdrop: 'static',
                         resolve: {
                             values: function () {
                                 var data = {
@@ -220,10 +244,10 @@ define(['bootstrap/app', 'utils', 'services/regulation-service'], function (app,
                 $scope.DeleteReplece = function (id) {
                     regulationService.DeleteReplece(id, function (res) {
                         if (res == 200) {
-                            toaster.pop({ type: 'success', body: '删除成功!' });
+                            toaster.pop({ type: 'success', body: '删除成功!', timeout: 0 });
                             $scope.search();
                         } else {
-                            toaster.pop({ type: 'danger', body: '删除失败!' });
+                            toaster.pop({ type: 'danger', body: '删除失败!', timeout: 0 });
                         }
                     })
                 }

@@ -84,7 +84,7 @@ define(['bootstrap/app', 'utils', 'services/technical-service', 'services/access
 
                         templateUrl: url,
                         controller: 'favorite-controller',
-
+                        backdrop: 'static',
                         size: 'sm',
                         resolve: {
                             values: function () {

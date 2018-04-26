@@ -39,12 +39,12 @@ define(['bootstrap/app', 'utils', 'services/regulation-service'], function (app,
                     $scope.isSaving = true;
 
                     if (!$scope.data.chinesename) {
-                        toaster.pop({ type: 'danger', body: '请填写中文标题！' });
+                        toaster.pop({ type: 'danger', body: '请填写中文标题！',timeout:0 });
                         $scope.isSaving = false;
                         return;
                     }
                     if (!$scope.data.code) {
-                        toaster.pop({ type: 'danger', body: '请填写编号！' });
+                        toaster.pop({ type: 'danger', body: '请填写编号！',timeout:0 });
                         $scope.isSaving = false;
                         return;
                     }
@@ -52,12 +52,12 @@ define(['bootstrap/app', 'utils', 'services/regulation-service'], function (app,
 
                     regulationService.SaveReplaceOrRefence($scope.data, function (response) {
                         if (response == 200) {
-                            toaster.pop({ type: 'success', body: '保存成功!' });
+                            toaster.pop({ type: 'success', body: '保存成功!' ,timeout:0});
                             $modalInstance.close(response);
                         } else if (response == 461) {
-                            toaster.pop({ type: 'danger', body: '编号重复!' });
+                            toaster.pop({ type: 'danger', body: '编号重复!' ,timeout:0});
                         } else {
-                            toaster.pop({ type: 'danger', body: '保存失败!' });
+                            toaster.pop({ type: 'danger', body: '保存失败!',timeout:0 });
                         }
                         $scope.isSaving = false;
                     })

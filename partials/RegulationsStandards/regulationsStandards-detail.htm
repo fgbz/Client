@@ -55,8 +55,8 @@
         <div class="regluation_detail_table2">
             <table class="w100">
                 <tr height="50px;">
-                    <td class=" first_td">关键字：</td>
-                    <td class="va_topnormal color_blue">{{DetaiData.keywords}}</td>
+                    <td class=" first_td"><div style="width:100px;">关键字：</div></td>
+                    <td class="va_topnormal color_blue wb">{{DetaiData.keywords}}</td>
                 </tr>
                 <tr height="50px;">
                     <td class=" first_td">摘 要：</td>
@@ -80,7 +80,7 @@
                 </tr>
                 <tr height="50px;">
                     <td class=" first_td">备 注：</td>
-                    <td class="va_topnormal color_blue">{{DetaiData.memo}}</td>
+                    <td class="va_topnormal color_blue wb">{{DetaiData.memo}}</td>
                 </tr>
                 <tr height="50px;">
                     <td class=" first_td">附 件：</td>
@@ -107,7 +107,9 @@
         <div class="regluation_detail_replace" ng-show="DetaiData.replace&&DetaiData.replace.length>0">代替关系：</div>
 
         <div ng-repeat="item in DetaiData.replace" class="clear">
-            <div class="regluation_detail_rep">{{item.statusname}}</div>
+
+            <div class="regluation_detail_rep" ng-show="item.statusname=='现行'">{{item.statusname}}</div>
+            <div class="regluation_detail_rep" ng-show="item.statusname!='现行'" style="background: #cccccc;">{{item.statusname}}</div>
             <div class="regluation_detail_replacetext">
                 <div style="height: 25px;" class="color_blue" title="编号:{{item.code}} 名称:{{item.chinesename}}">({{item.code}}){{item.chinesename}}</div>
                 <div>

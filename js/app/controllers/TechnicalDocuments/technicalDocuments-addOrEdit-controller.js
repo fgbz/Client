@@ -104,6 +104,7 @@ define(['bootstrap/app', 'utils', 'services/technical-service', 'services/access
                         templateUrl: url,
                         controller: 'uploadModal-controller',
                         size: 600,
+                        backdrop: 'static',
                         resolve: {
                             values: function () {
                                 var data = {
@@ -116,7 +117,7 @@ define(['bootstrap/app', 'utils', 'services/technical-service', 'services/access
                     });
                     modalInstance.result.then(function (res) {
                         if (res.result) {
-                            toaster.pop({ type: 'success', body: '上传成功!' });
+                            toaster.pop({ type: 'success', body: '上传成功!',timeout:0 });
 
                             var fileId = res.Data;
                             $scope.Attachments.push({
@@ -125,7 +126,7 @@ define(['bootstrap/app', 'utils', 'services/technical-service', 'services/access
                             });
 
                         } else {
-                            toaster.pop({ type: 'danger', body: '上传失败!' });
+                            toaster.pop({ type: 'danger', body: '上传失败!',timeout:0 });
                         };
                     }, function (reason) { }
 
@@ -165,19 +166,19 @@ define(['bootstrap/app', 'utils', 'services/technical-service', 'services/access
                     }
 
                     if (!$scope.data.chinesename) {
-                        toaster.pop({ type: 'danger', body: '请填写标题!' });
+                        toaster.pop({ type: 'danger', body: '请填写标题!' ,timeout:0});
                         $scope.isSaving = false;
                         return;
                     }
 
                     if (!$scope.data.tectype) {
-                        toaster.pop({ type: 'danger', body: '请选择类别!' });
+                        toaster.pop({ type: 'danger', body: '请选择类别!' ,timeout:0});
                         $scope.isSaving = false;
                         return;
                     }
 
                     if ($scope.Attachments.length == 0) {
-                        toaster.pop({ type: 'danger', body: '请至少上传一个主附件!' });
+                        toaster.pop({ type: 'danger', body: '请至少上传一个主附件!',timeout:0 });
                         $scope.isSaving = false;
                         return;
                     }
@@ -199,12 +200,12 @@ define(['bootstrap/app', 'utils', 'services/technical-service', 'services/access
                     technicalService.SaveOrUpdateTechnical($scope.data, function (response) {
 
                         if (response == 200) {
-                            toaster.pop({ type: 'success', body: '保存成功!' });
+                            toaster.pop({ type: 'success', body: '保存成功!',timeout:0 });
                             $scope.goState("second");
                         } else if (response == 461) {
-                            toaster.pop({ type: 'danger', body: '标题重复!' });
+                            toaster.pop({ type: 'danger', body: '标题重复!' ,timeout:0});
                         } else {
-                            toaster.pop({ type: 'danger', body: '保存失败!' });
+                            toaster.pop({ type: 'danger', body: '保存失败!' ,timeout:0});
                         }
                         $scope.isSaving = false;
 
@@ -222,6 +223,7 @@ define(['bootstrap/app', 'utils', 'services/technical-service', 'services/access
                         showClose: false,
                         scope: $scope,
                         size: 400,
+                        closeByDocument: false,
                         controller: function ($scope) {
                             $scope.ok = function () {
 
@@ -246,7 +248,7 @@ define(['bootstrap/app', 'utils', 'services/technical-service', 'services/access
                     data.push(params);
                     accessoryService.removeAccessory(data, function (res) {
                         if (res) {
-                            toaster.pop({ type: 'success', body: '删除成功!' });
+                            toaster.pop({ type: 'success', body: '删除成功!',timeout:0 });
 
                             for (var i = 0; i < $scope.Attachments.length; i++) {
                                 if ($scope.Attachments[i].ID == params) {
@@ -255,7 +257,7 @@ define(['bootstrap/app', 'utils', 'services/technical-service', 'services/access
                                 }
                             }
                         } else {
-                            toaster.pop({ type: 'danger', body: '删除失败!' });
+                            toaster.pop({ type: 'danger', body: '删除失败!',timeout:0 });
                         }
 
                     })

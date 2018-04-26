@@ -269,6 +269,7 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
                         templateUrl: url,
                         controller: 'examCheck-controller',
                         size: 600,
+                        backdrop: 'static',
                         resolve: {
                             values: function () {
                                 var data = {
@@ -370,16 +371,17 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
                                 className: 'ngdialog-theme-default',
                                 showClose: false,
                                 scope: $scope,
+                                closeByDocument: false,
                                 size: 400,
                                 controller: function ($scope) {
                                     $scope.ok = function () {
 
                                         usercenterService.DeleteFavoriteByID(data, function (params) {
                                             if (params == 200) {
-                                                toaster.pop({ type: 'success', body: '删除成功!' });
+                                                toaster.pop({ type: 'success', body: '删除成功!' ,timeout:0});
                                                 $scope.initFavor()
                                             } else {
-                                                toaster.pop({ type: 'danger', body: '删除失败!' });
+                                                toaster.pop({ type: 'danger', body: '删除失败!',timeout:0 });
                                             }
                                         })
 
@@ -446,6 +448,7 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
                         templateUrl: url,
                         controller: 'treeEdit-controller',
                         size: 600,
+                        backdrop: 'static',
                         resolve: {
                             values: function () {
                                 var data = {
@@ -519,10 +522,10 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
                 function addFav(data, txt) {
                     usercenterService.SaveOrUpdateFavorite(data, function (params) {
                         if (params == 200) {
-                            toaster.pop({ type: 'success', body: txt + '成功!' });
+                            toaster.pop({ type: 'success', body: txt + '成功!' ,timeout:0});
                             $scope.initFavor();
                         } else {
-                            toaster.pop({ type: 'danger', body: txt + '失败!' });
+                            toaster.pop({ type: 'danger', body: txt + '失败!' ,timeout:0 });
                         }
                     })
                 }
@@ -554,16 +557,17 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
                         className: 'ngdialog-theme-default',
                         showClose: false,
                         scope: $scope,
+                        closeByDocument: false,
                         size: 400,
                         controller: function ($scope) {
                             $scope.ok = function () {
 
                                 usercenterService.DismissFavorite(item.favid, item.id, function (params) {
                                     if (params == 200) {
-                                        toaster.pop({ type: 'success', body: '取消收藏成功!' });
+                                        toaster.pop({ type: 'success', body: '取消收藏成功!' ,timeout:0});
                                         $scope.initFavor();
                                     } else {
-                                        toaster.pop({ type: 'success', body: '取消收藏失败!' });
+                                        toaster.pop({ type: 'success', body: '取消收藏失败!',timeout:0 });
                                     }
                                 })
 
@@ -602,6 +606,7 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
                         templateUrl: url,
                         controller: 'advice-controller',
                         size: 800,
+                        backdrop: 'static',
                         resolve: {
                             values: function () {
                                 var data = {
@@ -618,9 +623,9 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
                     });
                     modalInstance.result.then(function (res) {
                         if (res) {
-                            if (item == null) {
-                                $scope.selectAdvice();
-                            }
+
+                            $scope.selectAdvice();
+
                         }
                     });
 
@@ -649,16 +654,17 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
                         className: 'ngdialog-theme-default',
                         showClose: false,
                         scope: $scope,
+                        closeByDocument: false,
                         size: 400,
                         controller: function ($scope) {
                             $scope.ok = function () {
 
                                 usercenterService.DeleteAdviceByID(item.id, function (params) {
                                     if (params == 200) {
-                                        toaster.pop({ type: 'success', body: '删除成功！' });
+                                        toaster.pop({ type: 'success', body: '删除成功！' ,timeout:0});
                                         $scope.selectAdvice();
                                     } else {
-                                        toaster.pop({ type: 'danger', body: '删除失败！' });
+                                        toaster.pop({ type: 'danger', body: '删除失败！' ,timeout:0});
                                     }
                                 })
 
@@ -681,11 +687,11 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
 
                 $scope.updatePassword = function () {
                     if ($scope.passworddata.NewPasswWord != $scope.passworddata.ComfirmPasswWord) {
-                        toaster.pop({ type: 'danger', body: '2次密码输入不一致!' });
+                        toaster.pop({ type: 'danger', body: '2次密码输入不一致!' ,timeout:0});
                         return;
                     }
                     if ($scope.passworddata.OldPasswWord == $scope.passworddata.NewPasswWord) {
-                        toaster.pop({ type: 'danger', body: '新密码不能与原密码一样!' });
+                        toaster.pop({ type: 'danger', body: '新密码不能与原密码一样!' ,timeout:0});
                         return;
                     }
 
@@ -693,11 +699,11 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
                     var NewPasswWordjm = md5Service.mdsPassword($scope.passworddata.NewPasswWord);
                     usercenterService.updateUserPassword(user.id, oldpasswordjm, NewPasswWordjm, function (params) {
                         if (params == 200) {
-                            toaster.pop({ type: 'success', body: '修改成功' });
+                            toaster.pop({ type: 'success', body: '修改成功',timeout:0 });
                         } else if (params == 403) {
-                            toaster.pop({ type: 'danger', body: '原密码输入错误!' });
+                            toaster.pop({ type: 'danger', body: '原密码输入错误!' ,timeout:0});
                         } else {
-                            toaster.pop({ type: 'danger', body: '修改失败' });
+                            toaster.pop({ type: 'danger', body: '修改失败',timeout:0 });
                         }
                     })
 

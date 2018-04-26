@@ -16,11 +16,15 @@
 
         </div>
         <div class="advicedetail_file">
-            <ul>
-                <li ng-repeat="accitem in Attachments" class="regluation_detail_Attachments">
-                    <div title="{{accitem.FileName}}" class="fl"> {{accitem.FileName|tooltips:30}}</div>
-                    <div ng-show="canPreview(accitem.FileName)" class="fl advicedetail_btn" ng-click="preview(accitem.ID)">[查看]</div>
-                    <div ng-click="downloadAccessory(accitem.ID)" class="fl advicedetail_btn">[下载]</div>
+            <ul style="height:100%;">
+                <li ng-repeat="accitem in Attachments" >
+
+                    <div style="height:40px;">
+                        <div title="{{accitem.FileName}}" class="fl"> {{accitem.FileName|tooltips:30}}</div>
+                        <div ng-show="canPreview(accitem.FileName)" class="fl advicedetail_btn" ng-click="preview(accitem.ID)">[查看]</div>
+                        <div ng-click="downloadAccessory(accitem.ID)" class="fl advicedetail_btn">[下载]</div>
+                    </div>
+
                 </li>
             </ul>
         </div>

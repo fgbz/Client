@@ -328,7 +328,7 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/regul
                                     }
 
                                 }
-                               
+
 
                             }
                         }]
@@ -502,6 +502,7 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/regul
                             templateUrl: url,
                             controller: 'suggestionFeedBack-controller',
                             size: 600,
+                            backdrop: 'static',
                             resolve: {
                                 values: function () {
                                     var data = {
@@ -677,12 +678,12 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/regul
                         isLogined();
                     } else {
                         if (!$scope.userSuggestion.title) {
-                            toaster.pop({ type: 'danger', body: '请填写标题！' });
+                            toaster.pop({ type: 'danger', body: '请填写标题！',timeout:0 });
                             return;
 
                         }
                         if (!$scope.userSuggestion.details) {
-                            toaster.pop({ type: 'danger', body: '请填写内容！' });
+                            toaster.pop({ type: 'danger', body: '请填写内容！',timeout:0 });
                             return;
 
                         }
@@ -691,12 +692,12 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/regul
                         delete requestData.inputdate;
                         usercenterService.SaveOrUpdateSuggestion(requestData, function (params) {
                             if (params == 200) {
-                                toaster.pop({ type: 'success', body: '发布成功！' });
+                                toaster.pop({ type: 'success', body: '发布成功！',timeout:0 });
                                 $scope.selectSuggestion();
                                 $scope.userSuggestion.title = "";
                                 $scope.userSuggestion.details = "";
                             } else {
-                                toaster.pop({ type: 'danger', body: '发布失败！' });
+                                toaster.pop({ type: 'danger', body: '发布失败！',timeout:0 });
                             }
                         })
                     }
@@ -711,8 +712,8 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/regul
 
                         templateUrl: url,
                         controller: 'login-controller',
-
                         size: 'sm',
+                        backdrop: 'static',
                         resolve: {
                             values: function () {
 

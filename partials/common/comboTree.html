@@ -16,7 +16,7 @@
                 <div ng-bind="item.Name|tooltips:20" title="{{item.Name}}" ng-class="{true:'combotree_name_nocursor',false:'combotree_name'}[isCursor&&item.Nodes&&item.Nodes.length>0]" ng-click="clickNode(item)" ng-if="!btnShow"
                     ng-style="{'background-color':treeModel==item.Id?'#08589f':'none','color':treeModel==item.Id?'#fff':'#363636'}"> </div>   
 
-               <div ng-bind="item.Name|tooltips:40" title="{{item.Name}}" class="combotree_name_havebtn" ng-click="clickNode(item)" ng-if="btnShow"
+               <div ng-bind="item.Name|tooltips:100" title="{{item.Name}}" class="combotree_name_havebtn" ng-click="clickNode(item)" ng-if="btnShow"
                     ng-style="{'background-color':treeModel==item.Id?'#e7e7e7':'none'}"></div>   
 
                 <!--有按钮-->

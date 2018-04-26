@@ -207,10 +207,10 @@ define(['bootstrap/app', 'utilities/cryto', 'ctrls/system/modals/logout-controll
 
             var tips = function (type) {
                 if (type == 200) {
-                    toaster.pop({ type: 'success', body: '邮件发送成功!' });
+                    toaster.pop({ type: 'success', body: '邮件发送成功!',timeout:0 });
                     $scope.$apply();
                 } else {
-                    toaster.pop({ type: 'danger', body: '邮件发送失败!' });
+                    toaster.pop({ type: 'danger', body: '邮件发送失败!',timeout:0 });
                     $scope.$apply();
                 }
 
@@ -241,6 +241,7 @@ define(['bootstrap/app', 'utilities/cryto', 'ctrls/system/modals/logout-controll
                     showClose: false,
                     scope: $scope,
                     size: 400,
+                    closeByDocument: false,
                     controller: function ($scope) {
                         $scope.ok = function () {
 
@@ -275,6 +276,7 @@ define(['bootstrap/app', 'utilities/cryto', 'ctrls/system/modals/logout-controll
                     templateUrl: url,
                     controller: 'userManage-controller',
                     size: 600,
+                    backdrop: 'static',
                     resolve: {
                         values: function () {
 
@@ -303,6 +305,7 @@ define(['bootstrap/app', 'utilities/cryto', 'ctrls/system/modals/logout-controll
                     templateUrl: url,
                     controller: 'login-controller',
                     size: 'sm',
+                    backdrop: 'static',
                     resolve: {
                         values: function () {
 

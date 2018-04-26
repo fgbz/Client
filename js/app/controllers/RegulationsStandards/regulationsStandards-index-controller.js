@@ -172,7 +172,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                 $scope.Edit = function () {
 
                     if (!$scope.selectItem) {
-                        toaster.pop({ type: 'danger', body: '请选择编辑对象!' });
+                        toaster.pop({ type: 'danger', body: '请选择编辑对象!' ,timeout:0});
                         return;
                     }
                     var itemdata = angular.copy($scope.selectItem);
@@ -195,7 +195,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                 $scope.deleteLaw = function () {
 
                     if (!$scope.selectItem) {
-                        toaster.pop({ type: 'danger', body: '请选择删除对象!' });
+                        toaster.pop({ type: 'danger', body: '请选择删除对象!',timeout:0 });
                         return;
                     }
                     $scope.text = "确定删除吗？";
@@ -205,6 +205,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                         className: 'ngdialog-theme-default',
                         showClose: false,
                         scope: $scope,
+                        closeByDocument: false,
                         size: 400,
                         controller: function ($scope) {
                             $scope.ok = function () {
@@ -213,10 +214,10 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                                 delete itemdata.IsCheck;
                                 regulationService.DeleteLawstandardById(itemdata, function (res) {
                                     if (res == 200) {
-                                        toaster.pop({ type: 'success', body: '删除成功!' });
+                                        toaster.pop({ type: 'success', body: '删除成功!' ,timeout:0});
                                         $scope.searchManage();
                                     } else {
-                                        toaster.pop({ type: 'success', body: '删除失败!' });
+                                        toaster.pop({ type: 'success', body: '删除失败!',timeout:0 });
                                     }
 
                                 })
@@ -462,7 +463,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                 $scope.Exam = function () {
 
                     if (!$scope.selectItem) {
-                        toaster.pop({ type: 'danger', body: '请选择查看对象!' });
+                        toaster.pop({ type: 'danger', body: '请选择查看对象!' ,timeout:0});
                         return;
                     }
 
@@ -473,6 +474,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                         templateUrl: url,
                         controller: 'examCheck-controller',
                         size: 600,
+                        backdrop: 'static',
                         resolve: {
                             values: function () {
                                 var data = {
@@ -566,12 +568,12 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                     }).then(function (resp) {
 
                         if (resp.data.Result == 200) {
-                            toaster.pop({ type: 'success', body: '导入成功!' });
+                            toaster.pop({ type: 'success', body: '导入成功!',timeout:0 });
                             $scope.searchManage();
                         } else if (resp.data.Result == 400) {
-                            toaster.pop({ type: 'danger', body: resp.data.Msg });
+                            toaster.pop({ type: 'danger', body: resp.data.Msg,timeout:0 });
                         } else {
-                            toaster.pop({ type: 'danger', body: "时间格式有误" });
+                            toaster.pop({ type: 'danger', body: "时间格式有误" ,timeout:0});
                         }
 
 
@@ -587,7 +589,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                     }
 
                     if (ids.length == 0) {
-                        toaster.pop({ type: 'danger', body: '请选择删除对象!' });
+                        toaster.pop({ type: 'danger', body: '请选择删除对象!' ,timeout:0});
                         return;
                     }
 
@@ -598,6 +600,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                         appendTo: 'body',
                         className: 'ngdialog-theme-default',
                         showClose: false,
+                        closeByDocument: false,
                         scope: $scope,
                         size: 400,
                         controller: function ($scope) {
@@ -605,10 +608,10 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
 
                                 regulationService.DeleteAllSelectLawstandard($scope.ids, function (res) {
                                     if (res == 200) {
-                                        toaster.pop({ type: 'success', body: '批量删除成功!' });
+                                        toaster.pop({ type: 'success', body: '批量删除成功!',timeout:0 });
                                         $scope.searchManage();
                                     } else {
-                                        toaster.pop({ type: 'danger', body: '批量删除失败!' });
+                                        toaster.pop({ type: 'danger', body: '批量删除失败!' ,timeout:0});
                                     }
 
                                 })
@@ -691,7 +694,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                 //更新验证编号
                 $scope.updateLawCode = function () {
                     regulationService.UpdateAllLawstandardCode(function (res) {
-                        toaster.pop({ type: 'success', body: '更新成功!' });
+                        toaster.pop({ type: 'success', body: '更新成功!',timeout:0 });
                     })
                 }
 
@@ -699,7 +702,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                 $scope.$watch('searchdata.FiledTimeStart', function (newValue, oldValue) {
                     if (newValue) {
                         if ($scope.searchdata.FiledTimeStart > $scope.searchdata.FiledTimeEnd && $scope.searchdata.FiledTimeEnd) {
-                            toaster.pop({ type: 'danger', body: '结束时间不能早于开始时间！' });
+                            toaster.pop({ type: 'danger', body: '结束时间不能早于开始时间！' ,timeout:0});
                             $scope.searchdata.FiledTimeStart = oldValue;
                         }
                     }
@@ -707,7 +710,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                 $scope.$watch('searchdata.FiledTimeEnd', function (newValue, oldValue) {
                     if (newValue) {
                         if ($scope.searchdata.FiledTimeStart > $scope.searchdata.FiledTimeEnd) {
-                            toaster.pop({ type: 'danger', body: '结束时间不能早于开始时间！' });
+                            toaster.pop({ type: 'danger', body: '结束时间不能早于开始时间！',timeout:0 });
                             $scope.searchdata.FiledTimeEnd = oldValue;
                         }
                     }
@@ -715,7 +718,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                 $scope.$watch('searchdata.MaterialTmeStart', function (newValue, oldValue) {
                     if (newValue) {
                         if ($scope.searchdata.MaterialTmeStart > $scope.searchdata.MaterialTmeEnd && $scope.searchdata.MaterialTmeEnd) {
-                            toaster.pop({ type: 'danger', body: '结束时间不能早于开始时间！' });
+                            toaster.pop({ type: 'danger', body: '结束时间不能早于开始时间！' ,timeout:0});
                             $scope.searchdata.MaterialTmeStart = oldValue;
                         }
                     }
@@ -723,7 +726,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                 $scope.$watch('searchdata.MaterialTmeEnd', function (newValue, oldValue) {
                     if (newValue) {
                         if ($scope.searchdata.MaterialTmeStart > $scope.searchdata.MaterialTmeEnd) {
-                            toaster.pop({ type: 'danger', body: '结束时间不能早于开始时间！' });
+                            toaster.pop({ type: 'danger', body: '结束时间不能早于开始时间！' ,timeout:0});
                             $scope.searchdata.MaterialTmeEnd = oldValue;
                         }
                     }

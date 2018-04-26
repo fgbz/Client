@@ -507,7 +507,7 @@ body {
 }
 
 .regluation_detail_table2{
-    margin: 20px 40px 20px 40px;
+    padding: 20px 40px 20px 40px;
 }
 .regluation_detail_table2 .first_td{
     text-align: right;
@@ -767,7 +767,9 @@ body {
     vertical-align: top;
 }
 
-
+.wb{
+    word-break: break-all;
+}
 
 
 
@@ -981,7 +983,7 @@ search_table td{
     height: 30px;
     border-radius: 2px;
     color: #fff;
-    background: #55a8fd;
+    background: #08589f;
     text-align: center;
     border: 0;
 }
@@ -1916,10 +1918,10 @@ search_table td{
 }
 
 .advicedetail_file{
-    height: 50px;
-    line-height: 50px;
     overflow-y: auto;
     padding-left: 55px;
+    padding-top: 10px;
+     height: 200px;
 }
 .advicedetail_btn{
     color: #08589f;

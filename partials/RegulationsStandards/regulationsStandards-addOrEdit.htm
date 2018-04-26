@@ -152,8 +152,8 @@
                                 /></div>
                         </td>
                         <td colspan="3">
-                            <div class="home-txtarea regluation_add_textarea" style="margin-bottom:10px;overflow-y: auto;width:849px;">
-                                <div ng-repeat="item in data.refence" class="fl mr10">
+                            <div class="home-txtarea regluation_add_textarea" style="margin-bottom:10px;overflow-y: auto;width:849px;height: 120px;">
+                                <div ng-repeat="item in data.refence" class=" mr10" style="height:40px;">
                                     <span title="编号:{{item.code}} 名称:{{item.chinesename}}">({{item.code}}){{item.chinesename}}</span>
                                     <input type="button" class="attachment_delete" ng-click="deleteRefence(item)" />
                                 </div>
@@ -169,8 +169,8 @@
                         </td>
                         <td colspan="3">
 
-                            <div class="home-txtarea regluation_add_textarea" style="margin-bottom:10px;overflow-y: auto;width:849px;">
-                                <div ng-repeat="item in data.replace" class="fl mr10">
+                            <div class="home-txtarea regluation_add_textarea" style="margin-bottom:10px;overflow-y: auto;width:849px;height: 120px;">
+                                <div ng-repeat="item in data.replace" class=" mr10" style="height:40px;">
                                     <span title="编号:{{item.code}} 名称:{{item.chinesename}}">({{item.code}}){{item.chinesename}}</span>
                                     <input type="button" class="attachment_delete" ng-click="deleteReplace(item)" />
                                 </div>

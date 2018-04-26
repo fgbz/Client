@@ -99,7 +99,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/usercenter-ser
 
                     //未勾选任何收藏
                     if ($scope.checkdata.length == 0) {
-                         toaster.pop({ type: 'danger', body: '请选择收藏类别!' });
+                         toaster.pop({ type: 'danger', body: '请选择收藏类别!' ,timeout:0});
                          return;
                     }
 
@@ -110,7 +110,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/usercenter-ser
                     if (values.type == 'law') {
                         usercenterService.SaveFavoriteLawsLink(lawdata, function (params) {
                             if (params == 200) {
-                                toaster.pop({ type: 'success', body: '收藏成功!' });
+                                toaster.pop({ type: 'success', body: '收藏成功!',timeout:0 });
                                 var collect = $scope.checkdata.length > 0 ? true : false;
                                 $modalInstance.close(collect);
 
@@ -119,7 +119,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/usercenter-ser
                     } else {
                         usercenterService.SaveFavoriteTecsLink(lawdata, function (params) {
                             if (params == 200) {
-                                toaster.pop({ type: 'success', body: '收藏成功!' });
+                                toaster.pop({ type: 'success', body: '收藏成功!',timeout:0 });
                                 var collect = $scope.checkdata.length > 0 ? true : false;
                                 $modalInstance.close(collect);
 

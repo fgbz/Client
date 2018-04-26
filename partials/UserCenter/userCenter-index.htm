@@ -129,8 +129,8 @@
         <div ng-if="clickMenuValue=='待办箱'" class="h100">
 
             <div class="usercenter_deal_search">
-                <input class="home-input w300 fl" type="text" style="margin-left: 0px;margin-top: 10px;" ng-model="approvedata.KeyWordLaw" maxlength="25" placeholder="请输入关键字"
-                />
+                <input class="home-input w300 fl" type="text" style="margin-left: 0px;margin-top: 10px;" ng-model="approvedata.KeyWordLaw"
+                    maxlength="25" placeholder="请输入关键字" />
 
                 <div class="fl ml10">
                     <span class="fl">录入部门:</span>
@@ -232,8 +232,8 @@
                                 <td title="{{item.inputdate|recordtime}} ">{{item.inputdate|changeTime}}</td>
                                 <td>
                                     <input type="button " class="checkbtn" ng-click="checkAdvice(item,true,'查看')" value="查 看" />
-                                    <input type="button " class="deletebtn" ng-click="DeleteAdvice(item)" value="删 除"
-                                    />
+                                    <input type="button " class="normalcheckbtn" ng-click="ShowAdvice(item,false,'编辑通知')" value="编 辑" />
+                                    <input type="button " class="deletebtn" ng-click="DeleteAdvice(item)" value="删 除" />
                                 </td>
                             </tr>
                             <tr ng-if="userItems.length==0 ">
