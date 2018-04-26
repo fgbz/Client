@@ -38,7 +38,7 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/acces
                     $scope.data.id = "";
                     $scope.data.inputuserid = user.id;
                     $scope.data.orgname = user.orgname;
-                    $scope.data.inputdate = utils.format(new Date(), "yyyy-MM-dd hh:mm:ss");
+                    $scope.data.inputdate = utils.parseTime(new Date(), "YYYY-MM-DD hh:mm:ss");
                     $scope.data.details = "";
                 }
 

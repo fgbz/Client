@@ -177,7 +177,7 @@ define(['angular', 'utils'], function (ng, utils) {
     }]);
 
     //限制输入字数
-    fm.filter('tooltips', [function () {
+    fm.filter('tooltipsold', [function () {
         return function (strName, len) {
             if (strName != null) {
                 if (strName.length > len) {
@@ -193,6 +193,38 @@ define(['angular', 'utils'], function (ng, utils) {
 
         }
     }]);
+
+    fm.filter('tooltips', function () {
+        /**
+         * 限制文字显示长度过滤器，超出长度的文字将用“...”代替
+         * @param {String} input
+         * @param {Number} len 要显示的文字内容的最大长度
+         */
+        return function (input, len) {
+            if (typeof input === "string" && typeof len === "number") {
+                if (len <= 0)
+                    return '...';
+                //currentLen：当前字符串长度
+                //showLen：最终显示的字符个数
+                var currentLen = 0,
+                    showLen = 0;
+                while (showLen < input.length && currentLen <= len) {
+                    var c = input.charCodeAt(showLen);
+                    //英文字符长度1，非英文字符（基本为中文字符）长度为2
+                    var k = c <= 127 ? 1 : 2;
+                    //currentLen加上本次的字符长度也必须不大于要显示的长度
+                    if (currentLen + k <= len) {
+                        currentLen += k;
+                        showLen++;
+                    } else
+                        return input.substring(0, showLen) + '...';
+                }
+            }
+            return input;
+        };
+    })
+
+
     fm.filter('selectFilter', [function () {
 
         return function (str, list) {
@@ -433,10 +465,18 @@ define(['angular', 'utils'], function (ng, utils) {
         var fn = function (text, search) {
             if (!search) {
                 return $sce.trustAsHtml(text);
-            }     
-            var searchList = search.split(' ');
+            }
+            search = search.replace("；",";");
+            
+            var searchList = search.split(';');
             var result = text;
             for (var i = 0; i < searchList.length; i++) {
+                if (!searchList[i]) {
+                    continue;
+                }
+                if ('<span class="highlightedTextStyle">$&</span>'.indexOf(searchList[i]) != -1) {
+                    continue;
+                }
                 var regex = new RegExp(searchList[i], 'gi');
                 if (result) {
                     result = result.replace(regex, '<span class="highlightedTextStyle">$&</span>');

@@ -6,6 +6,7 @@ define(['bootstrap/app', 'utils', 'services/system-service', 'services/md5-servi
     app.controller('login-controller', ['$rootScope', '$scope', '$state', 'toaster', '$uibModal', '$uibModalInstance', 'values', 'system-service', '$cookies', 'md5-service', 'staff-service',
         function ($rootScope, $scope, $state, toaster, $uibModal, $modalInstance, values, systemService, $cookies, md5Service, staffService) {
 
+            var isCapslockOn = false;
             //变量
             var define_variable = function () {
 
@@ -26,18 +27,33 @@ define(['bootstrap/app', 'utils', 'services/system-service', 'services/md5-servi
                 }
 
                 $scope.isSaving = false;
+
             };
 
             //方法
             var define_function = function () {
 
-                $scope.nextStep = function (target) {
-                    if (target.keyCode == 13) {
+                $scope.nextStep = function (e) {
+
+                    var valueCapsLock = e.keyCode ? e.keyCode : e.which; // Caps Lock　是否打开 
+                    var valueShift = e.shiftKey ? e.shiftKey : ((valueCapsLock == 16) ? true : false); // shift键是否按住
+
+                    if (((valueCapsLock >= 65 && valueCapsLock <= 90) && !valueShift) // Caps Lock 打开，并且 shift键没有按住 
+                        || ((valueCapsLock >= 97 && valueCapsLock <= 122) && valueShift)) {// Caps Lock 打开，并且按住 shift键
+                        $scope.showCaps = true; //开启  
+
+                    } else {
+                        $scope.showCaps = false;
+
+                    }
+
+                    if (e.keyCode == 13) {
                         if ($scope.account && $scope.password) {
                             $scope.login();
                         }
 
                     }
+
                 }
 
                 $scope.remember = function () {
@@ -86,6 +102,8 @@ define(['bootstrap/app', 'utils', 'services/system-service', 'services/md5-servi
                 $scope.cancel = function () {
                     $modalInstance.dismiss('cancel');
                 };
+
+
             };
 
             // 实际运行……

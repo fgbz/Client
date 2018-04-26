@@ -3,7 +3,7 @@
     <div class="usercenter_left">
 
         <div class="titlename">
-            用户中心
+            个人中心
         </div>
 
         <div ng-repeat="item in MenuItmes" ng-class="{true:'menu_select',false:'menu'}[clickMenuValue==item.Name]" ng-click="clickMenu(item)">
@@ -57,7 +57,7 @@
         <div ng-if="clickMenuValue=='收藏夹'" class="h100">
             <!--树-->
             <div class="regluation_index_left bgdfff" class="posi_re">
-                <combo-tree tree-data="treeFavoriteData" tree-model="clickFavValue" btn-show="false" img-color="1" is-extend="true"></combo-tree>
+                <combo-tree tree-data="treeFavoriteData" tree-model="clickFavValue" btn-show="false" img-color="1" is-extend="true" is-cursor="false"></combo-tree>
             </div>
 
             <!--表格-->
@@ -122,7 +122,7 @@
 
             <!--树-->
             <div class="regluation_index_left bgdfff" style="width:95%">
-                <combo-tree tree-data="treeFavoriteData" tree-model="clickTreeValue" btn-show="true" img-color="1" is-extend="true"></combo-tree>
+                <combo-tree tree-data="treeFavoriteData" tree-model="clickTreeValue" btn-show="true" img-color="1" is-extend="true" is-cursor="false"></combo-tree>
             </div>
         </div>
 

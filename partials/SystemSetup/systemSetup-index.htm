@@ -1,6 +1,7 @@
 <div class="h100 mt10">
     <div class="system_tree">
-        <combo-tree tree-data="treeData" tree-model="clickTreeValue" btn-show="false" img-color="2" is-system-root="true" is-extend="true"></combo-tree>
+        <combo-tree tree-data="treeData" tree-model="clickTreeValue" btn-show="false" img-color="2" is-system-root="true" is-extend="true"
+            is-cursor="true"></combo-tree>
     </div>
 
     <div class="system_left">
@@ -36,6 +37,11 @@
                     <input class="home-input fr mr10" type="text" only-num in-decimals="0" ng-model="pagedata.pagesize" maxlength="5" />
                 </div>
 
+
+
+            </div>
+            <div style="height: 40px;line-height: 40px;float: right;margin-right: 22px;">
+                说明：分页设置是本系统中所有列表每页显示记录数量的统一设置，为了保证系统访问速度不建议设置数量过大。
             </div>
 
         </div>
@@ -69,23 +75,6 @@
 
             </div>
 
-            <div class="system_hc" ng-if="false" style="line-height: normal;">
-                <div style="    float: left;
-    margin-top: 15px;">授权文件</div>
-
-                <div class="fr mt10">
-                    <span>开始时间:</span>
-                    <input type="text" id="FiledTimeStartLicense" class="case_table_timepicker_input" ng-model="Licensedata.FiledTimeStartLicense" je-date format="YYYY-MM-DD"
-                        readonly />
-                    <span >结束时间</span>
-                    <input type="text" id="FiledTimeEndLicense" class="case_table_timepicker_input" ng-model="Licensedata.FiledTimeEndLicense" je-date format="YYYY-MM-DD"
-                        readonly style="    margin-right: 10px;" />
-
-                    <input type="button" class="normalbtn fr" value="生 成" ng-disabled="!Licensedata.FiledTimeStartLicense||!Licensedata.FiledTimeEndLicense" ng-click="makeLicense()" />
-
-                </div>
-
-            </div>
 
         </div>
 
@@ -154,37 +143,44 @@
             <div class="system_userconfig">
                 <div class="fl">
 
-                    <input class="home-input w300" type="text" style="margin-left: 0px;" ng-model="systemdata.publishName" maxlength="25" placeholder="请输入部门名称"
+                    <input class="home-input w300" type="text" style="margin-left: 0px;" ng-model="systemdata.publishName" maxlength="25" placeholder="请输入单位名称"
                     />
                     <input type="button" class="normalbtn mr10" value="搜 索" ng-click="getpublishdep()" />
                 </div>
 
                 <input type="button" class="normalbtn fr mr10" value="新 增" ng-click="ShowPublishdep(null,false,'新增')" />
+
+                <input type="button" class="normalbtn fr mr10" value="上 移" ng-click="HandlePublish('moveUp')" ng-if="pubdata.data.ranknum>1&&pubdata.showhandle"
+                />
+                <input type="button" class="normalbtn fr mr10" value="下 移" ng-click="HandlePublish('moveDown')" ng-if="pubdata.data.ranknum<publishdepItems.length&&pubdata.showhandle"
+                />
             </div>
 
             <div class="of" style="height: calc(100% - 100px);">
                 <table class="index_table">
                     <thead>
                         <tr>
-                            <th>部门名称</th>
-                            <th>操作</th>
+                            <th style="text-align:center;">序号</th>
+                            <th style="text-align:center;">单位名称</th>
+                            <th style="text-align:center;">操作</th>
                         </tr>
                     </thead>
                     <tbody ng-if="isLoaded">
-                        <tr ng-repeat="item in publishdepItems" style="height: 40px;cursor: pointer" ng-click="clickTable($index);" ng-class="{true: 'tr_selected',false: ''}[tableRow.selected==$index] ">
-                            <td title="{{item.pubdepname}} " class="w300 ">{{item.pubdepname}}</td>
-                            <td>
+                        <tr ng-repeat="item in publishdepItems" style="height: 40px;cursor: pointer" ng-click="clickPubTable(item);" ng-class="{true: 'tr_selected',false: ''}[pubdata.data.id==item.id] ">
+                            <td style="text-align:center;">{{item.ranknum}}</td>
+                            <td title="{{item.pubdepname}} " class="w300 " style="text-align:center;">{{item.pubdepname}}</td>
+                            <td style="text-align:center;">
                                 <input type="button " class="normalcheckbtn " ng-click="ShowPublishdep(item,false,'编辑') " value="编 辑" />
                                 <input type="button " class="deletebtn " ng-click="DeletePublishdep(item.id) " ng-show="item.candelete" value="删 除" />
                             </td>
                         </tr>
-                        <tr ng-if="roleItems.length==0 ">
-                            <td colspan="2 " class="text-center ">无数据</td>
+                        <tr ng-if="publishdepItems.length==0 ">
+                            <td colspan="3 " class="text-center ">无数据</td>
                         </tr>
                     </tbody>
                     <tbody ng-if="!isLoaded ">
                         <tr>
-                            <td colspan="2 " class="text-center ">
+                            <td colspan="3 " class="text-center ">
                                 <img src="images/loading.gif " />
                             </td>
                         </tr>
@@ -193,7 +189,7 @@
                 </table>
             </div>
 
-            <div class="home_paging">
+            <!--<div class="home_paging">
                 <div class="pagination-info " style="display: inline-block;margin-top: 12px; margin-left: 10px;">
                     <span class="ng-binding ">共{{pagerPublishdep.total}}条</span>
                 </div>
@@ -203,7 +199,7 @@
                         ng-change="getpublishdep(true) " items-per-page="pagerPublishdep.size " class="pagination-sm
                                 " previous-text="上页 " next-text="下页 " first-text="首页 " last-text="末页 "></uib>
                 </div>
-            </div>
+            </div>-->
         </div>
 
         <!--法规标准执行状态管理-->
@@ -223,19 +219,19 @@
                 <table class="index_table">
                     <thead>
                         <tr>
-                            <th>状态名称</th>
-                            <th>操作</th>
+                            <th style="text-align:center;">状态名称</th>
+                            <th style="text-align:center;">操作</th>
                         </tr>
                     </thead>
                     <tbody ng-if="isLoaded">
-                        <tr ng-repeat="item in statusItems" style="height: 40px;cursor: pointer" ng-click="clickTable($index);" ng-class="{true: 'tr_selected',false: ''}[tableRow.selected==$index] ">
-                            <td title="{{item.statusname}} " class="w300 ">{{item.statusname}}</td>
-                            <td>
+                        <tr ng-repeat="item in statusItems" style="height: 40px;cursor: pointer" ng-click="clickTable($index,'status');" ng-class="{true: 'tr_selected',false: ''}[tableStatus.selected==$index] ">
+                            <td title="{{item.statusname}} " style="text-align:center;" class="w300 ">{{item.statusname}}</td>
+                            <td style="text-align:center;">
                                 <input type="button " class="normalcheckbtn " ng-click="ShowStatus(item,false,'编辑') " value="编 辑" />
                                 <input type="button " class="deletebtn " ng-click="DeleteStatus(item.id) " ng-show="item.candelete" value="删 除" />
                             </td>
                         </tr>
-                        <tr ng-if="roleItems.length==0 ">
+                        <tr ng-if="statusItems.length==0 ">
                             <td colspan="2 " class="text-center ">无数据</td>
                         </tr>
                     </tbody>
@@ -267,7 +263,7 @@
         <!--组织机构管理--->
         <div ng-if="clickTreeValue=='141'" class="posi_re">
 
-            <combo-tree tree-data="treeDataOrg" tree-model="clickOrgValue" btn-show="true" img-color="1"></combo-tree>
+            <combo-tree tree-data="treeDataOrg" tree-model="clickOrgValue" btn-show="true" img-color="1" is-cursor="false"></combo-tree>
 
         </div>
 
@@ -275,7 +271,7 @@
         <div ng-if="clickTreeValue=='142'" class="h100">
 
             <div class="h100 fl" style="width: 240px;">
-                <combo-tree tree-data="treeDataOrg" tree-model="clickUserValue" btn-show="false" img-color="1"></combo-tree>
+                <combo-tree tree-data="treeDataOrg" tree-model="clickUserValue" btn-show="false" img-color="1" is-cursor="false"></combo-tree>
             </div>
 
             <div class="h100 fl posi_re" style="width: calc(100% - 250px);">
@@ -307,7 +303,7 @@
                             </tr>
                         </thead>
                         <tbody ng-if="isLoaded ">
-                            <tr ng-repeat="item in userItems" style="height: 40px;cursor: pointer" ng-click="clickTable($index);" ng-class="{true: 'tr_selected',false: ''}[tableRow.selected==$index] ">
+                            <tr ng-repeat="item in userItems" style="height: 40px;cursor: pointer" ng-click="clickTable($index,'user');" ng-class="{true: 'tr_selected',false: ''}[tableUser.selected==$index] ">
                                 <td title="{{item.username}}">{{item.username}}</td>
                                 <td title="{{item.userrealname}} ">{{item.userrealname}}</td>
                                 <td title="{{item.orgname}} ">{{item.orgname}}</td>
@@ -377,7 +373,7 @@
                         </tr>
                     </thead>
                     <tbody ng-if="isLoaded">
-                        <tr ng-repeat="item in roleItems" style="height: 40px;cursor: pointer" ng-click="clickTable($index);" ng-class="{true: 'tr_selected',false: ''}[tableRow.selected==$index] ">
+                        <tr ng-repeat="item in roleItems" style="height: 40px;cursor: pointer" ng-click="clickTable($index,'role');" ng-class="{true: 'tr_selected',false: ''}[tableRole.selected==$index] ">
                             <td title="{{item.rolename}} " class="w300 ">{{item.rolename}}</td>
                             <td>
                                 <input type="button " class="checkbtn " ng-click="ShowRole(item,true,'查看') " value="查 看" />
@@ -417,14 +413,14 @@
         <!--法规管理-->
         <div ng-if="clickTreeValue=='15'">
 
-            <combo-tree tree-data="treeDataReg" tree-model="clickRegValue" btn-show="true" img-color="1" is-extend="true"></combo-tree>
+            <combo-tree tree-data="treeDataReg" tree-model="clickRegValue" btn-show="true" img-color="1" is-extend="true" is-cursor="false"></combo-tree>
 
         </div>
 
         <!--技术文档-->
         <div ng-if="clickTreeValue=='16'">
 
-            <combo-tree tree-data="treeDataTec" tree-model="clickTecValue" btn-show="true" img-color="1" is-extend="true"></combo-tree>
+            <combo-tree tree-data="treeDataTec" tree-model="clickTecValue" btn-show="true" img-color="1" is-extend="true" is-cursor="false"></combo-tree>
 
         </div>
 
@@ -445,7 +441,7 @@
                             btn-width="140">
                         </div>
                     </div>
-                    <div class="fl m10">
+                    <div class="fl m10" style=" margin-left: 10px;">
                         <span>操作时间:</span>
                         <input type="text" id="FiledTimeStart" class="case_table_timepicker_input" ng-model="logdata.FiledTimeStart" je-date format="YYYY-MM-DD"
                             readonly />
@@ -470,7 +466,7 @@
                         </tr>
                     </thead>
                     <tbody ng-if="isLoaded">
-                        <tr ng-repeat="item in LogItems" style="height: 40px;cursor: pointer" ng-click="clickTable($index);" ng-class="{true: 'tr_selected',false: ''}[tableRow.selected==$index] ">
+                        <tr ng-repeat="item in LogItems" style="height: 40px;cursor: pointer" ng-click="clickTable($index,'log');" ng-class="{true: 'tr_selected',false: ''}[tableLog.selected==$index] ">
                             <td>{{$index+1}}</td>
                             <td title="{{item.username}} ">{{item.username}}</td>
                             <td title="{{item.organizationname}} ">{{item.organizationname}}</td>

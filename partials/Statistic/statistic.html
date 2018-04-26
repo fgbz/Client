@@ -31,18 +31,23 @@
                 <table class="search_table">
                     <tr height="40">
 
-                        <td ng-if="false">
+                        <td ng-if="true">
                             <span class="ml10">部门</span>
                         </td>
-                        <td ng-if="false">
+                        <td ng-if="true">
                             <combo-tree-select tree-data="treeDataOrg" style="float:left;z-index: 100;" tree-model="data.organizationPub" btn-show="false"
                                 img-color="2" is-normal="180" tree-width="300" is-disable="false"></combo-tree-select>
                         </td>
-                        <td ng-if="false">
-                            <span class="ml10"> 类别分类</span>
+                        <td ng-if="true">
+                            <span class="ml10">类别</span>
                         </td>
-                        <td ng-if="false">
+                        <td ng-if="true">
                             <div ng-if="clickValue == 'law'">
+                                <!--<div isteven-multi-select input-model="treeDataPub " output-model="data.TreeValuePub" button-label="Name" item-label="Name"
+                                    tick-property="Selected" search-property='Name' output-properties="Id" translation="localLang"
+                                    selection-mode="single" max-labels="3" max-height="280px" style="width:220px; margin-left: 10px;"
+                                    btn-width="220">
+                                </div>-->
                                 <combo-tree-select style="width:170px;float:left" tree-data="treeDataPub" is-normal="180" tree-width="300" tree-model="data.TreeValuePub"
                                     btn-show="false" img-color="2" is-disable="false"></combo-tree-select>
                             </div>
@@ -52,12 +57,12 @@
                             </div>
                         </td>
                         <td style="text-align: center;">
-                             发布时间
+                            录入日期
                         </td>
                         <td colspan="2">
                             <input type="text" id="FiledTimeStartPub" class="case_table_timepicker_input" ng-model="data.FiledTimeStartPub" je-date format="YYYY-MM-DD"
                                 readonly />
-                            <span style="margin-left: 0px;">至</span>
+                            <span style="margin-left: 10px;">至</span>
                             <input type="text" id="FiledTimeEndPub" class="case_table_timepicker_input" ng-model="data.FiledTimeEndPub" je-date format="YYYY-MM-DD"
                                 readonly />
                         </td>
@@ -83,8 +88,8 @@
                 <div ng-if="!loading">
                     <table class="statistic_table">
                         <tr height="40px;">
-                            <td>上传部门</td>
-                            <td ng-repeat="item in lawOrgItems">{{item.name}}</td>
+                            <td class="statistic_tablehead">上传部门</td>
+                            <td ng-repeat="item in lawOrgItems" class="statistic_tablehead">{{item.name}}</td>
                         </tr>
                         <tr height="40px;">
                             <td>数量</td>
@@ -120,34 +125,31 @@
 
         </div>
 
-        <div ng-if="clickMenuValue == '按发布人统计'">
+        <div ng-if="clickMenuValue == '按上传人统计'">
             <!--查询条件-->
             <div>
                 <table class="search_table">
                     <tr height="40">
 
-                        <td>
-                            <span class="ml10">部门</span>
+                        <td style="padding-left:10px;">
+                            <span >部门</span>
                         </td>
                         <td>
                             <combo-tree-select tree-data="treeDataOrg" style="float:left;z-index: 100;" tree-model="data.organizationPeople" btn-show="false"
-                                img-color="2" is-normal="140" tree-width="300" is-disable="false"></combo-tree-select>
+                                img-color="2" is-normal="160" tree-width="300" is-disable="false"></combo-tree-select>
                         </td>
-                        <td>
-                            <span class="ml10">人员</span>
-                        </td>
-                        <td ng-if="false">
-                            <div isteven-multi-select input-model="userList " output-model="data.Userid" button-label="userrealname" item-label="userrealname"
-                                tick-property="Selected" search-property='userrealname' output-properties="id" translation="localLang"
-                                max-labels="8" max-height="280px" style="width: 140px; float: right; margin-left: 10px;" btn-width="140">
-                            </div>
-                        </td>
-                        <td ng-if="false">
-                            <span class="ml10"> 类别分类</span>
+                        <td ng-if="true">
+                            <span >类别</span>
                         </td>
                         <td>
                             <div ng-if="clickValue == 'law'">
-                                <combo-tree-select style="width:170px;float:left" tree-data="treeDataPub" is-normal="140" tree-width="300" tree-model="data.TreeValuePeople"
+                                <!--<div isteven-multi-select input-model="treeDataPeo" output-model="data.TreeValuePeople" button-label="Name" item-label="Name"
+                                    tick-property="Selected" search-property='Name' output-properties="Id" translation="localLang"
+                                    selection-mode="single" max-labels="3" max-height="280px" style="width:180px;  margin-left: 10px;"
+                                    btn-width="180">
+                                </div>-->
+
+                                <combo-tree-select style="width:170px;float:left" tree-data="treeDataPeo" is-normal="160" tree-width="300" tree-model="data.TreeValuePeople"
                                     btn-show="false" img-color="2" is-disable="false"></combo-tree-select>
                             </div>
 
@@ -157,12 +159,23 @@
                             </div>
                         </td>
                         <td>
-                            发布日期
+                            <span >人员</span>
+                        </td>
+                        <td ng-if="true" style="width: 180px;">
+                            <div title="{{data.peopleTips}}" isteven-multi-select input-model="userList " output-model="data.Userid" button-label="userrealname"
+                                item-label="userrealname" tick-property="Selected" search-property='userrealname' output-properties="id"
+                                translation="localLang" max-labels="2" max-height="280px" style="width:180px; float: right; margin-left: 10px;"
+                                btn-width="180">
+                            </div>
+                        </td>
+
+                        <td>
+                            <span class="ml20">录入日期</span>
                         </td>
                         <td colspan="2">
                             <input type="text" id="FiledTimeStartPeople" class="case_table_timepicker_input" ng-model="data.FiledTimeStartPeople" je-date
                                 format="YYYY-MM-DD" readonly />
-                            <span style="margin-left: 0px;">至</span>
+                            <span style="margin-left:10px;">至</span>
                             <input type="text" id="FiledTimeEndPeople" class="case_table_timepicker_input" ng-model="data.FiledTimeEndPeople" je-date
                                 format="YYYY-MM-DD" readonly />
                         </td>
@@ -188,8 +201,8 @@
                 <div ng-if="!loading">
                     <table class="statistic_table">
                         <tr height="40px;">
-                            <td>发布人</td>
-                            <td ng-repeat="item in lawPeopleItems">{{item.name}}</td>
+                            <td class="statistic_tablehead">上传人</td>
+                            <td ng-repeat="item in lawPeopleItems" class="statistic_tablehead">{{item.name}}</td>
                         </tr>
                         <tr height="40px;">
                             <td>数量</td>
@@ -209,7 +222,7 @@
                 <div ng-if="!loading">
                     <table class="statistic_table">
                         <tr height="40px;">
-                            <td>发布人</td>
+                            <td>上传人</td>
                             <td ng-repeat="item in tecPeopleItems">{{item.name}}</td>
                         </tr>
                         <tr height="40px;">
@@ -224,7 +237,7 @@
             </div>
         </div>
 
-        <div ng-if="clickMenuValue == '按类别统计'">
+        <div ng-if="clickMenuValue == '按上传分类统计'">
             <!--查询条件-->
             <div>
                 <table class="search_table">
@@ -237,12 +250,18 @@
                             <combo-tree-select tree-data="treeDataOrg" style="float:left;z-index: 100;" tree-model="data.organizationType" btn-show="false"
                                 img-color="2" is-normal="180" tree-width="300" is-disable="false"></combo-tree-select>
                         </td>
-                        <td ng-if="false">
-                            <span class="ml10"> 类别分类</span>
+                        <td ng-if="true">
+                            <span class="ml10">类别</span>
                         </td>
-                        <td ng-if="false">
+                        <td ng-if="true">
                             <div ng-if="clickValue == 'law'">
-                                <combo-tree-select style="width:170px;float:left" tree-data="treeDataPub" is-normal="180" tree-width="300" tree-model="data.TreeValueType"
+                                <!--<div isteven-multi-select input-model="treeDataType" output-model="data.TreeValueType" button-label="Name" item-label="Name"
+                                    tick-property="Selected" search-property='Name' output-properties="Id" translation="localLang"
+                                    selection-mode="single" max-labels="3" max-height="280px" style="width:220px;  margin-left: 10px;"
+                                    btn-width="220">
+                                </div>-->
+
+                                <combo-tree-select style="width:170px;float:left" tree-data="treeDataType" is-normal="180" tree-width="300" tree-model="data.TreeValueType"
                                     btn-show="false" img-color="2" is-disable="false"></combo-tree-select>
                             </div>
                             <div ng-if="clickValue == 'tec'">
@@ -251,12 +270,12 @@
                             </div>
                         </td>
                         <td>
-                            发布日期
+                            录入日期
                         </td>
                         <td colspan="2">
                             <input type="text" id="FiledTimeStartType" class="case_table_timepicker_input" ng-model="data.FiledTimeStartType" je-date
                                 format="YYYY-MM-DD" readonly />
-                            <span style="margin-left: 0px;">至</span>
+                            <span style="margin-left: 10px;">至</span>
                             <input type="text" id="FiledTimeEndType" class="case_table_timepicker_input" ng-model="data.FiledTimeEndType" je-date format="YYYY-MM-DD"
                                 readonly />
                         </td>
@@ -282,8 +301,8 @@
                 <div ng-if="!loading">
                     <table class="statistic_table">
                         <tr height="40px;">
-                            <td>类别</td>
-                            <td ng-repeat="item in lawTypeItems">{{item.name}}</td>
+                            <td class="statistic_tablehead">类别</td>
+                            <td ng-repeat="item in lawTypeItems" class="statistic_tablehead">{{item.name}}</td>
                         </tr>
                         <tr height="40px;">
                             <td>数量</td>

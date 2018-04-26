@@ -43,7 +43,7 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                     selectAll: "全选",
                     selectNone: "全不选",
                     reset: "清空",
-                    search: "查找发布部门...",
+                    search: "请输入条件筛选...",
                     nothingSelected: "请选择"
                 };
 

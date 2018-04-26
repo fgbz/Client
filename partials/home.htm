@@ -1,7 +1,7 @@
 <div class="h100">
     <div class="concent_center mt30">
-        <input class="home_topsearch" type="text" ng-model="solrText" maxlength="100" placeholder="请输入关键字进行检索" ng-keypress="PressSolr($event)"
-        />
+        <input class="home_topsearch" type="text" ng-model="solrText" maxlength="200" placeholder="请输入关键字进行检索&nbsp;(多组关键字以空格分隔表示与关系、以;分隔表示或关系)"
+            ng-keypress="PressSolr($event)" />
         <span class="home_topsearch_icon curpointer" ng-click="Solr()">全文检索</span>
     </div>
 
@@ -31,11 +31,11 @@
             </div>
             <div ng-repeat="item in LawItems" style="cursor:poiner;" class="clear home_repeat" ng-click="goLawDetail(item)">
                 <div class="fl home_new_fk"></div>
-                <div class="fl color363636" title="{{item.chinesename}}">{{item.chinesename|tooltips:18}}</div>
+                <div class="fl color363636" title="{{item.chinesename}}">{{item.chinesename|tooltips:36}}</div>
 
                 <div class="fr date">{{item.inputdate|recordtime}}</div>
-                <div class="fr" style="width: 80px;" title="{{item.inputusername}}">{{item.inputusername|tooltips:10}}</div>
-                <div class="fr" style="width:210px;" title="{{item.code}}">{{item.code|tooltips:14}}</div>
+                <div class="fr" style="width: 80px;" title="{{item.inputusername}}">{{item.inputusername|tooltips:20}}</div>
+                <div class="fr" style="width:210px;" title="{{item.code}}">{{item.code|tooltips:26}}</div>
 
             </div>
 
@@ -46,29 +46,30 @@
             <div class="kcpic">法规标准库存数量</div>
 
             <div ng-repeat="item in LawRegulationItem" class="clear" ng-if="!countshow">
-                <div class="parentname" title="{{item.typename}}" ng-click="goLaws(item.id)">{{item.typename|tooltips:8}}</div>
+                <div class="parentname"> <span title="{{item.typename}}" ng-click="goLaws(item.id)" style="cursor: pointer;">{{item.typename|tooltips:16}}</span></div>
                 <div ng-repeat="childitem in item.childLists">
-                    <div class="childname" ng-click="goLaws(childitem.id)" title="{{childitem.typename}}">{{childitem.typename|tooltips:15}}</div>
+                    <div class="childname" ng-click="goLaws(childitem.id)" title="{{childitem.typename}}">{{childitem.typename|tooltips:30}}</div>
                 </div>
             </div>
 
             <div ng-repeat="item in LawRegulationItem" class="clear" ng-if="countshow">
-                <div class="parentname" title="{{item.typename}}" ng-click="goLaws(item.id)">{{item.typename|tooltips:8}}({{item.lawcount}})</div>
+                <div class="parentname">
+                    <span title="{{item.typename}}" ng-click="goLaws(item.id)" style="cursor: pointer;">{{item.typename|tooltips:16}}({{item.lawcount}})</span></div>
                 <div ng-repeat="childitem in item.childLists">
-                    <div class="childname" ng-click="goLaws(childitem.id)" title="{{childitem.typename}}">{{childitem.typename|tooltips:15}}({{childitem.lawcount}})</div>
+                    <div class="childname" ng-click="goLaws(childitem.id)" title="{{childitem.typename}}">{{childitem.typename|tooltips:30}}({{childitem.lawcount}})</div>
                 </div>
             </div>
 
         </div>
     </div>
 
-    <div class="clear" style="height:540px;">
+    <div class="clear" style="border: 1px solid #ccc;margin-top: 50px; height: 575px; border-radius: 15px;">
 
         <div class="home_new_lbdh">
 
             <div class="title">法规类别导航</div>
             <div ng-repeat="item in LawRegulationItem">
-                <div ng-class="{true:'menu_select',false:'menu_normal'}[SelectLbMenu==item.id]" ng-click="clickLbMenu(item,'Law')" title="{{item.typename}}">{{item.typename|tooltips:8}}</div>
+                <div ng-class="{true:'menu_select',false:'menu_normal'}[SelectLbMenu==item.id]" ng-click="clickLbMenu(item,'Law')" title="{{item.typename}}">{{item.typename|tooltips:20}}</div>
             </div>
         </div>
 
@@ -76,17 +77,17 @@
             <!--ul-->
             <div class="home_new_menu">
                 <!--左移-->
-                <div class="lbdh_fg_left" ng-click="movetLaw('left','Law')" ng-show="childDList.length>3&&lawindex>0"></div>
+                <div class="lbdh_fg_left" ng-click="movetLaw('left','Law')" ng-show="childDList.length>4&&lawindex>0"></div>
                 <table style="width:calc(100% - 80px); float: left;">
                     <tr>
                         <td ng-repeat="item in LbdhChildMenus track by $index" style=" text-align: -webkit-center;">
                             <div ng-class="{true:'home_new_menu_select',false:'home_new_menu_normal'}[clickLbdhChildMenuValue==item.id]" ng-click="clickLbdhChildMenu(item,'Law')"
-                                title="{{item.typename}}">{{item.typename|tooltips:10}}</div>
+                                title="{{item.typename}}">{{item.typename|tooltips:20}}</div>
                         </td>
                     </tr>
                 </table>
                 <!--右移-->
-                <div class="lbdh_fg_right" ng-click="movetLaw('right','Law')" ng-show="childDList.length>3&&lawindex<childDList.length-3"></div>
+                <div class="lbdh_fg_right" ng-click="movetLaw('right','Law')" ng-show="childDList.length>4&&lawindex<childDList.length-4"></div>
             </div>
 
             <!--表格-->
@@ -95,14 +96,16 @@
                     <tr>
                         <th style="background-color: #2ea3dc;" class="home_lbdh_title">标题</th>
                         <th style="background-color: #2ea3dc;" class="home_lbdh_law">编号</th>
+                          <th style="background-color: #2ea3dc;">发布单位</th>
                         <th style="background-color: #2ea3dc;">实施日期</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr ng-repeat="item in LbdhTableItems" style="height: 40px;cursor: pointer" ng-click="clickLbdhTable($index,'Law',item);"
                         ng-class="{true: 'tr_selected',false: ''}[LbdhSelected==$index] ">
-                        <td title="{{item.chinesename}} " class="home_lbdh_title">{{item.chinesename| tooltips:40}}</td>
-                        <td title="{{item.code}} " class="home_lbdh_law">{{item.code| tooltips:16}}</td>
+                        <td title="{{item.chinesename}} " class="home_lbdh_title">{{item.chinesename| tooltips:90}}</td>
+                        <td title="{{item.code}} " class="home_lbdh_law">{{item.code| tooltips:28}}</td>
+                         <td title="{{item.pubdepname}} ">{{item.pubdepname|tooltips:28}}</td>
                         <td title="{{item.impdate|recordtime}} ">{{item.impdate|recordtime}}</td>
                     </tr>
                     <tr ng-if="LbdhTableItems.length==0 ">
@@ -121,9 +124,9 @@
 
 
     <!--技术文档类别导航-->
-    <div class="clear" style="height:540px;">
+    <div class="clear" style="border: 1px solid #ccc;margin-top: 50px;height: 575px;border-radius: 15px;">
 
-        <div class="home_new_lbdh fr">
+        <div class="home_new_lbdh fr" style="margin-right: 10px;">
 
             <div class="tec_title">技术文档导航</div>
             <div ng-repeat="item in TecRegulationItem">
@@ -131,21 +134,21 @@
             </div>
         </div>
 
-        <div class="lbdh_detail" style=" margin-left: 0px;">
+        <div class="lbdh_detail" style=" margin-left: 10px;">
             <!--ul-->
             <div class="home_new_menu">
                 <!--左移-->
-                <div class="lbdh_jswj_left" ng-click="movetLaw('left','Tec')" ng-show="TecchildDList.length>3&&tecindex>0"></div>
+                <div class="lbdh_jswj_left" ng-click="movetLaw('left','Tec')" ng-show="TecchildDList.length>4&&tecindex>0"></div>
                 <table style="width:calc(100% - 80px); float: left;">
                     <tr>
                         <td ng-repeat="item in TecLbdhChildMenus track by $index" style=" text-align: -webkit-center;">
                             <div ng-class="{true:'home_new_menu_select',false:'home_new_menu_normal'}[TecclickLbdhChildMenuValue==item.id]" ng-click="clickLbdhChildMenu(item,'Tec')"
-                                title="{{item.typename}}" ng-style="{'background':TecclickLbdhChildMenuValue==item.id?'#48ae95':'#fff'}">{{item.typename|tooltips:10}}</div>
+                                title="{{item.typename}}" ng-style="{'background':TecclickLbdhChildMenuValue==item.id?'#48ae95':'#fff'}">{{item.typename|tooltips:20}}</div>
                         </td>
                     </tr>
                 </table>
                 <!--右移-->
-                <div class="lbdh_jswj_right" ng-click="movetLaw('right','Tec')" ng-show="TecchildDList.length>3&&tecindex<TecchildDList.length-3"></div>
+                <div class="lbdh_jswj_right" ng-click="movetLaw('right','Tec')" ng-show="TecchildDList.length>4&&tecindex<TecchildDList.length-4"></div>
             </div>
 
             <!--表格-->
@@ -154,14 +157,16 @@
                     <tr>
                         <th style="background-color: #48ae95;" class="home_lbdh_title">标题</th>
                         <th style="background-color:#48ae95;" class="home_lbdh_law">编号</th>
+                      
                         <th style="background-color: #48ae95;">发布日期</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr ng-repeat="item in TecLbdhTableItems" style="height: 40px;cursor: pointer" ng-click="clickLbdhTable($index,'Tec',item);"
                         ng-class="{true: 'tr_selected',false: ''}[TecLbdhSelected==$index]">
-                        <td title="{{item.chinesename}} " class="home_lbdh_title">{{item.chinesename| tooltips:40}}</td>
-                        <td title="{{item.code}} " class="home_lbdh_law">{{item.code| tooltips:20 }}</td>
+                        <td title="{{item.chinesename}} " class="home_lbdh_title">{{item.chinesename| tooltips:90}}</td>
+                        <td title="{{item.code}} " class="home_lbdh_law">{{item.code| tooltips:24 }}</td>
+                      
                         <td title="{{item.releasedate|recordtime}} ">{{item.releasedate|recordtime}}</td>
                     </tr>
                     <tr ng-if="TecLbdhTableItems.length==0 ">
@@ -199,9 +204,9 @@
                 </table>
             </div>
 
-            <highchart config="uploadpeopleChart" style="height: 360px;" ng-if="sjtjMenusuValue=='上传前十统计'"></highchart>
-            <highchart config="uploadOrgnameChart" style="height: 360px;" ng-if="sjtjMenusuValue=='上传部门统计'"></highchart>
-            <highchart config="uploadTypeChart" style="height: 360px;" ng-if="sjtjMenusuValue=='上传分类统计'"></highchart>
+            <highchart config="uploadpeopleChart" style="height: 360px;" ng-if="sjtjMenusuValue=='按上传人统计'"></highchart>
+            <highchart config="uploadOrgnameChart" style="height: 360px;" ng-if="sjtjMenusuValue=='按上传部门统计'"></highchart>
+            <highchart config="uploadTypeChart" style="height: 360px;" ng-if="sjtjMenusuValue=='按上传分类统计'"></highchart>
         </div>
 
         <div class="yhly">
@@ -218,17 +223,17 @@
 
             <div class="lylytext">
 
-                <marquee id="affiche1" align="left" behavior="scroll" direction="up" height="185" width="400" hspace="30" class="sugg_text"
-                    style="height:215px;width:99%;margin: 0;margin-bottom: 10px;margin-left:0px" vspace="20" loop="-1" scrollamount="3"
+                <marquee id="affiche1" align="left" behavior="scroll" direction="up" height="185"  hspace="30" class="sugg_text"
+                    style="height:215px;    width: calc(100% - 70px);margin: 0;margin-bottom: 10px;margin-left:0px" vspace="20" loop="-1" scrollamount="3"
                     scrolldelay="100" onMouseOut="this.start()" onMouseOver="this.stop()">
                     <div ng-repeat="item in SuggestionItems" style="cursor: pointer;" class="clear" ng-click="goSuggestDetail(item)">
                         <div class="point fl">.</div>
-                        <div class="fl text">{{item.title}}</div>
+                        <div class="fl text" title="{{item.title}}">{{item.title|tooltips:100}}</div>
                     </div>
                 </marquee>
 
                 <div class="mb10">
-                    <input class="home-input " style="width: 99%;margin-left:0px; " type="text" ng-model="userSuggestion.title" name="code" maxlength="25"
+                    <input class="home-input " style="width: 99%;margin-left:0px; " type="text" ng-model="userSuggestion.title" name="code" maxlength="200"
                         placeholder="请输入标题..." />
                 </div>
                 <textarea class="home-txtarea" style="background: #fff; height: 95px;" maxlength="800" ng-model="userSuggestion.details"
@@ -247,7 +252,9 @@
 
     </div>
 
-    <div class="releteTime">
-        版本时间 2018-01-28
+    <div class="releteTime" style="margin-top: 50px;">
+        Copyright©2018&nbsp;&nbsp;国防科工局军用核设施核安全技术审评监督中心&nbsp;&nbsp;All Rights Reserved
+        </br>&nbsp;&nbsp;&nbsp;&nbsp;
     </div>
+
 </div>

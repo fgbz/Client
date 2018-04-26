@@ -189,8 +189,8 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/usercenter-ser
                 //时间监听
                 $scope.$watch('FiledTimeStart', function (newValue, oldValue) {
                     if (newValue) {
-                        if ($scope.FiledTimeStart > $scope.FiledTimeEnd) {
-                            toaster.pop({ type: 'danger', body: '开始时间不能大于结束时间!' });
+                        if ($scope.FiledTimeStart > $scope.FiledTimeEnd && $scope.FiledTimeEnd) {
+                            toaster.pop({ type: 'danger', body: '结束时间不能早于开始时间！' });
                             $scope.FiledTimeStart = oldValue;
                         }
                     }
@@ -198,7 +198,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/usercenter-ser
                 $scope.$watch('FiledTimeEnd', function (newValue, oldValue) {
                     if (newValue) {
                         if ($scope.FiledTimeStart > $scope.FiledTimeEnd) {
-                            toaster.pop({ type: 'danger', body: '开始时间不能大于结束时间!' });
+                            toaster.pop({ type: 'danger', body: '结束时间不能早于开始时间！' });
                             $scope.FiledTimeEnd = oldValue;
                         }
                     }

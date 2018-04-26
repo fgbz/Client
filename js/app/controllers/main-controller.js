@@ -35,7 +35,7 @@ define(['bootstrap/app', 'utilities/cryto', 'ctrls/system/modals/logout-controll
                         show: false
                     },
                     {
-                        name: '用户中心',
+                        name: '个人中心',
                         state: 'main.userCenter',
                         show: false
                     },

@@ -40,8 +40,8 @@
                 </thead>
                 <tbody ng-if="isLoaded ">
                     <tr ng-repeat="item in items" style="height: 40px;cursor: pointer" ng-click="clickTable($index);" ng-class="{true: 'tr_selected',false: ''}[tableRow.selected==$index] ">
-                        <td title="{{item.title}}">{{item.title|tooltips:20}}</td>
-                        <td title="{{item.details}} ">{{item.details|tooltips:30}}</td>
+                        <td title="{{item.title}}">{{item.title|tooltips:40}}</td>
+                        <td title="{{item.details}} ">{{item.details|tooltips:60}}</td>
                         <td title="{{item.inputname}} ">{{item.inputname}}</td>
                         <td title="{{item.inputdate|changeTime}}">{{item.inputdate|changeTime}}</td>
                         <td>

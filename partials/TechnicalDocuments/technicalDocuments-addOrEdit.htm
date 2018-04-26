@@ -22,7 +22,7 @@
 
                         <td class="regluation_add_td tl">录入部门:{{data.inputorgname}}</td>
 
-                        <td class="w300 tr">录入时间:{{data.inputdate}}</td>
+                        <td class="w300 tr">录入日期:{{data.inputdate}}</td>
                     </tr>
 
 
@@ -102,7 +102,7 @@
                                     <li ng-repeat="accitem in Attachments">
 
                                         <div title="{{accitem.FileName}}" style="height:40px;">
-                                            <div class="regluation_file_wrap">{{accitem.FileName|tooltips:45}}</div>
+                                            <div class="regluation_file_wrap">{{accitem.FileName|tooltips:90}}</div>
                                             <input type="button" class="attachment_view" title="查看" ng-show="canPreview(accitem.FileName)" ng-click="preview(accitem.ID)"
                                             />
                                             <input class="attachment_download" title="下载" ng-click="downloadAccessory(accitem.ID)" />

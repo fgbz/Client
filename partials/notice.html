@@ -8,7 +8,7 @@
         </div>
 
         <div class="fl" >
-            <span class="fl">发布部门:</span>
+            <span class="fl" style=" margin-top: 5px;margin-left: 5px;">发布单位:</span>
             <combo-tree-select tree-data="treeDataOrg" style="float:left;z-index: 100;" tree-model="searchdata.organization" btn-show="false" img-color="2" is-normal="250" tree-width="250"
                                 is-disable="false"></combo-tree-select>
         </div>
@@ -38,7 +38,7 @@
             <div ng-repeat="item in items" class="home_repeat" ng-click="showAdvice(item)" ng-style="{'background':clickvalue==item.id?'#79a5ff':''}">
                 <div class="fl ml10">{{$index+1}}</div>
                 <div class="fl point">.</div>
-                <div class="fl color363636" title="{{item.title}}">{{item.title|tooltips:30}}</div>
+                <div class="fl color363636" title="{{item.title}}">{{item.title|tooltips:60}}</div>
 
                 <div class="fr date" style="width:150px">{{item.inputdate|changeTime}}</div>
                 <div class="fr Organization">{{item.orgname}}</div>

@@ -3,8 +3,8 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
 
     var config = require('app/config-manager');
     var baseUrl = config.baseUrl();
-    app.controller('systemSetup-index-controller', ['$rootScope', '$scope', '$state', 'toaster', '$uibModal', 'regulation-service', 'technical-service', 'system-service', 'ngDialog', '$cookies', 'dictionary-service','http-service',
-        function ($rootScope, $scope, $state, toaster, $uibModal, regulationService, technicalService, systemService, ngDialog, $cookies, dictionaryService,http) {
+    app.controller('systemSetup-index-controller', ['$rootScope', '$scope', '$state', 'toaster', '$uibModal', 'regulation-service', 'technical-service', 'system-service', 'ngDialog', '$cookies', 'dictionary-service', 'http-service',
+        function ($rootScope, $scope, $state, toaster, $uibModal, regulationService, technicalService, systemService, ngDialog, $cookies, dictionaryService, http) {
 
             var user = sessionStorage.getItem('loginUser');
 
@@ -44,6 +44,28 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                     current: 1
                 }
 
+                $scope.tableRow = {
+                    selected: 0
+                }
+
+                $scope.tableStatus = {
+                    selected: 0
+                }
+
+                $scope.tableUser = {
+                    selected: 0
+                }
+
+                $scope.tableRole = {
+                    selected: 0
+                }
+
+                $scope.tableLog = {
+                    selected: 0
+                }
+
+
+
                 $scope.userdata = {};
                 $scope.systemdata = {};
                 $scope.logdata = {};
@@ -57,11 +79,14 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                     selectAll: "全选",
                     selectNone: "全不选",
                     reset: "清空",
-                    search: "查找人员...",
+                    search: "请输入条件筛选...",
                     nothingSelected: "全部"
                 };
 
                 $scope.Licensedata = {};
+
+                $scope.pubdata = {};
+
 
             };
 
@@ -70,7 +95,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
 
                 $scope.userList = angular.copy(user.userList);
 
-                $scope.logdata.Userid = [{ id: user.id }];
+                $scope.logdata.Userid = [{ id: "" }];
 
                 for (var i = 0; i < $scope.userList.length; i++) {
                     if ($scope.userList[i].id == $scope.logdata.Userid[0].id) {
@@ -91,7 +116,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                     { Id: '12', Name: '系统邮件服务器设置', ParentID: '01' },
 
                     { Id: '13', Name: '数据字典管理', ParentID: '01' },
-                    { Id: '131', Name: '发布部门管理', ParentID: '13' },
+                    { Id: '131', Name: '发布单位管理', ParentID: '13' },
                     { Id: '132', Name: '法规标准执行状态管理', ParentID: '13' },
 
 
@@ -195,12 +220,23 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                     };
                     if ($scope.systemdata.publishName) {
                         options.conditions.push({ key: 'Name', value: $scope.systemdata.publishName });
+                        $scope.pubdata.showhandle = false;
+                    } else {
+                        $scope.pubdata.showhandle = true;
                     }
 
                     systemService.getPublishdepList(options, function (response) {
                         $scope.isLoaded = true;
                         $scope.publishdepItems = response.CurrentList;
                         $scope.pagerPublishdep.total = response.RecordCount;
+
+                        if ($scope.publishdepItems && $scope.publishdepItems.length > 0) {
+                            if (!$scope.pubdata.data) {
+                                $scope.pubdata.data = $scope.publishdepItems[0];
+                            }
+
+                        }
+
                     })
                 }
 
@@ -230,6 +266,10 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                         $scope.isLoaded = true;
                         $scope.statusItems = response.CurrentList;
                         $scope.pagerStatus.total = response.RecordCount;
+
+                        $scope.tableStatus = {
+                            selected: 0
+                        }
                     })
                 }
 
@@ -323,6 +363,10 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                         $scope.isLoaded = true;
                         $scope.roleItems = response.CurrentList;
                         $scope.pagerRole.total = response.RecordCount;
+
+                        $scope.tableRole = {
+                            selected: 0
+                        }
                     })
                 }
 
@@ -356,6 +400,9 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                         $scope.isLoaded = true;
                         $scope.userItems = response.CurrentList;
                         $scope.pagerUser.total = response.RecordCount;
+                        $scope.tableUser = {
+                            selected: 0
+                        }
                     })
                 }
 
@@ -996,6 +1043,50 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
 
                 }
 
+                //处理移动
+                $scope.HandlePublish = function (type) {
+
+                    if ($scope.publishdepItems == null || $scope.publishdepItems.length == 0) {
+                        toaster.pop({ type: 'danger', body: '请选择一行!' });
+                        return;
+                    }
+
+
+                    $scope.pubdata.data.handletype = type;
+
+
+                    systemService.HandlePublish($scope.pubdata.data, function (res) {
+
+                        toaster.pop({ type: 'success', body: '移动成功!' });
+                        $scope.pubdata.data = res;
+                        $scope.getpublishdep();
+                    });
+
+                }
+
+                $scope.clickTable = function (params, type) {
+                    switch (type) {
+                        case 'status':
+                            $scope.tableStatus.selected = params;
+                            break;
+                        case 'user':
+                            $scope.tableUser.selected = params;
+                            break;
+                        case 'role':
+                            $scope.tableRole.selected = params;
+                        case 'log':
+                            $scope.tableLog.selected = params;
+                            break;
+                        default:
+                            break;
+                    }
+
+                }
+
+                $scope.clickPubTable = function (params) {
+                    $scope.pubdata.data = params;
+                }
+
                 //新增，编辑，用户
                 $scope.ShowPublishdep = function (item, flag, txt) {
                     var url = 'partials/system/modals/treeEdit.html';
@@ -1008,7 +1099,10 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                             values: function () {
                                 var data = {
                                     Name: item != null ? item.pubdepname : '',
-                                    Title: txt
+                                    Title: txt,
+                                    showxh: true,
+                                    Xh: item != null ? item.ranknum : ""
+
                                 }
                                 return data;
                             }
@@ -1018,9 +1112,10 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                         if (res) {
                             var dataPublishdep = {
                                 id: '',
-                                pubdepname: res,
+                                pubdepname: res.Name,
                                 inputuserid: user.id,
-                                modifyuserid: user.id
+                                modifyuserid: user.id,
+                                ranknum: res.Xh
                             }
                             if (item != null) {
                                 dataPublishdep.id = item.id;
@@ -1163,6 +1258,10 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                         $scope.isLoaded = true;
                         $scope.LogItems = response.CurrentList;
                         $scope.pagerLog.total = response.RecordCount;
+
+                        $scope.tableLog = {
+                            selected: 0
+                        }
                     })
                 }
 
@@ -1359,8 +1458,8 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                 //时间监听
                 $scope.$watch('logdata.FiledTimeStart', function (newValue, oldValue) {
                     if (newValue) {
-                        if ($scope.logdata.FiledTimeStart > $scope.logdata.FiledTimeEnd) {
-                            toaster.pop({ type: 'danger', body: '开始时间不能大于结束时间!' });
+                        if ($scope.logdata.FiledTimeStart > $scope.logdata.FiledTimeEnd && $scope.logdata.FiledTimeEnd) {
+                            toaster.pop({ type: 'danger', body: '结束时间不能早于开始时间！' });
                             $scope.logdata.FiledTimeStart = oldValue;
                         }
                     }
@@ -1368,7 +1467,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                 $scope.$watch('logdata.FiledTimeEnd', function (newValue, oldValue) {
                     if (newValue) {
                         if ($scope.logdata.FiledTimeStart > $scope.logdata.FiledTimeEnd) {
-                            toaster.pop({ type: 'danger', body: '开始时间不能大于结束时间!' });
+                            toaster.pop({ type: 'danger', body: '结束时间不能早于开始时间！' });
                             $scope.logdata.FiledTimeEnd = oldValue;
                         }
                     }
@@ -1376,8 +1475,8 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
 
                 //生成授权文件
                 $scope.makeLicense = function () {
-                     
-                    var url = baseUrl + "/System/makeLicense?FiledTimeStartLicense=" + $scope.Licensedata.FiledTimeStartLicense+"&FiledTimeEndLicense="+$scope.Licensedata.FiledTimeEndLicense;
+
+                    var url = baseUrl + "/System/makeLicense?FiledTimeStartLicense=" + $scope.Licensedata.FiledTimeStartLicense + "&FiledTimeEndLicense=" + $scope.Licensedata.FiledTimeEndLicense;
 
                     url = http.wrapUrl(url);
                     var exportWindow = window.open(url, "_blank");

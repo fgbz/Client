@@ -60,7 +60,8 @@ angular.module('isteven-multi-select', ['ng']).directive('istevenMultiSelect', [
             // i18n
             translation: '=',
             selectionMode: '=',
-            btnWidth: '='
+            btnWidth: '=',
+            hasLeft :"="
         },
 
         /*
@@ -87,7 +88,7 @@ angular.module('isteven-multi-select', ['ng']).directive('istevenMultiSelect', [
             $scope.helperStatus = {
                 all: false,
                 none: false,
-                reset: true,
+                reset: false,
                 filter: true
             };
 
@@ -1037,7 +1038,7 @@ angular.module('isteven-multi-select', ['ng']).directive('istevenMultiSelect', [
         '>' +
         '</button>' +
         // overlay layer
-        '<div class="checkboxLayer">' +
+        '<div class="checkboxLayer" ng-style="{\'left\':hasLeft?\'0\':\'none\'}">' +
         // container of the helper elements
         '<div class="helperContainer" ng-if="helperStatus.filter || helperStatus.all || helperStatus.none || helperStatus.reset ">' +
         // container of the first 3 buttons, select all, none and reset
@@ -1073,7 +1074,8 @@ angular.module('isteven-multi-select', ['ng']).directive('istevenMultiSelect', [
         'ng-change="searchChanged()" class="inputFilter"' +
         '/>' +
         // clear button
-        '<button type="button" class="clearButton" ng-click="clearClicked( $event )" >×</button> ' +
+        // '<button type="button" class="clearButton" ng-click="clearClicked( $event )" >×</button> ' +
+        '<input type="button" class="normalbtn mb10 ml10" value="清 空" ng-click="clearClicked( $event );select( \'none\', $event );" />'+
         '</div> ' +
         '</div> ' +
         // selection items

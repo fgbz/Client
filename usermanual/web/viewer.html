@@ -34,7 +34,10 @@ See https://github.com/adobe-type-tools/cmap-resources
   <script src="compatibility.js"></script>
 
   <!-- This snippet is used in production (included from viewer.html) -->
-  <link rel="resource" type="application/l10n" href="locale/locale.properties" />
+  <!--<link rel="resource" type="application/l10n" href="locale/locale.properties" />-->
+
+  <link rel="resource" type="application/l10n" href="locale/locale.properties"/>
+
   <script src="l10n.js"></script>
   <script src="../build/pdf.js"></script>
 
@@ -74,7 +77,7 @@ document.onkeydown = function(){
     return false;
   }
 }
-document.body.oncopy = function (){
+document.oncopy = function (){
   return false;
 }
 

@@ -1,24 +1,24 @@
 <div ng-class="{true:'HeadNew',false:''}[HeadNew]">
     <div ng-class="{true:'index_header_new',false:''}[HeadNew]">
 
-        <div class="index_header" ng-if="HeadNew">
+        <div class="index_header" ng-show="HeadNew">
             <!--图标-->
             <div class="index_titlepic_new"></div>
             <div class="index_menu_content">
                 <ul class="list-inline">
 
-                    <li ng-click="logout()" ng-show="loginUser" style="width: 65px;">
+                    <li ng-click="logout()" ng-show="loginUser" style="width: 65px;    padding-top: 1px;">
                         <span class="colorfff">退出</span>
                         <a class="btn_logout_new" title="退出"></a>
                     </li>
 
-                    <li ng-click="login()" ng-show="!loginUser" style="width: 65px;">
+                    <li ng-click="login()" ng-show="!loginUser" style="width: 65px;    padding-top: 1px;">
                         <span class="colorfff">登录</span>
                         <a class="btn_login_new" title="登录"></a>
                     </li>
 
                     <li>
-                        <a class="btn_help_new colorfff" href="/download/法规标准系统说明.docx" target="_blank" title="帮助">系统帮助 </a>
+                        <a class="btn_help_new colorfff" href="/download/法规标准系统用户手册.pdf" target="_blank" title="帮助">系统帮助 </a>
                     </li>
 
                     <li>
@@ -41,24 +41,24 @@
         </div>
 
 
-        <div class="index_header" ng-if="!HeadNew">
+        <div class="index_header" ng-show="!HeadNew">
             <!--图标-->
             <div class="index_titlepic"></div>
             <div class="index_menu_content" ng-show="!detailCheck">
                 <ul class="list-inline">
 
-                    <li ng-click="logout()" ng-show="loginUser" style="width: 65px;">
+                    <li ng-click="logout()" ng-show="loginUser" style="width: 65px;    padding-top: 1px;">
                         <span class="color_blue">退出</span>
                         <a class="btn_logout" title="退出"></a>
                     </li>
 
-                    <li ng-click="login()" ng-show="!loginUser" style="width: 65px;">
+                    <li ng-click="login()" ng-show="!loginUser" style="width: 65px;    padding-top: 1px;">
                         <span class="color_blue">登录</span>
                         <a class="btn_logout" title="登录"></a>
                     </li>
 
                     <li>
-                        <a class="btn_help color_blue" href="/download/法规标准系统说明.docx" target="_blank" title="帮助">系统帮助 </a>
+                        <a class="btn_help color_blue" href="/download/法规标准系统用户手册.pdf" target="_blank" title="帮助">系统帮助 </a>
                     </li>
 
                     <li>

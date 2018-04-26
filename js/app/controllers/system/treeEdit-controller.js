@@ -19,6 +19,8 @@ define(['bootstrap/app', 'utils'], function (app, utils) {
 
                 $scope.title = values.Title;
                 $scope.Name = values.Name;
+                $scope.showxh = values.showxh;
+                $scope.Xh = values.Xh;
             };
 
             //方法
@@ -30,8 +32,21 @@ define(['bootstrap/app', 'utils'], function (app, utils) {
                         return;
 
                     }
+                    // if ($scope.showxh && !$scope.Xh) {
+                    //     toaster.pop({ type: 'danger', body: '请填写序号！' });
+                    //     return;
+                    // }
 
-                    $modalInstance.close($scope.Name);
+                    if ($scope.showxh) {
+                        var data = {
+                            Name:$scope.Name,
+                            Xh:$scope.Xh
+                        }
+                        $modalInstance.close(data);
+                    } else {
+                        $modalInstance.close($scope.Name);
+                    }
+
 
                 }
                 $scope.cancel = function () {

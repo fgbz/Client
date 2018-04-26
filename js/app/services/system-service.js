@@ -155,5 +155,9 @@ define(['bootstrap/app', 'app/config-manager', 'services/http-service'], functio
             http.get('/System/grtUserListByOrgId?orgid=' + params, null, callback);
         }
 
+        this.HandlePublish = function (data,callback) {
+             http.post('/FgbzDic/HandlePublish',data, callback);
+        }
+
     }]);
 });

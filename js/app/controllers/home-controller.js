@@ -109,7 +109,7 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/regul
                     if (res && res.length > 0) {
                         $scope.SelectLbMenu = $scope.LawRegulationItem[0].id;
                         $scope.childDList = $scope.LawRegulationItem[0].childLists;
-                        //加入前三项
+                        //加入前四项
                         if ($scope.childDList && $scope.childDList.length > 0) {
                             $scope.LbdhChildMenus.push($scope.childDList[0]);
                             if ($scope.childDList.length > 1) {
@@ -117,6 +117,9 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/regul
                             }
                             if ($scope.childDList.length > 2) {
                                 $scope.LbdhChildMenus.push($scope.childDList[2]);
+                            }
+                            if ($scope.childDList.length > 3) {
+                                $scope.LbdhChildMenus.push($scope.childDList[3]);
                             }
                             $scope.clickLbdhChildMenuValue = $scope.LbdhChildMenus[0].id;
 
@@ -148,10 +151,11 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/regul
                         $scope.LbdhChildMenus.push($scope.childDList[$scope.lawindex]);
                         $scope.LbdhChildMenus.push($scope.childDList[$scope.lawindex + 1]);
                         $scope.LbdhChildMenus.push($scope.childDList[$scope.lawindex + 2]);
+                        $scope.LbdhChildMenus.push($scope.childDList[$scope.lawindex + 3]);
                         if (type == 'left') {
                             $scope.clickLbdhChildMenuValue = $scope.LbdhChildMenus[0].id;
                         } else {
-                            $scope.clickLbdhChildMenuValue = $scope.LbdhChildMenus[2].id;
+                            $scope.clickLbdhChildMenuValue = $scope.LbdhChildMenus[3].id;
                         }
 
                         //查询列表
@@ -166,10 +170,11 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/regul
                         $scope.TecLbdhChildMenus.push($scope.TecchildDList[$scope.tecindex]);
                         $scope.TecLbdhChildMenus.push($scope.TecchildDList[$scope.tecindex + 1]);
                         $scope.TecLbdhChildMenus.push($scope.TecchildDList[$scope.tecindex + 2]);
+                        $scope.TecLbdhChildMenus.push($scope.TecchildDList[$scope.tecindex + 3]);
                         if (type == 'left') {
                             $scope.TecclickLbdhChildMenuValue = $scope.TecLbdhChildMenus[0].id;
                         } else {
-                            $scope.TecclickLbdhChildMenuValue = $scope.TecLbdhChildMenus[2].id;
+                            $scope.TecclickLbdhChildMenuValue = $scope.TecLbdhChildMenus[3].id;
                         }
 
                         //查询列表
@@ -209,7 +214,7 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/regul
                         $scope.SelectTecLbMenu = $scope.TecRegulationItem[0].id;
 
                         $scope.TecchildDList = $scope.TecRegulationItem[0].childLists;
-                        //加入前三项
+                        //加入前四项
                         if ($scope.TecchildDList && $scope.TecchildDList.length > 0) {
                             $scope.TecLbdhChildMenus.push($scope.TecchildDList[0]);
                             if ($scope.TecchildDList.length > 1) {
@@ -217,6 +222,9 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/regul
                             }
                             if ($scope.TecchildDList.length > 2) {
                                 $scope.TecLbdhChildMenus.push($scope.TecchildDList[2]);
+                            }
+                            if ($scope.TecchildDList.length > 3) {
+                                $scope.TecLbdhChildMenus.push($scope.TecchildDList[3]);
                             }
                             $scope.TecclickLbdhChildMenuValue = $scope.TecLbdhChildMenus[0].id;
 
@@ -233,21 +241,21 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/regul
 
 
                 $scope.sjtjMenus = [
-                    { Name: "上传前十统计" }, { Name: "上传部门统计" }, { Name: "上传分类统计" }
+                    { Name: "按上传人统计" }, { Name: "按上传部门统计" }, { Name: "按上传分类统计" }
                 ]
 
-                $scope.sjtjMenusuValue = '上传部门统计';
+                $scope.sjtjMenusuValue = '按上传部门统计';
 
                 //初始化图表
                 regulationService.getHomeChart(function (params) {
                     var allChart = params;
 
-                    $scope.uploadpeopleChart = initChart(allChart.People);
-                    $scope.uploadOrgnameChart = initChart(allChart.Orgname);
-                    $scope.uploadTypeChart = initChart(allChart.Type);
+                    $scope.uploadpeopleChart = initChart(allChart.People, "按上传人统计（TOP10）");
+                    $scope.uploadOrgnameChart = initChart(allChart.Orgname, "按上传部门统计（TOP10）");
+                    $scope.uploadTypeChart = initChart(allChart.Type, "按上传分类统计（TOP10）");
                 })
 
-                var initChart = function (data) {
+                var initChart = function (data, title) {
 
                     var datax = [];
                     var datay = [];
@@ -269,10 +277,11 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/regul
                                 downloadSVG: "下载SVG 矢量图",
                                 exportButtonTitle: "导出图片"
                             }
+
                         },
 
                         title: {
-                            text: ''
+                            text: ""
                         },
                         subtitle: {
                             text: ''
@@ -284,6 +293,7 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/regul
                         yAxis: {
                             min: 0,
                             minPadding: 0.2,
+                            allowDecimals: false,
                             title: {
                                 text: ''
                             }
@@ -296,14 +306,31 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/regul
                             column: {
                                 pointPadding: 0.2,
                                 borderWidth: 0
+
                             }
+
                         },
+
                         exporting: {
                             enabled: false
                         },
                         series: [{
-                            name: "个数",
-                            data: datay
+                            name: title,
+                            data: datay,
+                            dataLabels: {
+                                enabled: true,
+                                allowOverlap: true,
+                                formatter: function () {
+                                    if (this.y > 0) {
+                                        return this.y;
+                                    } else {
+                                        return 0;
+                                    }
+
+                                }
+                               
+
+                            }
                         }]
 
                     }
@@ -324,7 +351,12 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/regul
                         $scope.SelectLbMenu = params.id;
                         $scope.childDList = params.childLists;
                         $scope.LbdhChildMenus = [];
-                        //加入前三项
+
+                        if (!params.childLists || params.childLists.length == 0) {
+                            $scope.childDList.push(params);
+                        }
+
+                        //加入前四项
                         if ($scope.childDList && $scope.childDList.length > 0) {
                             $scope.LbdhChildMenus.push($scope.childDList[0]);
                             if ($scope.childDList.length > 1) {
@@ -332,6 +364,9 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/regul
                             }
                             if ($scope.childDList.length > 2) {
                                 $scope.LbdhChildMenus.push($scope.childDList[2]);
+                            }
+                            if ($scope.childDList.length > 3) {
+                                $scope.LbdhChildMenus.push($scope.childDList[3]);
                             }
                             $scope.clickLbdhChildMenuValue = $scope.LbdhChildMenus[0].id;
 
@@ -345,9 +380,13 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/regul
                         $scope.SelectTecLbMenu = params.id;
 
                         $scope.TecchildDList = params.childLists;
-                        $scope.TecLbdhChildMenus = [];
 
-                        //加入前三项
+                        $scope.TecLbdhChildMenus = [];
+                        if (!params.childLists || params.childLists.length == 0) {
+                            $scope.TecLbdhChildMenus.push(params);
+                        }
+
+                        //加入前四项
                         if ($scope.TecchildDList && $scope.TecchildDList.length > 0) {
                             $scope.TecLbdhChildMenus.push($scope.TecchildDList[0]);
                             if ($scope.TecchildDList.length > 1) {
@@ -355,6 +394,9 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/regul
                             }
                             if ($scope.TecchildDList.length > 2) {
                                 $scope.TecLbdhChildMenus.push($scope.TecchildDList[2]);
+                            }
+                            if ($scope.TecchildDList.length > 3) {
+                                $scope.TecLbdhChildMenus.push($scope.TecchildDList[3]);
                             }
                             $scope.TecclickLbdhChildMenuValue = $scope.TecLbdhChildMenus[0].id;
 

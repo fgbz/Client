@@ -6,10 +6,12 @@
     <div class="regluation_detail_border">
         <div class="regluation_detail_top">
             <span class="ml10">录入人：{{DetaiData.inputusername}}</span>
-            <span class="ml40">录入时间：{{DetaiData.inputdate}}</span>
+            <span class="ml40">录入日期：{{DetaiData.inputdate}}</span>
             <span class="ml40">录入单位：{{DetaiData.inputorgname}}</span>
+            <span class="ml10">修改人：{{DetaiData.modifyusername}}</span>
+            <span class="ml40">修改日期：{{DetaiData.modifyusername?DetaiData.modifydate:''}}</span>
 
-           <div ng-class="{true:'regluation_detail_collect',false:'regluation_detail_nocollect'}[DetaiData.iscollect]" ng-click="favorieTec()">收藏</div>
+            <div ng-class="{true:'regluation_detail_collect',false:'regluation_detail_nocollect'}[DetaiData.iscollect]" ng-click="favorieTec()">收藏</div>
         </div>
 
         <div class="regluation_detail_chinesetitle">
@@ -23,40 +25,40 @@
         <div class="regluation_detail_table">
             <table class="w100">
                 <tr height="40px;">
-                    <td class="tr">编号:</td>
+                    <td class="tr">编号：</td>
                     <td class="color_blue">{{DetaiData.code}}</td>
-                    <td class="tr">发布日期:</td>
-                    <td class="color_blue">{{DetaiData.releasedate|recordtime}}</td>   
+                    <td class="tr">发布日期：</td>
+                    <td class="color_blue" style="width: 25%;">{{DetaiData.releasedate|recordtime}}</td>
                 </tr>
-                <tr height="40px;">   
-                    <td class="tr">技术文档类别:</td>
+                <tr height="40px;">
+                    <td class="tr">技术文档类别：</td>
                     <td class="color_blue">{{DetaiData.typename}}</td>
                 </tr>
             </table>
         </div>
 
         <div class="regluation_detail_table2">
-            <table class="w100" >
+            <table class="w100">
                 <tr height="50px;">
-                    <td class="color_blue first_td">关键字 : </td>
-                    <td class="va_topnormal">{{DetaiData.keywords}}</td>
+                    <td class=" first_td">关键字：</td>
+                    <td class="va_topnormal color_blue">{{DetaiData.keywords}}</td>
                 </tr>
                 <tr height="50px;">
-                    <td class="color_blue first_td">摘 要 : </td>
-                    <td class="va_topnormal" ng-bind-html="DetaiData.summaryinfo|parseHTML"></td>
+                    <td class=" first_td">摘 要：</td>
+                    <td class="va_topnormal color_blue" ng-bind-html="DetaiData.summaryinfo|parseHTML"></td>
                 </tr>
                 <tr height="50px;">
-                    <td class="color_blue first_td">备 注 : </td>
-                    <td class="va_topnormal">{{DetaiData.memo}}</td>
+                    <td class=" first_td">备 注：</td>
+                    <td class="va_topnormal color_blue">{{DetaiData.memo}}</td>
                 </tr>
                 <tr height="50px;">
-                    <td class="color_blue first_td">附 件 : </td>
-                    <td class="va_topnormal" style="overflow-y: auto;">
+                    <td class=" first_td">附 件：</td>
+                    <td class="va_topnormal color_blue" style="overflow-y: auto;">
                         <ul>
                             <li ng-repeat="accitem in Attachments" style="height: 40px;">
 
                                 <div title="{{accitem.FileName}}"> {{accitem.FileName|tooltips:100}}
-                                    <input class="downloadbtn ml10 fr" value="下 载" title="下载" ng-click="downloadAccessory(accitem.ID)" ng-show="isDownload"/>
+                                    <input class="downloadbtn ml10 fr" value="下 载" title="下载" ng-click="downloadAccessory(accitem.ID)" ng-show="isDownload" />
                                     <input type="button" class="checkbtn ml20 fr" value="查 看" title="查看" ng-show="canPreview(accitem.FileName)" ng-click="preview(accitem.ID)"
                                     />
                                 </div>

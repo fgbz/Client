@@ -22,7 +22,7 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
                 $scope.data = {};
 
                 $scope.MenuItmes = [
-                    { Name: "按上传部门统计" }, { Name: "按发布人统计" }, { Name: "按类别统计" },
+                    { Name: "按上传部门统计" }, { Name: "按上传人统计" }, { Name: "按上传分类统计" },
                 ];
 
                 $scope.clickMenuValue = "按上传部门统计";
@@ -35,11 +35,12 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
                     selectAll: "全选",
                     selectNone: "全不选",
                     reset: "清空",
-                    search: "查找人员...",
+                    search: "请输入条件筛选...",
                     nothingSelected: "全部"
                 };
 
-                $scope.userList = angular.copy(user.userList);
+                $scope.userList = angular.copy(user.userListWithOutAdmin);
+
 
                 //分类
                 regulationService.SelectLawstandardType(function (params) {
@@ -54,6 +55,8 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
                         $scope.treeData.push(data);
                     }
                     $scope.treeDataPub = angular.copy($scope.treeData);
+                    $scope.treeDataPeo = angular.copy($scope.treeData);
+                    $scope.treeDataType = angular.copy($scope.treeData);
 
                 });
 
@@ -94,7 +97,7 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
                 };
                 $scope.initOrg();
 
-                $scope.initChart = function (data) {
+                $scope.initChart = function (data, title) {
 
                     var datax = [];
                     var datay = [];
@@ -132,6 +135,7 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
                         yAxis: {
                             min: 0,
                             minPadding: 0.2,
+                            allowDecimals: false,
                             title: {
                                 text: ''
                             }
@@ -144,14 +148,30 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
                             column: {
                                 pointPadding: 0.2,
                                 borderWidth: 0
+
                             }
+
                         },
                         exporting: {
                             enabled: false
                         },
                         series: [{
-                            name: "个数",
-                            data: datay
+                            name: title,
+                            data: datay,
+                            dataLabels: {
+                                enabled: true,
+                                allowOverlap: true,
+                                formatter: function () {
+                                    if (this.y > 0) {
+                                        return this.y;
+                                    } else {
+                                        return 0;
+                                    }
+
+                                }
+
+
+                            }
                         }]
 
                     }
@@ -169,16 +189,35 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
                     if (newValue) {
 
                         systemService.grtUserListByOrgId(newValue, function (res) {
-                            $scope.userList = res.UserList;
+                            $scope.userList = res.UserListWithOutAdmin;
                             $scope.data.Userid = "";
                             for (var i = 0; i < $scope.userList.length; i++) {
                                 $scope.userList[i].Selected = false;
                             }
                         })
                     } else {
-                        $scope.userList = angular.copy(user.userList);
+                        $scope.userList = angular.copy(user.userListWithOutAdmin);
                     }
-                })
+                });
+
+                $scope.$watch('data.Userid', function (newValue, oldValue) {
+                    if (newValue) {
+                        $scope.data.peopleTips = "";
+                        for (var i = 0; i < $scope.data.Userid.length; i++) {
+                            for (var j = 0; j < $scope.userList.length; j++) {
+                                if ($scope.data.Userid[i].id == $scope.userList[j].id) {
+                                    $scope.data.peopleTips += $scope.userList[j].userrealname + ",";
+                                    break;
+                                }
+                            }
+                        }
+
+                    } else {
+                        $scope.data.peopleTips = "";
+                    }
+                });
+
+
 
                 $scope.clickType = function (params) {
                     $scope.clickValue = params;
@@ -206,7 +245,7 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
                             }
 
                             break;
-                        case '按发布人统计':
+                        case '按上传人统计':
                             if ($scope.clickValue == "law") {
                                 if (!$scope.lawPeopleItems) {
                                     $scope.searchinfo();
@@ -217,7 +256,7 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
                                 }
                             }
                             break;
-                        case '按类别统计':
+                        case '按上传分类统计':
                             if ($scope.clickValue == "law") {
                                 if (!$scope.lawTypeItems) {
                                     $scope.searchinfo();
@@ -244,12 +283,15 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
                             $scope.data.FiledTimeEndPub = "";
                             if ($scope.clickValue == 'law') {
                                 $scope.data.TreeValuePub = "";
+                                // for (var i = 0; i < $scope.treeDataPub.length; i++) {
+                                //     $scope.treeDataPub[i].Selected = false;
+                                // }
                             } else {
                                 $scope.data.TreeValuePubTec = "";
                             }
 
                             break;
-                        case '按发布人统计':
+                        case '按上传人统计':
                             $scope.data.organizationPeople = "";
                             $scope.data.Userid = "";
 
@@ -258,6 +300,9 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
 
                             if ($scope.clickValue == 'law') {
                                 $scope.data.TreeValuePeople = "";
+                                // for (var i = 0; i < $scope.treeDataPeo.length; i++) {
+                                //     $scope.treeDataPeo[i].Selected = false;
+                                // }
                             } else {
                                 $scope.data.TreeValuePeopleTec = "";
                             }
@@ -267,7 +312,7 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
                             }
 
                             break;
-                        case '按类别统计':
+                        case '按上传分类统计':
                             $scope.data.organizationType = "";
 
                             $scope.data.FiledTimeStartType = "";
@@ -275,6 +320,9 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
 
                             if ($scope.clickValue == 'law') {
                                 $scope.data.TreeValueType = "";
+                                // for (var i = 0; i < $scope.treeDataType.length; i++) {
+                                //     $scope.treeDataType[i].Selected = false;
+                                // }
                             } else {
                                 $scope.data.TreeValueTypeTec = "";
                             }
@@ -320,7 +368,17 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
                             regulationService.getChartStatistic(options, 'pub', $scope.clickValue, function (res) {
 
                                 if ($scope.clickValue == 'law') {
-                                    $scope.OrgnameChart = $scope.initChart(res);
+                                    if ($scope.data.organizationPub && (!res || res.length == 0)) {
+                                        for (var i = 0; i < $scope.treeDataOrg.length; i++) {
+                                            if ($scope.treeDataOrg[i].Id == $scope.data.organizationPub) {
+                                                res.push({
+                                                    name: $scope.treeDataOrg[i].Name,
+                                                    count: 0
+                                                });
+                                            }
+                                        }
+                                    }
+                                    $scope.OrgnameChart = $scope.initChart(res, "按上传部门统计（TOP10）");
                                     $scope.lawOrgItems = angular.copy(res);
 
                                 } else {
@@ -331,7 +389,7 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
                                 $scope.loading = false;
                             })
                             break;
-                        case '按发布人统计':
+                        case '按上传人统计':
                             var options = {
                                 conditions: []
                             };
@@ -369,7 +427,7 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
 
                             regulationService.getChartStatistic(options, 'people', $scope.clickValue, function (res) {
                                 if ($scope.clickValue == 'law') {
-                                    $scope.PeopleChart = $scope.initChart(res);
+                                    $scope.PeopleChart = $scope.initChart(res, "按上传人统计（TOP10）");
                                     $scope.lawPeopleItems = angular.copy(res);
                                 } else {
                                     $scope.PeopleChartTec = $scope.initChart(res);
@@ -380,7 +438,7 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
                                 $scope.loading = false;
                             })
                             break;
-                        case '按类别统计':
+                        case '按上传分类统计':
                             var options = {
                                 conditions: []
                             };
@@ -409,7 +467,19 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
                             regulationService.getChartStatistic(options, 'type', $scope.clickValue, function (res) {
 
                                 if ($scope.clickValue == 'law') {
-                                    $scope.TypeChart = $scope.initChart(res);
+                                    if ($scope.data.TreeValueType && (!res || res.length == 0)) {
+                                        for (var i = 0; i < $scope.treeDataPub.length; i++) {
+                                            if ($scope.treeDataPub[i].Id == $scope.data.TreeValueType) {
+                                                res.push({
+                                                    name: $scope.treeDataPub[i].Name,
+                                                    count: 0
+                                                });
+                                            }
+                                        }
+                                    }
+
+
+                                    $scope.TypeChart = $scope.initChart(res, "按上传分类统计（TOP10）");
                                     $scope.lawTypeItems = angular.copy(res);
                                 } else {
                                     $scope.TypeChartTec = $scope.initChart(res);
@@ -450,7 +520,7 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
                             url = http.wrapUrl(url);
 
                             break;
-                        case '按发布人统计':
+                        case '按上传人统计':
 
                             var pub = $scope.data.organizationPeople ? $scope.data.organizationPeople : null;
                             var starttime = $scope.data.FiledTimeStartPeople ? $scope.data.FiledTimeStartPeople : null;
@@ -477,7 +547,7 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
 
                             url = http.wrapUrl(url);
                             break;
-                        case '按类别统计':
+                        case '按上传分类统计':
 
                             var pub = $scope.data.organizationType ? $scope.data.organizationType : null;
                             var starttime = $scope.data.FiledTimeStartType ? $scope.data.FiledTimeStartType : null;
@@ -506,8 +576,8 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
                 //时间监听
                 $scope.$watch('data.FiledTimeStartPub', function (newValue, oldValue) {
                     if (newValue) {
-                        if ($scope.data.FiledTimeStartPub > $scope.data.FiledTimeEndPub) {
-                            toaster.pop({ type: 'danger', body: '开始时间不能大于结束时间!' });
+                        if ($scope.data.FiledTimeStartPub > $scope.data.FiledTimeEndPub && $scope.data.FiledTimeEndPub) {
+                            toaster.pop({ type: 'danger', body: '结束时间不能早于开始时间！' });
                             $scope.data.FiledTimeStartPub = oldValue;
                         }
                     }
@@ -515,7 +585,7 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
                 $scope.$watch('data.FiledTimeEndPub', function (newValue, oldValue) {
                     if (newValue) {
                         if ($scope.data.FiledTimeStartPub > $scope.data.FiledTimeEndPub) {
-                            toaster.pop({ type: 'danger', body: '开始时间不能大于结束时间!' });
+                            toaster.pop({ type: 'danger', body: '结束时间不能早于开始时间！' });
                             $scope.data.FiledTimeEndPub = oldValue;
                         }
                     }
@@ -523,8 +593,8 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
 
                 $scope.$watch('data.FiledTimeStartPeople', function (newValue, oldValue) {
                     if (newValue) {
-                        if ($scope.data.FiledTimeStartPeople > $scope.data.FiledTimeEndPeople) {
-                            toaster.pop({ type: 'danger', body: '开始时间不能大于结束时间!' });
+                        if ($scope.data.FiledTimeStartPeople > $scope.data.FiledTimeEndPeople && $scope.data.FiledTimeEndPeople) {
+                            toaster.pop({ type: 'danger', body: '结束时间不能早于开始时间！' });
                             $scope.data.FiledTimeStartPeople = oldValue;
                         }
                     }
@@ -532,7 +602,7 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
                 $scope.$watch('data.FiledTimeEndPeople', function (newValue, oldValue) {
                     if (newValue) {
                         if ($scope.data.FiledTimeStartPeople > $scope.data.FiledTimeEndPeople) {
-                            toaster.pop({ type: 'danger', body: '开始时间不能大于结束时间!' });
+                            toaster.pop({ type: 'danger', body: '结束时间不能早于开始时间！' });
                             $scope.data.FiledTimeEndPeople = oldValue;
                         }
                     }
@@ -540,8 +610,8 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
 
                 $scope.$watch('data.FiledTimeStartType', function (newValue, oldValue) {
                     if (newValue) {
-                        if ($scope.data.FiledTimeStartType > $scope.data.FiledTimeEndType) {
-                            toaster.pop({ type: 'danger', body: '开始时间不能大于结束时间!' });
+                        if ($scope.data.FiledTimeStartType > $scope.data.FiledTimeEndType && $scope.data.FiledTimeEndType) {
+                            toaster.pop({ type: 'danger', body: '结束时间不能早于开始时间！' });
                             $scope.data.FiledTimeStartType = oldValue;
                         }
                     }
@@ -549,7 +619,7 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
                 $scope.$watch('data.FiledTimeEndType', function (newValue, oldValue) {
                     if (newValue) {
                         if ($scope.data.FiledTimeStartType > $scope.data.FiledTimeEndType) {
-                            toaster.pop({ type: 'danger', body: '开始时间不能大于结束时间!' });
+                            toaster.pop({ type: 'danger', body: '结束时间不能早于开始时间！' });
                             $scope.data.FiledTimeEndType = oldValue;
                         }
                     }

@@ -13,7 +13,7 @@ define(['bootstrap/app', 'utils', 'services/technical-service', 'services/access
             if (user) {
                 user = JSON.parse(user);
             }
-             $rootScope.$emit("detailCheck", true);
+            $rootScope.$emit("detailCheck", true);
             //变量
             var define_variable = function () {
                 $scope.Attachments = [];
@@ -36,6 +36,9 @@ define(['bootstrap/app', 'utils', 'services/technical-service', 'services/access
                 technicalService.getTechnicalById(postData.item.id, function (params) {
                     $scope.DetaiData = params;
                     $scope.DetaiData.inputdate = utils.parseTime(new Date($scope.DetaiData.inputdate), "YYYY-MM-DD");
+                    if ($scope.DetaiData.modifydate) {
+                        $scope.DetaiData.modifydate = utils.parseTime(new Date($scope.DetaiData.modifydate), "YYYY-MM-DD");
+                    }
                 })
 
             };

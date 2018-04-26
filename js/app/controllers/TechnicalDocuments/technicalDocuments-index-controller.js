@@ -60,7 +60,7 @@ define(['bootstrap/app', 'utils', 'services/technical-service'], function (app, 
                     selectAll: "全选",
                     selectNone: "全不选",
                     reset: "清空",
-                    search: "查找人员...",
+                    search: "请输入条件筛选...",
                     nothingSelected: "全部"
                 };
             };
@@ -76,7 +76,8 @@ define(['bootstrap/app', 'utils', 'services/technical-service'], function (app, 
 
                     //保留查询条件
                     if (postData.selectData) {
-                        $scope.searchdata = postData.selectData;
+                        $scope.searchdata = angular.copy(postData.selectData);
+                        $scope.searchdata.TreeManageValue = "";
                     }
                 }
 
@@ -88,10 +89,10 @@ define(['bootstrap/app', 'utils', 'services/technical-service'], function (app, 
 
                 $scope.userList = angular.copy(user.userList);
 
-                $scope.searchdata.selectInputUser = postData && postData.selectData ? postData.selectData.selectInputUser : [{ id: user.id }];
+                $scope.searchdata.selectInputUser = postData && postData.selectData ? postData.selectData.selectInputUser : [{ id: "" }];
 
                 for (var i = 0; i < $scope.userList.length; i++) {
-                    if ($scope.userList[i].id == $scope.searchdata.selectInputUser[0].id) {
+                    if ($scope.searchdata.selectInputUser.length > 0 && $scope.userList[i].id == $scope.searchdata.selectInputUser[0].id) {
                         $scope.userList[i].Selected = true;
                     } else {
                         $scope.userList[i].Selected = false;
@@ -115,6 +116,10 @@ define(['bootstrap/app', 'utils', 'services/technical-service'], function (app, 
 
                     if (postData && postData.treevalueid) {
                         $scope.clickTecValue = postData.treevalueid;
+                    }
+
+                    if (postData && postData.selectData) {
+                        $scope.searchdata.TreeManageValue = postData.selectData.TreeManageValue;
                     }
                 })
 
@@ -328,16 +333,24 @@ define(['bootstrap/app', 'utils', 'services/technical-service'], function (app, 
                         options.conditions.push({ key: 'IsBatch', value: $scope.searchdata.IsBatch });
                     }
                     //有没有选择当前登录人
-                    if (!$scope.searchdata.selectInputUser || $scope.searchdata.selectInputUser.length == 0 || $scope.searchdata.selectInputUser[0].id == user.id) {
+                    if (!$scope.searchdata.selectInputUser || $scope.searchdata.selectInputUser.length == 0 || $scope.searchdata.selectInputUser[0].id == "") {
                         options.conditions.push({ key: 'TecInputuserid', value: user.id })
                         var org = {
                             childsorg: user.orgList
                         }
                         options.conditions.push({ key: 'OrgList', value: JSON.stringify(org) });
+                    } else if ($scope.searchdata.selectInputUser[0].id == user.id) {
+                        options.conditions.push({ key: 'InputUserMySelf', value: user.id });
                     } else {
                         options.conditions.push({ key: 'selectInputUser', value: $scope.searchdata.selectInputUser[0].id });
                     }
 
+                    //类别
+                    if ($scope.searchdata.TreeManageValue) {
+                        options.conditions.push({ key: 'TreeValue', value: $scope.searchdata.TreeManageValue });
+                    } else if (postData && postData.selectData && postData.selectData.TreeManageValue) {
+                        options.conditions.push({ key: 'TreeValue', value: postData.selectData.TreeManageValue });
+                    }
                     //排序
                     if ($scope.searchdata.Ordertype) {
                         options.conditions.push({ key: 'Ordertype', value: $scope.searchdata.Ordertype });
@@ -395,6 +408,43 @@ define(['bootstrap/app', 'utils', 'services/technical-service'], function (app, 
                 }
 
 
+                //导出技术文档管理
+                $scope.ExportManager = function () {
+
+                    var data = {
+                        KeyWords: $scope.searchdata.KeyWords ? $scope.searchdata.KeyWords : null,
+                        ApproveStatus: $scope.searchdata.ApproveStatus ? $scope.searchdata.ApproveStatus : null,
+                        IsBatch: $scope.searchdata.IsBatch ? $scope.searchdata.IsBatch : null,
+                        TreeValue: $scope.searchdata.TreeManageValue ? $scope.searchdata.TreeManageValue : null,
+                        Ordertype: $scope.searchdata.Ordertype ? $scope.searchdata.Ordertype : null,
+                        Duty: user.duty == 0 ? user.id : null,
+                        TecInputuserid: null,
+                        OrgList: null,
+                        InputUserMySelf: null,
+                        selectInputUser: null
+                    }
+
+                    //有没有选择当前登录人
+                    if (!$scope.searchdata.selectInputUser || $scope.searchdata.selectInputUser.length == 0 || $scope.searchdata.selectInputUser[0].id == "") {
+                        data.TecInputuserid = user.id;
+                        data.OrgList = user.orgid;
+                    } else if ($scope.searchdata.selectInputUser[0].id == user.id) {
+                        data.InputUserMySelf = user.id;
+                    } else {
+                        data.selectInputUser = $scope.searchdata.selectInputUser[0].id
+                    }
+
+                    var url = baseUrl + "/Technical/ExportManager?KeyWords=" + data.KeyWords + "&ApproveStatus=" + data.ApproveStatus + "&IsBatch=" + data.IsBatch
+                        + "&TreeValue=" + data.TreeValue + "&Ordertype=" + data.Ordertype + "&Duty=" + data.Duty + "&TecInputuserid=" + data.TecInputuserid + "&OrgList=" + data.OrgList + "&InputUserMySelf=" + data.InputUserMySelf + "&selectInputUser=" + data.selectInputUser;
+
+                    url = http.wrapUrl(url);
+                    var exportWindow = window.open(url, "_blank");
+                    exportWindow.document.title = "技术文档";
+
+
+                }
+
+
                 //批量导入
                 $scope.defaultName = function (file) {
                     if (file == null)
@@ -423,8 +473,8 @@ define(['bootstrap/app', 'utils', 'services/technical-service'], function (app, 
                 //时间监听
                 $scope.$watch('searchdata.FiledTimeStart', function (newValue, oldValue) {
                     if (newValue) {
-                        if ($scope.searchdata.FiledTimeStart > $scope.searchdata.FiledTimeEnd) {
-                            toaster.pop({ type: 'danger', body: '开始时间不能大于结束时间!' });
+                        if ($scope.searchdata.FiledTimeStart > $scope.searchdata.FiledTimeEnd && $scope.searchdata.FiledTimeEnd) {
+                            toaster.pop({ type: 'danger', body: '结束时间不能早于开始时间！' });
                             $scope.searchdata.FiledTimeStart = oldValue;
                         }
                     }
@@ -432,7 +482,7 @@ define(['bootstrap/app', 'utils', 'services/technical-service'], function (app, 
                 $scope.$watch('searchdata.FiledTimeEnd', function (newValue, oldValue) {
                     if (newValue) {
                         if ($scope.searchdata.FiledTimeStart > $scope.searchdata.FiledTimeEnd) {
-                            toaster.pop({ type: 'danger', body: '开始时间不能大于结束时间!' });
+                            toaster.pop({ type: 'danger', body: '结束时间不能早于开始时间！' });
                             $scope.searchdata.FiledTimeEnd = oldValue;
                         }
                     }

@@ -63,7 +63,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                     selectAll: "全选",
                     selectNone: "全不选",
                     reset: "清空",
-                    search: "查找人员...",
+                    search: "请输入条件筛选...",
                     nothingSelected: "全部"
                 };
             };
@@ -99,7 +99,8 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
 
                 $scope.userList = angular.copy(user.userList);
 
-                $scope.searchdata.selectInputUser = postData && postData.selectData ? postData.selectData.selectInputUser : [{ id: user.id }];
+                //人员默认全部
+                $scope.searchdata.selectInputUser = postData && postData.selectData ? postData.selectData.selectInputUser : [{ id: "" }];
 
                 for (var i = 0; i < $scope.userList.length; i++) {
                     if ($scope.searchdata.selectInputUser.length > 0 && $scope.userList[i].id == $scope.searchdata.selectInputUser[0].id) {
@@ -183,7 +184,6 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                     itemDeal.clickValue = $scope.clickValue;
                     itemDeal.selectData = $scope.searchdata;
                     itemDeal.treevalueid = $scope.clickTreeValue;
-                    itemDeal.treemanageid = $scope.managetreedata.TreeValue;
                     itemDeal.item = { id: itemdata.id, approvestatus: itemdata.approvestatus };
 
                     var data = JSON.stringify(itemDeal);
@@ -266,6 +266,11 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                     $scope.searchdata.FiledTimeEnd = "";
                     $scope.searchdata.State = "";
                     $scope.searchdata.organization = "";
+
+                    for (var i = 0; i < $scope.PublishList.length; i++) {
+                        $scope.PublishList[i].Selected = false;
+                    }
+
                     $scope.searchdata.MaterialTmeStart = "";
                     $scope.searchdata.MaterialTmeEnd = "";
                 }
@@ -310,8 +315,8 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                     if ($scope.searchdata.State) {
                         options.conditions.push({ key: 'State', value: $scope.searchdata.State });
                     }
-                    if ($scope.searchdata.organization) {
-                        options.conditions.push({ key: 'organization', value: $scope.searchdata.organization });
+                    if ($scope.searchdata.organization && $scope.searchdata.organization.length > 0) {
+                        options.conditions.push({ key: 'organization', value: $scope.searchdata.organization[0].id });
                     }
                     if ($scope.searchdata.MaterialTmeStart) {
                         options.conditions.push({ key: 'MaterialTmeStart', value: $scope.searchdata.MaterialTmeStart });
@@ -374,12 +379,14 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                         options.conditions.push({ key: 'TreeValue', value: postData.treemanageid });
                     }
                     //有没有选择当前登录人
-                    if (!$scope.searchdata.selectInputUser || $scope.searchdata.selectInputUser.length == 0 || $scope.searchdata.selectInputUser[0].id == user.id) {
+                    if (!$scope.searchdata.selectInputUser || $scope.searchdata.selectInputUser.length == 0 || $scope.searchdata.selectInputUser[0].id == "") {
                         options.conditions.push({ key: 'LawInputuserid', value: user.id })
                         var org = {
                             childsorg: user.orgList
                         }
                         options.conditions.push({ key: 'OrgList', value: JSON.stringify(org) });
+                    } else if ($scope.searchdata.selectInputUser[0].id == user.id) {
+                        options.conditions.push({ key: 'InputUserMySelf', value: user.id });
                     } else {
                         options.conditions.push({ key: 'selectInputUser', value: $scope.searchdata.selectInputUser[0].id });
                     }
@@ -492,7 +499,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                         FiledTimeStart: $scope.searchdata.FiledTimeStart ? $scope.searchdata.FiledTimeStart : null,
                         FiledTimeEnd: $scope.searchdata.FiledTimeEnd ? $scope.searchdata.FiledTimeEnd : null,
                         State: $scope.searchdata.State ? $scope.searchdata.State : null,
-                        organization: $scope.searchdata.organization ? $scope.searchdata.organization : null,
+                        organization: $scope.searchdata.organization && $scope.searchdata.organization.length > 0 ? $scope.searchdata.organization[0].id : null,
                         MaterialTmeStart: $scope.searchdata.MaterialTmeStart ? $scope.searchdata.MaterialTmeStart : null,
                         MaterialTmeEnd: $scope.searchdata.MaterialTmeEnd ? $scope.searchdata.MaterialTmeEnd : null,
                         TreeValue: $scope.clickTreeValue ? $scope.clickTreeValue : null,
@@ -505,6 +512,44 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                     url = http.wrapUrl(url);
                     var exportWindow = window.open(url, "_blank");
                     exportWindow.document.title = "法规标准";
+                }
+
+                //导出法规管理
+                $scope.ExportManager = function () {
+
+                    var data = {
+                        KeyWords: $scope.searchdata.KeyWords ? $scope.searchdata.KeyWords : null,
+                        ApproveStatus: $scope.searchdata.ApproveStatus ? $scope.searchdata.ApproveStatus : null,
+                        IsBatch: $scope.searchdata.IsBatch ? $scope.searchdata.IsBatch : null,
+                        TreeValue: $scope.managetreedata.TreeValue ? $scope.managetreedata.TreeValue : null,
+                        Ordertype: $scope.searchdata.Ordertype ? $scope.searchdata.Ordertype : null,
+                        Duty: user.duty == 0 ? user.id : null,
+                        LawInputuserid: null,
+                        OrgList: null,
+                        InputUserMySelf: null,
+                        selectInputUser: null
+                    }
+
+                    //有没有选择当前登录人
+                    if (!$scope.searchdata.selectInputUser || $scope.searchdata.selectInputUser.length == 0 || $scope.searchdata.selectInputUser[0].id == "") {
+
+                        data.LawInputuserid = user.id;
+                        data.OrgList = user.orgid;
+                    } else if ($scope.searchdata.selectInputUser[0].id == user.id) {
+                        data.InputUserMySelf = user.id;
+                    } else {
+                        data.selectInputUser = $scope.searchdata.selectInputUser[0].id;
+                    }
+
+                    var url = baseUrl + "/Lawstandard/ExportManager?KeyWords=" + data.KeyWords + "&ApproveStatus=" + data.ApproveStatus + "&IsBatch=" + data.IsBatch
+                        + "&TreeValue=" + data.TreeValue + "&Ordertype=" + data.Ordertype + "&Duty=" + data.Duty + "&LawInputuserid=" + data.LawInputuserid
+                        + "&OrgList=" + data.OrgList + "&InputUserMySelf=" + data.InputUserMySelf + "&selectInputUser=" + data.selectInputUser;
+
+                    url = http.wrapUrl(url);
+                    var exportWindow = window.open(url, "_blank");
+                    exportWindow.document.title = "法规标准";
+
+
                 }
 
                 //批量导入
@@ -653,8 +698,8 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                 //时间监听
                 $scope.$watch('searchdata.FiledTimeStart', function (newValue, oldValue) {
                     if (newValue) {
-                        if ($scope.searchdata.FiledTimeStart > $scope.searchdata.FiledTimeEnd) {
-                            toaster.pop({ type: 'danger', body: '开始时间不能大于结束时间!' });
+                        if ($scope.searchdata.FiledTimeStart > $scope.searchdata.FiledTimeEnd && $scope.searchdata.FiledTimeEnd) {
+                            toaster.pop({ type: 'danger', body: '结束时间不能早于开始时间！' });
                             $scope.searchdata.FiledTimeStart = oldValue;
                         }
                     }
@@ -662,15 +707,15 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                 $scope.$watch('searchdata.FiledTimeEnd', function (newValue, oldValue) {
                     if (newValue) {
                         if ($scope.searchdata.FiledTimeStart > $scope.searchdata.FiledTimeEnd) {
-                            toaster.pop({ type: 'danger', body: '开始时间不能大于结束时间!' });
+                            toaster.pop({ type: 'danger', body: '结束时间不能早于开始时间！' });
                             $scope.searchdata.FiledTimeEnd = oldValue;
                         }
                     }
                 });
                 $scope.$watch('searchdata.MaterialTmeStart', function (newValue, oldValue) {
                     if (newValue) {
-                        if ($scope.searchdata.MaterialTmeStart > $scope.searchdata.MaterialTmeEnd) {
-                            toaster.pop({ type: 'danger', body: '开始时间不能大于结束时间!' });
+                        if ($scope.searchdata.MaterialTmeStart > $scope.searchdata.MaterialTmeEnd && $scope.searchdata.MaterialTmeEnd) {
+                            toaster.pop({ type: 'danger', body: '结束时间不能早于开始时间！' });
                             $scope.searchdata.MaterialTmeStart = oldValue;
                         }
                     }
@@ -678,7 +723,7 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                 $scope.$watch('searchdata.MaterialTmeEnd', function (newValue, oldValue) {
                     if (newValue) {
                         if ($scope.searchdata.MaterialTmeStart > $scope.searchdata.MaterialTmeEnd) {
-                            toaster.pop({ type: 'danger', body: '开始时间不能大于结束时间!' });
+                            toaster.pop({ type: 'danger', body: '结束时间不能早于开始时间！' });
                             $scope.searchdata.MaterialTmeEnd = oldValue;
                         }
                     }

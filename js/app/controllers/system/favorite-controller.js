@@ -97,6 +97,12 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/usercenter-ser
                         favs: []
                     }
 
+                    //未勾选任何收藏
+                    if ($scope.checkdata.length == 0) {
+                         toaster.pop({ type: 'danger', body: '请选择收藏类别!' });
+                         return;
+                    }
+
                     for (var i = 0; i < $scope.checkdata.length; i++) {
                         lawdata.favs.push({ id: $scope.checkdata[i].id });
                     }

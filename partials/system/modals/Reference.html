@@ -39,8 +39,8 @@
                         <td>
                             <input type="checkbox" ng-checked="item.IsCheck" ng-click="clickSingle(item)" />
                         </td>
-                        <td title="{{item.chinesename}} " class="w300 ">{{item.chinesename| tooltips:30}}</td>
-                        <td title="{{item.code}} ">{{item.code| tooltips:20 }}</td>
+                        <td title="{{item.chinesename}} " class="w300 ">{{item.chinesename| tooltips:40}}</td>
+                        <td title="{{item.code}} ">{{item.code| tooltips:30 }}</td>
                         <td>
                             <input type="button" class="normalbtn" value="编 辑" ng-show="item.approvestatus==4" ng-click="Add(item,true)" />
                             <input type="button" class="deletebtn" value="删 除" ng-if="item.approvestatus==4&&(item.inputuserid==user.id||isLawMaintain)&&item.canDelete"

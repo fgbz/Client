@@ -18,7 +18,7 @@
         <div ng-show="clickValue=='check'" class="h100">
             <!--树-->
             <div class="regluation_index_left">
-                <combo-tree tree-data="treeData" tree-model="clickTecValue" btn-show="false" img-color="2"></combo-tree>
+                <combo-tree tree-data="treeData" tree-model="clickTecValue" btn-show="false" img-color="2" is-cursor="false"></combo-tree>
             </div>
 
             <!--列表-->
@@ -82,8 +82,8 @@
                     <div class="fl ml10" style="line-height: 40px;">
                         <span>排序:</span>
                         <select class="home-select" ng-model="searchdata.SearchOrdertype" style="margin-left: 5px;" ng-change="SearchorderTypeChange()">
-                          <option value="0">录入时间正序</option>
-                          <option value="1">录入时间倒序</option>
+                          <option value="0">录入日期正序</option>
+                          <option value="1">录入日期倒序</option>
                           <option value="2">发布日期正序</option>
                           <option value="3">发布日期倒序</option>
                   </select>
@@ -106,7 +106,7 @@
                         <tbody ng-if="isLoaded">
                             <tr ng-repeat="item in items" style="height: 40px;" ng-click="clicksearchTable($index);" ng-class="{true: 'tr_selected',false: ''}[tableRowsearch.selected==$index] ">
                                 <td>{{$index+1}}</td>
-                                <td title="{{item.chinesename}} " style="text-align: left;" class="w300 ">{{item.chinesename| tooltips:25}}</td>
+                                <td title="{{item.chinesename}} " style="text-align: left;" class="w300 ">{{item.chinesename| tooltips:50}}</td>
                                 <td title="{{item.code}} " style="text-align: left;">{{item.code| tooltips:13 }}</td>
                                 <td title="{{item.typename}} ">{{item.typename| tooltips:13 }}</td>
                                 <td title="{{item.releasedate|recordtime}} ">{{item.releasedate|recordtime}}</td>
@@ -155,6 +155,7 @@
             <div class="regluation_manage_searcharea">
 
                 <div class="fl">
+                    <div style="float: left; margin-top: 5px;margin-left: 5px;">信息状态:</div>
                     <select class="home-select" ng-model="searchdata.ApproveStatus">
                           <option value="">全部</option>
                           <option value="1">草稿</option>
@@ -163,7 +164,7 @@
                 </div>
 
                 <div class="fl ml10">
-                    <span>是否批量导入:</span>
+                    <div style="float: left; margin-top: 5px;">是否批量导入:</div>
                     <select class="home-select" ng-model="searchdata.IsBatch" style="margin-left: 5px;">
                           <option value="">全部</option>
                           <option value="1">是</option>
@@ -171,14 +172,23 @@
                   </select>
                 </div>
                 <div class="fl ml10">
-                    <span>录入人员:</span>
+                    <div style="float: left; margin-top: 5px;">录入人员:</div>
                     <div isteven-multi-select input-model="userList" output-model="searchdata.selectInputUser" button-label="userrealname" item-label="userrealname"
                         tick-property="Selected" search-property='userrealname' output-properties="id" translation="localLang"
-                        max-labels="8" max-height="280px" selection-mode="single" style="width: 140px; float: right; margin-left: 10px;" btn-width="140">
+                        max-labels="8" max-height="280px" selection-mode="single" style="width: 140px; float: right; margin-left: 10px;"
+                        btn-width="140">
                     </div>
                 </div>
+
+                <div class="fl posi_re ml10">
+                    <div style="float: left; margin-top: 5px;">类别:</div>
+                    <combo-tree-select style="width:180px;float:left" tree-data="treeData" is-normal="180" tree-width="300" tree-model="searchdata.TreeManageValue"
+                        btn-show="false" img-color="2" is-disable="false"></combo-tree-select>
+
+                </div>
+
                 <div class="fl ml10">
-                    <input class="home-input w300" type="text" style="margin-left: 0px;" ng-model="searchdata.KeyWords" maxlength="25" placeholder="请输入关键字"
+                    <input class="home-input w300" type="text" style="margin-left: 10px;" ng-model="searchdata.KeyWords" maxlength="25" placeholder="请输入关键字"
                     />
 
                     <input type="button" class="normalbtn mr10" value="查 询" ng-click="searchManage()" />
@@ -188,6 +198,8 @@
             <!--操作-->
             <div class="mt10_mb10" style="height: 30px;">
                 <input type="button" class="normalbtn fl ml10" value="新 增" ng-click="Add()" />
+                <input type="button" class="normalbtn fl ml10" value="导 出" ng-click="ExportManager()" />
+
                 <a class="downbtn fl ml10" href="/download/tecTempele.xls" title="下载模板" style="text-decoration: none;padding-top: 6px;color:#fff">下载模板</a>
                 <div class="normalbtn fl ml10 posi_re">
 
@@ -200,10 +212,10 @@
                 <div class="fl ml10">
                     <span>排序:</span>
                     <select class="home-select" ng-model="searchdata.Ordertype" style="margin-left: 5px;" ng-change="orderTypeChange()">
-                          <option value="0">录入时间正序</option>
-                          <option value="1">录入时间倒序</option>
-                          <option value="2">修改时间正序</option>
-                          <option value="3">修改时间倒序</option>
+                          <option value="0">录入日期正序</option>
+                          <option value="1">录入日期倒序</option>
+                          <option value="2">修改日期正序</option>
+                          <option value="3">修改日期倒序</option>
                   </select>
                 </div>
 
@@ -224,21 +236,23 @@
                             <th>是否批量导入</th>
                             <th>类别</th>
                             <th>信息状态</th>
-                            <th>发布时间</th>
+                        
                             <th>录入日期</th>
+                            <th>修改日期</th>
                             <th>操作</th>
                         </tr>
                     </thead>
                     <tbody ng-if="isLoaded">
                         <tr ng-repeat="item in itemManages" style="height: 40px;" ng-click="clickTable($index);" ng-class="{true: 'tr_selected',false: ''}[tableRow.selected==$index] ">
                             <td>{{$index+1}}</td>
-                            <td title="{{item.chinesename}} " style="text-align: left;" class="w300 ">{{item.chinesename| tooltips:25}}</td>
+                            <td title="{{item.chinesename}} " style="text-align: left;" class="w300 ">{{item.chinesename| tooltips:50}}</td>
                             <td title="{{item.code}} " style="text-align: left;">{{item.code| tooltips:20 }}</td>
                             <td title="{{item.isbatch&&item.isbatch==1?'是':'否'}} ">{{item.isbatch&&item.isbatch==1?'是':'否'}}</td>
                             <td title="{{item.typename}} ">{{item.typename| tooltips:13 }}</td>
                             <td title="{{item.approvestatus==1?'草稿':'发布'}}">{{item.approvestatus==1?'草稿':'发布'}}</td>
-                            <td title="{{item.releasedate|recordtime}} ">{{item.releasedate|recordtime}}</td>
+                          
                             <td title="{{item.inputdate|recordtime}} ">{{item.inputdate |recordtime}}</td>
+                            <td title="{{item.modifydate|recordtime}} ">{{item.modifydate|recordtime}}</td>
                             <td>
                                 <input type="button " class="checkbtn" ng-click="Check(item)" value="查 看 " />
                             </td>

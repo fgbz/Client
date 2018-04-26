@@ -1,23 +1,25 @@
+<div style="width:100%;">
 
-<div style="width:100%;" >
-
-    <div class="fg_login_title">欢迎登录法律标准系统</div>
+    <div class="fg_login_title">欢迎登录法规标准系统</div>
 
     <table style="width:100%">
         <tr>
             <td style="text-align: center;">
-           <input class="home-input mt10 fg_login_account" id="accountinput" type="text" ng-model="account" maxlength="25" ng-disabled="isCheck" placeholder="用户名"
-                /></td>
+                <input class="home-input mt10 fg_login_account" id="accountinput" type="text" ng-model="account" maxlength="25" ng-disabled="isCheck"
+                    placeholder="用户名" /></td>
         </tr>
         <tr>
             <td style="text-align: center;">
-           <input class="home-input mt10 fg_login_password" id="passwordinput" type="password" ng-model="password" maxlength="25" ng-disabled="isCheck" ng-keypress="nextStep($event)" placeholder="密码"
-                /></td>
+                <input class="home-input mt10 fg_login_password" id="passwordinput" type="password" ng-model="password" maxlength="25" ng-disabled="isCheck"
+                    ng-keypress="nextStep($event)" placeholder="密码"/>
+
+                <div ng-show="showCaps" class="caps_pws">请注意,您的大写锁定键已打开</div>
+            </td>
         </tr>
         <tr>
             <td style="text-align: center; padding-top: 10px;padding-right: 130px;">
-            <input type="checkbox" id="remember" ng-click="remember() "  ng-checked="isremember" />
-            <label for="remember" class="normallabel">记住用户名</label>
+                <input type="checkbox" id="remember" ng-click="remember() " ng-checked="isremember" />
+                <label for="remember" class="normallabel">记住用户名</label>
             </td>
         </tr>
 
@@ -25,7 +27,8 @@
     </table>
 
     <div class="fg_btn_div">
-        <input type="button" class="normalbtn fg_login_btn" value="登 录" ng-click="login()" ng-disabled="!account||!password||isSaving" />
+        <input type="button" class="normalbtn fg_login_btn" value="登 录" ng-click="login()" ng-disabled="!account||!password||isSaving"
+        />
         <br/>
         <div class="fg_login_error">{{loginMessage}}</div>
 

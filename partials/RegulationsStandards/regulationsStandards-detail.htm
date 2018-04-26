@@ -6,11 +6,11 @@
     <div class="regluation_detail_border">
         <div class="regluation_detail_top">
             <span class="ml10">录入人：{{DetaiData.inputusername}}</span>
-            <span class="ml40">录入时间：{{DetaiData.inputdate}}</span>
+            <span class="ml40">录入日期：{{DetaiData.inputdate}}</span>
             <span class="ml40">录入单位：{{DetaiData.inputorgname}}</span>
             <span class="ml40">点击次数：{{DetaiData.clickcount}}</span>
             <span class="ml10">修改人：{{DetaiData.modifyusername}}</span>
-            <span class="ml40">修改时间：{{DetaiData.modifyusername?DetaiData.modifydate:''}}</span>
+            <span class="ml40">修改日期：{{DetaiData.modifyusername?DetaiData.modifydate:''}}</span>
 
 
             <div ng-class="{true:'system_hk_yes',false:'system_hk_no'}[DetaiData.istop==1]" ng-if="isTop">
@@ -33,20 +33,20 @@
         <div class="regluation_detail_table">
             <table class="w100">
                 <tr height="40px;">
-                    <td class="tr">编号:</td>
+                    <td class="tr">编号：</td>
                     <td class="color_blue">{{DetaiData.code}}</td>
-                    <td class="tr">发布部门:</td>
-                    <td class="color_blue" title="{{DetaiData.pubdepname}}">{{DetaiData.pubdepname|tooltips:30}}</td>
-                    <td class="tr">发布日期:</td>
+                    <td class="tr">发布单位：</td>
+                    <td class="color_blue" title="{{DetaiData.pubdepname}}">{{DetaiData.pubdepname|tooltips:80}}</td>
+                    <td class="tr">发布日期：</td>
                     <td class="color_blue">{{DetaiData.releasedate|recordtime}}</td>
 
                 </tr>
                 <tr height="40px;">
-                    <td class="tr">执行状态:</td>
+                    <td class="tr">执行状态：</td>
                     <td class="color_blue">{{DetaiData.statusname}}</td>
-                    <td class="tr">法规标准类别:</td>
-                    <td class="color_blue">{{DetaiData.typename}}</td>
-                    <td class="tr">实施日期:</td>
+                    <td class="tr">法规标准类别：</td>
+                    <td class="color_blue">{{DetaiData.parenttypename}}-{{DetaiData.typename}}</td>
+                    <td class="tr">实施日期：</td>
                     <td class="color_blue">{{DetaiData.impdate|recordtime}}</td>
                 </tr>
             </table>
@@ -55,22 +55,22 @@
         <div class="regluation_detail_table2">
             <table class="w100">
                 <tr height="50px;">
-                    <td class="color_blue first_td">关键字 : </td>
-                    <td class="va_topnormal">{{DetaiData.keywords}}</td>
+                    <td class=" first_td">关键字：</td>
+                    <td class="va_topnormal color_blue">{{DetaiData.keywords}}</td>
                 </tr>
                 <tr height="50px;">
-                    <td class="color_blue first_td">摘 要 : </td>
-                    <td class="va_topnormal" ng-bind-html="DetaiData.summaryinfo|parseHTML"></td>
+                    <td class=" first_td">摘 要：</td>
+                    <td class="va_topnormal color_blue" ng-bind-html="DetaiData.summaryinfo|parseHTML"></td>
                 </tr>
                 <tr height="50px;">
-                    <td class="color_blue first_td">引用标准 : </td>
-                    <td class="va_topnormal">
+                    <td class=" first_td">引用标准：</td>
+                    <td class="va_topnormal color_blue">
                         <ul>
                             <li ng-repeat="item in DetaiData.refence" class="regluation_detail_Reference color_blue">
-                                <div ng-click="checkRepalceOrRefence(item)" ng-if="item.approvestatus==3" style="text-decoration: underline;cursor: pointer;">
+                                <div ng-click="checkRepalceOrRefence(item)" ng-if="item.approvestatus==3" style="text-decoration: underline;cursor: pointer;" class="color_blue">
                                     <span title="编号:{{item.code}} 名称:{{item.chinesename}}">({{item.code}}){{item.chinesename}}</span>
                                 </div>
-                                <div ng-if="item.approvestatus==4" >
+                                <div ng-if="item.approvestatus==4" class="color_blue">
                                     <span title="编号:{{item.code}} 名称:{{item.chinesename}}">({{item.code}}){{item.chinesename}}</span>
                                 </div>
 
@@ -79,16 +79,16 @@
                     </td>
                 </tr>
                 <tr height="50px;">
-                    <td class="color_blue first_td">备 注 : </td>
-                    <td class="va_topnormal">{{DetaiData.memo}}</td>
+                    <td class=" first_td">备 注：</td>
+                    <td class="va_topnormal color_blue">{{DetaiData.memo}}</td>
                 </tr>
                 <tr height="50px;">
-                    <td class="color_blue first_td">附 件 : </td>
-                    <td class="va_topnormal" style="overflow-y: auto;">
+                    <td class=" first_td">附 件：</td>
+                    <td class="va_topnormal color_blue" style="overflow-y: auto;">
                         <ul>
                             <li ng-repeat="accitem in Attachments" style="height: 40px;">
 
-                                <div title="{{accitem.FileName}}"> {{accitem.FileName|tooltips:100}}
+                                <div title="{{accitem.FileName}}"> {{accitem.FileName|tooltips:200}}
                                       <input class="downloadbtn ml10 fr" value="下 载" title="下载" ng-click="downloadAccessory(accitem.ID)" ng-show="isDownload" />
                                     <input type="button" class="checkbtn ml20 fr" value="查 看" title="查看" ng-show="canPreview(accitem.FileName)" ng-click="preview(accitem.ID)"
                                     />
@@ -104,15 +104,15 @@
 
         <div class="regluation_detail_splice"></div>
 
-        <div class="regluation_detail_replace" ng-show="DetaiData.replace&&DetaiData.replace.length>0">代替关系</div>
+        <div class="regluation_detail_replace" ng-show="DetaiData.replace&&DetaiData.replace.length>0">代替关系：</div>
 
         <div ng-repeat="item in DetaiData.replace" class="clear">
             <div class="regluation_detail_rep">{{item.statusname}}</div>
             <div class="regluation_detail_replacetext">
-                <div style="height: 25px;" title="编号:{{item.code}} 名称:{{item.chinesename}}">({{item.code}}){{item.chinesename}}</div>
+                <div style="height: 25px;" class="color_blue" title="编号:{{item.code}} 名称:{{item.chinesename}}">({{item.code}}){{item.chinesename}}</div>
                 <div>
-                    <span class="color999999">发布时间: {{item.releasedate|recordtime}}</span>
-                    <span class="ml40 color999999">法规标准类别: {{item.typename}}</span>
+                    <span class="color999999">发布日期：{{item.releasedate|recordtime}}</span>
+                    <span class="ml40 color999999">法规标准类别：{{item.typename}}</span>
                 </div>
             </div>
             <div class="regluation_detail_replacebtn" ng-if="item.approvestatus==3">

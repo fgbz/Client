@@ -13,7 +13,7 @@
                         <td>
                             <span>{{data.username}}</span>
                             <span style=" margin-left: 45px;">审核人部门:{{data.inputorgname}}</span>
-                            <span style=" margin-left: 20px;">审核时间:{{data.approveDate}}</span>
+                            <span style=" margin-left: 20px;">审核日期:{{data.approveDate}}</span>
                         </td>
                     </tr>
                     <tr height="40px">
@@ -49,7 +49,7 @@
     <div ng-repeat="item in histroyItems" class="eaxm_border">
 
         <div class="exam_item"><span>审核人:</span>{{item.username}}</div>
-        <div class="exam_item"><span>审核时间:</span>{{item.approveDate|recordtime}}</div>
+        <div class="exam_item"><span>审核日期:</span>{{item.approveDate|recordtime}}</div>
         <div class="exam_item"><span>审核结果:</span>{{item.status==0?'不通过':'通过'}}</div>
         <div class="exam_item" ng-show="item.status==0"> <span>审核不通过说明:</span>{{item.content}}</div>
 

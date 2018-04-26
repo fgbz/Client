@@ -103,7 +103,7 @@ body {
     width: 100%;
     height:100%;
     background: url(../../images/bg.png) no-repeat;
-    background-size: 100% 200px;
+    background-size: 100% 80px;
 }
 .solr_title{
     background: url(../../images/top_title.png) no-repeat; 
@@ -123,8 +123,8 @@ body {
     /*height: 370px;*/
     background: #f2f2f2;
     float: left;
-    position: fixed;
-    height: calc(100% - 370px);
+    /*position: fixed;*/
+    height: calc(100% - 10px);
 }
 .solr_right{
     width: calc(100% - 310px);
@@ -178,6 +178,7 @@ body {
     padding-left: 20px;
     text-decoration: none;
     margin-right: 5px;
+    padding-top: 3px;
     background: url('../../images/top_but_bz.png') no-repeat left;
 }
 
@@ -188,6 +189,7 @@ body {
     padding-left: 20px;
     text-decoration: none;
     margin-right: 5px;
+    padding-top: 3px;
     background: url('../../images/top_but_bz_new.png') no-repeat left;
 }
 
@@ -210,14 +212,16 @@ body {
     width: 20px;
     height: 20px;
     float: left;
-     margin-right: 5px;
+    margin-right: 5px;
+    padding-top: 3px;
     background: url('../../images/top_but_tc.png') no-repeat center;
 }
 .btn_logout_new {
     width: 20px;
     height: 20px;
     float: left;
-     margin-right: 5px;
+    margin-right: 5px;
+    padding-top: 3px;
     background: url('../../images/top_but_tc_new.png') no-repeat center;
 }
 
@@ -225,7 +229,8 @@ body {
     width: 20px;
     height: 20px;
     float: left;
-     margin-right: 5px;
+    margin-right: 5px;
+    padding-top: 3px;
     background: url('../../images/login_new.png') no-repeat center;
 }
 
@@ -236,6 +241,7 @@ body {
     padding-left: 20px;
     text-decoration: none;
     margin-right: 5px;
+    padding-top: 3px;
     background: url('../../images/top_but_cjxz.png') no-repeat left;
 }
 
@@ -246,7 +252,9 @@ body {
     padding-left: 20px;
     text-decoration: none;
     margin-right: 5px;
+    padding-top: 3px;
     background: url(../../images/top_but_cjxz_new.png) no-repeat left;
+        
 }
 
 .list-inline{
@@ -268,10 +276,12 @@ body {
 
 
 .releteTime{
-    height: 50px;
-    line-height: 50px;
+    /*height: 50px;*/
+    line-height: 20px;
     font-size: 14px;
     text-align: center;
+    color: #0a579d;
+    font-weight: bold;
 }
 
 /*主界面*/
@@ -288,7 +298,7 @@ body {
 
 .sugg_text{
     height: 160px;
-    border-bottom: 1px solid #cccccc;
+    /*border-bottom: 1px solid #cccccc;*/
     margin-bottom: 10px;
 }
 
@@ -483,8 +493,10 @@ body {
     color: #08589f;
     font-size: 18px;
     text-align: center;
-    height: 40px;
+    /*height: 40px;*/
     line-height: 40px;
+    min-height: 40px;
+    word-wrap: break-word;
 }
 .regluation_detail_table{
     background: #f2f2f2;
@@ -739,7 +751,7 @@ body {
 }
 
 .feedback_histroy{
-    height: 80px;
+    /*height: 80px;*/
     padding: 10px;
     border-bottom: 2px solid #cccccc;
 }
@@ -766,7 +778,8 @@ body {
     height: 40px;
     background-color: #08589f;
     color: #fff;
-    text-align: center;
+    text-align: left;
+    padding-left: 10px;
 }
 
 .index_table tr{
@@ -777,11 +790,15 @@ body {
 .index_table tr:hover{   
     background-color: #f2f2f2; 
 }
+.text-center{
+    text-align: center!important;
+}
 
 .index_table td{
     color: #363636;
     font-size: 14px;
-    text-align: center;
+    text-align: left;
+    padding-left: 10px;
 }
 
 /*选中*/
@@ -794,6 +811,9 @@ body {
     background: #d2eaff;;
     width: 100%;
     margin-bottom: 10px;
+}
+search_table td{
+    min-width: 60px;
 }
 
 .HeadNew{
@@ -822,6 +842,13 @@ body {
     background-color: #ffffff;
     border: 1px solid #333333;
 }
+
+.statistic_tablehead{
+     background: #2ea3dc!important;
+    font-weight: bold;
+    color: #fff;
+}
+
 
 /****************************************btn样式******************************************/
 
@@ -1060,6 +1087,15 @@ body {
     line-height: 30px;
     cursor: pointer;
 }
+
+.combotree_name_nocursor{
+    width: 180px;
+    color: #363636;
+    font-weight: normal;
+    height: 30px;
+    line-height: 30px;
+    /*cursor: pointer;*/
+}
 .combotree_name_havebtn{
     color: #363636;
     font-weight: normal;
@@ -1262,7 +1298,7 @@ body {
 }
 
 .home_lbdh_title{
-     width: 65%;
+     width: 50%;
 }
 .home_lbdh_law{
     width: 20%;
@@ -1336,7 +1372,7 @@ body {
     font-size: 20px;
     font-weight: bold;
     float: left;   
-    background: url('../../images/icon_gjxzwj.png') 10px no-repeat;
+    background: url('../../images/icon_gjgyjbz.png') 10px no-repeat;
 }
 
 .home_new_reg .morecheck{
@@ -1382,7 +1418,7 @@ body {
     font-size: 18px;
     color: #08589f;
     margin: 10px;
-    cursor: pointer;
+    /*cursor: pointer;*/
 }
 .home_new_regright .childname{
     float: left;
@@ -1401,6 +1437,7 @@ body {
     background: #f0f0f0;
     height: 500px;
     border-radius: 10px;
+    margin-left: 10px
 }
 
 .home_new_lbdh .title{
@@ -1409,7 +1446,7 @@ body {
     padding-left: 60px;
     font-size: 20px;
     font-weight: bold;
-    background: url('../../images/icon_lbdh.png') 20px no-repeat;
+    background: url('../../images/icon_gjxzwj.png') 20px no-repeat;
 }
 .home_new_lbdh .tec_title{
      height: 60px;
@@ -1417,7 +1454,7 @@ body {
     padding-left: 60px;
     font-size: 20px;
     font-weight: bold;
-    background: url('../../images/icon_jswj.png') 20px no-repeat;
+    background: url('../../images/icon_lbdh.png') 20px no-repeat;
 }
 
 .home_new_lbdh .menu_normal{
@@ -1448,8 +1485,8 @@ body {
     float: left;
     margin-top: 40px;
     height: 500px;
-    width: calc(100% - 320px);
-    margin-left: 20px;
+    width: calc(100% - 330px);
+    margin-left: 10px;
 }
 .home_new_menu{
     height: 40px;
@@ -1555,8 +1592,9 @@ body {
 }
 
 .home_new_bottom .text{
-    height: 40px;
-    line-height: 40px;    
+    /*height: 40px;*/
+    line-height: 40px;
+    width: 90%;    
 }
  .lytextarea{
      width: 100%;
@@ -2972,4 +3010,14 @@ input[disabled]::-webkit-input-placeholder{text-align: center;}
 
 .unitText{
      margin-left: 10px;
+}
+
+.caps_pws{
+     margin-top: 10px;
+    background: red;
+    width: 200px;
+    border-radius: 10px;
+    color: #fff;
+    opacity: 0.8;
+    margin-left: 40px;
 }

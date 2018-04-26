@@ -15,6 +15,14 @@ define(['bootstrap/app', 'utils', 'services/regulation-service'], function (app,
                 user = JSON.parse(user);
             }
 
+            $scope.localLang = {
+                selectAll: "全选",
+                selectNone: "全不选",
+                reset: "清空",
+                search: "请输入条件筛选...",
+                nothingSelected: "全部"
+            };
+
 
             $scope.pager = {
                 size: 10,
@@ -70,6 +78,10 @@ define(['bootstrap/app', 'utils', 'services/regulation-service'], function (app,
                     $scope.searchdata.State = "";
                     $scope.searchdata.KeyWordsSingle = "";
                     $scope.clickTreeValue = "";
+
+                    // for (var i = 0; i < $scope.treeData.length; i++) {
+                    //     $scope.treeData[i].Selected = false;
+                    // }
                     $scope.searchdata.EnglishTitle = "";
                     $scope.searchdata.Summaryinfo = "";
                 }
@@ -194,8 +206,8 @@ define(['bootstrap/app', 'utils', 'services/regulation-service'], function (app,
                 //时间监听
                 $scope.$watch('searchdata.FiledTimeStart', function (newValue, oldValue) {
                     if (newValue) {
-                        if ($scope.searchdata.FiledTimeStart > $scope.searchdata.FiledTimeEnd) {
-                            toaster.pop({ type: 'danger', body: '开始时间不能大于结束时间!' });
+                        if ($scope.searchdata.FiledTimeStart > $scope.searchdata.FiledTimeEnd && $scope.searchdata.FiledTimeEnd) {
+                            toaster.pop({ type: 'danger', body: '结束时间不能早于开始时间！' });
                             $scope.searchdata.FiledTimeStart = oldValue;
                         }
                     }
@@ -203,7 +215,7 @@ define(['bootstrap/app', 'utils', 'services/regulation-service'], function (app,
                 $scope.$watch('searchdata.FiledTimeEnd', function (newValue, oldValue) {
                     if (newValue) {
                         if ($scope.searchdata.FiledTimeStart > $scope.searchdata.FiledTimeEnd) {
-                            toaster.pop({ type: 'danger', body: '开始时间不能大于结束时间!' });
+                            toaster.pop({ type: 'danger', body: '结束时间不能早于开始时间！' });
                             $scope.searchdata.FiledTimeEnd = oldValue;
                         }
                     }

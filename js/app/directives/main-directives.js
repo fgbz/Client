@@ -157,7 +157,7 @@ define(['angular', 'nicEdit', 'jquery', 'utils'], function (ng, nicEditObj, jque
                 scope.setStatisticHeightStyle = function () {
 
                     return {
-                        'height': (newValue.h - 160 ) + 'px',
+                        'height': (newValue.h - 160) + 'px',
                     };
 
 
@@ -939,6 +939,7 @@ define(['angular', 'nicEdit', 'jquery', 'utils'], function (ng, nicEditObj, jque
                 imgColor: '=', //背景色
                 isSystemRoot: '=',//系统管理左侧树特殊处理
                 isExtend: '=',//是否全部展开,
+                isCursor:'='
 
             },
             require: '?uiTree',
@@ -1094,14 +1095,20 @@ define(['angular', 'nicEdit', 'jquery', 'utils'], function (ng, nicEditObj, jque
                 imgColor: '=', //背景色
                 isNormal: '=',
                 treeWidth: '=',
-                isDisable: '=' //是否不可用
+                isDisable: '='//是否不可用
+
             },
             require: '?uiTree',
             link: function (scope, element, attributes) {
                 scope.isDisable = scope.isDisable ? scope.isDisable : false;
                 // 构建树数据
                 var dataList = []; // 数据列表，与树数据源指向相同引用
+
+                var dataListCopy = []; //数据备份，用于赋值
+
                 var count = 0;
+                scope.data = {};
+                scope.data.treeDisplay = "";
                 function LoadTreeData(treeNodesData, parentId, flag) {
                     var data = [];
                     if (treeNodesData)
@@ -1126,6 +1133,12 @@ define(['angular', 'nicEdit', 'jquery', 'utils'], function (ng, nicEditObj, jque
                     if (v) {
                         dataList = [];
                         scope.source = LoadTreeData(scope.treeData, null, 0);
+
+                        if (count == 0 && scope.treeData.length > 0) {
+                            //获取最原始数据，保存起来 
+                            dataListCopy = JSON.parse(JSON.stringify(dataList));
+                            count++;
+                        }
                         initExtend();
                     }
                 }, true);
@@ -1141,6 +1154,9 @@ define(['angular', 'nicEdit', 'jquery', 'utils'], function (ng, nicEditObj, jque
                 scope.clickNode = function (newValue) {
                     scope.treeModel = newValue.Id;
                     scope.displayText = newValue.Name;
+                    //搜索条件
+                    // scope.data.treeDisplay = newValue.Name;
+
                     scope.showTree = false;
                 }
 
@@ -1148,9 +1164,97 @@ define(['angular', 'nicEdit', 'jquery', 'utils'], function (ng, nicEditObj, jque
                     item.Extend = !item.Extend;
                 }
 
+                //通过节点找到父节点
+                function GetParentNodeByNode(node) {
+                    var parent = null;
+                    for (var k in dataList) {
+                        if (dataList[k].Id == node.ParentID) {
+                            parent = dataList[k];
+                            break;
+                        }
+                    }
+                    return parent;
+                }
+
+                function ExpendParent(node) {
+                    var parent = GetParentNodeByNode(node);
+                    if (parent != null) {
+                        parent.Extend = true;
+                        ExpendParent(parent);
+                    }
+                }
+
+
+                //监视输入框的值,变化时查询
+                scope.$watch('data.treeDisplay', function (newValue) {
+                    if (newValue) {
+                        var currentData = [];
+                        var extendData = [];
+                        var flag = false;
+                        //重新赋值
+                        dataList = JSON.parse(JSON.stringify(dataListCopy));
+                        for (var d in dataList) {
+                            var node = dataList[d];
+                            //找到搜索的法规类别
+                            if (node.Name.indexOf(newValue) != -1) {
+                                currentData.push(node);
+                            }
+                        }
+
+                        extendData = angular.copy(currentData);
+                        //节点父级也加入数据中
+                        for (var i in currentData) {
+                            var parent = GetParentNodeByNode(currentData[i]);
+                            while (parent != null) {
+                                var isContain = false;
+                                for (var m in currentData) {
+                                    if (currentData[m].Id == parent.Id) {
+                                        isContain = true;
+                                        break;
+                                    }
+                                }
+                                if (!isContain) {
+                                    currentData.push(parent);
+                                }
+                                parent = GetParentNodeByNode(parent);
+                            }
+                        }
+
+                        dataList = [];
+                        scope.source = LoadTreeData(currentData, null, 0);
+
+
+                        if (extendData.length == 1 && (extendData[0].Name == "法规标准" || extendData[0].Name == "技术文档")) {
+                            initExtend();
+                        } else {
+                            //展开
+                            for (var j in extendData) {
+                                ExpendParent(extendData[j]);
+                            }
+                        }
+
+
+
+                    } else {
+                        scope.displayText = "";
+                        scope.data.treeDisplay = "";
+                        scope.treeModel = "";
+
+                        dataList = [];
+                        scope.source = LoadTreeData(scope.treeData, null, 0);
+                        initExtend();
+                    }
+                })
+
                 scope.expandTree = function () {
                     scope.showTree = !scope.showTree;
                 };
+
+                //清空
+                scope.resetModel = function () {
+                    scope.data.treeDisplay = "";
+                    scope.treeModel = "";
+                }
 
                 // 外部改变treeModel值时，选中对应的项
                 scope.$watch('treeModel', function (newValue, oldValue) {
@@ -1158,15 +1262,20 @@ define(['angular', 'nicEdit', 'jquery', 'utils'], function (ng, nicEditObj, jque
                         scope.treeModel = newValue;
 
                         var flag = false;
-                        for (var i = 0; i < scope.treeData.length; i++) {
-                            if (scope.treeModel == scope.treeData[i].Id) {
-                                scope.displayText = scope.treeData[i].Name;
-                                flag = true;
-                                break;
+                        if (scope.treeData) {
+                            for (var i = 0; i < scope.treeData.length; i++) {
+                                if (scope.treeModel == scope.treeData[i].Id) {
+                                    scope.displayText = scope.treeData[i].Name;
+                                    scope.data.treeDisplay = scope.treeData[i].Name;
+
+                                    flag = true;
+                                    break;
+                                }
                             }
                         }
                         if (!flag) {
                             scope.displayText = "";
+                            scope.data.treeDisplay = "";
                         }
 
                     }
