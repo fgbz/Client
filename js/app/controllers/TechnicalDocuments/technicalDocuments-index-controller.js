@@ -159,7 +159,7 @@ define(['bootstrap/app', 'utils', 'services/technical-service'], function (app, 
                 $scope.Edit = function () {
 
                     if (!$scope.selectItem) {
-                        toaster.pop({ type: 'danger', body: '请选择编辑对象!',timeout:0 });
+                        toaster.pop({ type: 'danger', body: '请选择编辑对象!',timeout:5000 });
                         return;
                     }
                     var sRouter = "main.technicalDocumentsAddOrEdit";
@@ -178,7 +178,7 @@ define(['bootstrap/app', 'utils', 'services/technical-service'], function (app, 
 
                 $scope.deleteLaw = function () {
                     if (!$scope.selectItem) {
-                        toaster.pop({ type: 'danger', body: '请选择删除对象!',timeout:0 });
+                        toaster.pop({ type: 'danger', body: '请选择删除对象!',timeout:5000 });
                         return;
                     }
 
@@ -196,10 +196,10 @@ define(['bootstrap/app', 'utils', 'services/technical-service'], function (app, 
 
                                 technicalService.DeleteTechnicalById($scope.selectItem, function (res) {
                                     if (res == 200) {
-                                        toaster.pop({ type: 'success', body: '删除成功!' ,timeout:0});
+                                        toaster.pop({ type: 'success', body: '删除成功!' ,timeout:5000});
                                         $scope.searchManage();
                                     } else {
-                                        toaster.pop({ type: 'danger', body: '删除失败!' ,timeout:0});
+                                        toaster.pop({ type: 'danger', body: '删除失败!' ,timeout:5000});
                                     }
 
                                 })
@@ -459,12 +459,12 @@ define(['bootstrap/app', 'utils', 'services/technical-service'], function (app, 
                         removeAfterUpload: true,
                     }).then(function (resp) {
                         if (resp.data.Result == 200) {
-                            toaster.pop({ type: 'success', body: '导入成功!',timeout:0 });
+                            toaster.pop({ type: 'success', body: '导入成功!',timeout:5000 });
                             $scope.searchManage();
                         } else if (resp.data.Result == 400) {
-                            toaster.pop({ type: 'danger', body: resp.data.Msg,timeout:0 });
+                            toaster.pop({ type: 'danger', body: resp.data.Msg,timeout:5000 });
                         } else {
-                            toaster.pop({ type: 'danger', body: "时间格式有误" ,timeout:0});
+                            toaster.pop({ type: 'danger', body: "时间格式有误" ,timeout:5000});
                         }
 
                     });
@@ -475,7 +475,7 @@ define(['bootstrap/app', 'utils', 'services/technical-service'], function (app, 
                 $scope.$watch('searchdata.FiledTimeStart', function (newValue, oldValue) {
                     if (newValue) {
                         if ($scope.searchdata.FiledTimeStart > $scope.searchdata.FiledTimeEnd && $scope.searchdata.FiledTimeEnd) {
-                            toaster.pop({ type: 'danger', body: '结束时间不能早于开始时间！',timeout:0 });
+                            toaster.pop({ type: 'danger', body: '结束时间不能早于开始时间！',timeout:5000 });
                             $scope.searchdata.FiledTimeStart = oldValue;
                         }
                     }
@@ -483,7 +483,7 @@ define(['bootstrap/app', 'utils', 'services/technical-service'], function (app, 
                 $scope.$watch('searchdata.FiledTimeEnd', function (newValue, oldValue) {
                     if (newValue) {
                         if ($scope.searchdata.FiledTimeStart > $scope.searchdata.FiledTimeEnd) {
-                            toaster.pop({ type: 'danger', body: '结束时间不能早于开始时间！' ,timeout:0});
+                            toaster.pop({ type: 'danger', body: '结束时间不能早于开始时间！' ,timeout:5000});
                             $scope.searchdata.FiledTimeEnd = oldValue;
                         }
                     }

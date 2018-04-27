@@ -96,7 +96,7 @@
                     <tr>
                         <th style="background-color: #2ea3dc;" class="home_lbdh_title">标题</th>
                         <th style="background-color: #2ea3dc;" class="home_lbdh_law">编号</th>
-                          <th style="background-color: #2ea3dc;">发布单位</th>
+                        <th style="background-color: #2ea3dc;">发布单位</th>
                         <th style="background-color: #2ea3dc;">实施日期</th>
                     </tr>
                 </thead>
@@ -105,7 +105,7 @@
                         ng-class="{true: 'tr_selected',false: ''}[LbdhSelected==$index] ">
                         <td title="{{item.chinesename}} " class="home_lbdh_title">{{item.chinesename| tooltips:90}}</td>
                         <td title="{{item.code}} " class="home_lbdh_law">{{item.code| tooltips:28}}</td>
-                         <td title="{{item.pubdepname}} ">{{item.pubdepname|tooltips:28}}</td>
+                        <td title="{{item.pubdepname}} ">{{item.pubdepname|tooltips:28}}</td>
                         <td title="{{item.impdate|recordtime}} ">{{item.impdate|recordtime}}</td>
                     </tr>
                     <tr ng-if="LbdhTableItems.length==0 ">
@@ -157,7 +157,7 @@
                     <tr>
                         <th style="background-color: #48ae95;" class="home_lbdh_title">标题</th>
                         <th style="background-color:#48ae95;" class="home_lbdh_law">编号</th>
-                      
+
                         <th style="background-color: #48ae95;">发布日期</th>
                     </tr>
                 </thead>
@@ -166,7 +166,7 @@
                         ng-class="{true: 'tr_selected',false: ''}[TecLbdhSelected==$index]">
                         <td title="{{item.chinesename}} " class="home_lbdh_title">{{item.chinesename| tooltips:90}}</td>
                         <td title="{{item.code}} " class="home_lbdh_law">{{item.code| tooltips:24 }}</td>
-                      
+
                         <td title="{{item.releasedate|recordtime}} ">{{item.releasedate|recordtime}}</td>
                     </tr>
                     <tr ng-if="TecLbdhTableItems.length==0 ">
@@ -223,9 +223,8 @@
 
             <div class="lylytext">
 
-                <marquee id="affiche1" align="left" behavior="scroll" direction="up" height="185"  hspace="30" class="sugg_text"
-                    style="height:215px;    width: calc(100% - 70px);margin: 0;margin-bottom: 10px;margin-left:0px" vspace="20" loop="-1" scrollamount="3"
-                    scrolldelay="100" onMouseOut="this.start()" onMouseOver="this.stop()">
+                <marquee id="affiche1" align="left" behavior="scroll" direction="up" height="185" hspace="30" class="sugg_text" style="height:215px;    width: calc(100% - 70px);margin: 0;margin-bottom: 10px;margin-left:0px"
+                    vspace="20" loop="-1" scrollamount="3" scrolldelay="100" onMouseOut="this.start()" onMouseOver="this.stop()">
                     <div ng-repeat="item in SuggestionItems" style="cursor: pointer;" class="clear" ng-click="goSuggestDetail(item)">
                         <div class="point fl">.</div>
                         <div class="fl text" title="{{item.title}}">{{item.title|tooltips:100}}</div>
@@ -236,9 +235,11 @@
                     <input class="home-input " style="width: 99%;margin-left:0px; " type="text" ng-model="userSuggestion.title" name="code" maxlength="100"
                         placeholder="请输入标题..." />
                 </div>
-                <textarea class="home-txtarea" style="background: #fff; height: 95px;" maxlength="800" ng-model="userSuggestion.details"
-                    placeholder="请输入内容..."> </textarea>
-
+                <div style=" border: 1px solid #ccc;width:99%;">
+                    <div class="texanum" >{{userSuggestion.details?userSuggestion.details.length:0}}/800</div>
+                    <textarea class="home-txtarea" style="background: #fff; height: 65px;    border: none;" maxlength="800" ng-model="userSuggestion.details"
+                        placeholder="请输入内容..."> </textarea>
+                </div>
                 <div style="height: 40px" class="mt10">
                     <div class="fl" style="margin-top: 5px;">
                         <span class="color666">{{userSuggestion.inputname}}</span>

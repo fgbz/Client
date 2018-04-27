@@ -46,12 +46,12 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service'], function (app,
 
                 $scope.ok = function () {
                     if (!$scope.data.title) {
-                        toaster.pop({ type: 'danger', body: '请填写标题！' ,timeout:0});
+                        toaster.pop({ type: 'danger', body: '请填写标题！' ,timeout:5000});
                         return;
 
                     }
                     if (!$scope.data.details) {
-                        toaster.pop({ type: 'danger', body: '请填写内容！' ,timeout:0});
+                        toaster.pop({ type: 'danger', body: '请填写内容！' ,timeout:5000});
                         return;
 
                     }
@@ -60,11 +60,11 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service'], function (app,
                     delete requestData.inputdate;
                     usercenterService.SaveOrUpdateSuggestion(requestData, function (params) {
                         if (params == 200) {
-                            toaster.pop({ type: 'success', body: $scope.title + '成功！' ,timeout:0});
+                            toaster.pop({ type: 'success', body: $scope.title + '成功！' ,timeout:5000});
                             $modalInstance.close(params);
 
                         } else {
-                            toaster.pop({ type: 'danger', body: $scope.title + '失败！',timeout:0 });
+                            toaster.pop({ type: 'danger', body: $scope.title + '失败！',timeout:5000 });
                         }
                     })
 

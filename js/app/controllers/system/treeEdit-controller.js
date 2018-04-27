@@ -28,7 +28,7 @@ define(['bootstrap/app', 'utils'], function (app, utils) {
 
                 $scope.ok = function () {
                     if (!$scope.Name) {
-                        toaster.pop({ type: 'danger', body: '请填写节点名称！',timeout:0 });
+                        toaster.pop({ type: 'danger', body: '请填写节点名称！',timeout:5000 });
                         return;
 
                     }

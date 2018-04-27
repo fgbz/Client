@@ -152,7 +152,7 @@ define(['bootstrap/app', 'utils'], function (app, utils) {
 
                 $scope.ok = function () {
                     if (!$scope.data.rolename) {
-                        toaster.pop({ type: 'danger', body: '请填写角色名称！',timeout:0 });
+                        toaster.pop({ type: 'danger', body: '请填写角色名称！',timeout:5000 });
                         return;
 
                     }

@@ -68,9 +68,9 @@
                     <tr height="50px">
                         <td class="regluation_add_td">发布单位</td>
                         <td class="w300" style="padding-left: 10px;">
-                            <div isteven-multi-select input-model="PublishList" output-model="organization" button-label="name" item-label="name"
-                                tick-property="Selected" search-property='name' output-properties="id" translation="localLang"
-                                max-labels="8" max-height="280px"  style="width: 300px;position: relative;" is-disabled="!canEdit" btn-width="300">
+                            <div isteven-multi-select input-model="PublishList" output-model="organization" button-label="name" item-label="name" tick-property="Selected"
+                                search-property='name' output-properties="id" translation="localLang" max-labels="8" max-height="280px"
+                                style="width: 300px;position: relative;" is-disabled="!canEdit" btn-width="300">
                             </div>
 
                         </td>
@@ -116,7 +116,12 @@
                     <tr height="50px">
                         <td class="regluation_add_td va_top">备注</td>
                         <td colspan="3">
-                            <textarea class="home-txtarea regluation_add_textarea" style="width:849px;" ng-disabled="!canEdit" maxlength="200" ng-model="data.memo"> </textarea>
+
+                            <div class="home-txtarea regluation_add_textarea" style=" width:849px;   padding: 0;height:118px;">
+                                <div class="texanum">{{data.memo?data.memo.length:0}}/200</div>
+                                <textarea  style="width:847px;border: none;height:84px; padding: 0 0 0 4px; " ng-disabled="!canEdit" maxlength="200" ng-model="data.memo"> </textarea>
+
+                            </div>
                         </td>
                     </tr>
 
@@ -154,7 +159,7 @@
                         <td colspan="3">
                             <div class="home-txtarea regluation_add_textarea" style="margin-bottom:10px;overflow-y: auto;width:849px;height: 120px;">
                                 <div ng-repeat="item in data.refence" class=" mr10" style="height:40px;">
-                                    <span title="编号:{{item.code}} 名称:{{item.chinesename}}">({{item.code}}){{item.chinesename}}</span>
+                                    <span title="编号:{{item.code}} 名称:{{item.chinesename}}">({{item.code|tooltips:60}}){{item.chinesename|tooltips:60}}</span>
                                     <input type="button" class="attachment_delete" ng-click="deleteRefence(item)" />
                                 </div>
                             </div>
@@ -171,7 +176,7 @@
 
                             <div class="home-txtarea regluation_add_textarea" style="margin-bottom:10px;overflow-y: auto;width:849px;height: 120px;">
                                 <div ng-repeat="item in data.replace" class=" mr10" style="height:40px;">
-                                    <span title="编号:{{item.code}} 名称:{{item.chinesename}}">({{item.code}}){{item.chinesename}}</span>
+                                    <span title="编号:{{item.code}} 名称:{{item.chinesename}}">({{item.code|tooltips:60}}){{item.chinesename|tooltips:60}}</span>
                                     <input type="button" class="attachment_delete" ng-click="deleteReplace(item)" />
                                 </div>
                             </div>

@@ -577,7 +577,7 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
                 $scope.$watch('data.FiledTimeStartPub', function (newValue, oldValue) {
                     if (newValue) {
                         if ($scope.data.FiledTimeStartPub > $scope.data.FiledTimeEndPub && $scope.data.FiledTimeEndPub) {
-                            toaster.pop({ type: 'danger', body: '结束时间不能早于开始时间！',timeout:0 });
+                            toaster.pop({ type: 'danger', body: '结束时间不能早于开始时间！',timeout:5000 });
                             $scope.data.FiledTimeStartPub = oldValue;
                         }
                     }
@@ -585,7 +585,7 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
                 $scope.$watch('data.FiledTimeEndPub', function (newValue, oldValue) {
                     if (newValue) {
                         if ($scope.data.FiledTimeStartPub > $scope.data.FiledTimeEndPub) {
-                            toaster.pop({ type: 'danger', body: '结束时间不能早于开始时间！',timeout:0 });
+                            toaster.pop({ type: 'danger', body: '结束时间不能早于开始时间！',timeout:5000 });
                             $scope.data.FiledTimeEndPub = oldValue;
                         }
                     }
@@ -594,7 +594,7 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
                 $scope.$watch('data.FiledTimeStartPeople', function (newValue, oldValue) {
                     if (newValue) {
                         if ($scope.data.FiledTimeStartPeople > $scope.data.FiledTimeEndPeople && $scope.data.FiledTimeEndPeople) {
-                            toaster.pop({ type: 'danger', body: '结束时间不能早于开始时间！' ,timeout:0});
+                            toaster.pop({ type: 'danger', body: '结束时间不能早于开始时间！' ,timeout:5000});
                             $scope.data.FiledTimeStartPeople = oldValue;
                         }
                     }
@@ -602,7 +602,7 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
                 $scope.$watch('data.FiledTimeEndPeople', function (newValue, oldValue) {
                     if (newValue) {
                         if ($scope.data.FiledTimeStartPeople > $scope.data.FiledTimeEndPeople) {
-                            toaster.pop({ type: 'danger', body: '结束时间不能早于开始时间！' ,timeout:0});
+                            toaster.pop({ type: 'danger', body: '结束时间不能早于开始时间！' ,timeout:5000});
                             $scope.data.FiledTimeEndPeople = oldValue;
                         }
                     }
@@ -611,7 +611,7 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
                 $scope.$watch('data.FiledTimeStartType', function (newValue, oldValue) {
                     if (newValue) {
                         if ($scope.data.FiledTimeStartType > $scope.data.FiledTimeEndType && $scope.data.FiledTimeEndType) {
-                            toaster.pop({ type: 'danger', body: '结束时间不能早于开始时间！' ,timeout:0});
+                            toaster.pop({ type: 'danger', body: '结束时间不能早于开始时间！' ,timeout:5000});
                             $scope.data.FiledTimeStartType = oldValue;
                         }
                     }
@@ -619,7 +619,7 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
                 $scope.$watch('data.FiledTimeEndType', function (newValue, oldValue) {
                     if (newValue) {
                         if ($scope.data.FiledTimeStartType > $scope.data.FiledTimeEndType) {
-                            toaster.pop({ type: 'danger', body: '结束时间不能早于开始时间！',timeout:0 });
+                            toaster.pop({ type: 'danger', body: '结束时间不能早于开始时间！',timeout:5000 });
                             $scope.data.FiledTimeEndType = oldValue;
                         }
                     }

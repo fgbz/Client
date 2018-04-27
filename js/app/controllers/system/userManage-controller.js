@@ -100,7 +100,7 @@ define(['bootstrap/app', 'utils', 'services/system-service', 'services/md5-servi
 
                     //确认密码
                     if (postdata.password != $scope.passwordSure) {
-                        toaster.pop({ type: 'danger', body: '2次输入密码不一致!' ,timeout:0});
+                        toaster.pop({ type: 'danger', body: '2次输入密码不一致!' ,timeout:5000});
                         $scope.passwordSure = "";
                         return;
                     }
@@ -121,12 +121,12 @@ define(['bootstrap/app', 'utils', 'services/system-service', 'services/md5-servi
                         }
                     }
                     if (countChar == 0 || countNumber == 0) {
-                        toaster.pop({ type: 'danger', body: '密码必须包含数字与字符!',timeout:0 });
+                        toaster.pop({ type: 'danger', body: '密码必须包含数字与字符!',timeout:5000 });
                         return;
                     }
                     //验证密码格式
                     if (postdata.password.length < 6) {
-                        toaster.pop({ type: 'danger', body: '密码长度不能小于6位!',timeout:0 });
+                        toaster.pop({ type: 'danger', body: '密码长度不能小于6位!',timeout:5000});
                         return;
                     }
                     postdata.roles = [];
@@ -145,12 +145,12 @@ define(['bootstrap/app', 'utils', 'services/system-service', 'services/md5-servi
 
                     systemService.SaveOrUpdateUser(postdata, function (params) {
                         if (params == 200) {
-                            toaster.pop({ type: 'success', body: $scope.title + '成功!' ,timeout:0});
+                            toaster.pop({ type: 'success', body: $scope.title + '成功!' ,timeout:5000});
                             $modalInstance.close(params);
                         } else if (params == 461) {
                             toaster.pop({ type: 'danger', body: '用户名重复!' ,timeout:0});
                         } else {
-                            toaster.pop({ type: 'danger', body: $scope.title + '失败!' ,timeout:0});
+                            toaster.pop({ type: 'danger', body: $scope.title + '失败!' ,timeout:5000});
                         }
                     })
 

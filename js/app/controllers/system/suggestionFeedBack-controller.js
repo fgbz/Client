@@ -41,7 +41,7 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service'], function (app,
 
                 $scope.ok = function () {
                     if (!$scope.feedbackdetails) {
-                        toaster.pop({ type: 'danger', body: '请填写反馈意见！' ,timeout:0});
+                        toaster.pop({ type: 'danger', body: '请填写反馈意见！' ,timeout:5000});
                         return;
 
                     }
@@ -53,11 +53,11 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service'], function (app,
                     }
                     usercenterService.SaveSuggestionFeedBack(data, function (params) {
                         if (params == 200) {
-                            toaster.pop({ type: 'success', body:  '反馈成功！' ,timeout:0});
+                            toaster.pop({ type: 'success', body:  '反馈成功！' ,timeout:5000});
                             $modalInstance.close(params);
 
                         } else {
-                            toaster.pop({ type: 'danger', body: '反馈失败！' ,timeout:0});
+                            toaster.pop({ type: 'danger', body: '反馈失败！' ,timeout:5000});
                         }
                     })
 

@@ -378,10 +378,10 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
 
                                         usercenterService.DeleteFavoriteByID(data, function (params) {
                                             if (params == 200) {
-                                                toaster.pop({ type: 'success', body: '删除成功!' ,timeout:0});
+                                                toaster.pop({ type: 'success', body: '删除成功!' ,timeout:5000});
                                                 $scope.initFavor()
                                             } else {
-                                                toaster.pop({ type: 'danger', body: '删除失败!',timeout:0 });
+                                                toaster.pop({ type: 'danger', body: '删除失败!',timeout:5000 });
                                             }
                                         })
 
@@ -522,10 +522,10 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
                 function addFav(data, txt) {
                     usercenterService.SaveOrUpdateFavorite(data, function (params) {
                         if (params == 200) {
-                            toaster.pop({ type: 'success', body: txt + '成功!' ,timeout:0});
+                            toaster.pop({ type: 'success', body: txt + '成功!' ,timeout:5000});
                             $scope.initFavor();
                         } else {
-                            toaster.pop({ type: 'danger', body: txt + '失败!' ,timeout:0 });
+                            toaster.pop({ type: 'danger', body: txt + '失败!' ,timeout:5000 });
                         }
                     })
                 }
@@ -564,10 +564,10 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
 
                                 usercenterService.DismissFavorite(item.favid, item.id, function (params) {
                                     if (params == 200) {
-                                        toaster.pop({ type: 'success', body: '取消收藏成功!' ,timeout:0});
+                                        toaster.pop({ type: 'success', body: '取消收藏成功!' ,timeout:5000});
                                         $scope.initFavor();
                                     } else {
-                                        toaster.pop({ type: 'success', body: '取消收藏失败!',timeout:0 });
+                                        toaster.pop({ type: 'success', body: '取消收藏失败!',timeout:5000 });
                                     }
                                 })
 
@@ -661,10 +661,10 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
 
                                 usercenterService.DeleteAdviceByID(item.id, function (params) {
                                     if (params == 200) {
-                                        toaster.pop({ type: 'success', body: '删除成功！' ,timeout:0});
+                                        toaster.pop({ type: 'success', body: '删除成功！' ,timeout:5000});
                                         $scope.selectAdvice();
                                     } else {
-                                        toaster.pop({ type: 'danger', body: '删除失败！' ,timeout:0});
+                                        toaster.pop({ type: 'danger', body: '删除失败！' ,timeout:5000});
                                     }
                                 })
 
@@ -687,11 +687,11 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
 
                 $scope.updatePassword = function () {
                     if ($scope.passworddata.NewPasswWord != $scope.passworddata.ComfirmPasswWord) {
-                        toaster.pop({ type: 'danger', body: '2次密码输入不一致!' ,timeout:0});
+                        toaster.pop({ type: 'danger', body: '2次密码输入不一致!' ,timeout:5000});
                         return;
                     }
                     if ($scope.passworddata.OldPasswWord == $scope.passworddata.NewPasswWord) {
-                        toaster.pop({ type: 'danger', body: '新密码不能与原密码一样!' ,timeout:0});
+                        toaster.pop({ type: 'danger', body: '新密码不能与原密码一样!' ,timeout:5000});
                         return;
                     }
 
@@ -699,11 +699,11 @@ define(['bootstrap/app', 'utils', 'services/enum-service', 'services/usercenter-
                     var NewPasswWordjm = md5Service.mdsPassword($scope.passworddata.NewPasswWord);
                     usercenterService.updateUserPassword(user.id, oldpasswordjm, NewPasswWordjm, function (params) {
                         if (params == 200) {
-                            toaster.pop({ type: 'success', body: '修改成功',timeout:0 });
+                            toaster.pop({ type: 'success', body: '修改成功',timeout:5000 });
                         } else if (params == 403) {
-                            toaster.pop({ type: 'danger', body: '原密码输入错误!' ,timeout:0});
+                            toaster.pop({ type: 'danger', body: '原密码输入错误!' ,timeout:5000});
                         } else {
-                            toaster.pop({ type: 'danger', body: '修改失败',timeout:0 });
+                            toaster.pop({ type: 'danger', body: '修改失败',timeout:5000 });
                         }
                     })
 

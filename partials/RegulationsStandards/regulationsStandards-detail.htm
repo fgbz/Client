@@ -1,6 +1,7 @@
 <div class="h100">
     <div class="mt10_mb10" style="height:30px;">
-        <input type="button" class="canclelbtn fr ml10 border1ccc" value="返 回" ng-click="goState()" ng-show="histroyData.length>1"/>
+        <input type="button" class="canclelbtn fr ml10 border1ccc" value="返 回" ng-click="goState()" ng-show="histroyData.length>1"
+        />
     </div>
 
     <div class="regluation_detail_border">
@@ -33,95 +34,110 @@
         <div class="regluation_detail_table">
             <table class="w100">
                 <tr height="40px;">
-                    <td class="tr">编号：</td>
-                    <td class="color_blue">{{DetaiData.code}}</td>
-                    <td class="tr">发布单位：</td>
-                    <td class="color_blue" title="{{DetaiData.pubdepname}}">{{DetaiData.pubdepname|tooltips:80}}</td>
-                    <td class="tr">发布日期：</td>
-                    <td class="color_blue">{{DetaiData.releasedate|recordtime}}</td>
+                    <td class="tr">编号：</div>
+        </td>
+        <td class="color_blue" title="{{DetaiData.code}}">{{DetaiData.code|tooltips:100}}</td>
+        <td class="tr">发布单位：</td>
+        <td class="color_blue" title="{{DetaiData.pubdepname}}">{{DetaiData.pubdepname|tooltips:80}}</td>
+        <td class="tr">发布日期：</td>
+        <td class="color_blue">{{DetaiData.releasedate|recordtime}}</td>
 
-                </tr>
-                <tr height="40px;">
-                    <td class="tr">执行状态：</td>
-                    <td class="color_blue">{{DetaiData.statusname}}</td>
-                    <td class="tr">法规标准类别：</td>
-                    <td class="color_blue">{{DetaiData.parenttypename}}-{{DetaiData.typename}}</td>
-                    <td class="tr">实施日期：</td>
-                    <td class="color_blue">{{DetaiData.impdate|recordtime}}</td>
-                </tr>
-            </table>
-        </div>
-
-        <div class="regluation_detail_table2">
-            <table class="w100">
-                <tr height="50px;">
-                    <td class=" first_td"><div style="width:100px;">关键字：</div></td>
-                    <td class="va_topnormal color_blue wb">{{DetaiData.keywords}}</td>
-                </tr>
-                <tr height="50px;">
-                    <td class=" first_td">摘 要：</td>
-                    <td class="va_topnormal color_blue" ng-bind-html="DetaiData.summaryinfo|parseHTML"></td>
-                </tr>
-                <tr height="50px;">
-                    <td class=" first_td">引用标准：</td>
-                    <td class="va_topnormal color_blue">
-                        <ul>
-                            <li ng-repeat="item in DetaiData.refence" class="regluation_detail_Reference color_blue">
-                                <div ng-click="checkRepalceOrRefence(item)" ng-if="item.approvestatus==3" style="text-decoration: underline;cursor: pointer;" class="color_blue">
-                                    <span title="编号:{{item.code}} 名称:{{item.chinesename}}">({{item.code}}){{item.chinesename}}</span>
-                                </div>
-                                <div ng-if="item.approvestatus==4" class="color_blue">
-                                    <span title="编号:{{item.code}} 名称:{{item.chinesename}}">({{item.code}}){{item.chinesename}}</span>
-                                </div>
-
-                            </li>
-                        </ul>
-                    </td>
-                </tr>
-                <tr height="50px;">
-                    <td class=" first_td">备 注：</td>
-                    <td class="va_topnormal color_blue wb">{{DetaiData.memo}}</td>
-                </tr>
-                <tr height="50px;">
-                    <td class=" first_td">附 件：</td>
-                    <td class="va_topnormal color_blue" style="overflow-y: auto;">
-                        <ul>
-                            <li ng-repeat="accitem in Attachments" style="height: 40px;">
-
-                                <div title="{{accitem.FileName}}"> {{accitem.FileName|tooltips:200}}
-                                      <input class="downloadbtn ml10 fr" value="下 载" title="下载" ng-click="downloadAccessory(accitem.ID)" ng-show="isDownload" />
-                                    <input type="button" class="checkbtn ml20 fr" value="查 看" title="查看" ng-show="canPreview(accitem.FileName)" ng-click="preview(accitem.ID)"
-                                    />
-                                  
-                                </div>
-
-                            </li>
-                        </ul>
-                    </td>
-                </tr>
-            </table>
-        </div>
-
-        <div class="regluation_detail_splice"></div>
-
-        <div class="regluation_detail_replace" ng-show="DetaiData.replace&&DetaiData.replace.length>0">代替关系：</div>
-
-        <div ng-repeat="item in DetaiData.replace" class="clear">
-
-            <div class="regluation_detail_rep" ng-show="item.statusname=='现行'">{{item.statusname}}</div>
-            <div class="regluation_detail_rep" ng-show="item.statusname!='现行'" style="background: #cccccc;">{{item.statusname}}</div>
-            <div class="regluation_detail_replacetext">
-                <div style="height: 25px;" class="color_blue" title="编号:{{item.code}} 名称:{{item.chinesename}}">({{item.code}}){{item.chinesename}}</div>
-                <div>
-                    <span class="color999999">发布日期：{{item.releasedate|recordtime}}</span>
-                    <span class="ml40 color999999">法规标准类别：{{item.typename}}</span>
-                </div>
-            </div>
-            <div class="regluation_detail_replacebtn" ng-if="item.approvestatus==3">
-                <input type="button" class="bluecheckbtn" value="查 看" title="查看" ng-click="checkRepalceOrRefence(item)" />
-            </div>
-        </div>
-
-
+        </tr>
+        <tr height="40px;">
+            <td class="tr">执行状态：</td>
+            <td class="color_blue">{{DetaiData.statusname}}</td>
+            <td class="tr">法规标准类别：</td>
+            <td class="color_blue">{{DetaiData.parenttypename}}-{{DetaiData.typename}}</td>
+            <td class="tr">实施日期：</td>
+            <td class="color_blue">{{DetaiData.impdate|recordtime}}</td>
+        </tr>
+        </table>
     </div>
+
+    <div class="regluation_detail_table2">
+        <table class="w100">
+            <tr height="50px;">
+                <td class=" first_td">
+                    <div style="width:100px;">关键字：</div>
+                </td>
+                <td class="va_topnormal color_blue wb">{{DetaiData.keywords}}</td>
+            </tr>
+            <tr height="50px;">
+                <td class=" first_td">摘 要：</td>
+                <td class="va_topnormal color_blue" ng-bind-html="DetaiData.summaryinfo|parseHTML"></td>
+            </tr>
+            <tr height="50px;">
+                <td class=" first_td">引用标准：</td>
+                <td class="va_topnormal color_blue">
+                    <ul>
+                        <li ng-repeat="item in DetaiData.refence" class="regluation_detail_Reference color_blue">
+                            <div ng-click="checkRepalceOrRefence(item)" ng-if="item.approvestatus==3" style="text-decoration: underline;cursor: pointer;"
+                                class="color_blue">
+                                <span title="编号:{{item.code}} 名称:{{item.chinesename}}">({{item.code|tooltips:100}}){{item.chinesename|tooltips:100}}</span>
+
+                                <div class="reSta">
+                                    {{item.statusname}}
+                                </div>
+
+                            </div>
+
+                            <div ng-if="item.approvestatus==4" class="color_blue">
+                                <span title="编号:{{item.code}} 名称:{{item.chinesename}}">({{item.code|tooltips:100}}){{item.chinesename|tooltips:100}}</span>
+                                <div class="reSta">
+                                    {{item.statusname}}
+                                </div>
+                            </div>
+
+
+
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+            <tr height="50px;">
+                <td class=" first_td">备 注：</td>
+                <td class="va_topnormal color_blue wb">{{DetaiData.memo}}</td>
+            </tr>
+            <tr height="50px;">
+                <td class=" first_td">附 件：</td>
+                <td class="va_topnormal color_blue" style="overflow-y: auto;">
+                    <ul>
+                        <li ng-repeat="accitem in Attachments" style="height: 40px;">
+
+                            <div title="{{accitem.FileName}}"> {{accitem.FileName|tooltips:200}}
+                                <input class="downloadbtn ml10 fr" value="下 载" title="下载" ng-click="downloadAccessory(accitem.ID)" ng-show="isDownload" />
+                                <input type="button" class="checkbtn ml20 fr" value="查 看" title="查看" ng-show="canPreview(accitem.FileName)" ng-click="preview(accitem.ID)"
+                                />
+
+                            </div>
+
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="regluation_detail_splice"></div>
+
+    <div class="regluation_detail_replace" ng-show="DetaiData.replace&&DetaiData.replace.length>0">代替关系：</div>
+
+    <div ng-repeat="item in DetaiData.replace" class="clear">
+
+        <div class="regluation_detail_rep" ng-show="item.statusname=='现行'">{{item.statusname}}</div>
+        <div class="regluation_detail_rep" ng-show="item.statusname!='现行'" style="background: #cccccc;">{{item.statusname}}</div>
+        <div class="regluation_detail_replacetext">
+            <div style="height: 25px;" class="color_blue" title="编号:{{item.code}} 名称:{{item.chinesename}}">({{item.code|tooltips:100}}){{item.chinesename|tooltips:100}}</div>
+            <div>
+                <span class="color999999">发布日期：{{item.releasedate|recordtime}}</span>
+                <span class="ml40 color999999">法规标准类别：{{item.typename}}</span>
+            </div>
+        </div>
+        <div class="regluation_detail_replacebtn" ng-if="item.approvestatus==3">
+            <input type="button" class="bluecheckbtn" value="查 看" title="查看" ng-click="checkRepalceOrRefence(item)" />
+        </div>
+    </div>
+
+
+</div>
 </div>

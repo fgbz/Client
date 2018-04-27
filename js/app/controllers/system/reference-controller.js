@@ -244,10 +244,10 @@ define(['bootstrap/app', 'utils', 'services/regulation-service'], function (app,
                 $scope.DeleteReplece = function (id) {
                     regulationService.DeleteReplece(id, function (res) {
                         if (res == 200) {
-                            toaster.pop({ type: 'success', body: '删除成功!', timeout: 0 });
+                            toaster.pop({ type: 'success', body: '删除成功!', timeout: 5000 });
                             $scope.search();
                         } else {
-                            toaster.pop({ type: 'danger', body: '删除失败!', timeout: 0 });
+                            toaster.pop({ type: 'danger', body: '删除失败!', timeout: 5000 });
                         }
                     })
                 }

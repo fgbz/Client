@@ -678,12 +678,12 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/regul
                         isLogined();
                     } else {
                         if (!$scope.userSuggestion.title) {
-                            toaster.pop({ type: 'danger', body: '请填写标题！',timeout:0 });
+                            toaster.pop({ type: 'danger', body: '请填写标题！',timeout:5000 });
                             return;
 
                         }
                         if (!$scope.userSuggestion.details) {
-                            toaster.pop({ type: 'danger', body: '请填写内容！',timeout:0 });
+                            toaster.pop({ type: 'danger', body: '请填写内容！',timeout:5000 });
                             return;
 
                         }
@@ -692,12 +692,12 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/regul
                         delete requestData.inputdate;
                         usercenterService.SaveOrUpdateSuggestion(requestData, function (params) {
                             if (params == 200) {
-                                toaster.pop({ type: 'success', body: '发布成功！',timeout:0 });
+                                toaster.pop({ type: 'success', body: '发布成功！',timeout:5000 });
                                 $scope.selectSuggestion();
                                 $scope.userSuggestion.title = "";
                                 $scope.userSuggestion.details = "";
                             } else {
-                                toaster.pop({ type: 'danger', body: '发布失败！',timeout:0 });
+                                toaster.pop({ type: 'danger', body: '发布失败！',timeout:5000 });
                             }
                         })
                     }

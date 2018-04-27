@@ -178,7 +178,7 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                     });
                     modalInstance.result.then(function (res) {
                         if (res.result) {
-                            toaster.pop({ type: 'success', body: '上传成功!', timeout: 0 });
+                            toaster.pop({ type: 'success', body: '上传成功!', timeout: 5000 });
 
                             var fileId = res.Data;
                             $scope.Attachments.push({
@@ -187,7 +187,7 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                             });
 
                         } else {
-                            toaster.pop({ type: 'danger', body: '上传失败!', timeout: 0 });
+                            toaster.pop({ type: 'danger', body: '上传失败!', timeout: 5000 });
                         };
                     }, function (reason) { }
 
@@ -346,30 +346,30 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                         }
 
                         if (!$scope.data.chinesename) {
-                            toaster.pop({ type: 'danger', body: '请填写标题!', timeout: 0 });
+                            toaster.pop({ type: 'danger', body: '请填写标题!', timeout: 5000 });
                             $scope.isSaving = false;
                             return;
                         }
                         if (!$scope.data.code) {
-                            toaster.pop({ type: 'danger', body: '请填写编号!', timeout: 0 });
+                            toaster.pop({ type: 'danger', body: '请填写编号!', timeout: 5000 });
                             $scope.isSaving = false;
                             return;
                         }
                         if (!$scope.data.lawtype) {
-                            toaster.pop({ type: 'danger', body: '请选择类别!', timeout: 0 });
+                            toaster.pop({ type: 'danger', body: '请选择类别!', timeout: 5000 });
                             $scope.isSaving = false;
                             return;
                         }
 
                         if ($scope.data.releasedate && $scope.data.impdate) {
                             if ($scope.data.releasedate > $scope.data.impdate) {
-                                toaster.pop({ type: 'danger', body: '发布日期应小于等于实施日期!', timeout: 0 });
+                                toaster.pop({ type: 'danger', body: '发布日期应小于等于实施日期!', timeout: 5000 });
                                 $scope.isSaving = false;
                                 return;
                             }
                         }
                         if ($scope.Attachments.length == 0) {
-                            toaster.pop({ type: 'danger', body: '请至少上传一个主附件!', timeout: 0 });
+                            toaster.pop({ type: 'danger', body: '请至少上传一个主附件!', timeout: 5000 });
                             $scope.isSaving = false;
                             return;
                         }
@@ -400,7 +400,7 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
 
                         regulationService.SaveOrUpdateLawstandard($scope.data, function (response) {
                             if (response == 200) {
-                                toaster.pop({ type: 'success', body: '保存成功!', timeout: 0 });
+                                toaster.pop({ type: 'success', body: '保存成功!', timeout: 5000 });
 
                                 //提交待审核
                                 if ($scope.data.approvestatus == 2 || ($scope.data.approvestatus == 3 && statusBegin != 3)) {
@@ -443,10 +443,10 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                                 }
 
                             } else if (response == 461) {
-                                toaster.pop({ type: 'danger', body: '编号重复!', timeout: 0 });
+                                toaster.pop({ type: 'danger', body: '编号重复!', timeout:5000 });
                                 $scope.isSaving = false;
                             } else {
-                                toaster.pop({ type: 'danger', body: '保存失败!', timeout: 0 });
+                                toaster.pop({ type: 'danger', body: '保存失败!', timeout: 5000 });
                                 $scope.isSaving = false;
                             }
 
@@ -492,7 +492,7 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                     data.push(params);
                     accessoryService.removeAccessory(data, function (res) {
                         if (res) {
-                            toaster.pop({ type: 'success', body: '删除成功!', timeout: 0 });
+                            toaster.pop({ type: 'success', body: '删除成功!', timeout: 5000 });
 
                             for (var i = 0; i < $scope.Attachments.length; i++) {
                                 if ($scope.Attachments[i].ID == params) {
@@ -501,7 +501,7 @@ define(['bootstrap/app', 'utils', 'services/regulation-service', 'services/acces
                                 }
                             }
                         } else {
-                            toaster.pop({ type: 'danger', body: '删除失败!', timeout: 0 });
+                            toaster.pop({ type: 'danger', body: '删除失败!', timeout: 5000 });
                         }
 
                     })

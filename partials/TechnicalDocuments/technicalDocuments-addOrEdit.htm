@@ -4,10 +4,9 @@
 
 
             <input type="button" class="canclelbtn fr ml10 border1ccc" value="返 回" ng-click="goState()" />
-            <input type="button" class="normalbtn fr ml10" value="提 交"  ng-click="commit('commit')" ng-disabled="isSaving" ng-show="!isPublish"
+            <input type="button" class="normalbtn fr ml10" value="提 交" ng-click="commit('commit')" ng-disabled="isSaving" ng-show="!isPublish"
             />
-            <input type="button" class="normalbtn fr" value="保 存"  ng-click="save('save')" ng-disabled="isSaving"
-            />
+            <input type="button" class="normalbtn fr" value="保 存" ng-click="save('save')" ng-disabled="isSaving" />
         </div>
 
         <!--外围border-->
@@ -52,7 +51,8 @@
                         </td>
                         <td class="regluation_add_td"><span class="div_required">*</span>类别</td>
                         <td class="w300">
-                            <combo-tree-select tree-data="treeData" tree-model="data.tectype" btn-show="false" img-color="2" tree-width="300" is-disable="false" is-normal="300"></combo-tree-select>
+                            <combo-tree-select tree-data="treeData" tree-model="data.tectype" btn-show="false" img-color="2" tree-width="300" is-disable="false"
+                                is-normal="300"></combo-tree-select>
                         </td>
                     </tr>
 
@@ -75,7 +75,7 @@
 
                     <tr height="50px">
                         <td class="regluation_add_td va_top">摘要</td>
-                        <td colspan="3" class="pl10"  >
+                        <td colspan="3" class="pl10">
                             <div class="bgdfff" style="width:849px;">
                                 <textarea nic-textarea text-content id="test-content" name="Content" ng-model="data.summaryinfo" class="home-txtarea regluation_add_textarea"
                                     style="width:100%;border: 0px;overflow:auto;border-radius: 0;width:849px;height:87px;" maxlength="800"></textarea>
@@ -86,7 +86,10 @@
                     <tr height="50px">
                         <td class="regluation_add_td va_top">备注</td>
                         <td colspan="3">
-                            <textarea class="home-txtarea regluation_add_textarea" style="width:849px;" maxlength="200" ng-model="data.memo"> </textarea>
+                            <div class="home-txtarea regluation_add_textarea" style=" width:849px;   padding: 0;height:118px;">
+                                <div class="texanum">{{data.memo?data.memo.length:0}}/200</div>
+                                <textarea style="width:847px;border: none;height:84px; padding: 0 0 0 4px; " maxlength="200" ng-model="data.memo"> </textarea>
+                            </div>
                         </td>
                     </tr>
 

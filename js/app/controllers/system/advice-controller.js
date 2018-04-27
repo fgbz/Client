@@ -56,7 +56,7 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/acces
 
                 $scope.ok = function () {
                     if (!$scope.data.title) {
-                        toaster.pop({ type: 'danger', body: '请填写标题！' ,timeout:0});
+                        toaster.pop({ type: 'danger', body: '请填写标题！' ,timeout:5000});
                         return;
 
                     }
@@ -64,7 +64,7 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/acces
                     $scope.data.details = $(".nicEdit-main").html();
 
                     if (!$scope.data.details) {
-                        toaster.pop({ type: 'danger', body: '请填写内容！' ,timeout:0});
+                        toaster.pop({ type: 'danger', body: '请填写内容！' ,timeout:5000});
                         return;
 
                     }
@@ -82,11 +82,11 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/acces
                     delete requestData.inputdate;
                     usercenterService.SaveOrUpdateAdvice(requestData, function (params) {
                         if (params == 200) {
-                            toaster.pop({ type: 'success', body: $scope.title + '成功！',timeout:0 });
+                            toaster.pop({ type: 'success', body: $scope.title + '成功！',timeout:5000 });
                             $modalInstance.close(params);
 
                         } else {
-                            toaster.pop({ type: 'danger', body: $scope.title + '失败！' ,timeout:0});
+                            toaster.pop({ type: 'danger', body: $scope.title + '失败！' ,timeout:5000});
                         }
                     })
 
@@ -118,7 +118,7 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/acces
                     });
                     modalInstance.result.then(function (res) {
                         if (res.result) {
-                            toaster.pop({ type: 'success', body: '上传成功!',timeout:0 });
+                            toaster.pop({ type: 'success', body: '上传成功!',timeout:5000 });
 
                             var fileId = res.Data;
                             $scope.Attachments.push({
@@ -127,7 +127,7 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/acces
                             });
 
                         } else {
-                            toaster.pop({ type: 'danger', body: '上传失败!' ,timeout:0});
+                            toaster.pop({ type: 'danger', body: '上传失败!' ,timeout:5000});
                         };
                     }, function (reason) { }
 
@@ -156,7 +156,7 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/acces
                     data.push(params);
                     accessoryService.removeAccessory(data, function (res) {
                         if (res) {
-                            toaster.pop({ type: 'success', body: '删除成功!',timeout:0 });
+                            toaster.pop({ type: 'success', body: '删除成功!',timeout:5000 });
 
                             for (var i = 0; i < $scope.Attachments.length; i++) {
                                 if ($scope.Attachments[i].ID == params) {
@@ -165,7 +165,7 @@ define(['bootstrap/app', 'utils', 'services/usercenter-service', 'services/acces
                                 }
                             }
                         } else {
-                            toaster.pop({ type: 'danger', body: '删除失败!',timeout:0 });
+                            toaster.pop({ type: 'danger', body: '删除失败!',timeout:5000 });
                         }
 
                     })

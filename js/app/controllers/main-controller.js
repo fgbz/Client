@@ -207,10 +207,10 @@ define(['bootstrap/app', 'utilities/cryto', 'ctrls/system/modals/logout-controll
 
             var tips = function (type) {
                 if (type == 200) {
-                    toaster.pop({ type: 'success', body: '邮件发送成功!',timeout:0 });
+                    toaster.pop({ type: 'success', body: '邮件发送成功!',timeout:5000 });
                     $scope.$apply();
                 } else {
-                    toaster.pop({ type: 'danger', body: '邮件发送失败!',timeout:0 });
+                    toaster.pop({ type: 'danger', body: '邮件发送失败!',timeout:5000 });
                     $scope.$apply();
                 }
 

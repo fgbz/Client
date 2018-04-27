@@ -76,8 +76,8 @@
                         </thead>
                         <tbody ng-if="isLoaded">
                             <tr ng-repeat="item in CollectItems" style="height: 40px;cursor: pointer" ng-click="clickTableFav($index);" ng-class="{true: 'tr_selected',false: ''}[tableRowFav.selected==$index] ">
-                                <td title="{{item.title}} " class="w300 ">{{item.title| tooltips:20}}</td>
-                                <td title="{{item.favname}}">{{item.favname| tooltips:10}}</td>
+                                <td title="{{item.title}} " class="w300 ">{{item.title| tooltips:38}}</td>
+                                <td title="{{item.favname}}">{{item.favname| tooltips:20}}</td>
                                 <td title="{{item.favoritetime|recordtime}} ">{{item.favoritetime|recordtime}}</td>
                                 <td title="{{item.type==0?'法规标准':'技术文件'}}">{{item.type==0?'法规标准':'技术文件'}}</td>
                                 <td>
