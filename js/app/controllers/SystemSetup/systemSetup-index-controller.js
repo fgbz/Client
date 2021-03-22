@@ -905,10 +905,10 @@ define(['bootstrap/app', 'utils', 'app/config-manager', 'services/regulation-ser
                     modalInstance.result.then(function (res) {
                         if (res) {
                             systemService.SaveOrEditRole(res, function (params) {
-                                if (params == 1) {
+                                if (params > 0) {
                                     toaster.pop({ type: 'success', body: txt + '成功!' ,timeout:5000});
                                     $scope.getRoles();
-                                } else {
+                                } else {    
                                     toaster.pop({ type: 'danger', body: txt + '失败!' ,timeout:5000});
                                 }
                             })
